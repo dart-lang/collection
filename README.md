@@ -1,4 +1,4 @@
-Helper libraries for working with collections.
+#Helper libraries for working with collections.
 
 The `collection` package contains a number of separate libraries
 with utility functions and classes that makes working with collections easier.
@@ -67,3 +67,9 @@ methods to the wrapped object.
 Wrapper classes can be used in various ways, for example to restrict the type
 of an object to that of a supertype, or to change the behavior of selected
 functions on an existing object.
+
+## Features and bugs
+
+Please file feature requests and bugs at the [issue tracker][tracker].
+
+[tracker]: https://github.com/dart-lang/collection/issues

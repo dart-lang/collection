@@ -1,3 +1,7 @@
+## 1.1.1
+
+* Bug-fix for signatures of `isValidKey` arguments of `CanonicalizedMap`.
+
 ## 1.1.0
 
 * Add a `QueueList` class that implements both `Queue` and `List`.

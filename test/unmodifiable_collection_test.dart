@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import "package:collection/wrappers.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 // Test unmodifiable collection views.
 // The collections should pass through the operations that are allowed,

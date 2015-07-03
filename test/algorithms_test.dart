@@ -5,7 +5,7 @@
 /// Tests algorithm utilities.
 
 import "package:collection/collection.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 import 'dart:math';
 
 void main() {

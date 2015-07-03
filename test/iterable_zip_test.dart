@@ -4,7 +4,7 @@
 
 import "dart:collection";
 import "package:collection/iterable_zip.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 /// Iterable like [base] except that it throws when value equals [errorValue].
 Iterable iterError(Iterable base, int errorValue) {

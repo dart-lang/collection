@@ -5,7 +5,7 @@
 /// Tests priority queue implementations utilities.
 
 import "package:collection/priority_queue.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 void main() {
   testInt(() => new HeapPriorityQueue<int>());

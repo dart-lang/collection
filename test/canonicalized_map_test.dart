@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import "package:collection/collection.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 void main() {
   group("with an empty canonicalized map", () {

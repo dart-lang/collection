@@ -6,7 +6,7 @@
 
 import "dart:collection";
 import "package:collection/collection.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 // Test that any member access/call on the wrapper object is equal to
 // an expected access on the wrapped object.

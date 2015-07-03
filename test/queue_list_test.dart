@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import "package:collection/collection.dart";
-import "package:unittest/unittest.dart";
+import "package:test/test.dart";
 
 void main() {
   group("new QueueList()", () {
@@ -272,5 +272,4 @@ QueueList withInternalGap() {
 /// Returns a matcher that expects that a closure throws a
 /// [ConcurrentModificationError].
 final throwsConcurrentModificationError = throwsA(
-    new isInstanceOf<ConcurrentModificationError>(
-        "ConcurrentModificationError"));
+    new isInstanceOf<ConcurrentModificationError>());

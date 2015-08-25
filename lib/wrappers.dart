@@ -14,10 +14,8 @@ library dart.pkg.collection.wrappers;
 import "dart:collection";
 import "dart:math" show Random;
 
-export "dart:collection" show UnmodifiableListView;
-
 export "src/canonicalized_map.dart";
-part "src/unmodifiable_wrappers.dart";
+export "src/unmodifiable_wrappers.dart";
 
 /**
  * A base class for delegating iterables.

@@ -1,3 +1,7 @@
+## 1.1.2
+
+* Export `UnmodifiableMapView` from the Dart core libraries.
+
 ## 1.1.1
 
 * Bug-fix for signatures of `isValidKey` arguments of `CanonicalizedMap`.

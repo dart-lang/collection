@@ -42,21 +42,6 @@ main() {
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three-42");
   aSet = new Set.from([1, 7, 10]);
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three!42");
-
-  Map map = new Map();
-  testUnmodifiableMap(map, new UnmodifiableMapView(map), "empty");
-  map = new Map()..[0] = 2;
-  testUnmodifiableMap(map, new UnmodifiableMapView(map), "single-0");
-  map = new Map()..[3] = 2;
-  testUnmodifiableMap(map, new UnmodifiableMapView(map), "single!0");
-  map = new Map()..[0] = 2
-                 ..[1] = 1
-                 ..[2] = 0;
-  testUnmodifiableMap(map, new UnmodifiableMapView(map), "three-0");
-  map = new Map()..[3] = 2
-                 ..[1] = 1
-                 ..[2] = 3;
-  testUnmodifiableMap(map, new UnmodifiableMapView(map), "three!0");
 }
 
 void testUnmodifiableList(List original, List wrapped, String name) {
@@ -80,12 +65,6 @@ void testUnmodifiableSet(Set original, Set wrapped, String name) {
   testIterable(original, wrapped, name);
   testReadSet(original, wrapped, name);
   testNoChangeSet(original, wrapped, name);
-}
-
-void testUnmodifiableMap(Map original, Map wrapped, name) {
-  name = "unmodifiable-map-$name";
-  testReadMap(original, wrapped, name);
-  testNoChangeMap(original, wrapped, name);
 }
 
 void testIterable(Iterable original, Iterable wrapped, String name) {

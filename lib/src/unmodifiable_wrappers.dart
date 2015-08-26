@@ -13,8 +13,6 @@
  */
 library collection.unmodifiable_wrappers;
 
-import "dart:collection";
-
 import '../wrappers.dart';
 
 export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;

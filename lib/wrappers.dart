@@ -14,6 +14,8 @@ library dart.pkg.collection.wrappers;
 import "dart:collection";
 import "dart:math" show Random;
 
+import "src/unmodifiable_wrappers.dart";
+
 export "src/canonicalized_map.dart";
 export "src/unmodifiable_wrappers.dart";
 

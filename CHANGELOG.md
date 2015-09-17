@@ -1,3 +1,7 @@
+## 1.1.3
+
+* Fix type inconsistencies with `Map` and `Set`.
+
 ## 1.1.2
 
 * Export `UnmodifiableMapView` from the Dart core libraries.

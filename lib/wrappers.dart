@@ -234,7 +234,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
 
   Set<E> intersection(Set<Object> other) => _setBase.intersection(other);
 
-  E lookup(E element) => _setBase.lookup(element);
+  E lookup(Object element) => _setBase.lookup(element);
 
   bool remove(Object value) => _setBase.remove(value);
 
@@ -518,7 +518,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
    */
   Set<V> intersection(Set<Object> other) => where(other.contains).toSet();
 
-  V lookup(V element) => _baseMap[_keyForValue(element)];
+  V lookup(Object element) => _baseMap[_keyForValue(element)];
 
   bool remove(Object value) {
     if (value != null && value is! V) return false;

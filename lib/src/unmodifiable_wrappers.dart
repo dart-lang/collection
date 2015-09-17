@@ -227,7 +227,7 @@ abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
    * Throws an [UnsupportedError];
    * operations that change the map are disallowed.
    */
-  V remove(K key) => _throw();
+  V remove(Object key) => _throw();
 
   /**
    * Throws an [UnsupportedError];

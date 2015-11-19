@@ -1,3 +1,7 @@
+## 1.2.0
+
+* Add string comparators that ignore ASCII case and sort numbers numerically.
+
 ## 1.1.3
 
 * Fix type inconsistencies with `Map` and `Set`.

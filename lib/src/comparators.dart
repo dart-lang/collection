@@ -7,9 +7,9 @@ library dart.pkg.collection.comparators;
 // Character constants.
 const int _zero         = 0x30;
 const int _upperCaseA   = 0x41;
-const int _upperCaseZ   = 0x5b;
+const int _upperCaseZ   = 0x5a;
 const int _lowerCaseA   = 0x61;
-const int _lowerCaseZ   = 0x7b;
+const int _lowerCaseZ   = 0x7a;
 const int _asciiCaseBit = 0x20;
 
 /// Checks if strings [a] and [b] differ only on the case of ASCII letters.

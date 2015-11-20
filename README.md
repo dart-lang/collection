@@ -1,6 +1,4 @@
-#Helper libraries for working with collections.
-
-The `collection` package contains a number of separate libraries
+Contains a number libraries
 with utility functions and classes that makes working with collections easier.
 
 ## Using
@@ -8,15 +6,19 @@ with utility functions and classes that makes working with collections easier.
 The `collection` package can be imported as separate libraries, or
 in totality:
 
-    import 'package:collection/algorithms.dart';
-    import 'package:collection/equality.dart';
-    import 'package:collection/iterable_zip.dart';
-    import 'package:collection/priority_queue.dart';
-    import 'package:collection/wrappers.dart';
+```dart
+import 'package:collection/algorithms.dart';
+import 'package:collection/equality.dart';
+import 'package:collection/iterable_zip.dart';
+import 'package:collection/priority_queue.dart';
+import 'package:collection/wrappers.dart';
+```
 
 or
 
-    import 'package:collection/collection.dart';
+```dart
+import 'package:collection/collection.dart';
+```
 
 ## Algorithms
 
@@ -41,7 +43,9 @@ that considers two sets equal exactly if they contain identical elements.
 The library provides ways to define equalities on `Iterable`s, `List`s, `Set`s,
 and `Map`s, as well as combinations of these, such as:
 
-    const MapEquality(const IdentityEquality(), const ListEquality());
+```dart
+const MapEquality(const IdentityEquality(), const ListEquality());
+```
 
 This equality considers maps equal if they have identical keys, and the
 corresponding values are lists with equal (`operator==`) values.
@@ -54,7 +58,7 @@ Utilities for "zipping" a list of iterables into an iterable of lists.
 
 ## Priority Queue
 
-An interface and implemention of a priority queue.
+An interface and implementation of a priority queue.
 
 
 ## Wrappers

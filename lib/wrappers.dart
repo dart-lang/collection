@@ -6,8 +6,8 @@
  * Delegating wrappers for [Iterable], [List], [Set], [Queue] and [Map].
  *
  * Also adds unmodifiable views for `Set` and `Map`, and a fixed length
- * view for `List`. The unmodifable list view from `dart:collection` is exported
- * as well, just for completeness.
+ * view for `List`. The unmodifiable list view from `dart:collection` is
+ * exported as well, just for completeness.
  */
 library dart.pkg.collection.wrappers;
 

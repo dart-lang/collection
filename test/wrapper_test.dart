@@ -147,7 +147,7 @@ void main() {
     expect.first.equals.first;
     // Default values of the Iterable interface will be added in the
     // second call to firstWhere, so we must record them in our
-    // expectation (which doesn't have the interface implementat or
+    // expectation (which doesn't have the interface implemented or
     // its default values).
     expect.firstWhere(func1, orElse: null).equals.firstWhere(func1);
     expect.firstWhere(func1, orElse: func0).equals.

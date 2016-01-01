@@ -22,6 +22,15 @@ void main() {
       expect(map["foo"], isNull);
     });
 
+    test("set affects nothing for uncanonicalizable key", () {
+      expect(() {
+        map["foo"] = "value";
+      }, returnsNormally);
+      expect(map["foo"], isNull);
+      expect(map.containsKey("foo"), isFalse);
+      expect(map.length, equals(0));
+    });
+
     test("canonicalizes keys for addAll", () {
       map.addAll({
         "1": "value 1",

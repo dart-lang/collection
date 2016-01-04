@@ -1,3 +1,7 @@
+## 1.2.1
+
+* Add lowerBound to binary search for values that might not be present.
+
 ## 1.2.0
 
 * Add string comparators that ignore ASCII case and sort numbers numerically.

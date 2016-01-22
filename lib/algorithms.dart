@@ -10,13 +10,13 @@ library dart.pkg.collection.algorithms;
 import "dart:math" show Random;
 
 /** Version of [binarySearch] optimized for comparable keys */
-int _comparableBinarySearch(List<Comparable> list, Comparable key) {
+int _comparableBinarySearch(List<Comparable> list, Comparable value) {
   int min = 0;
   int max = list.length;
   while (min < max) {
     int mid = min + ((max - min) >> 1);
     var element = list[mid];
-    int comp = element.compareTo(key);
+    int comp = element.compareTo(value);
     if (comp == 0) return mid;
     if (comp < 0) {
       min = mid + 1;
@@ -28,7 +28,7 @@ int _comparableBinarySearch(List<Comparable> list, Comparable key) {
 }
 
 /**
- * Returns a position of the [key] in [sortedList], if it is there.
+ * Returns a position of the [value] in [sortedList], if it is there.
  *
  * If the list isn't sorted according to the [compare] function, the result
  * is unpredictable.
@@ -36,19 +36,18 @@ int _comparableBinarySearch(List<Comparable> list, Comparable key) {
  * If [compare] is omitted, it defaults to calling [Comparable.compareTo] on
  * the objects.
  *
- * Returns -1 if [key] is not in the list by default.
+ * Returns -1 if [value] is not in the list by default.
  */
-int binarySearch(List sortedList, var key,
-                 { int compare(var a, var b) }) {
+int binarySearch(List sortedList, value, { int compare(a, b) }) {
   if (compare == null) {
-    return _comparableBinarySearch(sortedList, key);
+    return _comparableBinarySearch(sortedList, value);
   }
   int min = 0;
   int max = sortedList.length;
   while (min < max) {
     int mid = min + ((max - min) >> 1);
     var element = sortedList[mid];
-    int comp = compare(element, key);
+    int comp = compare(element, value);
     if (comp == 0) return mid;
     if (comp < 0) {
       min = mid + 1;
@@ -59,6 +58,54 @@ int binarySearch(List sortedList, var key,
   return -1;
 }
 
+/** Version of [lowerBound] optimized for comparable keys */
+int _comparableLowerBound(List<Comparable> list, Comparable value) {
+  int min = 0;
+  int max = list.length;
+  while (min < max) {
+    int mid = min + ((max - min) >> 1);
+    var element = list[mid];
+    int comp = element.compareTo(value);
+    if (comp < 0) {
+      min = mid + 1;
+    } else {
+      max = mid;
+    }
+  }
+  return min;
+}
+
+/**
+ * Returns the first position in [sortedList] that does not compare less than
+ * [value].
+ *
+ * If the list isn't sorted according to the [compare] function, the result
+ * is unpredictable.
+ *
+ * If [compare] is omitted, it defaults to calling [Comparable.compareTo] on
+ * the objects.
+ *
+ * Returns [sortedList.length] if all the items in [sortedList] compare less
+ * than [value].
+ */
+int lowerBound(List sortedList, value, { int compare(a, b) }) {
+  if (compare == null) {
+    return _comparableLowerBound(sortedList, value);
+  }
+  int min = 0;
+  int max = sortedList.length;
+  while (min < max) {
+    int mid = min + ((max - min) >> 1);
+    var element = sortedList[mid];
+    int comp = compare(element, value);
+    if (comp < 0) {
+      min = mid + 1;
+    } else {
+      max = mid;
+    }
+  }
+  return min;
+}
 
 /**
  * Shuffles a list randomly.

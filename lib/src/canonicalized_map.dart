@@ -64,6 +64,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   }
 
   void operator []=(K key, V value) {
+    if (!_isValidKey(key)) return;
     _base[_canonicalize(key)] = new Pair(key, value);
   }
 

@@ -145,7 +145,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /**
    * The comparison being used to compare the priority of elements.
    */
-  final Comparator comparison;
+  final Comparator<E> comparison;
 
   /**
    * List implementation of a heap.

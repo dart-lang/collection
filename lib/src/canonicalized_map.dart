@@ -8,6 +8,10 @@ import 'dart:collection';
 
 import 'utils.dart';
 
+typedef C _Canonicalize<C, K>(K key);
+
+typedef bool _IsValidKey(Object key);
+
 /**
  * A map whose keys are converted to canonical values of type `C`.
  *
@@ -19,9 +23,9 @@ import 'utils.dart';
  * `isValidKey` parameter.
  */
 class CanonicalizedMap<C, K, V> implements Map<K, V> {
-  final Function _canonicalize;
+  final _Canonicalize<C, K> _canonicalize;
 
-  final Function _isValidKeyFn;
+  final _IsValidKey _isValidKeyFn;
 
   final _base = new Map<C, Pair<K, V>>();
 
@@ -59,7 +63,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   V operator [](Object key) {
     if (!_isValidKey(key)) return null;
-    var pair = _base[_canonicalize(key)];
+    var pair = _base[_canonicalize(key as K)];
     return pair == null ? null : pair.last;
   }
 
@@ -77,7 +81,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   bool containsKey(Object key) {
     if (!_isValidKey(key)) return false;
-    return _base.containsKey(_canonicalize(key));
+    return _base.containsKey(_canonicalize(key as K));
   }
 
   bool containsValue(Object value) =>
@@ -102,7 +106,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   V remove(Object key) {
     if (!_isValidKey(key)) return null;
-    var pair = _base.remove(_canonicalize(key));
+    var pair = _base.remove(_canonicalize(key as K));
     return pair == null ? null : pair.last;
   }
 

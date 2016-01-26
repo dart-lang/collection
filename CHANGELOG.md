@@ -1,6 +1,8 @@
-## 1.2.1
+## 1.3.0
 
-* Add lowerBound to binary search for values that might not be present.
+* Add `lowerBound` to binary search for values that might not be present.
+
+* Verify that the is valid for `CanonicalMap.[]`.
 
 ## 1.2.0
 

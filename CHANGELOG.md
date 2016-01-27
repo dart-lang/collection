@@ -1,3 +1,8 @@
+## 1.4.0
+
+* Add a `new PriorityQueue()` constructor that forwards to `new
+  HeapPriorityQueue()`.
+
 ## 1.3.0
 
 * Add `lowerBound` to binary search for values that might not be present.

@@ -8,8 +8,18 @@ import "package:collection/priority_queue.dart";
 import "package:test/test.dart";
 
 void main() {
+  testDefault();
   testInt(() => new HeapPriorityQueue<int>());
   testCustom((comparator) => new HeapPriorityQueue<C>(comparator));
+}
+
+void testDefault() {
+  test('new PriorityQueue() returns a HeapPriorityQueue', () {
+    expect(new PriorityQueue<int>(),
+        new isInstanceOf<HeapPriorityQueue<int>>());
+  });
+  testInt(() => new PriorityQueue<int>());
+  testCustom((comparator) => new PriorityQueue<C>(comparator));
 }
 
 void testInt(PriorityQueue<int> create()) {

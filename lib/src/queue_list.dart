@@ -4,9 +4,7 @@
 
 import 'dart:collection';
 
-/**
- * A class that efficiently implements both [Queue] and [List].
- */
+/// A class that efficiently implements both [Queue] and [List].
 // TODO(nweiz): Currently this code is copied almost verbatim from
 // dart:collection. The only changes are to implement List and to remove methods
 // that are redundant with ListMixin. Remove or simplify it when issue 21330 is
@@ -17,12 +15,10 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   int _head;
   int _tail;
 
-  /**
-   * Create an empty queue.
-   *
-   * If [initialCapacity] is given, prepare the queue for at least that many
-   * elements.
-   */
+  /// Create an empty queue.
+  ///
+  /// If [initialCapacity] is given, prepare the queue for at least that many
+  /// elements.
   QueueList([int initialCapacity]) : _head = 0, _tail = 0 {
     if (initialCapacity == null || initialCapacity < _INITIAL_CAPACITY) {
       initialCapacity = _INITIAL_CAPACITY;
@@ -33,9 +29,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     _table = new List<E>(initialCapacity);
   }
 
-  /**
-   * Create a queue initially containing the elements of [source].
-   */
+  /// Create a queue initially containing the elements of [source].
   factory QueueList.from(Iterable<E> source) {
     if (source is List) {
       int length = source.length;
@@ -157,20 +151,16 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   // Internal helper functions.
 
-  /**
-   * Whether [number] is a power of two.
-   *
-   * Only works for positive numbers.
-   */
+  /// Whether [number] is a power of two.
+  ///
+  /// Only works for positive numbers.
   static bool _isPowerOf2(int number) => (number & (number - 1)) == 0;
 
-  /**
-   * Rounds [number] up to the nearest power of 2.
-   *
-   * If [number] is a power of 2 already, it is returned.
-   *
-   * Only works for positive numbers.
-   */
+  /// Rounds [number] up to the nearest power of 2.
+  ///
+  /// If [number] is a power of 2 already, it is returned.
+  ///
+  /// Only works for positive numbers.
   static int _nextPowerOf2(int number) {
     assert(number > 0);
     number = (number << 1) - 1;
@@ -181,16 +171,14 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     }
   }
 
-  /** Adds element at end of queue. Used by both [add] and [addAll]. */
+  /// Adds element at end of queue. Used by both [add] and [addAll].
   void _add(E element) {
     _table[_tail] = element;
     _tail = (_tail + 1) & (_table.length - 1);
     if (_head == _tail) _grow();
   }
 
-  /**
-   * Grow the table when full.
-   */
+  /// Grow the table when full.
   void _grow() {
     List<E> newTable = new List<E>(_table.length * 2);
     int split = _table.length - _head;
@@ -215,7 +203,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     }
   }
 
-  /** Grows the table even if it is not full. */
+  /// Grows the table even if it is not full.
   void _preGrow(int newElementCount) {
     assert(newElementCount >= length);
 

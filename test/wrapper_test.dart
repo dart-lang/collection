@@ -23,10 +23,8 @@ void testInvocations(Invocation i1, Invocation i2) {
   expect(i1.namedArguments, equals(i2.namedArguments), reason: name);
 }
 
-/**
- * Utility class to record a member access and a member access on a wrapped
- * object, and compare them for equality.
- */
+/// Utility class to record a member access and a member access on a wrapped
+/// object, and compare them for equality.
 abstract class Expector {
   getWrappedObject(action(Invocation i));
   // Hack to test assignment ([]=) because it doesn't return the result

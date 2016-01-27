@@ -3,6 +3,9 @@
 * Add a `new PriorityQueue()` constructor that forwards to `new
   HeapPriorityQueue()`.
 
+* Deprecate top-level libraries other than `package:collection/collection.dart`,
+  which exports these libraries' interfaces.
+
 ## 1.3.0
 
 * Add `lowerBound` to binary search for values that might not be present.

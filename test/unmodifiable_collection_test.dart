@@ -2,8 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "package:collection/wrappers.dart";
 import "package:test/test.dart";
+
+import "package:collection/collection.dart";
 
 // Test unmodifiable collection views.
 // The collections should pass through the operations that are allowed,

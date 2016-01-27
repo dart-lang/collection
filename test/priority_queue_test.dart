@@ -4,8 +4,9 @@
 
 /// Tests priority queue implementations utilities.
 
-import "package:collection/priority_queue.dart";
 import "package:test/test.dart";
+
+import "package:collection/priority_queue.dart";
 
 void main() {
   testDefault();
@@ -48,11 +49,9 @@ void testCustom(PriorityQueue<C> create(comparator)) {
   }
 }
 
-/**
- * Test that a queue behaves correctly.
- *
- * The elements must be in priority order, from highest to lowest.
- */
+/// Test that a queue behaves correctly.
+///
+/// The elements must be in priority order, from highest to lowest.
 void testQueue(String name, PriorityQueue create(), List elements, notElement) {
   test(name, () => testQueueBody(create, elements, notElement));
 }

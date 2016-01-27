@@ -2,22 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library dart.pkg.collection.canonicalized_map;
-
 import 'dart:collection';
 
 import 'utils.dart';
 
-/**
- * A map whose keys are converted to canonical values of type `C`.
- *
- * This is useful for using case-insensitive String keys, for example. It's more
- * efficient than a [LinkedHashMap] with a custom equality operator because it
- * only canonicalizes each key once, rather than doing so for each comparison.
- *
- * By default, `null` is allowed as a key. It can be forbidden via the
- * `isValidKey` parameter.
- */
+/// A map whose keys are converted to canonical values of type `C`.
+///
+/// This is useful for using case-insensitive String keys, for example. It's
+/// more efficient than a [LinkedHashMap] with a custom equality operator
+/// because it only canonicalizes each key once, rather than doing so for each
+/// comparison.
+///
+/// By default, `null` is allowed as a key. It can be forbidden via the
+/// `isValidKey` parameter.
 class CanonicalizedMap<C, K, V> implements Map<K, V> {
   final Function _canonicalize;
 
@@ -25,31 +22,27 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   final _base = new Map<C, Pair<K, V>>();
 
-  /**
-   * Creates an empty canonicalized map.
-   *
-   * The [canonicalize] function should return the canonical value for the given
-   * key. Keys with the same canonical value are considered equivalent.
-   *
-   * The [isValidKey] function is called before calling [canonicalize] for
-   * methods that take arbitrary objects. It can be used to filter out keys that
-   * can't be canonicalized.
-   */
+  /// Creates an empty canonicalized map.
+  ///
+  /// The [canonicalize] function should return the canonical value for the
+  /// given key. Keys with the same canonical value are considered equivalent.
+  ///
+  /// The [isValidKey] function is called before calling [canonicalize] for
+  /// methods that take arbitrary objects. It can be used to filter out keys
+  /// that can't be canonicalized.
   CanonicalizedMap(C canonicalize(K key), {bool isValidKey(Object key)})
       : _canonicalize = canonicalize,
         _isValidKeyFn = isValidKey;
 
-  /**
-   * Creates a canonicalized map that is initialized with the key/value pairs of
-   * [other].
-   *
-   * The [canonicalize] function should return the canonical value for the given
-   * key. Keys with the same canonical value are considered equivalent.
-   *
-   * The [isValidKey] function is called before calling [canonicalize] for
-   * methods that take arbitrary objects. It can be used to filter out keys that
-   * can't be canonicalized.
-   */
+  /// Creates a canonicalized map that is initialized with the key/value pairs
+  /// of [other].
+  ///
+  /// The [canonicalize] function should return the canonical value for the
+  /// given key. Keys with the same canonical value are considered equivalent.
+  ///
+  /// The [isValidKey] function is called before calling [canonicalize] for
+  /// methods that take arbitrary objects. It can be used to filter out keys
+  /// that can't be canonicalized.
   CanonicalizedMap.from(Map<K, V> other, C canonicalize(K key),
                         {bool isValidKey(Object key)})
       : _canonicalize = canonicalize,

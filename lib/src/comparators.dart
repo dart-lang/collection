@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library dart.pkg.collection.comparators;
-
 // Character constants.
 const int _zero         = 0x30;
 const int _upperCaseA   = 0x41;

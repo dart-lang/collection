@@ -4,12 +4,23 @@
 
 /// Tests priority queue implementations utilities.
 
-import "package:collection/priority_queue.dart";
 import "package:test/test.dart";
 
+import "package:collection/priority_queue.dart";
+
 void main() {
+  testDefault();
   testInt(() => new HeapPriorityQueue<int>());
   testCustom((comparator) => new HeapPriorityQueue<C>(comparator));
+}
+
+void testDefault() {
+  test('new PriorityQueue() returns a HeapPriorityQueue', () {
+    expect(new PriorityQueue<int>(),
+        new isInstanceOf<HeapPriorityQueue<int>>());
+  });
+  testInt(() => new PriorityQueue<int>());
+  testCustom((comparator) => new PriorityQueue<C>(comparator));
 }
 
 void testInt(PriorityQueue<int> create()) {
@@ -38,11 +49,9 @@ void testCustom(PriorityQueue<C> create(comparator)) {
   }
 }
 
-/**
- * Test that a queue behaves correctly.
- *
- * The elements must be in priority order, from highest to lowest.
- */
+/// Test that a queue behaves correctly.
+///
+/// The elements must be in priority order, from highest to lowest.
 void testQueue(String name, PriorityQueue create(), List elements, notElement) {
   test(name, () => testQueueBody(create, elements, notElement));
 }

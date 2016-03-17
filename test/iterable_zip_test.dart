@@ -3,8 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import "dart:collection";
-import "package:collection/iterable_zip.dart";
+
 import "package:test/test.dart";
+
+import "package:collection/collection.dart";
 
 /// Iterable like [base] except that it throws when value equals [errorValue].
 Iterable iterError(Iterable base, int errorValue) {

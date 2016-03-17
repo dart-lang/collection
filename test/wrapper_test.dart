@@ -23,10 +23,8 @@ void testInvocations(Invocation i1, Invocation i2) {
   expect(i1.namedArguments, equals(i2.namedArguments), reason: name);
 }
 
-/**
- * Utility class to record a member access and a member access on a wrapped
- * object, and compare them for equality.
- */
+/// Utility class to record a member access and a member access on a wrapped
+/// object, and compare them for equality.
 abstract class Expector {
   getWrappedObject(action(Invocation i));
   // Hack to test assignment ([]=) because it doesn't return the result
@@ -38,7 +36,9 @@ abstract class Expector {
     testInvocations(m, m2);
   }));
 
-  toString() => new _Equals(equals = getWrappedObject((m2) {
+  // dartanalyzer complains if this method is named `toString()`, since, if it
+  // truly overrides Object's `toString()`, it should return a String.
+  asString() => new _Equals(equals = getWrappedObject((m2) {
     testInvocations(TO_STRING_INVOCATION, m2);
   }));
 }
@@ -176,7 +176,7 @@ void main() {
     expect.toList(growable: true).equals.toList(growable: true);
     expect.toList(growable: false).equals.toList(growable: false);
     expect.toSet().equals.toSet();
-    expect.toString().equals.toString();
+    expect.asString().equals.toString();
     expect.where(func1).equals.where(func1);
   }
 
@@ -262,7 +262,7 @@ void main() {
     expect.putIfAbsent(val, func0).equals.putIfAbsent(val, func0);
     expect.remove(val).equals.remove(val);
     expect.values.equals.values;
-    expect.toString().equals.toString();
+    expect.asString().equals.toString();
   }
 
   // Runs tests of Set behavior.

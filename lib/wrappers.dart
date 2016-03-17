@@ -433,7 +433,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
 /**
  * Creates a modifiable [Set] view of the values of a [Map].
- * 
+ *
  * The `Set` view assumes that the keys of the `Map` can be uniquely determined
  * from the values. The `keyForValue` function passed to the constructor finds
  * the key for a single value. The `keyForValue` function should be consistent
@@ -548,7 +548,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
     return _baseMap[key];
   }
 
-  bool remove(Object value) {
+  bool remove(Object element) {
     // Strong mode is unable to prove that [value] is a V with a simpler
     // conditional.
     var key;
@@ -578,8 +578,14 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainAll(Iterable<Object> elements) {
     var valuesToRetain = new Set<V>.identity();
     for (var element in elements) {
-      if (element != null && element is! V) continue;
-      var key = _keyForValue(element);
+      K key;
+      if (element == null) {
+        key = _keyForValue(null);
+      } else if (element is V) {
+        key = _keyForValue(element);
+      } else {
+        continue;
+      }
       if (!_baseMap.containsKey(key)) continue;
       valuesToRetain.add(_baseMap[key]);
     }

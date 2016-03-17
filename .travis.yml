@@ -1,0 +1,10 @@
+language: dart
+dart:
+  - stable
+  - dev
+script:
+  - dartanalyzer --strong `find lib -name '*.dart'`
+  - pub run test:test
+matrix:
+  allow_failures:
+    - dart: dev

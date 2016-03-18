@@ -5,7 +5,8 @@
 import "dart:math" as math;
 
 /// Version of [binarySearch] optimized for comparable keys
-int _comparableBinarySearch(List<Comparable> list, Comparable value) {
+int _comparableBinarySearch/*<T extends Comparable<T>>*/(
+    List<Comparable/*<T>*/> list, Comparable/*<T>*/ value) {
   int min = 0;
   int max = list.length;
   while (min < max) {
@@ -31,9 +32,10 @@ int _comparableBinarySearch(List<Comparable> list, Comparable value) {
 /// the objects.
 ///
 /// Returns -1 if [value] is not in the list by default.
-int binarySearch(List sortedList, value, { int compare(a, b) }) {
+int binarySearch/*<T extends Comparable<T>>*/(
+    List/*<T>*/ sortedList, /*=T*/ value, { int compare(/*=T*/ a, /*=T*/ b) }) {
   if (compare == null) {
-    return _comparableBinarySearch(sortedList, value);
+    return _comparableBinarySearch/*<T>*/(sortedList, value);
   }
   int min = 0;
   int max = sortedList.length;
@@ -79,7 +81,8 @@ int _comparableLowerBound(List<Comparable> list, Comparable value) {
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
-int lowerBound(List sortedList, value, { int compare(a, b) }) {
+int lowerBound/*<T extends Comparable<T>>*/(
+    List/*<T>*/ sortedList, /*=T*/ value, { int compare(/*=T*/ a, /*=T*/ b) }) {
   if (compare == null) {
     return _comparableLowerBound(sortedList, value);
   }

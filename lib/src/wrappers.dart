@@ -7,6 +7,8 @@ import "dart:math" as math;
 
 import "unmodifiable_wrappers.dart";
 
+typedef K _KeyForValue<K, V>(V value);
+
 /// A base class for delegating iterables.
 ///
 /// Subclasses can provide a [_base] that should be delegated to. Unlike
@@ -24,14 +26,17 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   bool every(bool test(E element)) => _base.every(test);
 
-  Iterable expand(Iterable f(E element)) => _base.expand(f);
+  Iterable/*<T>*/ expand/*<T>*/(Iterable/*<T>*/ f(E element)) =>
+      _base.expand(f);
 
   E get first => _base.first;
 
   E firstWhere(bool test(E element), {E orElse()}) =>
       _base.firstWhere(test, orElse: orElse);
 
-  fold(initialValue, combine(previousValue, E element)) =>
+  /*=T*/ fold/*<T>*/(
+          /*=T*/ initialValue,
+          /*=T*/ combine(/*=T*/ previousValue, E element)) =>
       _base.fold(initialValue, combine);
 
   void forEach(void f(E element)) => _base.forEach(f);
@@ -51,7 +56,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   int get length => _base.length;
 
-  Iterable map(f(E element)) => _base.map(f);
+  Iterable/*<T>*/ map/*<T>*/(/*=T*/ f(E element)) => _base.map(f);
 
   E reduce(E combine(E value, E element)) => _base.reduce(combine);
 
@@ -391,7 +396,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 }
 
 /// Creates a modifiable [Set] view of the values of a [Map].
-/// 
+///
 /// The `Set` view assumes that the keys of the `Map` can be uniquely determined
 /// from the values. The `keyForValue` function passed to the constructor finds
 /// the key for a single value. The `keyForValue` function should be consistent
@@ -413,7 +418,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 /// Effectively, the map will act as a kind of index for the set.
 class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   final Map<K, V> _baseMap;
-  final Function _keyForValue;
+  final _KeyForValue<K, V> _keyForValue;
 
   /// Creates a new [MapValueSet] based on [base].
   ///
@@ -428,7 +433,9 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   bool contains(Object element) {
     if (element != null && element is! V) return false;
-    return _baseMap.containsKey(_keyForValue(element));
+    var key = _keyForValue(element as V);
+
+    return _baseMap.containsKey(key);
   }
 
   bool get isEmpty => _baseMap.isEmpty;
@@ -474,11 +481,17 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   /// may be different than the equality operation [this] uses.
   Set<V> intersection(Set<Object> other) => where(other.contains).toSet();
 
-  V lookup(Object element) => _baseMap[_keyForValue(element)];
+  V lookup(Object element) {
+    if (element != null && element is! V) return null;
+    var key = _keyForValue(element as V);
 
-  bool remove(Object value) {
-    if (value != null && value is! V) return false;
-    var key = _keyForValue(value);
+    return _baseMap[key];
+  }
+
+  bool remove(Object element) {
+    if (element != null && element is! V) return false;
+    var key = _keyForValue(element as V);
+
     if (!_baseMap.containsKey(key)) return false;
     _baseMap.remove(key);
     return true;
@@ -498,7 +511,8 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
     var valuesToRetain = new Set<V>.identity();
     for (var element in elements) {
       if (element != null && element is! V) continue;
-      var key = _keyForValue(element);
+      var key = _keyForValue(element as V);
+
       if (!_baseMap.containsKey(key)) continue;
       valuesToRetain.add(_baseMap[key]);
     }

@@ -25,62 +25,86 @@ class NonGrowableListView<E> extends DelegatingList<E>
 /// Mixin class that implements a throwing version of all list operations that
 /// change the List's length.
 abstract class NonGrowableListMixin<E> implements List<E> {
-  static _throw() {
-    throw new UnsupportedError(
-        "Cannot change the length of a fixed-length list");
+  static final _error = new UnsupportedError(
+      "Cannot change the length of a fixed-length list");
+
+  /// Throws an [UnsupportedError];
+  /// operations that change the length of the list are disallowed.
+  void set length(int newLength)  {
+    throw _error;
   }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void set length(int newLength) => _throw();
+  bool add(E value)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  bool add(E value) => _throw();
+  void addAll(Iterable<E> iterable)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void addAll(Iterable<E> iterable) => _throw();
+  void insert(int index, E element)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void insert(int index, E element) => _throw();
+  void insertAll(int index, Iterable<E> iterable)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void insertAll(int index, Iterable<E> iterable) => _throw();
+  bool remove(Object value)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  bool remove(Object value) => _throw();
+  E removeAt(int index)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  E removeAt(int index) => _throw();
+  E removeLast()  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  E removeLast() => _throw();
+  void removeWhere(bool test(E element))  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void removeWhere(bool test(E element)) => _throw();
+  void retainWhere(bool test(E element))  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void retainWhere(bool test(E element)) => _throw();
+  void removeRange(int start, int end)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void removeRange(int start, int end) => _throw();
+  void replaceRange(int start, int end, Iterable<E> iterable)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void replaceRange(int start, int end, Iterable<E> iterable) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// operations that change the length of the list are disallowed.
-  void clear() => _throw();
+  void clear()  {
+    throw _error;
+  }
 }
 
 /// An unmodifiable set.
@@ -98,67 +122,91 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 /// Mixin class that implements a throwing version of all set operations that
 /// change the Set.
 abstract class UnmodifiableSetMixin<E> implements Set<E> {
-  _throw() {
-    throw new UnsupportedError("Cannot modify an unmodifiable Set");
+  static final _error =
+      new UnsupportedError("Cannot modify an unmodifiable Set");
+
+  /// Throws an [UnsupportedError];
+  /// operations that change the set are disallowed.
+  bool add(E value)  {
+    throw _error;
   }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  bool add(E value) => _throw();
+  void addAll(Iterable<E> elements)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void addAll(Iterable<E> elements) => _throw();
+  bool remove(Object value)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  bool remove(Object value) => _throw();
+  void removeAll(Iterable elements)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void removeAll(Iterable elements) => _throw();
+  void retainAll(Iterable elements)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void retainAll(Iterable elements) => _throw();
+  void removeWhere(bool test(E element))  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void removeWhere(bool test(E element)) => _throw();
+  void retainWhere(bool test(E element))  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void retainWhere(bool test(E element)) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// operations that change the set are disallowed.
-  void clear() => _throw();
+  void clear()  {
+    throw _error;
+  }
 }
 
 /// Mixin class that implements a throwing version of all map operations that
 /// change the Map.
 abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
-  static _throw() {
-    throw new UnsupportedError("Cannot modify an unmodifiable Map");
+  static final _error =
+      new UnsupportedError("Cannot modify an unmodifiable Map");
+
+  /// Throws an [UnsupportedError];
+  /// operations that change the map are disallowed.
+  void operator []=(K key, V value)  {
+    throw _error;
   }
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  void operator []=(K key, V value) => _throw();
+  V putIfAbsent(K key, V ifAbsent())  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  V putIfAbsent(K key, V ifAbsent()) => _throw();
+  void addAll(Map<K, V> other)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  void addAll(Map<K, V> other) => _throw();
+  V remove(Object key)  {
+    throw _error;
+  }
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  V remove(Object key) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// operations that change the map are disallowed.
-  void clear() => _throw();
+  void clear()  {
+    throw _error;
+  }
 }

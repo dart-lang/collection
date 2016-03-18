@@ -121,7 +121,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   static const int _INITIAL_CAPACITY = 7;
 
   /// The comparison being used to compare the priority of elements.
-  final Comparator comparison;
+  final Comparator<E> comparison;
 
   /// List implementation of a heap.
   List<E> _queue = new List<E>(_INITIAL_CAPACITY);

@@ -6,7 +6,7 @@
 
 import "package:test/test.dart";
 
-import "package:collection/priority_queue.dart";
+import "package:collection/src/priority_queue.dart";
 
 void main() {
   testDefault();

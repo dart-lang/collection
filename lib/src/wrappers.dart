@@ -432,16 +432,8 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   Iterable<V> get _base => _baseMap.values;
 
   bool contains(Object element) {
-    // Strong mode is unable to prove that [element] is a V with a simpler
-    // conditional.
-    var key;
-    if (element == null) {
-      key = _keyForValue(null);
-    } else if (element is V) {
-      key = _keyForValue(element);
-    } else {
-      return false;
-    }
+    if (element != null && element is! V) return false;
+    var key = _keyForValue(element as V);
 
     return _baseMap.containsKey(key);
   }
@@ -490,31 +482,15 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   Set<V> intersection(Set<Object> other) => where(other.contains).toSet();
 
   V lookup(Object element) {
-    // Strong mode is unable to prove that [element] is a V with a simpler
-    // conditional.
-    var key;
-    if (element == null) {
-      key = _keyForValue(null);
-    } else if (element is V) {
-      key = _keyForValue(element);
-    } else {
-      return null;
-    }
+    if (element != null && element is! V) return null;
+    var key = _keyForValue(element as V);
 
     return _baseMap[key];
   }
 
   bool remove(Object element) {
-    // Strong mode is unable to prove that [value] is a V with a simpler
-    // conditional.
-    var key;
-    if (element == null) {
-      key = _keyForValue(null);
-    } else if (element is V) {
-      key = _keyForValue(element);
-    } else {
-      return false;
-    }
+    if (element != null && element is! V) return false;
+    var key = _keyForValue(element as V);
 
     if (!_baseMap.containsKey(key)) return false;
     _baseMap.remove(key);
@@ -534,14 +510,9 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainAll(Iterable<Object> elements) {
     var valuesToRetain = new Set<V>.identity();
     for (var element in elements) {
-      K key;
-      if (element == null) {
-        key = _keyForValue(null);
-      } else if (element is V) {
-        key = _keyForValue(element);
-      } else {
-        continue;
-      }
+      if (element != null && element is! V) continue;
+      var key = _keyForValue(element as V);
+
       if (!_baseMap.containsKey(key)) continue;
       valuesToRetain.add(_baseMap[key]);
     }

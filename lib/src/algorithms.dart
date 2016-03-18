@@ -4,7 +4,7 @@
 
 import "dart:math" as math;
 
-/** Version of [binarySearch] optimized for comparable keys */
+/// Version of [binarySearch] optimized for comparable keys
 int _comparableBinarySearch/*<T extends Comparable<T>>*/(
     List<Comparable/*<T>*/> list, Comparable/*<T>*/ value) {
   int min = 0;
@@ -53,7 +53,7 @@ int binarySearch/*<T extends Comparable<T>>*/(
   return -1;
 }
 
-/** Version of [lowerBound] optimized for comparable keys */
+/// Version of [lowerBound] optimized for comparable keys
 int _comparableLowerBound(List<Comparable> list, Comparable value) {
   int min = 0;
   int max = list.length;
@@ -124,7 +124,7 @@ void reverse(List list, [int start = 0, int end = null]) {
   _reverse(list, start, end);
 }
 
-// Internal helper function that assumes valid arguments.
+/// Internal helper function that assumes valid arguments.
 void _reverse(List list, int start, int end) {
   for (int i = start, j = end - 1; i < j; i++, j--) {
     var tmp = list[i];
@@ -180,7 +180,7 @@ void _insertionSort(List list, int compare(a, b), int start, int end,
   }
 }
 
-/** Limit below which merge sort defaults to insertion sort. */
+/// Limit below which merge sort defaults to insertion sort.
 const int _MERGE_SORT_LIMIT = 32;
 
 /// Sorts a list, or a range of a list, using the merge sort algorithm.

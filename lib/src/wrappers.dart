@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:collection';
-import 'dart:math' show Random;
+import "dart:collection";
+import "dart:math" as math;
 
 import 'unmodifiable_wrappers.dart';
 
@@ -13,7 +13,6 @@ typedef K _KeyForValue<K, V>(V value);
 ///
 /// Subclasses can provide a [_base] that should be delegated to. Unlike
 /// [DelegatingIterable], this allows the base to be created on demand.
-///
 abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   Iterable<E> get _base;
 
@@ -87,7 +86,6 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 /// This class can be used hide non-`Iterable` methods of an iterable object,
 /// or it can be extended to add extra functionality on top of an existing
 /// iterable object.
-///
 class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
   final Iterable<E> _base;
 
@@ -181,7 +179,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.setRange(start, end, iterable, skipCount);
   }
 
-  void shuffle([Random random]) {
+  void shuffle([math.Random random]) {
     _listBase.shuffle(random);
   }
 

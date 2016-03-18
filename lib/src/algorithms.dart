@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:math" show Random;
+import "dart:math" as math;
 
 /** Version of [binarySearch] optimized for comparable keys */
 int _comparableBinarySearch/*<T extends Comparable<T>>*/(
@@ -105,7 +105,7 @@ int lowerBound/*<T extends Comparable<T>>*/(
 ///
 /// A sub-range of a list can be shuffled by providing [start] and [end].
 void shuffle(List list, [int start = 0, int end = null]) {
-  Random random = new Random();
+  var random = new math.Random();
   if (end == null) end = list.length;
   int length = end - start;
   while (length > 1) {

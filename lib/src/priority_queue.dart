@@ -2,12 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:collection" show SplayTreeSet;
-
+import "dart:collection";
+ 
 /// A priority queue is a priority based work-list of elements.
 ///
 /// The queue allows adding elements, and removing them again in priority order.
 abstract class PriorityQueue<E> {
+  /// Creates an empty [PriorityQueue].
+  ///
+  /// The created [PriorityQueue] is a plain [HeapPriorityQueue].
+  ///
+  /// The [comparison] is a [Comparator] used to compare the priority of
+  /// elements. An element that compares as less than another element has
+  /// a higher priority.
+  ///
+  /// If [comparison] is omitted, it defaults to [Comparable.compare].
+  factory PriorityQueue([int comparison(E e1, E e2)]) = HeapPriorityQueue<E>;
+
   /// Number of elements in the queue.
   int get length;
 

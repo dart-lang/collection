@@ -4,27 +4,23 @@
 
 import "dart:collection" show IterableBase;
 
-/**
- * Iterable that iterates over lists of values from other iterables.
- *
- * When [iterator] is read, an [Iterator] is created for each [Iterable] in
- * the [Iterable] passed to the constructor.
- *
- * As long as all these iterators have a next value, those next values are
- * combined into a single list, which becomes the next value of this
- * [Iterable]'s [Iterator]. As soon as any of the iterators run out,
- * the zipped iterator also stops.
- */
+/// Iterable that iterates over lists of values from other iterables.
+///
+/// When [iterator] is read, an [Iterator] is created for each [Iterable] in
+/// the [Iterable] passed to the constructor.
+///
+/// As long as all these iterators have a next value, those next values are
+/// combined into a single list, which becomes the next value of this
+/// [Iterable]'s [Iterator]. As soon as any of the iterators run out,
+/// the zipped iterator also stops.
 class IterableZip<T> extends IterableBase<List<T>> {
   final Iterable<Iterable<T>> _iterables;
 
   IterableZip(Iterable<Iterable<T>> iterables)
       : this._iterables = iterables;
 
-  /**
-   * Returns an iterator that combines values of the iterables' iterators
-   * as long as they all have values.
-   */
+  /// Returns an iterator that combines values of the iterables' iterators
+  /// as long as they all have values.
   Iterator<List<T>> get iterator {
     var iterators = _iterables.map((x) => x.iterator).toList(growable: false);
     // TODO(lrn): Return an empty iterator directly if iterators is empty?

@@ -193,13 +193,11 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
 }
 
 
-/**
- * Creates a [Set] that delegates all operations to a base set.
- *
- * This class can be used hide non-`Set` methods of a set object,
- * or it can be extended to add extra functionality on top of an existing
- * set object.
- */
+/// Creates a [Set] that delegates all operations to a base set.
+///
+/// This class can be used hide non-`Set` methods of a set object,
+/// or it can be extended to add extra functionality on top of an existing
+/// set object.
 class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   const DelegatingSet(Set<E> base) : super(base);
 
@@ -246,13 +244,11 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   Set<E> toSet() => new DelegatingSet<E>(_setBase.toSet());
 }
 
-/**
- * Creates a [Queue] that delegates all operations to a base queue.
- *
- * This class can be used hide non-`Queue` methods of a queue object,
- * or it can be extended to add extra functionality on top of an existing
- * queue object.
- */
+/// Creates a [Queue] that delegates all operations to a base queue.
+///
+/// This class can be used hide non-`Queue` methods of a queue object,
+/// or it can be extended to add extra functionality on top of an existing
+/// queue object.
 class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   const DelegatingQueue(Queue<E> queue) : super(queue);
 
@@ -289,13 +285,11 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   E removeLast() => _baseQueue.removeLast();
 }
 
-/**
- * Creates a [Map] that delegates all operations to a base map.
- *
- * This class can be used hide non-`Map` methods of an object that extends
- * `Map`, or it can be extended to add extra functionality on top of an existing
- * map object.
- */
+/// Creates a [Map] that delegates all operations to a base map.
+///
+/// This class can be used hide non-`Map` methods of an object that extends
+/// `Map`, or it can be extended to add extra functionality on top of an existing
+/// map object.
 class DelegatingMap<K, V> implements Map<K, V> {
   final Map<K, V> _base;
 
@@ -340,17 +334,15 @@ class DelegatingMap<K, V> implements Map<K, V> {
   String toString() => _base.toString();
 }
 
-/**
- * An unmodifiable [Set] view of the keys of a [Map].
- *
- * The set delegates all operations to the underlying map.
- *
- * A `Map` can only contain each key once, so its keys can always
- * be viewed as a `Set` without any loss, even if the [Map.keys]
- * getter only shows an [Iterable] view of the keys.
- *
- * Note that [lookup] is not supported for this set.
- */
+/// An unmodifiable [Set] view of the keys of a [Map].
+///
+/// The set delegates all operations to the underlying map.
+///
+/// A `Map` can only contain each key once, so its keys can always
+/// be viewed as a `Set` without any loss, even if the [Map.keys]
+/// getter only shows an [Iterable] view of the keys.
+///
+/// Note that [lookup] is not supported for this set.
 class MapKeySet<E> extends _DelegatingIterableBase<E>
     with UnmodifiableSetMixin<E> {
   final Map<E, dynamic> _baseMap;
@@ -371,82 +363,70 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
   bool containsAll(Iterable<Object> other) => other.every(contains);
 
-  /**
-   * Returns a new set with the the elements of [this] that are not in [other].
-   *
-   * That is, the returned set contains all the elements of this [Set] that are
-   * not elements of [other] according to `other.contains`.
-   *
-   * Note that the returned set will use the default equality operation, which
-   * may be different than the equality operation [this] uses.
-   */
+  /// Returns a new set with the the elements of [this] that are not in [other].
+  ///
+  /// That is, the returned set contains all the elements of this [Set] that are
+  /// not elements of [other] according to `other.contains`.
+  ///
+  /// Note that the returned set will use the default equality operation, which
+  /// may be different than the equality operation [this] uses.
   Set<E> difference(Set<E> other) =>
       where((element) => !other.contains(element)).toSet();
 
-  /**
-   * Returns a new set which is the intersection between [this] and [other].
-   *
-   * That is, the returned set contains all the elements of this [Set] that are
-   * also elements of [other] according to `other.contains`.
-   *
-   * Note that the returned set will use the default equality operation, which
-   * may be different than the equality operation [this] uses.
-   */
+  /// Returns a new set which is the intersection between [this] and [other].
+  ///
+  /// That is, the returned set contains all the elements of this [Set] that are
+  /// also elements of [other] according to `other.contains`.
+  ///
+  /// Note that the returned set will use the default equality operation, which
+  /// may be different than the equality operation [this] uses.
   Set<E> intersection(Set<Object> other) => where(other.contains).toSet();
 
-  /**
-   * Throws an [UnsupportedError] since there's no corresponding method for
-   * [Map]s.
-   */
+  /// Throws an [UnsupportedError] since there's no corresponding method for
+  /// [Map]s.
   E lookup(E element) => throw new UnsupportedError(
       "MapKeySet doesn't support lookup().");
 
-  /**
-   * Returns a new set which contains all the elements of [this] and [other].
-   *
-   * That is, the returned set contains all the elements of this [Set] and all
-   * the elements of [other].
-   *
-   * Note that the returned set will use the default equality operation, which
-   * may be different than the equality operation [this] uses.
-   */
+  /// Returns a new set which contains all the elements of [this] and [other].
+  ///
+  /// That is, the returned set contains all the elements of this [Set] and all
+  /// the elements of [other].
+  ///
+  /// Note that the returned set will use the default equality operation, which
+  /// may be different than the equality operation [this] uses.
   Set<E> union(Set<E> other) => toSet()..addAll(other);
 }
 
-/**
- * Creates a modifiable [Set] view of the values of a [Map].
- *
- * The `Set` view assumes that the keys of the `Map` can be uniquely determined
- * from the values. The `keyForValue` function passed to the constructor finds
- * the key for a single value. The `keyForValue` function should be consistent
- * with equality. If `value1 == value2` then `keyForValue(value1)` and
- * `keyForValue(value2)` should be considered equal keys by the underlying map,
- * and vice versa.
- *
- * Modifying the set will modify the underlying map based on the key returned by
- * `keyForValue`.
- *
- * If the `Map` contents are not compatible with the `keyForValue` function, the
- * set will not work consistently, and may give meaningless responses or do
- * inconsistent updates.
- *
- * This set can, for example, be used on a map from database record IDs to the
- * records. It exposes the records as a set, and allows for writing both
- * `recordSet.add(databaseRecord)` and `recordMap[id]`.
- *
- * Effectively, the map will act as a kind of index for the set.
- */
+/// Creates a modifiable [Set] view of the values of a [Map].
+///
+/// The `Set` view assumes that the keys of the `Map` can be uniquely determined
+/// from the values. The `keyForValue` function passed to the constructor finds
+/// the key for a single value. The `keyForValue` function should be consistent
+/// with equality. If `value1 == value2` then `keyForValue(value1)` and
+/// `keyForValue(value2)` should be considered equal keys by the underlying map,
+/// and vice versa.
+///
+/// Modifying the set will modify the underlying map based on the key returned by
+/// `keyForValue`.
+///
+/// If the `Map` contents are not compatible with the `keyForValue` function, the
+/// set will not work consistently, and may give meaningless responses or do
+/// inconsistent updates.
+///
+/// This set can, for example, be used on a map from database record IDs to the
+/// records. It exposes the records as a set, and allows for writing both
+/// `recordSet.add(databaseRecord)` and `recordMap[id]`.
+///
+/// Effectively, the map will act as a kind of index for the set.
 class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   final Map<K, V> _baseMap;
   final _KeyForValue<K, V> _keyForValue;
 
-  /**
-   * Creates a new [MapValueSet] based on [base].
-   *
-   * [keyForValue] returns the key in the map that should be associated with the
-   * given value. The set's notion of equality is identical to the equality of
-   * the return values of [keyForValue].
-   */
+  /// Creates a new [MapValueSet] based on [base].
+  ///
+  /// [keyForValue] returns the key in the map that should be associated with the
+  /// given value. The set's notion of equality is identical to the equality of
+  /// the return values of [keyForValue].
   MapValueSet(Map<K, V> base, K keyForValue(V value))
       : _baseMap = base,
         _keyForValue = keyForValue;
@@ -492,27 +472,23 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   bool containsAll(Iterable<Object> other) => other.every(contains);
 
-  /**
-   * Returns a new set with the the elements of [this] that are not in [other].
-   *
-   * That is, the returned set contains all the elements of this [Set] that are
-   * not elements of [other] according to `other.contains`.
-   *
-   * Note that the returned set will use the default equality operation, which
-   * may be different than the equality operation [this] uses.
-   */
+  /// Returns a new set with the the elements of [this] that are not in [other].
+  ///
+  /// That is, the returned set contains all the elements of this [Set] that are
+  /// not elements of [other] according to `other.contains`.
+  ///
+  /// Note that the returned set will use the default equality operation, which
+  /// may be different than the equality operation [this] uses.
   Set<V> difference(Set<V> other) =>
       where((element) => !other.contains(element)).toSet();
 
-  /**
-   * Returns a new set which is the intersection between [this] and [other].
-   *
-   * That is, the returned set contains all the elements of this [Set] that are
-   * also elements of [other] according to `other.contains`.
-   *
-   * Note that the returned set will use the default equality operation, which
-   * may be different than the equality operation [this] uses.
-   */
+  /// Returns a new set which is the intersection between [this] and [other].
+  ///
+  /// That is, the returned set contains all the elements of this [Set] that are
+  /// also elements of [other] according to `other.contains`.
+  ///
+  /// Note that the returned set will use the default equality operation, which
+  /// may be different than the equality operation [this] uses.
   Set<V> intersection(Set<Object> other) => where(other.contains).toSet();
 
   V lookup(Object element) {
@@ -582,14 +558,12 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
 
-  /**
-   * Returns a new set which contains all the elements of [this] and [other].
-   *
-   * That is, the returned set contains all the elements of this [Set] and all
-   * the elements of [other].
-   *
-   * Note that the returned set will use the default equality operation, which
-   * may be different than the equality operation [this] uses.
-   */
+  /// Returns a new set which contains all the elements of [this] and [other].
+  ///
+  /// That is, the returned set contains all the elements of this [Set] and all
+  /// the elements of [other].
+  ///
+  /// Note that the returned set will use the default equality operation, which
+  /// may be different than the equality operation [this] uses.
   Set<V> union(Set<V> other) => toSet()..addAll(other);
 }

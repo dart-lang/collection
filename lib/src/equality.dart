@@ -201,10 +201,10 @@ class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
   bool isValidKey(Object o) => o is Set<E>;
 }
 
-///  Internal class used by [MapEquality].
+/// Internal class used by [MapEquality].
 ///
-///  The class represents a map entry as a single object,
-///  using a combined hashCode and equality of the key and value.
+/// The class represents a map entry as a single object,
+/// using a combined hashCode and equality of the key and value.
 class _MapEntry {
   final MapEquality equality;
   final key;

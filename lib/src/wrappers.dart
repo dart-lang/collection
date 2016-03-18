@@ -5,7 +5,7 @@
 import "dart:collection";
 import "dart:math" as math;
 
-import 'unmodifiable_wrappers.dart';
+import "unmodifiable_wrappers.dart";
 
 typedef K _KeyForValue<K, V>(V value);
 
@@ -286,8 +286,8 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
 /// Creates a [Map] that delegates all operations to a base map.
 ///
 /// This class can be used hide non-`Map` methods of an object that extends
-/// `Map`, or it can be extended to add extra functionality on top of an existing
-/// map object.
+/// `Map`, or it can be extended to add extra functionality on top of an
+/// existing map object.
 class DelegatingMap<K, V> implements Map<K, V> {
   final Map<K, V> _base;
 
@@ -404,11 +404,11 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 /// `keyForValue(value2)` should be considered equal keys by the underlying map,
 /// and vice versa.
 ///
-/// Modifying the set will modify the underlying map based on the key returned by
-/// `keyForValue`.
+/// Modifying the set will modify the underlying map based on the key returned
+/// by `keyForValue`.
 ///
-/// If the `Map` contents are not compatible with the `keyForValue` function, the
-/// set will not work consistently, and may give meaningless responses or do
+/// If the `Map` contents are not compatible with the `keyForValue` function,
+/// the set will not work consistently, and may give meaningless responses or do
 /// inconsistent updates.
 ///
 /// This set can, for example, be used on a map from database record IDs to the
@@ -422,9 +422,9 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   /// Creates a new [MapValueSet] based on [base].
   ///
-  /// [keyForValue] returns the key in the map that should be associated with the
-  /// given value. The set's notion of equality is identical to the equality of
-  /// the return values of [keyForValue].
+  /// [keyForValue] returns the key in the map that should be associated with
+  /// the given value. The set's notion of equality is identical to the equality
+  /// of the return values of [keyForValue].
   MapValueSet(Map<K, V> base, K keyForValue(V value))
       : _baseMap = base,
         _keyForValue = keyForValue;

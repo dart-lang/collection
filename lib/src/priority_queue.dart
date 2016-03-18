@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import "dart:collection";
- 
+
 /// A priority queue is a priority based work-list of elements.
 ///
 /// The queue allows adding elements, and removing them again in priority order.
@@ -113,7 +113,8 @@ abstract class PriorityQueue<E> {
 /// * The [toSet] operation effectively adds each element to the new set, taking
 ///   an expected O(n*log(n)) time.
 class HeapPriorityQueue<E> implements PriorityQueue<E> {
-  /// Initial capacity of a queue when created, or when added to after a [clear].
+  /// Initial capacity of a queue when created, or when added to after a
+  /// [clear].
   ///
   /// Number can be any positive value. Picking a size that gives a whole
   /// number of "tree levels" in the heap is only done for aesthetic reasons.

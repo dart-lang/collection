@@ -1,3 +1,7 @@
+## 1.4.1
+
+* Fix all strong mode warnings.
+
 ## 1.4.0
 
 * Add a `new PriorityQueue()` constructor that forwards to `new

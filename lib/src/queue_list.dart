@@ -35,7 +35,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
       int length = source.length;
       QueueList<E> queue = new QueueList(length + 1);
       assert(queue._table.length > length);
-      List sourceList = source;
+      var sourceList = source;
       queue._table.setRange(0, length, sourceList, 0);
       queue._tail = length;
       return queue;
@@ -52,7 +52,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   void addAll(Iterable<E> elements) {
     if (elements is List) {
-      List list = elements;
+      var list = elements;
       int addCount = list.length;
       int length = this.length;
       if (length + addCount >= _table.length) {

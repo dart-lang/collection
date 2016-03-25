@@ -85,7 +85,6 @@ const TO_STRING_INVOCATION = const SyntheticInvocation(
 // argument to DelegatingIterable/Set/List.
 class IterableNSM extends NSM implements Iterable, Set, List, Queue {
   IterableNSM(action(Invocation i)) : super(action);
-  noSuchMethod(Invocation i) => super.noSuchMethod(i);  // Silence warnings
   toString() => super.noSuchMethod(TO_STRING_INVOCATION);
 }
 
@@ -120,7 +119,6 @@ class QueueExpector extends Expector {
 // Like NSM but implements Map to allow as argument for DelegatingMap.
 class MapNSM extends NSM implements Map {
   MapNSM(action(Invocation i)) : super(action);
-  noSuchMethod(Invocation i) => super.noSuchMethod(i);
   toString() => super.noSuchMethod(TO_STRING_INVOCATION);
 }
 

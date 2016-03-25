@@ -8,7 +8,7 @@ const int _HASH_MASK = 0x7fffffff;
 
 /// A generic equality relation on objects.
 abstract class Equality<E> {
-  const factory Equality() = DefaultEquality;
+  const factory Equality() = DefaultEquality<E>;
 
   /// Compare two elements for being equal.
   ///
@@ -32,18 +32,18 @@ abstract class Equality<E> {
 ///
 /// This equality uses the objects' own [Object.==] and [Object.hashCode] for
 /// the equality.
-class DefaultEquality implements Equality {
+class DefaultEquality<E> implements Equality<E> {
   const DefaultEquality();
-  bool equals(Object e1, Object e2) => e1 == e2;
-  int hash(Object e) => e.hashCode;
+  bool equals(E e1, E e2) => e1 == e2;
+  int hash(E e) => e.hashCode;
   bool isValidKey(Object o) => true;
 }
 
 /// Equality of objects that compares only the identity of the objects.
-class IdentityEquality implements Equality {
+class IdentityEquality<E> implements Equality<E> {
   const IdentityEquality();
-  bool equals(Object e1, Object e2) => identical(e1, e2);
-  int hash(Object e) => identityHashCode(e);
+  bool equals(E e1, E e2) => identical(e1, e2);
+  int hash(E e) => identityHashCode(e);
   bool isValidKey(Object o) => true;
 }
 
@@ -59,8 +59,8 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
   bool equals(Iterable<E> elements1, Iterable<E> elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
-    Iterator it1 = elements1.iterator;
-    Iterator it2 = elements2.iterator;
+    var it1 = elements1.iterator;
+    var it2 = elements2.iterator;
     while (true) {
       bool hasNext = it1.moveNext();
       if (hasNext != it2.moveNext()) return false;

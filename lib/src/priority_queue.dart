@@ -16,7 +16,9 @@ abstract class PriorityQueue<E> {
   /// elements. An element that compares as less than another element has
   /// a higher priority.
   ///
-  /// If [comparison] is omitted, it defaults to [Comparable.compare].
+  /// If [comparison] is omitted, it defaults to [Comparable.compare]. If this
+  /// is the case, `E` must implement [Comparable], and this is checked at
+  /// runtime for every comparison.
   factory PriorityQueue([int comparison(E e1, E e2)]) = HeapPriorityQueue<E>;
 
   /// Number of elements in the queue.
@@ -121,7 +123,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   static const int _INITIAL_CAPACITY = 7;
 
   /// The comparison being used to compare the priority of elements.
-  final Comparator comparison;
+  final Comparator<E> comparison;
 
   /// List implementation of a heap.
   List<E> _queue = new List<E>(_INITIAL_CAPACITY);
@@ -137,9 +139,12 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// elements. An element that compares as less than another element has
   /// a higher priority.
   ///
-  /// If [comparison] is omitted, it defaults to [Comparable.compare].
+  /// If [comparison] is omitted, it defaults to [Comparable.compare]. If this
+  /// is the case, `E` must implement [Comparable], and this is checked at
+  /// runtime for every comparison.
   HeapPriorityQueue([int comparison(E e1, E e2)])
-      : comparison = (comparison != null) ? comparison : Comparable.compare;
+      : comparison = comparison ??
+            ((e1, e2) => (e1 as Comparable).compareTo(e2));
 
   void add(E element) {
     _add(element);

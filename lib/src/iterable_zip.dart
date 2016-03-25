@@ -13,24 +13,27 @@ import "dart:collection";
 /// combined into a single list, which becomes the next value of this
 /// [Iterable]'s [Iterator]. As soon as any of the iterators run out,
 /// the zipped iterator also stops.
-class IterableZip extends IterableBase<List> {
-  final Iterable<Iterable> _iterables;
-  IterableZip(Iterable<Iterable> iterables)
+class IterableZip<T> extends IterableBase<List<T>> {
+  final Iterable<Iterable<T>> _iterables;
+
+  IterableZip(Iterable<Iterable<T>> iterables)
       : this._iterables = iterables;
 
   /// Returns an iterator that combines values of the iterables' iterators
   /// as long as they all have values.
-  Iterator<List> get iterator {
-    List iterators = _iterables.map((x) => x.iterator).toList(growable: false);
+  Iterator<List<T>> get iterator {
+    var iterators = _iterables.map((x) => x.iterator).toList(growable: false);
     // TODO(lrn): Return an empty iterator directly if iterators is empty?
-    return new _IteratorZip(iterators);
+    return new _IteratorZip<T>(iterators);
   }
 }
 
-class _IteratorZip implements Iterator<List> {
-  final List<Iterator> _iterators;
-  List _current;
-  _IteratorZip(List iterators) : _iterators = iterators;
+class _IteratorZip<T> implements Iterator<List<T>> {
+  final List<Iterator<T>> _iterators;
+  List<T> _current;
+
+  _IteratorZip(List<Iterator<T>> iterators) : _iterators = iterators;
+
   bool moveNext() {
     if (_iterators.isEmpty) return false;
     for (int i = 0; i < _iterators.length; i++) {
@@ -46,5 +49,5 @@ class _IteratorZip implements Iterator<List> {
     return true;
   }
 
-  List get current => _current;
+  List<T> get current => _current;
 }

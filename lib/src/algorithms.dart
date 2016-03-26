@@ -32,10 +32,10 @@ int _comparableBinarySearch/*<T extends Comparable<T>>*/(
 /// the objects.
 ///
 /// Returns -1 if [value] is not in the list by default.
-int binarySearch/*<T extends Comparable<T>>*/(
+int binarySearch/*<T>*/(
     List/*<T>*/ sortedList, /*=T*/ value, { int compare(/*=T*/ a, /*=T*/ b) }) {
   if (compare == null) {
-    return _comparableBinarySearch(sortedList, value);
+    return _comparableBinarySearch(sortedList as List<Comparable>, value as Comparable);
   }
   int min = 0;
   int max = sortedList.length;
@@ -81,10 +81,10 @@ int _comparableLowerBound(List<Comparable> list, Comparable value) {
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
-int lowerBound/*<T extends Comparable<T>>*/(
+int lowerBound/*<T>*/(
     List/*<T>*/ sortedList, /*=T*/ value, { int compare(/*=T*/ a, /*=T*/ b) }) {
   if (compare == null) {
-    return _comparableLowerBound(sortedList, value);
+    return _comparableLowerBound(sortedList as List<Comparable>, value as Comparable);
   }
   int min = 0;
   int max = sortedList.length;

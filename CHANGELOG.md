@@ -1,4 +1,10 @@
-## 1.4.2
+## 1.5.0
+
+* Add `DelegatingIterable.typed()`, `DelegatingList.typed()`,
+  `DelegatingSet.typed()`, `DelegatingMap.typed()`, and
+  `DelegatingQueue.typed()` static methods. These wrap untyped instances of
+  these classes with the correct type parameter, and assert the types of values
+  as they're accessed.
 
 * Fix the types for `binarySearch()` and `lowerBound()` so they no longer
   require all arguments to be comparable.

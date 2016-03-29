@@ -4,6 +4,8 @@
 
 import "dart:collection";
 
+import "utils.dart";
+
 /// A priority queue is a priority based work-list of elements.
 ///
 /// The queue allows adding elements, and removing them again in priority order.
@@ -143,8 +145,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// is the case, `E` must implement [Comparable], and this is checked at
   /// runtime for every comparison.
   HeapPriorityQueue([int comparison(E e1, E e2)])
-      : comparison = comparison ??
-            ((e1, e2) => (e1 as Comparable).compareTo(e2));
+      : comparison = comparison ?? defaultCompare/*<E>*/();
 
   void add(E element) {
     _add(element);

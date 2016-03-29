@@ -4,39 +4,20 @@
 
 import "dart:math" as math;
 
-/// Version of [binarySearch] optimized for comparable keys
-int _comparableBinarySearch/*<T extends Comparable<T>>*/(
-    List<Comparable/*<T>*/> list, Comparable/*<T>*/ value) {
-  int min = 0;
-  int max = list.length;
-  while (min < max) {
-    int mid = min + ((max - min) >> 1);
-    var element = list[mid];
-    int comp = element.compareTo(value);
-    if (comp == 0) return mid;
-    if (comp < 0) {
-      min = mid + 1;
-    } else {
-      max = mid;
-    }
-  }
-  return -1;
-}
+import "utils.dart";
 
 /// Returns a position of the [value] in [sortedList], if it is there.
 ///
 /// If the list isn't sorted according to the [compare] function, the result
 /// is unpredictable.
 ///
-/// If [compare] is omitted, it defaults to calling [Comparable.compareTo] on
-/// the objects.
+/// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
+/// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Returns -1 if [value] is not in the list by default.
-int binarySearch/*<T extends Comparable<T>>*/(
-    List/*<T>*/ sortedList, /*=T*/ value, { int compare(/*=T*/ a, /*=T*/ b) }) {
-  if (compare == null) {
-    return _comparableBinarySearch(sortedList, value);
-  }
+int binarySearch/*<T>*/(List/*<T>*/ sortedList, /*=T*/ value,
+    {int compare(/*=T*/ a, /*=T*/ b)}) {
+  compare ??= defaultCompare/*<T>*/();
   int min = 0;
   int max = sortedList.length;
   while (min < max) {
@@ -53,39 +34,20 @@ int binarySearch/*<T extends Comparable<T>>*/(
   return -1;
 }
 
-/// Version of [lowerBound] optimized for comparable keys
-int _comparableLowerBound(List<Comparable> list, Comparable value) {
-  int min = 0;
-  int max = list.length;
-  while (min < max) {
-    int mid = min + ((max - min) >> 1);
-    var element = list[mid];
-    int comp = element.compareTo(value);
-    if (comp < 0) {
-      min = mid + 1;
-    } else {
-      max = mid;
-    }
-  }
-  return min;
-}
-
 /// Returns the first position in [sortedList] that does not compare less than
 /// [value].
 ///
 /// If the list isn't sorted according to the [compare] function, the result
 /// is unpredictable.
 ///
-/// If [compare] is omitted, it defaults to calling [Comparable.compareTo] on
-/// the objects.
+/// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
+/// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
-int lowerBound/*<T extends Comparable<T>>*/(
-    List/*<T>*/ sortedList, /*=T*/ value, { int compare(/*=T*/ a, /*=T*/ b) }) {
-  if (compare == null) {
-    return _comparableLowerBound(sortedList, value);
-  }
+int lowerBound/*<T>*/(List/*<T>*/ sortedList, /*=T*/ value,
+    {int compare(/*=T*/ a, /*=T*/ b)}) {
+  compare ??= defaultCompare/*<T>*/();
   int min = 0;
   int max = sortedList.length;
   while (min < max) {
@@ -133,7 +95,11 @@ void _reverse(List list, int start, int end) {
   }
 }
 
-/// Sort a list using insertion sort.
+/// Sort a list between [start] (inclusive) and [end] (exclusive) using
+/// insertion sort.
+///
+/// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
+/// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Insertion sort is a simple sorting algorithm. For `n` elements it does on
 /// the order of `n * log(n)` comparisons but up to `n` squared moves. The
@@ -144,25 +110,14 @@ void _reverse(List list, int start, int end) {
 ///
 /// This insertion sort is stable: Equal elements end up in the same order
 /// as they started in.
-void insertionSort(List list,
-                   { int compare(a, b),
-                     int start: 0,
-                     int end: null }) {
+void insertionSort/*<T>*/(List/*<T>*/ list, {int compare(/*=T*/ a, /*=T*/ b),
+    int start: 0, int end}) {
   // If the same method could have both positional and named optional
   // parameters, this should be (list, [start, end], {compare}).
-  if (end == null) end = list.length;
-  if (compare == null) compare = Comparable.compare;
-  _insertionSort(list, compare, start, end, start + 1);
-}
+  compare ??= defaultCompare/*<T>*/();
+  end ??= list.length;
 
-/// Internal helper function that assumes arguments correct.
-///
-/// Assumes that the elements up to [sortedUntil] (not inclusive) are
-/// already sorted. The [sortedUntil] values should always be at least
-/// `start + 1`.
-void _insertionSort(List list, int compare(a, b), int start, int end,
-                    int sortedUntil) {
-  for (int pos = sortedUntil; pos < end; pos++) {
+  for (int pos = start + 1; pos < end; pos++) {
     int min = start;
     int max = pos;
     var element = list[pos];
@@ -183,7 +138,11 @@ void _insertionSort(List list, int compare(a, b), int start, int end,
 /// Limit below which merge sort defaults to insertion sort.
 const int _MERGE_SORT_LIMIT = 32;
 
-/// Sorts a list, or a range of a list, using the merge sort algorithm.
+/// Sorts a list between [start] (inclusive) and [end] (exclusive) using the
+/// merge sort algorithm.
+///
+/// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
+/// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Merge-sorting works by splitting the job into two parts, sorting each
 /// recursively, and then merging the two sorted parts.
@@ -194,13 +153,15 @@ const int _MERGE_SORT_LIMIT = 32;
 ///
 /// This merge sort is stable: Equal elements end up in the same order
 /// as they started in.
-void mergeSort(List list, {int start: 0, int end: null, int compare(a, b)}) {
-  if (end == null) end = list.length;
-  if (compare == null) compare = Comparable.compare;
+void mergeSort/*<T>*/(List/*<T>*/ list, {int start: 0, int end,
+    int compare(/*=T*/ a, /*=T*/ b)}) {
+  end ??= list.length;
+  compare ??= defaultCompare/*<T>*/();
+
   int length = end - start;
   if (length < 2) return;
   if (length < _MERGE_SORT_LIMIT) {
-    _insertionSort(list, compare, start, end, start + 1);
+    insertionSort(list, compare: compare, start: start, end: end);
     return;
   }
   // Special case the first split instead of directly calling
@@ -213,7 +174,7 @@ void mergeSort(List list, {int start: 0, int end: null, int compare(a, b)}) {
   int firstLength = middle - start;
   int secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  List scratchSpace = new List(secondLength);
+  var scratchSpace = new List<T>(secondLength);
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   int firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);
@@ -227,8 +188,9 @@ void mergeSort(List list, {int start: 0, int end: null, int compare(a, b)}) {
 /// one containing the original values.
 ///
 /// It will work in-place as well.
-void _movingInsertionSort(List list, int compare(a, b), int start, int end,
-                          List target, int targetOffset) {
+void _movingInsertionSort/*<T>*/(List/*<T>*/ list,
+    int compare(/*=T*/ a, /*=T*/ b), int start, int end, List/*<T>*/ target,
+    int targetOffset) {
   int length = end - start;
   if (length == 0) return;
   target[targetOffset] = list[start];
@@ -257,8 +219,8 @@ void _movingInsertionSort(List list, int compare(a, b), int start, int end,
 ///
 /// Allows target to be the same list as [list], as long as it's not
 /// overlapping the `start..end` range.
-void _mergeSort(List list, int compare(a, b), int start, int end,
-                List target, int targetOffset) {
+void _mergeSort/*<T>*/(List/*<T>*/ list, int compare(/*=T*/ a, /*=T*/ b),
+    int start, int end, List/*<T>*/ target, int targetOffset) {
   int length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
     _movingInsertionSort(list, compare, start, end, target, targetOffset);
@@ -290,10 +252,10 @@ void _mergeSort(List list, int compare(a, b), int start, int end,
 /// For equal object, elements from [firstList] are always preferred.
 /// This allows the merge to be stable if the first list contains elements
 /// that started out earlier than the ones in [secondList]
-void _merge(int compare(a, b),
-            List firstList, int firstStart, int firstEnd,
-            List secondList, int secondStart, int secondEnd,
-            List target, int targetOffset) {
+void _merge/*<T>*/(int compare(/*=T*/ a, /*=T*/ b),
+    List/*<T>*/ firstList, int firstStart, int firstEnd,
+    List/*<T>*/ secondList, int secondStart, int secondEnd,
+    List/*<T>*/ target, int targetOffset) {
   // No empty lists reaches here.
   assert(firstStart < firstEnd);
   assert(secondStart < secondEnd);

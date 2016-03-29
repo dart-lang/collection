@@ -9,3 +9,7 @@ class Pair<E, F> {
 
   Pair(this.first, this.last);
 }
+
+/// Returns a [Comparator] that asserts that its first argument is comparable.
+Comparator/*<T>*/ defaultCompare/*<T>*/() =>
+    (value1, value2) => (value1 as Comparable).compareTo(value2);

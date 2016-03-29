@@ -1,3 +1,10 @@
+## 1.4.2
+
+* Fix the types for `binarySearch()` and `lowerBound()` so they no longer
+  require all arguments to be comparable.
+
+* Add generic annotations to `insertionSort()` and `mergeSort()`.
+
 ## 1.4.1
 
 * Fix all strong mode warnings.

@@ -103,7 +103,7 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
   /// reflected in [this]. If [base] is already an `Iterable<E>`, it's returned
   /// unmodified.
   static Iterable/*<E>*/ typed/*<E>*/(Iterable base) =>
-      base is Iterable/*<E>*/ ? base : new TypedIterable/*<E>*/(base);
+      base is Iterable/*<E>*/ ? base : new TypeSafeIterable/*<E>*/(base);
 }
 
 
@@ -127,7 +127,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   /// reflected in [this]. If [base] is already a `List<E>`, it's returned
   /// unmodified.
   static List/*<E>*/ typed/*<E>*/(List base) =>
-      base is List/*<E>*/ ? base : new TypedList/*<E>*/(base);
+      base is List/*<E>*/ ? base : new TypeSafeList/*<E>*/(base);
 
   List<E> get _listBase => _base;
 
@@ -237,7 +237,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   /// reflected in [this]. If [base] is already a `Set<E>`, it's returned
   /// unmodified.
   static Set/*<E>*/ typed/*<E>*/(Set base) =>
-      base is Set/*<E>*/ ? base : new TypedSet/*<E>*/(base);
+      base is Set/*<E>*/ ? base : new TypeSafeSet/*<E>*/(base);
 
   Set<E> get _setBase => _base;
 
@@ -302,7 +302,7 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   /// reflected in [this]. If [base] is already a `Queue<E>`, it's returned
   /// unmodified.
   static Queue/*<E>*/ typed/*<E>*/(Queue base) =>
-      base is Queue/*<E>*/ ? base : new TypedQueue/*<E>*/(base);
+      base is Queue/*<E>*/ ? base : new TypeSafeQueue/*<E>*/(base);
 
   Queue<E> get _baseQueue => _base;
 
@@ -359,7 +359,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   /// reflected in [this]. If [base] is already a `Map<K, V>`, it's returned
   /// unmodified.
   static Map/*<K, V>*/ typed/*<K, V>*/(Map base) =>
-      base is Map<K, V> ? base : new TypedMap<K, V>(base);
+      base is Map<K, V> ? base : new TypeSafeMap<K, V>(base);
 
   V operator [](Object key) => _base[key];
 

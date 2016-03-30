@@ -359,7 +359,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   /// reflected in [this]. If [base] is already a `Map<K, V>`, it's returned
   /// unmodified.
   static Map/*<K, V>*/ typed/*<K, V>*/(Map base) =>
-      base is Map<K, V> ? base : new TypeSafeMap<K, V>(base);
+      base is Map/*<K, V>*/ ? base : new TypeSafeMap/*<K, V>*/(base);
 
   V operator [](Object key) => _base[key];
 

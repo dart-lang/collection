@@ -1,3 +1,7 @@
+## 1.5.1
+
+* Fix an incorrectly-declared generic type.
+
 ## 1.5.0
 
 * Add `DelegatingIterable.typed()`, `DelegatingList.typed()`,

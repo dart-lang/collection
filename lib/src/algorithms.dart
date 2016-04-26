@@ -174,7 +174,7 @@ void mergeSort/*<T>*/(List/*<T>*/ list, {int start: 0, int end,
   int firstLength = middle - start;
   int secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = new List<T>(secondLength);
+  var scratchSpace = new List/*<T>*/(secondLength);
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   int firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);

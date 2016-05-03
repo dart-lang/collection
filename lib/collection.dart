@@ -9,5 +9,7 @@ export "src/equality.dart";
 export "src/iterable_zip.dart";
 export "src/priority_queue.dart";
 export "src/queue_list.dart";
+export "src/union_set.dart";
+export "src/union_set_controller.dart";
 export "src/unmodifiable_wrappers.dart";
 export "src/wrappers.dart";

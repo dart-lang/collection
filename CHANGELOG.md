@@ -1,4 +1,9 @@
-## 1.5.2
+## 1.6.0
+
+* Add a `UnionSet` class that provides a view of the union of a set of sets.
+
+* Add a `UnionSetController` class that provides a convenient way to manage the
+  contents of a `UnionSet`.
 
 * Fix another incorrectly-declared generic type.
 

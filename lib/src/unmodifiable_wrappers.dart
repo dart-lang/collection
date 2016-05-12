@@ -107,7 +107,8 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 class _EmptyUnmodifiableSet<E> extends IterableBase<E>
     implements UnmodifiableSetView<E> {
   static /*=T*/ _throw/*<T>*/() {
-    throw new UnsupportedError("Cannot add to an unmodifiable empty Set");
+    throw new UnsupportedError(
+        "Cannot call modifying operations on an unmodifiable Set");
   }
 
   /// Returns an empty Iterator.
@@ -127,7 +128,7 @@ class _EmptyUnmodifiableSet<E> extends IterableBase<E>
   const _EmptyUnmodifiableSet();
 
   /// Throws an [UnsupportedError];
-  /// operations that add to the set are disallowed.
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
   bool add(E value) => _throw();
 
@@ -136,45 +137,49 @@ class _EmptyUnmodifiableSet<E> extends IterableBase<E>
   @override
   void addAll(Iterable<E> elements) => _throw();
 
-  /// Does nothing;
-  /// clear on an empty set results in an empty set.
+  /// Throws an [UnsupportedError];
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
-  void clear() {}
+  void clear() => _throw();
 
   /// Returns always false;
   /// The empty set doesn't contain any elements.
   @override
   bool contains(Object element) => false;
 
+  /// Returns true if other is empty, else false:
+  @override
+  bool containsAll(Iterable<Object> other) => other.isEmpty;
+
   /// Returns always null;
   /// The empty set doesn't contain any elements and therefore returns null.
   @override
   E lookup(Object element) => null;
 
-  /// Returns always false;
-  /// The empty set doesn't contain any elements and therefore can't remove one.
+  /// Throws an [UnsupportedError];
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
-  bool remove(Object element) => false;
+  bool remove(Object element) => _throw();
 
-  /// Does nothing.
-  /// The empty set doesn't contain any elements and therefore can't remove one.
+  /// Throws an [UnsupportedError];
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
-  void removeAll(Iterable<Object> elements) {}
+  void removeAll(Iterable<Object> elements) => _throw();
 
-  /// Does nothing.
-  /// The empty set doesn't contain any elements and therefore can't remove one.
+  /// Throws an [UnsupportedError];
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
-  void removeWhere(bool test(E element)) {}
+  void removeWhere(bool test(E element)) => _throw();
 
-  /// Does nothing.
-  /// The empty set doesn't contain any elements and therefore can't remove one.
+  /// Throws an [UnsupportedError];
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
-  void retainWhere(bool test(E element)) {}
+  void retainWhere(bool test(E element)) => _throw();
 
-  /// Doesn't do anything;
-  /// An optional remove on an empty set changes nothing.
+  /// Throws an [UnsupportedError];
+  /// modifying operations are disallowed on unmodifiable sets.
   @override
-  void retainAll(Iterable<Object> elements){}
+  void retainAll(Iterable<Object> elements) => _throw();
 
   /// Returns itself because the behaviour (in regards to add(), remove())
   /// of the returning Set<E> should be the same.
@@ -195,10 +200,6 @@ class _EmptyUnmodifiableSet<E> extends IterableBase<E>
   /// there are no elements in this (empty) set that aren't in other.
   @override
   Set<E> difference(Set<Object> other) => new Set();
-
-  /// Returns true if other is empty, else false:
-  @override
-  bool containsAll(Iterable<Object> other) => other.isEmpty;
 }
 
 

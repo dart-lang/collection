@@ -2,10 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
+import 'dart:collection' show IterableBase;
 
 import 'wrappers.dart';
-import 'dart:collection' show IterableBase;
+
+export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
 
 /// A fixed-length list.
 ///
@@ -95,12 +96,16 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
     with UnmodifiableSetMixin<E> {
   UnmodifiableSetView(Set<E> setBase) : super(setBase);
 
-  /// Constant constructor cannot be declared for a class with a mixin!!!!!
-  const UnmodifiableSetView.empty() : this( const _EmptyUnmodifiableSet());
+  /// Returns an unmodifiable empty set.
+  const factory UnmodifiableSetView.empty() = _EmptyUnmodifiableSet<E>;
 }
 
+/// An unmodifiable empty set that doesn't allow adding-operations.
+/// Removing-operations are ok, because the don't modify the contents of an
+/// empty set.
 // A super class with const constructor is needed, so IterableBase<E> fits.
-class _EmptyUnmodifiableSet<E> extends IterableBase<E> implements Set<E> {
+class _EmptyUnmodifiableSet<E> extends IterableBase<E>
+    implements UnmodifiableSetView<E> {
   static /*=T*/ _throw/*<T>*/() {
     throw new UnsupportedError("Cannot add to an unmodifiable empty Set");
   }

@@ -35,6 +35,8 @@ main() {
 
   Set aSet = new Set();
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "empty");
+  aSet = new Set();
+  testUnmodifiableSet(aSet, const UnmodifiableSetView.empty(), "const empty");
   aSet = new Set.from([42]);
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "single-42");
   aSet = new Set.from([7]);

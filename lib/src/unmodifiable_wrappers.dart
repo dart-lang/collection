@@ -5,6 +5,7 @@
 export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
 
 import 'wrappers.dart';
+import 'empty_unmodifiable_set.dart';
 
 /// A fixed-length list.
 ///
@@ -91,8 +92,14 @@ abstract class NonGrowableListMixin<E> implements List<E> {
 /// such as [add] and [remove], throw an [UnsupportedError].
 /// Permitted operations defer to the wrapped set.
 class UnmodifiableSetView<E> extends DelegatingSet<E>
-                             with UnmodifiableSetMixin<E> {
+    with UnmodifiableSetMixin<E> {
   UnmodifiableSetView(Set<E> setBase) : super(setBase);
+
+  /// An unmodifiable empty set.
+  ///
+  /// This is the same as `new UnmodifiableSetView(new Set())`, except that it
+  /// can be used in const contexts.
+  const factory UnmodifiableSetView.empty() = EmptyUnmodifiableSet<E>;
 }
 
 /// Mixin class that implements a throwing version of all set operations that

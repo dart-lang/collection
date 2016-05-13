@@ -2,11 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:collection' show IterableBase;
+export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
 
 import 'wrappers.dart';
-
-export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
+import 'empty_unmodifiable_set.dart';
 
 /// A fixed-length list.
 ///
@@ -96,112 +95,12 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
     with UnmodifiableSetMixin<E> {
   UnmodifiableSetView(Set<E> setBase) : super(setBase);
 
-  /// Returns an unmodifiable empty set.
-  const factory UnmodifiableSetView.empty() = _EmptyUnmodifiableSet<E>;
+  /// An unmodifiable empty set.
+  ///
+  /// This is the same as `new UnmodifiableSetView(new Set())`, except that it
+  /// can be used in const contexts.
+  const factory UnmodifiableSetView.empty() = EmptyUnmodifiableSet<E>;
 }
-
-/// An unmodifiable empty set that doesn't allow adding-operations.
-/// Removing-operations are ok, because the don't modify the contents of an
-/// empty set.
-// A super class with const constructor is needed, so IterableBase<E> fits.
-class _EmptyUnmodifiableSet<E> extends IterableBase<E>
-    implements UnmodifiableSetView<E> {
-  static /*=T*/ _throw/*<T>*/() {
-    throw new UnsupportedError(
-        "Cannot call modifying operations on an unmodifiable Set");
-  }
-
-  /// Returns an empty Iterator.
-  // new Iterabel.generate(0).iterator reduces to
-  // new EmptyIterable().iterator so this should be efficient.
-  Iterator<E> get _emptyIterator => new Iterable<E>.generate(0).iterator;
-
-  /// Returns always an empty Iterator;
-  @override
-  Iterator<E> get iterator => _emptyIterator;
-
-  /// Returns always 0;
-  /// The length of en empty Set fixed to 0.
-  @override
-  int get length => 0;
-
-  const _EmptyUnmodifiableSet();
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  bool add(E value) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// operations that add to the set are disallowed.
-  @override
-  void addAll(Iterable<E> elements) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  void clear() => _throw();
-
-  /// Returns always false;
-  /// The empty set doesn't contain any elements.
-  @override
-  bool contains(Object element) => false;
-
-  /// Returns true if other is empty, else false:
-  @override
-  bool containsAll(Iterable<Object> other) => other.isEmpty;
-
-  /// Returns always null;
-  /// The empty set doesn't contain any elements and therefore returns null.
-  @override
-  E lookup(Object element) => null;
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  bool remove(Object element) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  void removeAll(Iterable<Object> elements) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  void removeWhere(bool test(E element)) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  void retainWhere(bool test(E element)) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// modifying operations are disallowed on unmodifiable sets.
-  @override
-  void retainAll(Iterable<Object> elements) => _throw();
-
-  /// Returns itself because the behaviour (in regards to add(), remove())
-  /// of the returning Set<E> should be the same.
-  @override
-  Set<E> toSet() => this;
-
-  /// Returns a copy of other;
-  /// union with an empty set leads to a copy.
-  @override
-  Set<E> union(Set<E> other) => new Set.from(other);
-
-  /// Returns an empty set;
-  /// there are no elements in this (empty) set that are also in other.
-  @override
-  Set<E> intersection(Set<Object> other) => new Set();
-
-  /// Returns an empty set;
-  /// there are no elements in this (empty) set that aren't in other.
-  @override
-  Set<E> difference(Set<Object> other) => new Set();
-}
-
 
 /// Mixin class that implements a throwing version of all set operations that
 /// change the Set.

@@ -1,3 +1,7 @@
+## 1.7.0
+
+* Add a `const UnmodifiableSetView.empty()` constructor.
+
 ## 1.6.0
 
 * Add a `UnionSet` class that provides a view of the union of a set of sets.

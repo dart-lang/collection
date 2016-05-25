@@ -75,7 +75,7 @@ Map<dynamic/*=T*/, List/*<S>*/> groupBy/*<S, T>*/(Iterable/*<S>*/ values,
       minOrderBy = elementOrderBy;
     }
   }
-  return min;
+  return minValue;
 }
 
 /// Returns the element of [values] for which [orderBy] returns the maximum
@@ -97,7 +97,7 @@ Map<dynamic/*=T*/, List/*<S>*/> groupBy/*<S, T>*/(Iterable/*<S>*/ values,
       maxOrderBy = elementOrderBy;
     }
   }
-  return max;
+  return maxValue;
 }
 
 /// Returns the [transitive closure][] of [graph].

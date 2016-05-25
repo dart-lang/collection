@@ -6,6 +6,7 @@ export "src/algorithms.dart";
 export "src/canonicalized_map.dart";
 export "src/comparators.dart";
 export "src/equality.dart";
+export "src/functions.dart";
 export "src/iterable_zip.dart";
 export "src/priority_queue.dart";
 export "src/queue_list.dart";

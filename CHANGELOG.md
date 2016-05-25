@@ -1,3 +1,20 @@
+## 1.8.0
+
+* Add a top-level `mapMap()` function that works like `Iterable.map()` on a
+  `Map`.
+
+* Add a top-level `mergeMaps()` function that creates a new map with the
+  combined contents of two existing maps.
+
+* Add a top-level `groupBy()` function that converts an `Iterable` to a `Map` by
+  grouping its elements using a function.
+
+* Add top-level `minBy()` and `maxBy()` functions that return the minimum and
+  maximum values in an `Iterable`, respectively, ordered by a derived value.
+
+* Add a top-level `transitiveClosure()` function that returns the transitive
+  closure of a directed graph.
+
 ## 1.7.0
 
 * Add a `const UnmodifiableSetView.empty()` constructor.

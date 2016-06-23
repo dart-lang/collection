@@ -181,4 +181,97 @@ void main() {
       }));
     });
   });
+
+  group("stronglyConnectedComponents()", () {
+    test("returns an empty list for an empty graph", () {
+      expect(stronglyConnectedComponents({}), isEmpty);
+    });
+
+    test("returns one set for a singleton graph", () {
+      expect(stronglyConnectedComponents({"a": []}),
+          equals([new Set.from(["a"])]));
+    });
+
+    test("returns two sets for a two-element tree", () {
+      expect(stronglyConnectedComponents({"a": ["b"], "b": []}),
+          equals([new Set.from(["a"]), new Set.from(["b"])]));
+    });
+
+    test("returns one set for a two-element loop", () {
+      expect(stronglyConnectedComponents({"a": ["b"], "b": ["a"]}),
+          equals([new Set.from(["a", "b"])]));
+    });
+
+    test("returns individual vertices for a tree", () {
+      expect(stronglyConnectedComponents({
+        "foo": ["bar"],
+        "bar": ["baz", "bang"],
+        "baz": ["qux"],
+        "bang": ["zap"],
+        "qux": [],
+        "zap": []
+      }), equals([
+        // This is expected to return *a* topological ordering, but this isn't
+        // the only valid one. If the function implementation changes in the
+        // future, this test may need to be updated.
+        new Set.from(["foo"]),
+        new Set.from(["bar"]),
+        new Set.from(["bang"]),
+        new Set.from(["zap"]),
+        new Set.from(["baz"]),
+        new Set.from(["qux"])
+      ]));
+    });
+
+    test("returns a single set for a fully cyclic graph", () {
+      expect(stronglyConnectedComponents({
+        "foo": ["bar"],
+        "bar": ["baz"],
+        "baz": ["bang"],
+        "bang": ["foo"]
+      }), equals([new Set.from(["foo", "bar", "baz", "bang"])]));
+    });
+
+    test("returns separate sets for each strongly connected component", () {
+      // https://en.wikipedia.org/wiki/Strongly_connected_component#/media/File:Scc.png
+      expect(stronglyConnectedComponents({
+        "a": ["b"],
+        "b": ["c", "e", "f"],
+        "c": ["d", "g"],
+        "d": ["c", "h"],
+        "e": ["a", "f"],
+        "f": ["g"],
+        "g": ["f"],
+        "h": ["g", "d"]
+      }), equals([
+        // This is expected to return *a* topological ordering, but this isn't
+        // the only valid one. If the function implementation changes in the
+        // future, this test may need to be updated.
+        new Set.from(["a", "b", "e"]),
+        new Set.from(["c", "d", "h"]),
+        new Set.from(["f", "g"]),
+      ]));
+    });
+
+    test("always returns components in topological order", () {
+      expect(stronglyConnectedComponents({
+        "bar": ["baz", "bang"],
+        "zap": [],
+        "baz": ["qux"],
+        "qux": [],
+        "foo": ["bar"],
+        "bang": ["zap"]
+      }), equals([
+        // This is expected to return *a* topological ordering, but this isn't
+        // the only valid one. If the function implementation changes in the
+        // future, this test may need to be updated.
+        new Set.from(["foo"]),
+        new Set.from(["bar"]),
+        new Set.from(["bang"]),
+        new Set.from(["zap"]),
+        new Set.from(["baz"]),
+        new Set.from(["qux"])
+      ]));
+    });
+  });
 }

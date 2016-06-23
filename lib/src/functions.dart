@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math' as math;
+import 'dart:collection';
+
 import 'utils.dart';
 
 // TODO(nweiz): When sdk#26488 is fixed, use overloads to ensure that if [key]
@@ -104,12 +107,13 @@ Map<dynamic/*=T*/, List/*<S>*/> groupBy/*<S, T>*/(Iterable/*<S>*/ values,
 ///
 /// [transitive closure]: https://en.wikipedia.org/wiki/Transitive_closure
 ///
-/// This interprets [graph] as a directed graph with a vertex for each key and
-/// edges from each key to the values associated with that key.
+/// Interprets [graph] as a directed graph with a vertex for each key and edges
+/// from each key to the values that the key maps to.
 ///
 /// Assumes that every vertex in the graph has a key to represent it, even if
-/// that vertex has no outgoing edges. For example, `{"a": ["b"]}` is not valid,
-/// but `{"a": ["b"], "b": []}` is.
+/// that vertex has no outgoing edges. This isn't checked, but if it's not
+/// satisfied, the function may crash or provide unexpected output. For example,
+/// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
 Map<dynamic/*=T*/, Set/*<T>*/> transitiveClosure/*<T>*/(
     Map<dynamic/*=T*/, Iterable/*<T>*/> graph) {
   // This uses [Warshall's algorithm][], modified not to add a vertex from each
@@ -136,4 +140,69 @@ Map<dynamic/*=T*/, Set/*<T>*/> transitiveClosure/*<T>*/(
   }
 
   return result;
+}
+
+/// Returns the [strongly connected components][] of [graph], in topological
+/// order.
+///
+/// [strongly connected components]: https://en.wikipedia.org/wiki/Strongly_connected_component
+///
+/// Interprets [graph] as a directed graph with a vertex for each key and edges
+/// from each key to the values that the key maps to.
+///
+/// Assumes that every vertex in the graph has a key to represent it, even if
+/// that vertex has no outgoing edges. This isn't checked, but if it's not
+/// satisfied, the function may crash or provide unexpected output. For example,
+/// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
+List<Set/*<T>*/> stronglyConnectedComponents/*<T>*/(
+    Map<dynamic/*=T*/, Iterable/*<T>*/> graph) {
+  // This uses [Tarjan's algorithm][].
+  //
+  // [Tarjan's algorithm]: https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm
+  var index = 0;
+  var stack = /*<T>*/[];
+  var result = /*<Set<T>>*/[];
+
+  // The order of these doesn't matter, so we use un-linked implementations to
+  // avoid unnecessary overhead.
+  var indices = new HashMap/*<T, int>*/();
+  var lowLinks = new HashMap/*<T, int>*/();
+  var onStack = new HashSet/*<T>*/();
+
+  strongConnect(/*=T*/ vertex) {
+    indices[vertex] = index;
+    lowLinks[vertex] = index;
+    index++;
+
+    stack.add(vertex);
+    onStack.add(vertex);
+
+    for (var successor in graph[vertex]) {
+      if (!indices.containsKey(successor)) {
+        strongConnect(successor);
+        lowLinks[vertex] = math.min(lowLinks[vertex], lowLinks[successor]);
+      } else if (onStack.contains(successor)) {
+        lowLinks[vertex] = math.min(lowLinks[vertex], lowLinks[successor]);
+      }
+    }
+
+    if (lowLinks[vertex] == indices[vertex]) {
+      var component = new Set/*<T>*/();
+      var/*=T*/ neighbor;
+      do {
+        neighbor = stack.removeLast();
+        onStack.remove(neighbor);
+        component.add(neighbor);
+      } while (neighbor != vertex);
+      result.add(component);
+    }
+  }
+
+  for (var vertex in graph.keys) {
+    if (!indices.containsKey(vertex)) strongConnect(vertex);
+  }
+
+  // Tarjan's algorithm produces a reverse-topological sort, so we reverse it to
+  // get a normal topological sort.
+  return result.reversed.toList();
 }

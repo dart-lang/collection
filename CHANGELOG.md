@@ -1,3 +1,8 @@
+## 1.9.0
+
+* Add a top-level `stronglyConnectedComponents()` function that returns the
+  strongly connected components in a directed graph.
+
 ## 1.8.0
 
 * Add a top-level `mapMap()` function that works like `Iterable.map()` on a

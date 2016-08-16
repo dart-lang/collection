@@ -1,3 +1,7 @@
+## 1.9.1
+
+* Fix some documentation bugs.
+
 ## 1.9.0
 
 * Add a top-level `stronglyConnectedComponents()` function that returns the

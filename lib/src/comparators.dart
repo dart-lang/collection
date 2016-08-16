@@ -145,7 +145,7 @@ int compareAsciiLowerCase(String a, String b) {
   return defaultResult.sign;
 }
 
-/// Compares strings [a] and [b] according to [natural sort ordering].
+/// Compares strings [a] and [b] according to [natural sort ordering][].
 ///
 /// A natural sort ordering is a lexical ordering where embedded
 /// numerals (digit sequences) are treated as a single unit and ordered by
@@ -175,7 +175,7 @@ int compareNatural(String a, String b) {
 }
 
 /// Compares strings [a] and [b] according to lower-case
-/// [natural sort ordering].
+/// [natural sort ordering][].
 ///
 /// ASCII letters are converted to lower case before being compared, like
 /// for [compareAsciiLowerCase], then the result is compared like for
@@ -212,7 +212,7 @@ int compareAsciiLowerCaseNatural(String a, String b) {
 }
 
 /// Compares strings [a] and [b] according to upper-case
-/// [natural sort ordering].
+/// [natural sort ordering][].
 ///
 /// ASCII letters are converted to upper case before being compared, like
 /// for [compareAsciiUpperCase], then the result is compared like for

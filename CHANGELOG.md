@@ -1,3 +1,7 @@
+## 1.9.2
+
+* `Set.difference` now takes a `Set<Object>` as argument.
+
 ## 1.9.1
 
 * Fix some documentation bugs.

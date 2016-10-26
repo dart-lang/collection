@@ -1,3 +1,8 @@
+## 1.10.0
+
+* Add `EqualityMap` and `EqualitySet` classes which use `Equality` objects for
+  key and element equality, respectively.
+
 ## 1.9.1
 
 * Fix some documentation bugs.

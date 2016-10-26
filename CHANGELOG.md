@@ -1,7 +1,15 @@
-## 1.10.0
+## 1.11.0
 
 * Add `EqualityMap` and `EqualitySet` classes which use `Equality` objects for
   key and element equality, respectively.
+
+## 1.10.1
+
+* Support the latest dev version of the SDK.
+
+## 1.10.0
+
+* `Set.difference` now takes a `Set<Object>` as argument.
 
 ## 1.9.1
 

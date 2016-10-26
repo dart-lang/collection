@@ -253,7 +253,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
 
   bool containsAll(Iterable<Object> other) => _setBase.containsAll(other);
 
-  Set<E> difference(Set<E> other) => _setBase.difference(other);
+  Set<E> difference(Set<Object> other) => _setBase.difference(other);
 
   Set<E> intersection(Set<Object> other) => _setBase.intersection(other);
 
@@ -436,7 +436,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   ///
   /// Note that the returned set will use the default equality operation, which
   /// may be different than the equality operation [this] uses.
-  Set<E> difference(Set<E> other) =>
+  Set<E> difference(Set<Object> other) =>
       where((element) => !other.contains(element)).toSet();
 
   /// Returns a new set which is the intersection between [this] and [other].
@@ -537,7 +537,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   ///
   /// Note that the returned set will use the default equality operation, which
   /// may be different than the equality operation [this] uses.
-  Set<V> difference(Set<V> other) =>
+  Set<V> difference(Set<Object> other) =>
       where((element) => !other.contains(element)).toSet();
 
   /// Returns a new set which is the intersection between [this] and [other].

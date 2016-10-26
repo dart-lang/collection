@@ -226,7 +226,7 @@ class TypeSafeSet<E> extends TypeSafeIterable<E> implements DelegatingSet<E> {
 
   bool containsAll(Iterable<Object> other) => _setBase.containsAll(other);
 
-  Set<E> difference(Set<E> other) =>
+  Set<E> difference(Set<Object> other) =>
       new TypeSafeSet<E>(_setBase.difference(other));
 
   Set<E> intersection(Set<Object> other) =>

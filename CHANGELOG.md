@@ -1,4 +1,4 @@
-## 1.9.2
+## 1.10.1
 
 * `Set.difference` now takes a `Set<Object>` as argument.
 

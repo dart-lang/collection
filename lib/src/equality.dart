@@ -382,3 +382,17 @@ class DeepCollectionEquality implements Equality {
 
   bool isValidKey(Object o) => o is Iterable || o is Map || _base.isValidKey(o);
 }
+
+/// String equality that's insensitive to differences in ASCII case.
+///
+/// Non-ASCII characters are compared as-is, with no conversion.
+class CaseInsensitiveEquality implements Equality<String> {
+  const CaseInsensitiveEquality();
+
+  bool equals(String string1, String string2) =>
+      equalsIgnoreAsciiCase(string1, string2);
+
+  int hash(String string) => hashIgnoreAsciiCase(string);
+
+  bool isValidKey(Object object) => object is String;
+}

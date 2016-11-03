@@ -1,3 +1,7 @@
+## 1.12.0
+
+* Add `CaseInsensitiveEquality`.
+
 ## 1.11.0
 
 * Add `EqualityMap` and `EqualitySet` classes which use `Equality` objects for

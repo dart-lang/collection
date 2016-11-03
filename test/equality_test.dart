@@ -160,6 +160,21 @@ main() {
     expect(colleq.equals(s1, s2),
         isTrue);
   });
+
+  test("CaseInsensitiveEquality", () {
+    var equality = const CaseInsensitiveEquality();
+    expect(equality.equals("foo", "foo"), isTrue);
+    expect(equality.equals("fOo", "FoO"), isTrue);
+    expect(equality.equals("FoO", "fOo"), isTrue);
+    expect(equality.equals("foo", "bar"), isFalse);
+    expect(equality.equals("fÕÕ", "fõõ"), isFalse);
+
+    expect(equality.hash("foo"), equals(equality.hash("foo")));
+    expect(equality.hash("fOo"), equals(equality.hash("FoO")));
+    expect(equality.hash("FoO"), equals(equality.hash("fOo")));
+    expect(equality.hash("foo"), isNot(equals(equality.hash("bar"))));
+    expect(equality.hash("fÕÕ"), isNot(equals(equality.hash("fõõ"))));
+  });
 }
 
 /// Wrapper objects for an `id` value.

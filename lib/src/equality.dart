@@ -4,6 +4,8 @@
 
 import "dart:collection";
 
+import "comparators.dart";
+
 const int _HASH_MASK = 0x7fffffff;
 
 /// A generic equality relation on objects.

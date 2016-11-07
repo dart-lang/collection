@@ -1,3 +1,10 @@
+## 1.12.1
+
+* Fix a missing import.
+
+* Fix `equalsIgnoreAsciiCase()`, which previously was not actually
+  case-insensitive.
+
 ## 1.12.0
 
 * Add `CaseInsensitiveEquality`.

@@ -32,10 +32,10 @@ bool equalsIgnoreAsciiCase(String a, String b) {
     if (aChar == bChar) continue;
     // Quick-check for whether this may be different cases of the same letter.
     if (aChar ^ bChar != _asciiCaseBit) return false;
-    // If it's possible, then check if either character is actually an ASCII
-    // letter.
-    int aCharUpperCase = aChar | _asciiCaseBit;
-    if (_upperCaseA <= aCharUpperCase && aCharUpperCase <= _upperCaseZ) {
+    // If it's possible, then check if one of the characters is actually an
+    // ASCII letter.
+    int aCharLowerCase = aChar | _asciiCaseBit;
+    if (_lowerCaseA <= aCharLowerCase && aCharLowerCase <= _lowerCaseZ) {
       continue;
     }
     return false;

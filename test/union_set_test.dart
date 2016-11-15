@@ -134,7 +134,7 @@ void main() {
   group("after an inner set was modified", () {
     var set;
     setUp(() {
-      var innerSet = new Set.from([3, 7]);
+      var innerSet = new Set<int>.from([3, 7]);
       set = new UnionSet<int>.from([
         new Set.from([1, 2]),
         new Set.from([5]),
@@ -179,7 +179,7 @@ void main() {
     var set;
     setUp(() {
       var innerSet = new Set.from([6]);
-      var outerSet = new Set.from([
+      var outerSet = new Set<Set<int>>.from([
         new Set.from([1, 2]),
         new Set.from([5]),
         innerSet

@@ -176,7 +176,7 @@ void main() {
 
   group("[]=", () {
     test("sets individual entries in the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = new QueueList<dynamic>.from([1, 2, 3]);
       queue[0] = "a";
       queue[1] = "b";
       queue[2] = "c";

@@ -165,7 +165,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
 int compare(C c1, C c2) => c1.value - c2.value;
 int compareNeg(C c1, C c2) => c2.value - c1.value;
 
-class C implements Comparable {
+class C implements Comparable<C> {
   final int value;
   const C(this.value);
   int get hashCode => value;

@@ -56,7 +56,7 @@ class SyntheticInvocation implements Invocation {
   static const int SETTER = 0x02;
   final Symbol memberName;
   final List positionalArguments;
-  final Map namedArguments;
+  final Map<Symbol, dynamic> namedArguments;
   final int _type;
   const SyntheticInvocation(this.memberName,
                             this.positionalArguments,

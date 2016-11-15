@@ -1,10 +1,8 @@
-## 1.12.1
-
-* Fix bug in `equalsIgnoreAsciiCase`.
-
 ## 1.12.0
 
 * Add `CaseInsensitiveEquality`.
+
+* Fix bug in `equalsIgnoreAsciiCase`.
 
 ## 1.11.0
 

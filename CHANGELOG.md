@@ -1,3 +1,7 @@
+## 1.13.0
+
+* Add `EqualityBy`
+
 ## 1.12.1
 
 * Fix bug in `equalsIgnoreAsciiCase`.

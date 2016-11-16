@@ -30,6 +30,38 @@ abstract class Equality<E> {
   bool isValidKey(Object o);
 }
 
+typedef F _GetKey<E, F>(E object);
+
+/// Equality of objects using a canonical value of the object itself.
+///
+/// For example, given the class:
+///     abstract class Employee {
+///       int get employmentId;
+///     }
+///
+/// Creating an [Equality] object that uses `employmentId`:
+///     new EqualityBy<Employee, int>((e) => e.employmentId);
+///
+/// It's also possible to pass an additional equality instance that should be
+/// used to compare the value itself.
+class EqualityBy<E, F> implements Equality<E> {
+  final _GetKey<E, F> _getKey;
+  final Equality<F> _inner;
+
+  EqualityBy(F getKey(E object), [Equality<F> inner = const DefaultEquality()])
+      : _getKey = getKey,
+        _inner = inner;
+
+  @override
+  bool equals(E e1, E e2) => _inner.equals(_getKey(e1), _getKey(e2));
+
+  @override
+  int hash(E e) => _inner.hash(_getKey(e));
+
+  @override
+  bool isValidKey(Object o) => o is E;
+}
+
 /// Equality of objects that compares only the natural equality of the objects.
 ///
 /// This equality uses the objects' own [Object.==] and [Object.hashCode] for

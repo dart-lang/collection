@@ -175,6 +175,25 @@ main() {
     expect(equality.hash("foo"), isNot(equals(equality.hash("bar"))));
     expect(equality.hash("fÕÕ"), isNot(equals(equality.hash("fõõ"))));
   });
+
+  test("EqualityBy", () {
+    var equality = new EqualityBy<NonCanonicalElement, String>((e) => e.id);
+    expect(
+        equality.equals(
+            new NonCanonicalElement("foo"), new NonCanonicalElement("foo")),
+        isTrue);
+    expect(
+        equality.equals(
+            new NonCanonicalElement("foo"), new NonCanonicalElement("bar")),
+        isFalse);
+
+    equality = new EqualityBy<NonCanonicalElement, String>(
+        (e) => e.id, const CaseInsensitiveEquality());
+    expect(
+        equality.equals(
+            new NonCanonicalElement("fOo"), new NonCanonicalElement("FoO")),
+        isTrue);
+  });
 }
 
 /// Wrapper objects for an `id` value.
@@ -187,4 +206,10 @@ class Element implements Comparable<Element> {
   int get hashCode => id.hashCode;
   bool operator==(Object other) => other is Element && id == other.id;
   int compareTo(other) => id.compareTo(other.id);
+}
+
+/// Wrapper objects for an `id` value without implementing proper equality.
+class NonCanonicalElement {
+  final String id;
+  NonCanonicalElement(this.id);
 }

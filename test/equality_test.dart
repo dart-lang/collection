@@ -176,23 +176,42 @@ main() {
     expect(equality.hash("fÕÕ"), isNot(equals(equality.hash("fõõ"))));
   });
 
-  test("EqualityBy", () {
-    var equality = new EqualityBy<NonCanonicalElement, String>((e) => e.id);
-    expect(
-        equality.equals(
-            new NonCanonicalElement("foo"), new NonCanonicalElement("foo")),
-        isTrue);
-    expect(
-        equality.equals(
-            new NonCanonicalElement("foo"), new NonCanonicalElement("bar")),
-        isFalse);
+  group("EqualityBy should use a derived value for ", () {
+    final equality1 = new EqualityBy<List<String>, String>(
+        (e) => e.first);
+    final equality2 = new EqualityBy<List<String>, String>(
+        (e) => e.first, const CaseInsensitiveEquality());
 
-    equality = new EqualityBy<NonCanonicalElement, String>(
-        (e) => e.id, const CaseInsensitiveEquality());
-    expect(
-        equality.equals(
-            new NonCanonicalElement("fOo"), new NonCanonicalElement("FoO")),
-        isTrue);
+    test("equality", () {
+      expect(
+          equality1.equals(
+              ["foo", "foo"], ["foo", "bar"]),
+          isTrue);
+      expect(
+          equality1.equals(
+              ["foo", "foo"], ["bar", "bar"]),
+          isFalse);
+
+    });
+
+    test("equality with an inner equality", () {
+      expect(equality2.equals(["fOo"], ["FoO"]), isTrue);
+    });
+
+    test("hash", () {
+      expect(equality1.hash(["foo", "bar"]), "foo".hashCode);
+    });
+
+    test("hash with an inner equality", () {
+      expect(
+          equality2.hash(["fOo"]), const CaseInsensitiveEquality().hash("foo"));
+    });
+
+    test("isValidKey", () {
+      expect(equality1.isValidKey(["foo"]), isTrue);
+      expect(equality1.isValidKey("foo"), isFalse);
+      expect(equality1.isValidKey([1]), isFalse);
+    });
   });
 }
 

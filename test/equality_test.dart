@@ -191,11 +191,11 @@ main() {
           equality1.equals(
               ["foo", "foo"], ["bar", "bar"]),
           isFalse);
-
     });
 
     test("equality with an inner equality", () {
       expect(equality2.equals(["fOo"], ["FoO"]), isTrue);
+      expect(equality2.equals(["foo"], ["ffõõ"]), isFalse);
     });
 
     test("hash", () {

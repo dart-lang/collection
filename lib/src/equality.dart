@@ -35,16 +35,16 @@ typedef F _GetKey<E, F>(E object);
 /// Equality of objects based on derived values.
 ///
 /// For example, given the class:
-///     ```
-///     abstract class Employee {
-///       int get employmentId;
-///     }
-///     ```
+/// ```dart
+/// abstract class Employee {
+///   int get employmentId;
+/// }
+/// ```
 ///
 /// The following [Equality] considers employees with the same IDs to be equal:
-///     ```
-///     new EqualityBy((Employee e) => e.employmentId);
-///     ```
+/// ```dart
+/// new EqualityBy((Employee e) => e.employmentId);
+/// ```
 ///
 /// It's also possible to pass an additional equality instance that should be
 /// used to compare the value itself.

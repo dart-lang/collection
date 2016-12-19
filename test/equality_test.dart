@@ -177,47 +177,48 @@ main() {
   });
 
   group("EqualityBy should use a derived value for ", () {
-    final equality1 = new EqualityBy<List<String>, String>(
+    final firstEquality = new EqualityBy<List<String>, String>(
         (e) => e.first);
-    final equality2 = new EqualityBy<List<String>, String>(
+    final firstInsensitiveEquality = new EqualityBy<List<String>, String>(
         (e) => e.first, const CaseInsensitiveEquality());
-    final equality3 = new EqualityBy<List<Object>, Object>(
+    final firstObjectEquality = new EqualityBy<List<Object>, Object>(
         (e) => e.first, const IterableEquality());
 
     test("equality", () {
       expect(
-          equality1.equals(
+          firstEquality.equals(
               ["foo", "foo"], ["foo", "bar"]),
           isTrue);
       expect(
-          equality1.equals(
+          firstEquality.equals(
               ["foo", "foo"], ["bar", "bar"]),
           isFalse);
     });
 
     test("equality with an inner equality", () {
-      expect(equality2.equals(["fOo"], ["FoO"]), isTrue);
-      expect(equality2.equals(["foo"], ["ffõõ"]), isFalse);
+      expect(firstInsensitiveEquality.equals(["fOo"], ["FoO"]), isTrue);
+      expect(firstInsensitiveEquality.equals(["foo"], ["ffõõ"]), isFalse);
     });
 
     test("hash", () {
-      expect(equality1.hash(["foo", "bar"]), "foo".hashCode);
+      expect(firstEquality.hash(["foo", "bar"]), "foo".hashCode);
     });
 
     test("hash with an inner equality", () {
       expect(
-          equality2.hash(["fOo"]), const CaseInsensitiveEquality().hash("foo"));
+          firstInsensitiveEquality.hash(["fOo"]),
+          const CaseInsensitiveEquality().hash("foo"));
     });
 
     test("isValidKey", () {
-      expect(equality1.isValidKey(["foo"]), isTrue);
-      expect(equality1.isValidKey("foo"), isFalse);
-      expect(equality1.isValidKey([1]), isFalse);
+      expect(firstEquality.isValidKey(["foo"]), isTrue);
+      expect(firstEquality.isValidKey("foo"), isFalse);
+      expect(firstEquality.isValidKey([1]), isFalse);
     });
 
     test('isValidKey with an inner equality', () {
-      expect(equality3.isValidKey([[]]), isTrue);
-      expect(equality3.isValidKey([{}]), isFalse);
+      expect(firstObjectEquality.isValidKey([[]]), isTrue);
+      expect(firstObjectEquality.isValidKey([{}]), isFalse);
     });
   });
 }

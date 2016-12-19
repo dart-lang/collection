@@ -30,6 +30,48 @@ abstract class Equality<E> {
   bool isValidKey(Object o);
 }
 
+typedef F _GetKey<E, F>(E object);
+
+/// Equality of objects based on derived values.
+///
+/// For example, given the class:
+/// ```dart
+/// abstract class Employee {
+///   int get employmentId;
+/// }
+/// ```
+///
+/// The following [Equality] considers employees with the same IDs to be equal:
+/// ```dart
+/// new EqualityBy((Employee e) => e.employmentId);
+/// ```
+///
+/// It's also possible to pass an additional equality instance that should be
+/// used to compare the value itself.
+class EqualityBy<E, F> implements Equality<E> {
+  // Returns a derived value F from an object E.
+  final _GetKey<E, F> _getKey;
+
+  // Determines equality between two values of F.
+  final Equality<F> _inner;
+
+  EqualityBy(F getKey(E object), [Equality<F> inner = const DefaultEquality()])
+      : _getKey = getKey,
+        _inner = inner;
+
+  bool equals(E e1, E e2) => _inner.equals(_getKey(e1), _getKey(e2));
+
+  int hash(E e) => _inner.hash(_getKey(e));
+
+  bool isValidKey(Object o) {
+    if (o is E) {
+      final value = _getKey(o);
+      return value is F && _inner.isValidKey(value);
+    }
+    return false;
+  }
+}
+
 /// Equality of objects that compares only the natural equality of the objects.
 ///
 /// This equality uses the objects' own [Object.==] and [Object.hashCode] for

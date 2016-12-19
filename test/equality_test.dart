@@ -177,11 +177,11 @@ main() {
   });
 
   group("EqualityBy should use a derived value for ", () {
-    final firstEquality = new EqualityBy<List<String>, String>(
+    var firstEquality = new EqualityBy<List<String>, String>(
         (e) => e.first);
-    final firstInsensitiveEquality = new EqualityBy<List<String>, String>(
+    var firstInsensitiveEquality = new EqualityBy<List<String>, String>(
         (e) => e.first, const CaseInsensitiveEquality());
-    final firstObjectEquality = new EqualityBy<List<Object>, Object>(
+    var firstObjectEquality = new EqualityBy<List<Object>, Object>(
         (e) => e.first, const IterableEquality());
 
     test("equality", () {

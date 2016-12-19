@@ -181,6 +181,8 @@ main() {
         (e) => e.first);
     final equality2 = new EqualityBy<List<String>, String>(
         (e) => e.first, const CaseInsensitiveEquality());
+    final equality3 = new EqualityBy<List<Object>, Object>(
+        (e) => e.first, const IterableEquality());
 
     test("equality", () {
       expect(
@@ -211,6 +213,11 @@ main() {
       expect(equality1.isValidKey(["foo"]), isTrue);
       expect(equality1.isValidKey("foo"), isFalse);
       expect(equality1.isValidKey([1]), isFalse);
+    });
+
+    test('isValidKey with an inner equality', () {
+      expect(equality3.isValidKey([[]]), isTrue);
+      expect(equality3.isValidKey([{}]), isFalse);
     });
   });
 }

@@ -234,9 +234,3 @@ class Element implements Comparable<Element> {
   bool operator==(Object other) => other is Element && id == other.id;
   int compareTo(other) => id.compareTo(other.id);
 }
-
-/// Wrapper objects for an `id` value without implementing proper equality.
-class NonCanonicalElement {
-  final String id;
-  NonCanonicalElement(this.id);
-}

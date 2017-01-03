@@ -175,6 +175,52 @@ main() {
     expect(equality.hash("foo"), isNot(equals(equality.hash("bar"))));
     expect(equality.hash("fÕÕ"), isNot(equals(equality.hash("fõõ"))));
   });
+
+  group("EqualityBy should use a derived value for ", () {
+    var firstEquality = new EqualityBy<List<String>, String>(
+        (e) => e.first);
+    var firstInsensitiveEquality = new EqualityBy<List<String>, String>(
+        (e) => e.first, const CaseInsensitiveEquality());
+    var firstObjectEquality = new EqualityBy<List<Object>, Object>(
+        (e) => e.first, const IterableEquality());
+
+    test("equality", () {
+      expect(
+          firstEquality.equals(
+              ["foo", "foo"], ["foo", "bar"]),
+          isTrue);
+      expect(
+          firstEquality.equals(
+              ["foo", "foo"], ["bar", "bar"]),
+          isFalse);
+    });
+
+    test("equality with an inner equality", () {
+      expect(firstInsensitiveEquality.equals(["fOo"], ["FoO"]), isTrue);
+      expect(firstInsensitiveEquality.equals(["foo"], ["ffõõ"]), isFalse);
+    });
+
+    test("hash", () {
+      expect(firstEquality.hash(["foo", "bar"]), "foo".hashCode);
+    });
+
+    test("hash with an inner equality", () {
+      expect(
+          firstInsensitiveEquality.hash(["fOo"]),
+          const CaseInsensitiveEquality().hash("foo"));
+    });
+
+    test("isValidKey", () {
+      expect(firstEquality.isValidKey(["foo"]), isTrue);
+      expect(firstEquality.isValidKey("foo"), isFalse);
+      expect(firstEquality.isValidKey([1]), isFalse);
+    });
+
+    test('isValidKey with an inner equality', () {
+      expect(firstObjectEquality.isValidKey([[]]), isTrue);
+      expect(firstObjectEquality.isValidKey([{}]), isFalse);
+    });
+  });
 }
 
 /// Wrapper objects for an `id` value.

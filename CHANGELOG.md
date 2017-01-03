@@ -1,3 +1,7 @@
+## 1.12.1
+
+* Require SDK `>=1.21.0` instead of a `dev` release
+
 ## 1.12.0
 
 * Add `CaseInsensitiveEquality`.

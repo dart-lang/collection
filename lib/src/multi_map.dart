@@ -7,10 +7,10 @@ import 'dart:convert';
 
 
 /**
- * An implementation of [Map]. That allows for multiple inserts of a key retaining
- * all inserted values and always returning the last inserted value through
- * standard Map API.  Additional method [multiple] allows access to all inserted
- * values for a given key.
+ * An implementation of [Map]. That allows for either the insertion of a value or
+ * a list of values for a given key.  Always returning either the value or the
+ * last value of the inserted list through the standard Map API.
+ * Additional method [multiple] allows access to the list of values for a given key.
  *
  * Default behavior is identical to [Map] with the exception that an unmodifiable
  * Multimap cannot be constructed.
@@ -95,8 +95,8 @@ class MultiMap<K, V> implements Map<K, V> {
   /**
    * Returns true if this map contains the given [value].
    *
-   * Returns true if any of the last values inserted in the map are equal to
-   * `value` according to the `==` operator.
+   * Returns true if any of the values or last of list of values inserted in the
+   * map are equal to `value` according to the `==` operator.
    */
   bool containsValue(Object value) {
     for (K key in keys) {
@@ -114,7 +114,7 @@ class MultiMap<K, V> implements Map<K, V> {
   bool containsKey(Object key) => _map.containsKey(key);
 
   /**
-   * Returns the last inserted value for the given [key] or null if [key]
+   * Returns the value or last of list of values for the given [key] or null if [key]
    * is not in the map.  See [Map] for what a return of 'null' means
    */
   V operator [](Object key) {
@@ -126,20 +126,19 @@ class MultiMap<K, V> implements Map<K, V> {
   /**
    * Associates the [key] with the given [value].
    *
-   * If the key was already in the map, its associated value is inserted.
-   * Otherwise the key-value pair is added to the map.
-   * if the [value] provided is a List<V>, then it overwrites any prior inserted
-   * values with the new list of values and the last value in this list
-   * is considered the "last inserted value" for the key.
+   * The associated value (or list of values)
+   * is added or overwritten in the map.  If the [value] provided is a List<V>,
+   * the last value in this list is considered the "value" for standard Map API
    */
   void operator []=(K key, Object value) {
     if (value is List<V>) {
       _map[key] = value;
     }
     else if (value is V) {
-      List<V> listValue = _map[key];
-      if (listValue != null) listValue.add(value);
-      else _map[key] = [value];
+      //List<V> listValue = _map[key];
+      //if (listValue != null) listValue.add(value);
+      //else
+      _map[key] = [value];
     }
   }
 
@@ -172,8 +171,8 @@ class MultiMap<K, V> implements Map<K, V> {
   /**
    * Removes [key] and its associated value(s), if present, from the map.
    *
-   * Returns the last inserted value associated with `key` before it was removed.
-   * Returns `null` if `key` was not in the map.
+   * Returns the value or last of list of values associated with `key` before it
+   * was removed.  Returns `null` if `key` was not in the map.
    *
    * Note that values can be `null` and a returned `null` value doesn't
    * always mean that the key was absent.
@@ -192,8 +191,7 @@ class MultiMap<K, V> implements Map<K, V> {
   void clear() => _map.clear();
 
   /**
-   * Applies [f] to each key-value pair of the map.  Value used by [f] is the
-   * last inserted value associated with the key
+   * Applies [f] to each key-value pair of the map.
    *
    * Calling `f` must not add or remove keys from the map.
    */
@@ -205,7 +203,7 @@ class MultiMap<K, V> implements Map<K, V> {
 
   /**
    * Applies [f] to each key-value pair of the map.  Value used by [f] is the
-   * last inserted value associated with the key
+   * list of values associated with the key
    *
    * Calling `f` must not add or remove keys from the map.
    */
@@ -230,7 +228,8 @@ class MultiMap<K, V> implements Map<K, V> {
   Iterable<K> get keys => _map.keys;
 
   /**
-   * The last inserted values of [this].
+   * The values of [this].  This is either the value or last of a list of values
+   * associated with the key.
    *
    * The values are iterated in the order of their corresponding keys.
    * This means that iterating [keys] and [values] in parallel will
@@ -300,9 +299,15 @@ class MultiMap<K, V> implements Map<K, V> {
       } else if (index != 0) {
         var key = element.substring(0, index);
         var value = element.substring(index + 1);
-        print(key.toString() + ": " + value.toString());
-        mmap[Uri.decodeQueryComponent(key, encoding: encoding)] =
-            Uri.decodeQueryComponent(value, encoding: encoding);
+        var decodedKey = Uri.decodeQueryComponent(key, encoding: encoding);
+        var existing = mmap.multiple(decodedKey);
+        if (existing != null) {
+          existing.add(Uri.decodeQueryComponent(value, encoding: encoding));
+          mmap[decodedKey] = existing;
+        }
+        else {
+          mmap[decodedKey] = Uri.decodeQueryComponent(value, encoding: encoding);
+        }
       }
     });
     return mmap;

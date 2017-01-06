@@ -248,16 +248,15 @@ void main() {
         String>();
     expect(map.multiple('a'), equals(null));
     map['a'] = 'b';
+    expect(map.multiple('a'), equals(['b']));
     List<String> cd = ['c', 'd'];
     map['b'] = cd;
+    expect(map.multiple('b'), equals(['c', 'd']));
     map['b'] = 'e';
-
-    expect(map.multiple('a'), equals(['b']));
-    expect(map.multiple('b'), equals(['c', 'd', 'e']));
+    expect(map.multiple('b'), equals(['e']));
 
     List<String> cdprime = ['c', 'd'];
     map['b'] = cdprime;
-
     expect(map.multiple('b'), equals(['c', 'd']));
 
   });

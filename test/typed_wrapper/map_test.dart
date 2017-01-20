@@ -62,7 +62,7 @@ void main() {
       expect(results,
           unorderedEquals([["foo", 1], ["bar", 2], ["baz", 3], ["bang", 4]]));
 
-      emptyWrapper.forEach(expectAsync((_, __) {}, count: 0));
+      emptyWrapper.forEach(expectAsync2((_, __) {}, count: 0));
     });
 
     test("isEmpty", () {
@@ -86,7 +86,7 @@ void main() {
     });
 
     test("putIfAbsent()", () {
-      expect(wrapper.putIfAbsent("foo", expectAsync(() => null, count: 0)),
+      expect(wrapper.putIfAbsent("foo", expectAsync1((_) => null, count: 0)),
           equals(1));
 
       expect(wrapper.putIfAbsent("qux", () => 6), equals(6));
@@ -129,7 +129,7 @@ void main() {
 
     group("throws a CastError for", () {
       test("forEach()", () {
-        expect(() => wrapper.forEach(expectAsync((_, __) {}, count: 0)),
+        expect(() => wrapper.forEach(expectAsync2((_, __) {}, count: 0)),
             throwsCastError);
       });
 
@@ -225,7 +225,7 @@ void main() {
 
     group("throws a CastError for", () {
       test("forEach()", () {
-        expect(() => wrapper.forEach(expectAsync((_, __) {}, count: 0)),
+        expect(() => wrapper.forEach(expectAsync2((_, __) {}, count: 0)),
             throwsCastError);
       });
 

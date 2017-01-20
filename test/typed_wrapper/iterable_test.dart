@@ -72,7 +72,7 @@ void main() {
       wrapper.forEach(results.add);
       expect(results, equals([1, 2, 3, 4, 5]));
 
-      emptyWrapper.forEach(expectAsync((_) {}, count: 0));
+      emptyWrapper.forEach(expectAsync1((_) {}, count: 0));
     });
 
     test("isEmpty", () {
@@ -204,7 +204,7 @@ void main() {
 
     group("throws a CastError for", () {
       test("any()", () {
-        expect(() => wrapper.any(expectAsync((_) => false, count: 0)),
+        expect(() => wrapper.any(expectAsync1((_) => false, count: 0)),
             throwsCastError);
       });
 
@@ -213,12 +213,12 @@ void main() {
       });
 
       test("every()", () {
-        expect(() => wrapper.every(expectAsync((_) => false, count: 0)),
+        expect(() => wrapper.every(expectAsync1((_) => false, count: 0)),
             throwsCastError);
       });
 
       test("expand()", () {
-        var lazy = wrapper.expand(expectAsync((_) => [], count: 0));
+        var lazy = wrapper.expand(expectAsync1((_) => [], count: 0));
         expect(() => lazy.first, throwsCastError);
       });
 
@@ -227,17 +227,17 @@ void main() {
       });
 
       test("firstWhere()", () {
-        expect(() => wrapper.firstWhere(expectAsync((_) => false, count: 0)),
+        expect(() => wrapper.firstWhere(expectAsync1((_) => false, count: 0)),
             throwsCastError);
       });
 
       test("fold()", () {
-        expect(() => wrapper.fold(null, expectAsync((_, __) => null, count: 0)),
+        expect(() => wrapper.fold(null, expectAsync2((_, __) => null, count: 0)),
             throwsCastError);
       });
 
       test("forEach()", () {
-        expect(() => wrapper.forEach(expectAsync((_) {}, count: 0)),
+        expect(() => wrapper.forEach(expectAsync1((_) {}, count: 0)),
             throwsCastError);
       });
 
@@ -252,17 +252,17 @@ void main() {
       });
 
       test("lastWhere()", () {
-        expect(() => wrapper.lastWhere(expectAsync((_) => false, count: 0)),
+        expect(() => wrapper.lastWhere(expectAsync1((_) => false, count: 0)),
             throwsCastError);
       });
 
       test("map()", () {
-        var lazy = wrapper.map(expectAsync((_) => null, count: 0));
+        var lazy = wrapper.map(expectAsync1((_) => null, count: 0));
         expect(() => lazy.first, throwsCastError);
       });
 
       test("reduce()", () {
-        expect(() => wrapper.reduce(expectAsync((_, __) => null, count: 0)),
+        expect(() => wrapper.reduce(expectAsync2((_, __) => null, count: 0)),
             throwsCastError);
       });
 
@@ -272,7 +272,7 @@ void main() {
 
       test("singleWhere()", () {
         expect(() {
-          singleWrapper.singleWhere(expectAsync((_) => false, count: 0));
+          singleWrapper.singleWhere(expectAsync1((_) => false, count: 0));
         }, throwsCastError);
       });
 
@@ -282,7 +282,7 @@ void main() {
       });
 
       test("skipWhile()", () {
-        var lazy = wrapper.skipWhile(expectAsync((_) => false, count: 0));
+        var lazy = wrapper.skipWhile(expectAsync1((_) => false, count: 0));
         expect(() => lazy.first, throwsCastError);
       });
 
@@ -292,7 +292,7 @@ void main() {
       });
 
       test("takeWhile()", () {
-        var lazy = wrapper.takeWhile(expectAsync((_) => false, count: 0));
+        var lazy = wrapper.takeWhile(expectAsync1((_) => false, count: 0));
         expect(() => lazy.first, throwsCastError);
       });
 
@@ -307,7 +307,7 @@ void main() {
       });
 
       test("where()", () {
-        var lazy = wrapper.where(expectAsync((_) => false, count: 0));
+        var lazy = wrapper.where(expectAsync1((_) => false, count: 0));
         expect(() => lazy.first, throwsCastError);
       });
     });

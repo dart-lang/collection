@@ -11,8 +11,8 @@ void main() {
     test("with an empty map returns an empty map", () {
       expect(
           mapMap({},
-              key: expectAsync((_, __) {}, count: 0),
-              value: expectAsync((_, __) {}, count: 0)),
+              key: expectAsync2((_, __) {}, count: 0),
+              value: expectAsync2((_, __) {}, count: 0)),
           isEmpty);
     });
 
@@ -47,7 +47,7 @@ void main() {
 
   group("mergeMaps()", () {
     test("with empty maps returns an empty map", () {
-      expect(mergeMaps({}, {}, value: expectAsync((_, __) {}, count: 0)),
+      expect(mergeMaps({}, {}, value: expectAsync2((_, __) {}, count: 0)),
           isEmpty);
     });
 
@@ -70,7 +70,7 @@ void main() {
 
   group("groupBy()", () {
     test("returns an empty map for an empty iterable", () {
-      expect(groupBy([], expectAsync((_) {}, count: 0)), isEmpty);
+      expect(groupBy([], expectAsync1((_) {}, count: 0)), isEmpty);
     });
 
     test("groups elements by the function's return value", () {
@@ -83,8 +83,8 @@ void main() {
   group("minBy()", () {
     test("returns null for an empty iterable", () {
       expect(
-          minBy([], expectAsync((_) {}, count: 0),
-              compare: expectAsync((_, __) {}, count: 0)),
+          minBy([], expectAsync1((_) {}, count: 0),
+              compare: expectAsync2((_, __) {}, count: 0)),
           isNull);
     });
 
@@ -110,8 +110,8 @@ void main() {
   group("maxBy()", () {
     test("returns null for an empty iterable", () {
       expect(
-          maxBy([], expectAsync((_) {}, count: 0),
-              compare: expectAsync((_, __) {}, count: 0)),
+          maxBy([], expectAsync1((_) {}, count: 0),
+              compare: expectAsync2((_, __) {}, count: 0)),
           isNull);
     });
 

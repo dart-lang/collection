@@ -114,8 +114,8 @@ main() {
   var map2b = {"x": [o(6), o(5), o(4)], "y": [null, false, true]};
   var l1 = [map1a, map1b];
   var l2 = [map2a, map2b];
-  var s1 = new Set.from(l1);
-  var s2 = new Set.from([map2b, map2a]);
+  var s1 = new Set<Map>.from(l1);
+  var s2 = new Set<Map>.from([map2b, map2a]);
 
   test("RecursiveEquality", () {
     const unordered = const UnorderedIterableEquality();
@@ -136,7 +136,7 @@ main() {
     const listmapval = const ListEquality(mapval);
     expect(listmapval.equals(l1, l2),
         isTrue);
-    const setmapval = const SetEquality(mapval);
+    const setmapval = const SetEquality<Map>(mapval);
     expect(setmapval.equals(s1, s2),
         isTrue);
   });

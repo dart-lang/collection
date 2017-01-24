@@ -35,7 +35,7 @@ void main() {
     });
 
     test("map() doesn't run on any elements", () {
-      expect(set.map(expectAsync((_) {}, count: 0)), isEmpty);
+      expect(set.map(expectAsync1((_) {}, count: 0)), isEmpty);
     });
   });
 

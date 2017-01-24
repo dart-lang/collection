@@ -78,7 +78,7 @@ void main() {
   });
 
   test("binsearchCompare0", () {
-    expect(binarySearch([], new C(2), compare: compareC), equals(-1));
+    expect(binarySearch(<C>[], new C(2), compare: compareC), equals(-1));
   });
 
   test("binsearchCompare1", () {
@@ -125,7 +125,7 @@ void main() {
   });
 
   test("lowerboundCompare0", () {
-    expect(lowerBound([], new C(2), compare: compareC), equals(0));
+    expect(lowerBound(<C>[], new C(2), compare: compareC), equals(0));
   });
 
   test("lowerboundCompare1", () {

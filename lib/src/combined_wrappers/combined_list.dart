@@ -10,8 +10,13 @@ import 'dart:collection';
 /// concatenated list, but the underlying implementation is based on lazily
 /// accessing individual list instances.
 ///
-/// The returned list is unmodifiable.
+/// The resulting list has an index operator (`[]`) and `length` property that
+/// are both `O(lists)`, rather than `O(1)`, and the list is unmodifiable.
 List/*<T>*/ combineLists/*<T>*/(List<List/*<T>*/> lists) {
+  // Small optimization when there are no lists to avoid allocation.
+  if (lists.isEmpty) {
+    return const [];
+  }
   return new _CombinedList/*<T>*/(lists);
 }
 
@@ -24,17 +29,14 @@ class _CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {
 
   _CombinedList(this._lists);
 
-  @override
   set length(int length) {
     _throw();
   }
 
-  @override
   int get length => _lists.fold(0, (length, list) => length + list.length);
 
-  @override
   T operator [](int index) {
-    final initialIndex = index;
+    var initialIndex = index;
     for (var i = 0; i < _lists.length; i++) {
       var list = _lists[i];
       if (index < list.length) {
@@ -42,31 +44,26 @@ class _CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {
       }
       index -= list.length;
     }
-    throw new RangeError.value(initialIndex, 'index', 'Length of $length');
+    throw new RangeError.index(initialIndex, this, 'index', null, length);
   }
 
-  @override
   void operator []=(int index, T value) {
     _throw();
   }
 
-  @override
   void clear() {
     _throw();
   }
 
-  @override
   bool remove(Object element) {
     _throw();
     return null;
   }
 
-  @override
   void removeWhere(bool filter(T element)) {
     _throw();
   }
 
-  @override
   void retainWhere(bool filter(T element)) {
     _throw();
   }

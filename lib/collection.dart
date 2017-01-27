@@ -4,7 +4,7 @@
 
 export "src/algorithms.dart";
 export "src/canonicalized_map.dart";
-export "src/combined_wrappers.dart";
+export "src/combined_wrappers/combined_list.dart";
 export "src/comparators.dart";
 export "src/equality.dart";
 export "src/equality_map.dart";

@@ -1,8 +1,9 @@
-// Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2017, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
 import 'unmodifiable_collection_test.dart' as common;
 
@@ -15,4 +16,18 @@ void main() {
 
   // In every way possible this should test the same as an UnmodifiableListView.
   common.testUnmodifiableList(concat, combine, 'combineLists');
+
+  test('should function as an empty list when no lists are passed', () {
+    var empty = combineLists([]);
+    expect(empty, isEmpty);
+    expect(empty.length, 0);
+    expect(() => empty[0], throwsRangeError);
+  });
+
+  test('should function as an empty list when only empty lists are passed', () {
+    var empty = combineLists([[], [], []]);
+    expect(empty, isEmpty);
+    expect(empty.length, 0);
+    expect(() => empty[0], throwsRangeError);
+  });
 }

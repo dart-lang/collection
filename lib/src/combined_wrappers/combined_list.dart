@@ -17,7 +17,18 @@ List/*<T>*/ combineLists/*<T>*/(List<List/*<T>*/> lists) {
   if (lists.isEmpty) {
     return const [];
   }
-  return new _CombinedList/*<T>*/(lists);
+  // If there is only a single list then just return wrapped as unmodifiable.
+  if (lists.length == 1) {
+    return new UnmodifiableListView/*<T>*/(lists.first);
+  }
+  // Ensure at least a single list has an element.
+  for (var i = 0; i < lists.length; i++) {
+    if (lists[i].isNotEmpty) {
+      return new _CombinedList/*<T>*/(lists);
+    }
+  }
+  // Every list was empty.
+  return const [];
 }
 
 class _CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {

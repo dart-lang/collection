@@ -11,7 +11,9 @@ import 'dart:collection';
 /// accessing individual list instances.
 ///
 /// The resulting list has an index operator (`[]`) and `length` property that
-/// are both `O(lists)`, rather than `O(1)`, and the list is unmodifiable.
+/// are both `O(lists)`, rather than `O(1)`, and the list is unmodifiable - but
+/// underlying changes to these lists are still accessible from the resulting
+/// list.
 List/*<T>*/ combineLists/*<T>*/(List<List/*<T>*/> lists) {
   // Small optimization when there are no lists to avoid allocation.
   if (lists.isEmpty) {
@@ -21,14 +23,7 @@ List/*<T>*/ combineLists/*<T>*/(List<List/*<T>*/> lists) {
   if (lists.length == 1) {
     return new UnmodifiableListView/*<T>*/(lists.first);
   }
-  // Ensure at least a single list has an element.
-  for (var i = 0; i < lists.length; i++) {
-    if (lists[i].isNotEmpty) {
-      return new _CombinedList/*<T>*/(lists);
-    }
-  }
-  // Every list was empty.
-  return const [];
+  return new _CombinedList/*<T>*/(lists);
 }
 
 class _CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {

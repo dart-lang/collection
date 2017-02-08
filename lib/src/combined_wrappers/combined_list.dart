@@ -23,17 +23,17 @@ List/*<T>*/ combineLists/*<T>*/(List<List/*<T>*/> lists) {
   if (lists.length == 1) {
     return new UnmodifiableListView/*<T>*/(lists.first);
   }
-  return new _CombinedList/*<T>*/(lists);
+  return new CombinedList/*<T>*/._(lists);
 }
 
-class _CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {
+class CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {
   static void _throw() {
     throw new UnsupportedError('Cannot modify an unmodifiable List');
   }
 
   final List<List<T>> _lists;
 
-  _CombinedList(this._lists);
+  CombinedList._(this._lists);
 
   set length(int length) {
     _throw();

@@ -28,7 +28,11 @@ class _CombinedIterator<T> implements Iterator<T> {
   T get current => _iterators.current?.current;
 
   @override
-  bool moveNext() =>
-      _iterators.current?.moveNext() == true ||
-      (_iterators.moveNext() && _iterators.current.moveNext());
+  bool moveNext() {
+    var current = _iterators.current;
+    if (current != null && current.moveNext()) {
+      return true;
+    }
+    return _iterators.moveNext() && moveNext();
+  }
 }

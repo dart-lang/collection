@@ -4,10 +4,15 @@
 
 import 'dart:collection';
 
-class CombinedIterable<T> extends IterableBase<T> {
+/// Returns a new iterable that represents iterables accessed sequentially.
+///
+/// All methods and accessors treat the new iterable as-if it were a single
+/// sequence, but the underlying implementation is based on lazily accessing
+/// individual iterable instances.
+class CombinedIterableView<T> extends IterableBase<T> {
   final Iterable<Iterable<T>> _iterables;
 
-  const CombinedIterable(this._iterables);
+  const CombinedIterableView(this._iterables);
 
   @override
   Iterator<T> get iterator =>
@@ -25,5 +30,5 @@ class _CombinedIterator<T> implements Iterator<T> {
   @override
   bool moveNext() =>
       _iterators.current?.moveNext() == true ||
-      _iterators.moveNext();
+      (_iterators.moveNext() && _iterators.current.moveNext());
 }

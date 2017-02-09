@@ -9,7 +9,21 @@ class CombinedIterable<T> extends IterableBase<T> {
 
   const CombinedIterable(this._iterables);
 
-  // TODO: implement iterator
   @override
-  Iterator<T> get iterator => null;
+  Iterator<T> get iterator =>
+      new _CombinedIterator<T>(_iterables.map((i) => i.iterator).iterator);
+}
+
+class _CombinedIterator<T> implements Iterator<T> {
+  final Iterator<Iterator<T>> _iterators;
+
+  _CombinedIterator(this._iterators);
+
+  @override
+  T get current => _iterators.current?.current;
+
+  @override
+  bool moveNext() =>
+      _iterators.current?.moveNext() == true ||
+      _iterators.moveNext();
 }

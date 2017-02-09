@@ -4,7 +4,7 @@
 
 import 'dart:collection';
 
-/// Returns a new list that represents [lists] flattened into a single list.
+/// Returns a new list that represents lists flattened into a single list.
 ///
 /// All methods and accessors treat the new list as-if it were a single
 /// concatenated list, but the underlying implementation is based on lazily

@@ -4,36 +4,26 @@
 
 import 'dart:collection';
 
-/// Returns a new list that represents [lists] flattened into a single list.
-///
-/// All methods and accessors treat the new list as-if it were a single
-/// concatenated list, but the underlying implementation is based on lazily
-/// accessing individual list instances.
-///
-/// The resulting list has an index operator (`[]`) and `length` property that
-/// are both `O(lists)`, rather than `O(1)`, and the list is unmodifiable - but
-/// underlying changes to these lists are still accessible from the resulting
-/// list.
-List/*<T>*/ combineLists/*<T>*/(List<List/*<T>*/> lists) {
-  // Small optimization when there are no lists to avoid allocation.
-  if (lists.isEmpty) {
-    return const [];
-  }
-  // If there is only a single list then just return wrapped as unmodifiable.
-  if (lists.length == 1) {
-    return new UnmodifiableListView/*<T>*/(lists.first);
-  }
-  return new CombinedList/*<T>*/._(lists);
-}
-
-class CombinedList<T> extends ListBase<T> implements UnmodifiableListView<T> {
+class CombinedListView<T>
+    extends ListBase<T>
+    implements UnmodifiableListView<T> {
   static void _throw() {
     throw new UnsupportedError('Cannot modify an unmodifiable List');
   }
 
   final List<List<T>> _lists;
 
-  CombinedList._(this._lists);
+  /// Returns a new list that represents [lists] flattened into a single list.
+  ///
+  /// All methods and accessors treat the new list as-if it were a single
+  /// concatenated list, but the underlying implementation is based on lazily
+  /// accessing individual list instances.
+  ///
+  /// The resulting list has an index operator (`[]`) and `length` property that
+  /// are both `O(lists)`, rather than `O(1)`, and the list is unmodifiable -
+  /// but underlying changes to these lists are still accessible from the
+  /// resulting list.
+  CombinedListView(this._lists);
 
   set length(int length) {
     _throw();

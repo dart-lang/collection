@@ -14,23 +14,23 @@ void main() {
   final concat = []..addAll(list1)..addAll(list2)..addAll(list3);
 
   // In every way possible this should test the same as an UnmodifiableListView.
-  common.testUnmodifiableList(concat, combineLists(
+  common.testUnmodifiableList(concat, new CombinedListView(
     [list1, list2, list3]
   ), 'combineLists');
 
-  common.testUnmodifiableList(concat, combineLists(
+  common.testUnmodifiableList(concat, new CombinedListView(
     [list1, [], list2, [], list3, []]
   ), 'combineLists');
 
   test('should function as an empty list when no lists are passed', () {
-    var empty = combineLists([]);
+    var empty = new CombinedListView([]);
     expect(empty, isEmpty);
     expect(empty.length, 0);
     expect(() => empty[0], throwsRangeError);
   });
 
   test('should function as an empty list when only empty lists are passed', () {
-    var empty = combineLists([[], [], []]);
+    var empty = new CombinedListView([[], [], []]);
     expect(empty, isEmpty);
     expect(empty.length, 0);
     expect(() => empty[0], throwsRangeError);
@@ -39,7 +39,7 @@ void main() {
   test('should reflect underlying changes back to the combined list', () {
     var backing1 = <int>[];
     var backing2 = <int>[];
-    var combined = combineLists([backing1, backing2]);
+    var combined = new CombinedListView([backing1, backing2]);
     expect(combined, isEmpty);
     backing1.addAll(list1);
     expect(combined, list1);
@@ -49,7 +49,7 @@ void main() {
 
   test('should reflect underlying changes with a single list', () {
     var backing1 = <int>[];
-    var combined = combineLists([backing1]);
+    var combined = new CombinedListView([backing1]);
     expect(combined, isEmpty);
     backing1.addAll(list1);
     expect(combined, list1);

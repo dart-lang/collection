@@ -47,6 +47,18 @@ void main() {
     expect(combined, backing1.toList()..addAll(backing2));
   });
 
+  test('should reflect underlying changes from the list of lists', () {
+    var listOfLists = <List<int>>[];
+    var combined = new CombinedListView(listOfLists);
+    expect(combined, isEmpty);
+    listOfLists.add(list1);
+    expect(combined, list1);
+    listOfLists.add(list2);
+    expect(combined, []..addAll(list1)..addAll(list2));
+    listOfLists.clear();
+    expect(combined, isEmpty);
+  });
+
   test('should reflect underlying changes with a single list', () {
     var backing1 = <int>[];
     var combined = new CombinedListView([backing1]);

@@ -8,10 +8,10 @@ import 'package:test/test.dart';
 import 'unmodifiable_collection_test.dart' as common;
 
 void main() {
-  final list1 = const [1, 2, 3];
-  final list2 = const [4, 5, 6];
-  final list3 = const [7, 8, 9];
-  final concat = []..addAll(list1)..addAll(list2)..addAll(list3);
+  var list1 = [1, 2, 3];
+  var list2 = [4, 5, 6];
+  var list3 = [7, 8, 9];
+  var concat = []..addAll(list1)..addAll(list2)..addAll(list3);
 
   // In every way possible this should test the same as an UnmodifiableListView.
   common.testUnmodifiableList(concat, new CombinedListView(

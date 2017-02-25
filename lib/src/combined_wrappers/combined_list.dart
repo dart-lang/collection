@@ -4,25 +4,25 @@
 
 import 'dart:collection';
 
-/// Returns a new list that represents lists flattened into a single list.
+/// A view of several lists combined into a single list.
 ///
-/// All methods and accessors treat the new list as-if it were a single
-/// concatenated list, but the underlying implementation is based on lazily
-/// accessing individual list instances.
+/// All methods and accessors treat the [CombinedListView] list as if it were a
+/// single concatenated list, but the underlying implementation is based on
+/// lazily accessing individual list instances. This means that if the
+/// underlying lists change, the [CombinedListView] will reflect those changes.
 ///
-/// The resulting list has an index operator (`[]`) and `length` property that
-/// are both `O(lists)`, rather than `O(1)`, and the list is unmodifiable - but
-/// underlying changes to these lists are still accessible from the resulting
-/// list.
-class CombinedListView<T>
-    extends ListBase<T>
+/// The index operator (`[]`) and [length] property of a [CombinedListView] are
+/// both `O(lists)` rather than `O(1)`. A [CombinedListView] is unmodifiable.
+class CombinedListView<T> extends ListBase<T>
     implements UnmodifiableListView<T> {
   static void _throw() {
     throw new UnsupportedError('Cannot modify an unmodifiable List');
   }
 
+  /// The lists that this combines.
   final List<List<T>> _lists;
 
+  /// Creates a combined view of [lists].
   CombinedListView(this._lists);
 
   set length(int length) {

@@ -98,12 +98,12 @@ void main() {
       });
 
       test("removeWhere()", () {
-        expect(() => wrapper.removeWhere(expectAsync((_) => false, count: 0)),
+        expect(() => wrapper.removeWhere(expectAsync1((_) => false, count: 0)),
             throwsCastError);
       });
 
       test("retainWhere()", () {
-        expect(() => wrapper.retainWhere(expectAsync((_) => false, count: 0)),
+        expect(() => wrapper.retainWhere(expectAsync1((_) => false, count: 0)),
             throwsCastError);
       });
     });

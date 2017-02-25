@@ -39,5 +39,22 @@ void main() {
     list1.addAll([1, 2]);
     list2.addAll([3, 4]);
     expect(combined, [1, 2, 3, 4]);
+    expect(combined.last, 4);
+    expect(combined.first, 1);
+  });
+
+  test('should reflect changes from the iterable of iterables', () {
+    var iterables = <Iterable>[];
+    var combined = new CombinedIterableView(iterables);
+    expect(combined, isEmpty);
+    expect(combined, hasLength(0));
+
+    iterables.add(iterable1);
+    expect(combined, isNotEmpty);
+    expect(combined, hasLength(3));
+
+    iterables.clear();
+    expect(combined, isEmpty);
+    expect(combined, hasLength(0));
   });
 }

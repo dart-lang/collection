@@ -14,9 +14,15 @@ class CombinedIterableView<T> extends IterableBase<T> {
 
   const CombinedIterableView(this._iterables);
 
-  @override
   Iterator<T> get iterator =>
       new _CombinedIterator<T>(_iterables.map((i) => i.iterator).iterator);
+
+  // Special cased isEmpty/length since many iterables have an efficient
+  // implementation instead of running through the entire iterator.
+
+  bool get isEmpty => _iterables.every((i) => i.isEmpty);
+
+  int get length => _iterables.fold(0, (length, i) => length + i.length);
 }
 
 class _CombinedIterator<T> implements Iterator<T> {
@@ -24,7 +30,6 @@ class _CombinedIterator<T> implements Iterator<T> {
 
   _CombinedIterator(this._iterators);
 
-  @override
   T get current => _iterators.current?.current;
 
   @override

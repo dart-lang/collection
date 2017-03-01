@@ -6,9 +6,9 @@ import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final iterable1 = new Iterable.generate(3);
-  final iterable2 = new Iterable.generate(3, (i) => i + 3);
-  final iterable3 = new Iterable.generate(3, (i) => i + 6);
+  var iterable1 = new Iterable.generate(3);
+  var iterable2 = new Iterable.generate(3, (i) => i + 3);
+  var iterable3 = new Iterable.generate(3, (i) => i + 6);
 
   test('should combine multiple iterables when iterating', () {
     var combined = new CombinedIterableView([iterable1, iterable2, iterable3]);

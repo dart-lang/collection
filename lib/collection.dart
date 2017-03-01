@@ -6,6 +6,7 @@ export "src/algorithms.dart";
 export "src/canonicalized_map.dart";
 export "src/combined_wrappers/combined_iterable.dart";
 export "src/combined_wrappers/combined_list.dart";
+export "src/combined_wrappers/combined_map.dart";
 export "src/comparators.dart";
 export "src/equality.dart";
 export "src/equality_map.dart";

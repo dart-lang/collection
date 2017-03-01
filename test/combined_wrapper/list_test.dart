@@ -5,7 +5,7 @@
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
-import 'unmodifiable_collection_test.dart' as common;
+import '../unmodifiable_collection_test.dart' as common;
 
 void main() {
   var list1 = [1, 2, 3];

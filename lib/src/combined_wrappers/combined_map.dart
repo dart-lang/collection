@@ -6,7 +6,7 @@ import 'dart:collection';
 
 import 'combined_iterable.dart';
 
-/// Returns a new map that represents maps flattened into a single ma[.
+/// Returns a new map that represents maps flattened into a single map.
 ///
 /// All methods and accessors treat the new map as-if it were a single
 /// concatenated map, but the underlying implementation is based on lazily

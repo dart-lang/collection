@@ -20,11 +20,15 @@ import 'combined_iterable.dart';
 class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   final Iterable<Map<K, V>> _maps;
 
+  /// Create a new combined view into multiple maps.
+  ///
+  /// The iterable is accessed lazily so it should be collection type like
+  /// [List] or [Set] rather than a lazy iterable produced by `map()` et al.
   CombinedMapView(this._maps);
 
   V operator [](Object key) {
     for (var map in _maps) {
-      // Avoid two hash look ups on a positive hit.
+      // Avoid two hash lookups on a positive hit.
       var value = map[key];
       if (value != null || map.containsKey(value)) {
         return value;

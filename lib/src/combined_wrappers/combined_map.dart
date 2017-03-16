@@ -37,5 +37,16 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
     return null;
   }
 
+  /// The keys of [this].
+  ///
+  /// The returned iterable has efficient `length` and `contains` operations,
+  /// based on [length] and [containsKey] of the individual maps.
+  ///
+  /// The order of iteration is defined by the individual `Map` implementations,
+  /// but must be consistent between changes to the maps.
+  ///
+  /// Unlike most [Map] implementations, modifying an individual map while
+  /// iterating the keys will _sometimes_ throw. This behavior may change in
+  /// the future.
   Iterable<K> get keys => new CombinedIterableView<K>(_maps.map((m) => m.keys));
 }

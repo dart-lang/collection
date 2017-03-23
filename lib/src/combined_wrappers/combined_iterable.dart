@@ -21,8 +21,10 @@ class CombinedIterableView<T> extends IterableBase<T> {
   Iterator<T> get iterator =>
       new _CombinedIterator<T>(_iterables.map((i) => i.iterator).iterator);
 
-  // Special cased isEmpty/length since many iterables have an efficient
-  // implementation instead of running through the entire iterator.
+  // Special cased contains/isEmpty/length since many iterables have an
+  // efficient implementation instead of running through the entire iterator.
+
+  bool contains(Object element) => _iterables.any((i) => i.contains(element));
 
   bool get isEmpty => _iterables.every((i) => i.isEmpty);
 

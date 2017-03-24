@@ -1,6 +1,8 @@
 ## 1.14.0
 
 * Add `CombinedListView`, a view of several lists concatenated together.
+* Add `CombinedIterableView`, a view of several iterables concatenated together.
+* Add `CombinedMapView`, a view of several maps concatenated together.
 
 ## 1.13.0
 

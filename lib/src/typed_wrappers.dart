@@ -66,7 +66,7 @@ abstract class _TypeSafeIterableBase<E> implements Iterable<E> {
   E get single => _base.single as E;
 
   E singleWhere(bool test(E element)) =>
-    _base.singleWhere(_validate(test)) as E;
+      _base.singleWhere(_validate(test)) as E;
 
   Iterable<E> skip(int n) => new TypeSafeIterable<E>(_base.skip(n));
 

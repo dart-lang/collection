@@ -13,12 +13,12 @@ void main() {
     var emptyWrapper;
     var singleWrapper;
     setUp(() {
-      wrapper = DelegatingIterable.typed/*<int>*/(
-          <Object>[1, 2, 3, 4, 5].map((i) => i));
-      emptyWrapper = DelegatingIterable.typed/*<int>*/(
-          <Object>[].map((i) => i));
-      singleWrapper = DelegatingIterable.typed/*<int>*/(
-          <Object>[1].map((i) => i));
+      wrapper = DelegatingIterable
+          .typed/*<int>*/(<Object>[1, 2, 3, 4, 5].map((i) => i));
+      emptyWrapper =
+          DelegatingIterable.typed/*<int>*/(<Object>[].map((i) => i));
+      singleWrapper =
+          DelegatingIterable.typed/*<int>*/(<Object>[1].map((i) => i));
     });
 
     test("any()", () {
@@ -130,8 +130,8 @@ void main() {
 
     test("reduce()", () {
       expect(wrapper.reduce((value, i) => value + i), equals(15));
-      expect(() => emptyWrapper.reduce((value, i) => value + i),
-          throwsStateError);
+      expect(
+          () => emptyWrapper.reduce((value, i) => value + i), throwsStateError);
     });
 
     test("single", () {
@@ -142,8 +142,8 @@ void main() {
     test("singleWhere()", () {
       expect(() => wrapper.singleWhere((i) => i.isOdd), throwsStateError);
       expect(singleWrapper.singleWhere((i) => i.isOdd), equals(1));
-      expect(() => singleWrapper.singleWhere((i) => i.isEven),
-          throwsStateError);
+      expect(
+          () => singleWrapper.singleWhere((i) => i.isEven), throwsStateError);
     });
 
     test("skip()", () {
@@ -171,8 +171,8 @@ void main() {
     test("toList()", () {
       expect(wrapper.toList(), equals([1, 2, 3, 4, 5]));
       expect(wrapper.toList(growable: false), equals([1, 2, 3, 4, 5]));
-      expect(() => wrapper.toList(growable: false).add(6),
-          throwsUnsupportedError);
+      expect(
+          () => wrapper.toList(growable: false).add(6), throwsUnsupportedError);
     });
 
     test("toSet()", () {
@@ -198,8 +198,8 @@ void main() {
     setUp(() {
       wrapper = DelegatingIterable.typed/*<int>*/(
           <Object>["foo", "bar", "baz"].map((element) => element));
-      singleWrapper = DelegatingIterable.typed/*<int>*/(
-          <Object>["foo"].map((element) => element));
+      singleWrapper = DelegatingIterable
+          .typed/*<int>*/(<Object>["foo"].map((element) => element));
     });
 
     group("throws a CastError for", () {
@@ -232,7 +232,8 @@ void main() {
       });
 
       test("fold()", () {
-        expect(() => wrapper.fold(null, expectAsync2((_, __) => null, count: 0)),
+        expect(
+            () => wrapper.fold(null, expectAsync2((_, __) => null, count: 0)),
             throwsCastError);
       });
 

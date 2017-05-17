@@ -29,14 +29,14 @@ void main() {
       expect(wrapper, equals({"foo": 5, "bar": 2, "baz": 3, "bang": 4}));
 
       wrapper["qux"] = 6;
-      expect(wrapper,
-          equals({"foo": 5, "bar": 2, "baz": 3, "bang": 4, "qux": 6}));
+      expect(
+          wrapper, equals({"foo": 5, "bar": 2, "baz": 3, "bang": 4, "qux": 6}));
     });
 
     test("addAll()", () {
       wrapper.addAll({"bar": 5, "qux": 6});
-      expect(wrapper,
-          equals({"foo": 1, "bar": 5, "baz": 3, "bang": 4, "qux": 6}));
+      expect(
+          wrapper, equals({"foo": 1, "bar": 5, "baz": 3, "bang": 4, "qux": 6}));
     });
 
     test("clear()", () {
@@ -59,8 +59,14 @@ void main() {
     test("forEach()", () {
       var results = [];
       wrapper.forEach((key, value) => results.add([key, value]));
-      expect(results,
-          unorderedEquals([["foo", 1], ["bar", 2], ["baz", 3], ["bang", 4]]));
+      expect(
+          results,
+          unorderedEquals([
+            ["foo", 1],
+            ["bar", 2],
+            ["baz", 3],
+            ["bang", 4]
+          ]));
 
       emptyWrapper.forEach(expectAsync2((_, __) {}, count: 0));
     });
@@ -90,8 +96,8 @@ void main() {
           equals(1));
 
       expect(wrapper.putIfAbsent("qux", () => 6), equals(6));
-      expect(wrapper,
-          equals({"foo": 1, "bar": 2, "baz": 3, "bang": 4, "qux": 6}));
+      expect(
+          wrapper, equals({"foo": 1, "bar": 2, "baz": 3, "bang": 4, "qux": 6}));
     });
 
     test("remove()", () {
@@ -108,14 +114,16 @@ void main() {
     });
 
     test("toString()", () {
-      expect(wrapper.toString(), allOf([
-        startsWith("{"),
-        contains("foo: 1"),
-        contains("bar: 2"),
-        contains("baz: 3"),
-        contains("bang: 4"),
-        endsWith("}")
-      ]));
+      expect(
+          wrapper.toString(),
+          allOf([
+            startsWith("{"),
+            contains("foo: 1"),
+            contains("bar: 2"),
+            contains("baz: 3"),
+            contains("bang: 4"),
+            endsWith("}")
+          ]));
     });
   });
 
@@ -203,14 +211,16 @@ void main() {
       });
 
       test("toString()", () {
-        expect(wrapper.toString(), allOf([
-          startsWith("{"),
-          contains("1: 1"),
-          contains("2: 2"),
-          contains("3: 3"),
-          contains("4: 4"),
-          endsWith("}")
-        ]));
+        expect(
+            wrapper.toString(),
+            allOf([
+              startsWith("{"),
+              contains("1: 1"),
+              contains("2: 2"),
+              contains("3: 3"),
+              contains("4: 4"),
+              endsWith("}")
+            ]));
       });
     });
   }, skip: "Re-enable this when test can run DDC (test#414).");
@@ -303,12 +313,14 @@ void main() {
       });
 
       test("toString()", () {
-        expect(wrapper.toString(), allOf([
-          startsWith("{"),
-          contains("foo: bar"),
-          contains("baz: bang"),
-          endsWith("}")
-        ]));
+        expect(
+            wrapper.toString(),
+            allOf([
+              startsWith("{"),
+              contains("foo: bar"),
+              contains("baz: bang"),
+              endsWith("}")
+            ]));
       });
     });
   }, skip: "Re-enable this when test can run DDC (test#414).");

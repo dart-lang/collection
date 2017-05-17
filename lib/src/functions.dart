@@ -9,7 +9,7 @@ import 'utils.dart';
 
 // TODO(nweiz): When sdk#26488 is fixed, use overloads to ensure that if [key]
 // or [value] isn't passed, `K2`/`V2` defaults to `K1`/`V1`, respectively.
-/// Creates a new map from [map] with new keys and values. 
+/// Creates a new map from [map] with new keys and values.
 ///
 /// The return values of [key] are used as the keys and the return values of
 /// [value] are used as the values for the new map.
@@ -19,7 +19,7 @@ Map/*<K2, V2>*/ mapMap/*<K1, V1, K2, V2>*/(Map/*<K1, V1>*/ map,
   key ??= (mapKey, _) => mapKey as dynamic/*=K2*/;
   value ??= (_, mapValue) => mapValue as dynamic/*=V2*/;
 
-  var result = /*<K2, V2>*/{};
+  var result = /*<K2, V2>*/ {};
   map.forEach((mapKey, mapValue) {
     result[key(mapKey, mapValue)] = value(mapKey, mapValue);
   });
@@ -33,13 +33,12 @@ Map/*<K2, V2>*/ mapMap/*<K1, V1, K2, V2>*/(Map/*<K1, V1>*/ map,
 /// values. If [value] is omitted, the value from [map2] is used.
 Map/*<K, V>*/ mergeMaps/*<K, V>*/(Map/*<K, V>*/ map1, Map/*<K, V>*/ map2,
     {/*=V*/ value(/*=V*/ value1, /*=V*/ value2)}) {
-  var result = new Map/*<K, V>*/.from(map1);
+  var result = new Map/*<K, V>*/ .from(map1);
   if (value == null) return result..addAll(map2);
 
   map2.forEach((key, mapValue) {
-    result[key] = result.containsKey(key)
-        ? value(result[key], mapValue)
-        : mapValue;
+    result[key] =
+        result.containsKey(key) ? value(result[key], mapValue) : mapValue;
   });
   return result;
 }
@@ -49,9 +48,10 @@ Map/*<K, V>*/ mergeMaps/*<K, V>*/(Map/*<K, V>*/ map1, Map/*<K, V>*/ map2,
 /// Returns a map from keys computed by [key] to a list of all values for which
 /// [key] returns that key. The values appear in the list in the same relative
 /// order as in [values].
-Map<dynamic/*=T*/, List/*<S>*/> groupBy/*<S, T>*/(Iterable/*<S>*/ values,
+Map<dynamic/*=T*/, List/*<S>*/ > groupBy/*<S, T>*/(
+    Iterable/*<S>*/ values,
     /*=T*/ key(/*=S*/ element)) {
-  var map = /*<T, List<S>>*/{};
+  var map = /*<T, List<S>>*/ {};
   for (var element in values) {
     var list = map.putIfAbsent(key(element), () => []);
     list.add(element);
@@ -114,15 +114,15 @@ Map<dynamic/*=T*/, List/*<S>*/> groupBy/*<S, T>*/(Iterable/*<S>*/ values,
 /// that vertex has no outgoing edges. This isn't checked, but if it's not
 /// satisfied, the function may crash or provide unexpected output. For example,
 /// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
-Map<dynamic/*=T*/, Set/*<T>*/> transitiveClosure/*<T>*/(
-    Map<dynamic/*=T*/, Iterable/*<T>*/> graph) {
+Map<dynamic/*=T*/, Set/*<T>*/ > transitiveClosure/*<T>*/(
+    Map<dynamic/*=T*/, Iterable/*<T>*/ > graph) {
   // This uses [Warshall's algorithm][], modified not to add a vertex from each
   // node to itself.
   //
   // [Warshall's algorithm]: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Applications_and_generalizations.
-  var result = /*<T, Set>*/{};
+  var result = /*<T, Set>*/ {};
   graph.forEach((vertex, edges) {
-    result[vertex] = new Set/*<T>*/.from(edges);
+    result[vertex] = new Set/*<T>*/ .from(edges);
   });
 
   // Lists are faster to iterate than maps, so we create a list since we're
@@ -154,14 +154,14 @@ Map<dynamic/*=T*/, Set/*<T>*/> transitiveClosure/*<T>*/(
 /// that vertex has no outgoing edges. This isn't checked, but if it's not
 /// satisfied, the function may crash or provide unexpected output. For example,
 /// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
-List<Set/*<T>*/> stronglyConnectedComponents/*<T>*/(
-    Map<dynamic/*=T*/, Iterable/*<T>*/> graph) {
+List<Set/*<T>*/ > stronglyConnectedComponents/*<T>*/(
+    Map<dynamic/*=T*/, Iterable/*<T>*/ > graph) {
   // This uses [Tarjan's algorithm][].
   //
   // [Tarjan's algorithm]: https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm
   var index = 0;
-  var stack = /*<T>*/[];
-  var result = /*<Set<T>>*/[];
+  var stack = /*<T>*/ [];
+  var result = /*<Set<T>>*/ [];
 
   // The order of these doesn't matter, so we use un-linked implementations to
   // avoid unnecessary overhead.

@@ -276,8 +276,8 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
         }
         // Then go to the right sibling of the left-child.
         position += 1;
-      } while (position > _length);  // Happens if last element is a left child.
-    } while (position != 1);  // At root again. Happens for right-most element.
+      } while (position > _length); // Happens if last element is a left child.
+    } while (position != 1); // At root again. Happens for right-most element.
     return -1;
   }
 

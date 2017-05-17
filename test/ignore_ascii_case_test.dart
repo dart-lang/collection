@@ -34,7 +34,7 @@ main() {
         var reason = "$s1 =?= $s2";
         expect(equalsIgnoreAsciiCase(s1, s2), true, reason: reason);
         expect(hashIgnoreAsciiCase(s1), hashIgnoreAsciiCase(s2),
-               reason: reason);
+            reason: reason);
       }
     }
 
@@ -44,8 +44,9 @@ main() {
 
     testChars(char1, char2, areEqual) {
       expect(equalsIgnoreAsciiCase(char1, char2), areEqual,
-             reason: "$char1 ${areEqual ? "=" : "!"}= $char2");
+          reason: "$char1 ${areEqual ? "=" : "!"}= $char2");
     }
+
     for (int i = 0; i < upperCaseLetters.length; i++) {
       for (int j = 0; i < upperCaseLetters.length; i++) {
         testChars(upperCaseLetters[i], upperCaseLetters[j], i == j);

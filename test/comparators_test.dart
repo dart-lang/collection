@@ -57,63 +57,63 @@ void main() {
     "~"
   ];
 
-  sortedBy(compare) => strings.toList()..shuffle()..sort(compare);
+  sortedBy(compare) => strings.toList()
+    ..shuffle()
+    ..sort(compare);
 
   test("String.compareTo", () {
     expect(sortedBy(null), strings);
   });
   test("compareAsciiLowerCase", () {
-    expect(sortedBy(compareAsciiLowerCase),
-           sortedBy((a, b) {
-             int delta = a.toLowerCase().compareTo(b.toLowerCase());
-             if (delta != 0) return delta;
-             if (a == b) return 0;
-             return a.compareTo(b);
-           }));
+    expect(sortedBy(compareAsciiLowerCase), sortedBy((a, b) {
+      int delta = a.toLowerCase().compareTo(b.toLowerCase());
+      if (delta != 0) return delta;
+      if (a == b) return 0;
+      return a.compareTo(b);
+    }));
   });
   test("compareAsciiUpperCase", () {
-    expect(sortedBy(compareAsciiUpperCase),
-           sortedBy((a, b) {
-             int delta = a.toUpperCase().compareTo(b.toUpperCase());
-             if (delta != 0) return delta;
-             if (a == b) return 0;
-             return a.compareTo(b);
-           }));
+    expect(sortedBy(compareAsciiUpperCase), sortedBy((a, b) {
+      int delta = a.toUpperCase().compareTo(b.toUpperCase());
+      if (delta != 0) return delta;
+      if (a == b) return 0;
+      return a.compareTo(b);
+    }));
   });
 
   // Replace any digit sequence by ("0", value, length) as char codes.
   // This will sort alphabetically (by charcode) the way digits sort
   // numerically, and the leading 0 means it sorts like a digit
   // compared to non-digits.
-  replaceNumbers(String string) => string.replaceAllMapped(new RegExp(r"\d+"), (m) {
-    var digits = m[0];
-    return new String.fromCharCodes([0x30, int.parse(digits), digits.length]);
-  });
+  replaceNumbers(String string) =>
+      string.replaceAllMapped(new RegExp(r"\d+"), (m) {
+        var digits = m[0];
+        return new String.fromCharCodes(
+            [0x30, int.parse(digits), digits.length]);
+      });
 
   test("compareNatural", () {
     expect(sortedBy(compareNatural),
-           sortedBy((a, b) => replaceNumbers(a).compareTo(replaceNumbers(b))));
+        sortedBy((a, b) => replaceNumbers(a).compareTo(replaceNumbers(b))));
   });
 
   test("compareAsciiLowerCaseNatural", () {
-    expect(sortedBy(compareAsciiLowerCaseNatural),
-           sortedBy((a, b) {
-             int delta = replaceNumbers(a.toLowerCase()).compareTo(
-                             replaceNumbers(b.toLowerCase()));
-             if (delta != 0) return delta;
-             if (a == b) return 0;
-             return a.compareTo(b);
-           }));
+    expect(sortedBy(compareAsciiLowerCaseNatural), sortedBy((a, b) {
+      int delta = replaceNumbers(a.toLowerCase())
+          .compareTo(replaceNumbers(b.toLowerCase()));
+      if (delta != 0) return delta;
+      if (a == b) return 0;
+      return a.compareTo(b);
+    }));
   });
 
   test("compareAsciiUpperCaseNatural", () {
-    expect(sortedBy(compareAsciiUpperCaseNatural),
-           sortedBy((a, b) {
-             int delta = replaceNumbers(a.toUpperCase()).compareTo(
-                             replaceNumbers(b.toUpperCase()));
-             if (delta != 0) return delta;
-             if (a == b) return 0;
-             return a.compareTo(b);
-           }));
+    expect(sortedBy(compareAsciiUpperCaseNatural), sortedBy((a, b) {
+      int delta = replaceNumbers(a.toUpperCase())
+          .compareTo(replaceNumbers(b.toUpperCase()));
+      if (delta != 0) return delta;
+      if (a == b) return 0;
+      return a.compareTo(b);
+    }));
   });
 }

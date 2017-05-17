@@ -106,7 +106,6 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
       base is Iterable/*<E>*/ ? base : new TypeSafeIterable/*<E>*/(base);
 }
 
-
 /// A [List] that delegates all operations to a base list.
 ///
 /// This class can be used to hide non-`List` methods of a list object, or it
@@ -216,7 +215,6 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
 
   List<E> sublist(int start, [int end]) => _listBase.sublist(start, end);
 }
-
 
 /// A [Set] that delegates all operations to a base set.
 ///
@@ -328,9 +326,13 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
 
   bool remove(Object object) => _baseQueue.remove(object);
 
-  void removeWhere(bool test(E element)) { _baseQueue.removeWhere(test); }
+  void removeWhere(bool test(E element)) {
+    _baseQueue.removeWhere(test);
+  }
 
-  void retainWhere(bool test(E element)) { _baseQueue.retainWhere(test); }
+  void retainWhere(bool test(E element)) {
+    _baseQueue.retainWhere(test);
+  }
 
   E removeFirst() => _baseQueue.removeFirst();
 
@@ -450,8 +452,8 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
   /// Throws an [UnsupportedError] since there's no corresponding method for
   /// [Map]s.
-  E lookup(E element) => throw new UnsupportedError(
-      "MapKeySet doesn't support lookup().");
+  E lookup(E element) =>
+      throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///

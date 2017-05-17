@@ -14,13 +14,11 @@ void main() {
   var concat = []..addAll(list1)..addAll(list2)..addAll(list3);
 
   // In every way possible this should test the same as an UnmodifiableListView.
-  common.testUnmodifiableList(concat, new CombinedListView(
-    [list1, list2, list3]
-  ), 'combineLists');
+  common.testUnmodifiableList(
+      concat, new CombinedListView([list1, list2, list3]), 'combineLists');
 
-  common.testUnmodifiableList(concat, new CombinedListView(
-    [list1, [], list2, [], list3, []]
-  ), 'combineLists');
+  common.testUnmodifiableList(concat,
+      new CombinedListView([list1, [], list2, [], list3, []]), 'combineLists');
 
   test('should function as an empty list when no lists are passed', () {
     var empty = new CombinedListView([]);

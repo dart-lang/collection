@@ -33,14 +33,14 @@ abstract class Expector {
   var equals;
 
   noSuchMethod(Invocation m) => new _Equals(equals = getWrappedObject((m2) {
-    testInvocations(m, m2);
-  }));
+        testInvocations(m, m2);
+      }));
 
   // dartanalyzer complains if this method is named `toString()`, since, if it
   // truly overrides Object's `toString()`, it should return a String.
   asString() => new _Equals(equals = getWrappedObject((m2) {
-    testInvocations(TO_STRING_INVOCATION, m2);
-  }));
+        testInvocations(TO_STRING_INVOCATION, m2);
+      }));
 }
 
 // An object with a field called "equals", only introduced into the
@@ -58,10 +58,8 @@ class SyntheticInvocation implements Invocation {
   final List positionalArguments;
   final Map<Symbol, dynamic> namedArguments;
   final int _type;
-  const SyntheticInvocation(this.memberName,
-                            this.positionalArguments,
-                            this.namedArguments,
-                            this._type);
+  const SyntheticInvocation(this.memberName, this.positionalArguments,
+      this.namedArguments, this._type);
   bool get isMethod => _type == METHOD;
 
   bool get isGetter => _type == GETTER;
@@ -79,7 +77,7 @@ class NSM {
 }
 
 const TO_STRING_INVOCATION = const SyntheticInvocation(
-  #toString, const[], const{}, SyntheticInvocation.METHOD);
+    #toString, const [], const {}, SyntheticInvocation.METHOD);
 
 // LikeNSM, but has types Iterable, Set and List to allow it as
 // argument to DelegatingIterable/Set/List.
@@ -148,8 +146,10 @@ void main() {
     // expectation (which doesn't have the interface implemented or
     // its default values).
     expect.firstWhere(func1, orElse: null).equals.firstWhere(func1);
-    expect.firstWhere(func1, orElse: func0).equals.
-           firstWhere(func1, orElse: func0);
+    expect
+        .firstWhere(func1, orElse: func0)
+        .equals
+        .firstWhere(func1, orElse: func0);
     expect.fold(null, func2).equals.fold(null, func2);
     expect.forEach(func1).equals.forEach(func1);
     expect.isEmpty.equals.isEmpty;
@@ -159,8 +159,10 @@ void main() {
     expect.join("X").equals.join("X");
     expect.last.equals.last;
     expect.lastWhere(func1, orElse: null).equals.lastWhere(func1);
-    expect.lastWhere(func1, orElse: func0).equals.
-           lastWhere(func1, orElse: func0);
+    expect
+        .lastWhere(func1, orElse: func0)
+        .equals
+        .lastWhere(func1, orElse: func0);
     expect.length.equals.length;
     expect.map(func1).equals.map(func1);
     expect.reduce(func2).equals.reduce(func2);
@@ -336,17 +338,17 @@ void main() {
 
       test(".lastWhere", () {
         expect(set.lastWhere((element) => element is String), equals("bar"));
-        expect(set.lastWhere((element) => element.startsWith("f")),
-            equals("foo"));
-        expect(() => set.lastWhere((element) => element is int),
-            throwsStateError);
+        expect(
+            set.lastWhere((element) => element.startsWith("f")), equals("foo"));
+        expect(
+            () => set.lastWhere((element) => element is int), throwsStateError);
         expect(set.lastWhere((element) => element is int, orElse: () => "baz"),
             equals("baz"));
       });
 
       test(".map", () {
-        expect(set.map((element) => element.substring(1)),
-            equals(["oo", "ar"]));
+        expect(
+            set.map((element) => element.substring(1)), equals(["oo", "ar"]));
       });
 
       test(".reduce", () {
@@ -357,8 +359,7 @@ void main() {
       test(".singleWhere", () {
         expect(() => set.singleWhere((element) => element == "baz"),
             throwsStateError);
-        expect(set.singleWhere((element) => element == "foo"),
-            "foo");
+        expect(set.singleWhere((element) => element == "foo"), "foo");
         expect(() => set.singleWhere((element) => element is String),
             throwsStateError);
       });
@@ -374,8 +375,7 @@ void main() {
             equals(["bar"]));
         expect(set.skipWhile((element) => element.startsWith("z")),
             equals(["foo", "bar"]));
-        expect(set.skipWhile((element) => element is String),
-            equals([]));
+        expect(set.skipWhile((element) => element is String), equals([]));
       });
 
       test(".take", () {
@@ -387,8 +387,7 @@ void main() {
       test(".takeWhile", () {
         expect(set.takeWhile((element) => element.startsWith("f")),
             equals(["foo"]));
-        expect(set.takeWhile((element) => element.startsWith("z")),
-            equals([]));
+        expect(set.takeWhile((element) => element.startsWith("z")), equals([]));
         expect(set.takeWhile((element) => element is String),
             equals(["foo", "bar"]));
       });
@@ -405,11 +404,11 @@ void main() {
       });
 
       test(".where", () {
-        expect(set.where((element) => element.startsWith("f")),
-            equals(["foo"]));
+        expect(
+            set.where((element) => element.startsWith("f")), equals(["foo"]));
         expect(set.where((element) => element.startsWith("z")), equals([]));
-        expect(set.where((element) => element is String),
-            equals(["foo", "bar"]));
+        expect(
+            set.where((element) => element is String), equals(["foo", "bar"]));
       });
 
       test(".containsAll", () {
@@ -529,8 +528,8 @@ void main() {
 
     setUp(() {
       map = new Map<String, String>();
-      set = new MapValueSet<String, String>(map,
-          (string) => string.substring(0, 1));
+      set = new MapValueSet<String, String>(
+          map, (string) => string.substring(0, 1));
     });
 
     testTwoElementSet(() {
@@ -641,8 +640,8 @@ void main() {
           equals: (value1, value2) =>
               value1.toLowerCase() == value2.toLowerCase(),
           hashCode: (value) => value.toLowerCase().hashCode);
-      set = new MapValueSet<String, String>(map,
-          (string) => string.substring(0, 1));
+      set = new MapValueSet<String, String>(
+          map, (string) => string.substring(0, 1));
 
       map["f"] = "foo";
       map["B"] = "bar";

@@ -13,12 +13,10 @@ void main() {
     var emptyWrapper;
     var singleWrapper;
     setUp(() {
-      wrapper = DelegatingIterable
-          .typed<int>(<Object>[1, 2, 3, 4, 5].map((i) => i));
-      emptyWrapper =
-          DelegatingIterable.typed<int>(<Object>[].map((i) => i));
-      singleWrapper =
-          DelegatingIterable.typed<int>(<Object>[1].map((i) => i));
+      wrapper =
+          DelegatingIterable.typed<int>(<Object>[1, 2, 3, 4, 5].map((i) => i));
+      emptyWrapper = DelegatingIterable.typed<int>(<Object>[].map((i) => i));
+      singleWrapper = DelegatingIterable.typed<int>(<Object>[1].map((i) => i));
     });
 
     test("any()", () {
@@ -196,8 +194,8 @@ void main() {
     var wrapper;
     var singleWrapper;
     setUp(() {
-      wrapper = DelegatingIterable.typed<int>(
-          <Object>["foo", "bar", "baz"].map((element) => element));
+      wrapper = DelegatingIterable
+          .typed<int>(<Object>["foo", "bar", "baz"].map((element) => element));
       singleWrapper = DelegatingIterable
           .typed<int>(<Object>["foo"].map((element) => element));
     });

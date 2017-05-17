@@ -15,8 +15,7 @@ import "utils.dart";
 /// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Returns -1 if [value] is not in the list by default.
-int binarySearch<T>(List<T> sortedList, T value,
-    {int compare(T a, T b)}) {
+int binarySearch<T>(List<T> sortedList, T value, {int compare(T a, T b)}) {
   compare ??= defaultCompare<T>();
   int min = 0;
   int max = sortedList.length;
@@ -45,8 +44,7 @@ int binarySearch<T>(List<T> sortedList, T value,
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
-int lowerBound<T>(List<T> sortedList, T value,
-    {int compare(T a, T b)}) {
+int lowerBound<T>(List<T> sortedList, T value, {int compare(T a, T b)}) {
   compare ??= defaultCompare<T>();
   int min = 0;
   int max = sortedList.length;
@@ -185,13 +183,8 @@ void mergeSort<T>(List<T> list,
 /// one containing the original values.
 ///
 /// It will work in-place as well.
-void _movingInsertionSort<T>(
-    List<T> list,
-    int compare(T a, T b),
-    int start,
-    int end,
-    List<T> target,
-    int targetOffset) {
+void _movingInsertionSort<T>(List<T> list, int compare(T a, T b), int start,
+    int end, List<T> target, int targetOffset) {
   int length = end - start;
   if (length == 0) return;
   target[targetOffset] = list[start];
@@ -219,8 +212,8 @@ void _movingInsertionSort<T>(
 ///
 /// Allows target to be the same list as [list], as long as it's not
 /// overlapping the `start..end` range.
-void _mergeSort<T>(List<T> list, int compare(T a, T b),
-    int start, int end, List<T> target, int targetOffset) {
+void _mergeSort<T>(List<T> list, int compare(T a, T b), int start, int end,
+    List<T> target, int targetOffset) {
   int length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
     _movingInsertionSort(list, compare, start, end, target, targetOffset);

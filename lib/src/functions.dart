@@ -14,8 +14,7 @@ import 'utils.dart';
 /// The return values of [key] are used as the keys and the return values of
 /// [value] are used as the values for the new map.
 Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
-    {K2 key(K1 key, V1 value),
-    V2 value(K1 key, V1 value)}) {
+    {K2 key(K1 key, V1 value), V2 value(K1 key, V1 value)}) {
   key ??= (mapKey, _) => mapKey as K2;
   value ??= (_, mapValue) => mapValue as V2;
 
@@ -48,9 +47,7 @@ Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
 /// Returns a map from keys computed by [key] to a list of all values for which
 /// [key] returns that key. The values appear in the list in the same relative
 /// order as in [values].
-Map<T, List<S>> groupBy<S, T>(
-    Iterable<S> values,
-    T key(S element)) {
+Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T key(S element)) {
   var map = <T, List<S>>{};
   for (var element in values) {
     var list = map.putIfAbsent(key(element), () => []);
@@ -114,8 +111,7 @@ S maxBy<S, T>(Iterable<S> values, T orderBy(S element),
 /// that vertex has no outgoing edges. This isn't checked, but if it's not
 /// satisfied, the function may crash or provide unexpected output. For example,
 /// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
-Map<T, Set<T>> transitiveClosure<T>(
-    Map<T, Iterable<T>> graph) {
+Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
   // This uses [Warshall's algorithm][], modified not to add a vertex from each
   // node to itself.
   //
@@ -154,8 +150,7 @@ Map<T, Set<T>> transitiveClosure<T>(
 /// that vertex has no outgoing edges. This isn't checked, but if it's not
 /// satisfied, the function may crash or provide unexpected output. For example,
 /// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
-List<Set<T>> stronglyConnectedComponents<T>(
-    Map<T, Iterable<T>> graph) {
+List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
   // This uses [Tarjan's algorithm][].
   //
   // [Tarjan's algorithm]: https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm

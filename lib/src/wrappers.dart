@@ -27,17 +27,14 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   bool every(bool test(E element)) => _base.every(test);
 
-  Iterable<T> expand<T>(Iterable<T> f(E element)) =>
-      _base.expand(f);
+  Iterable<T> expand<T>(Iterable<T> f(E element)) => _base.expand(f);
 
   E get first => _base.first;
 
   E firstWhere(bool test(E element), {E orElse()}) =>
       _base.firstWhere(test, orElse: orElse);
 
-  T fold<T>(
-          T initialValue,
-          T combine(T previousValue, E element)) =>
+  T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
       _base.fold(initialValue, combine);
 
   void forEach(void f(E element)) => _base.forEach(f);

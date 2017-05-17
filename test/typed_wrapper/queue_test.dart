@@ -14,8 +14,8 @@ void main() {
     var wrapper;
     var emptyWrapper;
     setUp(() {
-      wrapper = DelegatingQueue
-          .typed<int>(new Queue<Object>.from([1, 2, 3, 4, 5]));
+      wrapper =
+          DelegatingQueue.typed<int>(new Queue<Object>.from([1, 2, 3, 4, 5]));
       emptyWrapper = DelegatingQueue.typed<int>(new Queue<Object>());
     });
 

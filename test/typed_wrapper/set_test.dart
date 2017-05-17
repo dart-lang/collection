@@ -11,8 +11,7 @@ void main() {
   group("with valid types, forwards", () {
     var wrapper;
     setUp(() {
-      wrapper =
-          DelegatingSet.typed<int>(new Set<Object>.from([1, 2, 3, 4, 5]));
+      wrapper = DelegatingSet.typed<int>(new Set<Object>.from([1, 2, 3, 4, 5]));
     });
 
     test("add()", () {

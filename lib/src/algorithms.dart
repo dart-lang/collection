@@ -15,9 +15,8 @@ import "utils.dart";
 /// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Returns -1 if [value] is not in the list by default.
-int binarySearch/*<T>*/(List/*<T>*/ sortedList, /*=T*/ value,
-    {int compare(/*=T*/ a, /*=T*/ b)}) {
-  compare ??= defaultCompare/*<T>*/();
+int binarySearch<T>(List<T> sortedList, T value, {int compare(T a, T b)}) {
+  compare ??= defaultCompare<T>();
   int min = 0;
   int max = sortedList.length;
   while (min < max) {
@@ -45,9 +44,8 @@ int binarySearch/*<T>*/(List/*<T>*/ sortedList, /*=T*/ value,
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
-int lowerBound/*<T>*/(List/*<T>*/ sortedList, /*=T*/ value,
-    {int compare(/*=T*/ a, /*=T*/ b)}) {
-  compare ??= defaultCompare/*<T>*/();
+int lowerBound<T>(List<T> sortedList, T value, {int compare(T a, T b)}) {
+  compare ??= defaultCompare<T>();
   int min = 0;
   int max = sortedList.length;
   while (min < max) {
@@ -109,11 +107,11 @@ void _reverse(List list, int start, int end) {
 ///
 /// This insertion sort is stable: Equal elements end up in the same order
 /// as they started in.
-void insertionSort/*<T>*/(List/*<T>*/ list,
-    {int compare(/*=T*/ a, /*=T*/ b), int start: 0, int end}) {
+void insertionSort<T>(List<T> list,
+    {int compare(T a, T b), int start: 0, int end}) {
   // If the same method could have both positional and named optional
   // parameters, this should be (list, [start, end], {compare}).
-  compare ??= defaultCompare/*<T>*/();
+  compare ??= defaultCompare<T>();
   end ??= list.length;
 
   for (int pos = start + 1; pos < end; pos++) {
@@ -152,10 +150,10 @@ const int _MERGE_SORT_LIMIT = 32;
 ///
 /// This merge sort is stable: Equal elements end up in the same order
 /// as they started in.
-void mergeSort/*<T>*/(List/*<T>*/ list,
-    {int start: 0, int end, int compare(/*=T*/ a, /*=T*/ b)}) {
+void mergeSort<T>(List<T> list,
+    {int start: 0, int end, int compare(T a, T b)}) {
   end ??= list.length;
-  compare ??= defaultCompare/*<T>*/();
+  compare ??= defaultCompare<T>();
 
   int length = end - start;
   if (length < 2) return;
@@ -173,7 +171,7 @@ void mergeSort/*<T>*/(List/*<T>*/ list,
   int firstLength = middle - start;
   int secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = new List/*<T>*/(secondLength);
+  var scratchSpace = new List<T>(secondLength);
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   int firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);
@@ -185,13 +183,8 @@ void mergeSort/*<T>*/(List/*<T>*/ list,
 /// one containing the original values.
 ///
 /// It will work in-place as well.
-void _movingInsertionSort/*<T>*/(
-    List/*<T>*/ list,
-    int compare(/*=T*/ a, /*=T*/ b),
-    int start,
-    int end,
-    List/*<T>*/ target,
-    int targetOffset) {
+void _movingInsertionSort<T>(List<T> list, int compare(T a, T b), int start,
+    int end, List<T> target, int targetOffset) {
   int length = end - start;
   if (length == 0) return;
   target[targetOffset] = list[start];
@@ -219,8 +212,8 @@ void _movingInsertionSort/*<T>*/(
 ///
 /// Allows target to be the same list as [list], as long as it's not
 /// overlapping the `start..end` range.
-void _mergeSort/*<T>*/(List/*<T>*/ list, int compare(/*=T*/ a, /*=T*/ b),
-    int start, int end, List/*<T>*/ target, int targetOffset) {
+void _mergeSort<T>(List<T> list, int compare(T a, T b), int start, int end,
+    List<T> target, int targetOffset) {
   int length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
     _movingInsertionSort(list, compare, start, end, target, targetOffset);
@@ -248,15 +241,15 @@ void _mergeSort/*<T>*/(List/*<T>*/ list, int compare(/*=T*/ a, /*=T*/ b),
 /// For equal object, elements from [firstList] are always preferred.
 /// This allows the merge to be stable if the first list contains elements
 /// that started out earlier than the ones in [secondList]
-void _merge/*<T>*/(
-    int compare(/*=T*/ a, /*=T*/ b),
-    List/*<T>*/ firstList,
+void _merge<T>(
+    int compare(T a, T b),
+    List<T> firstList,
     int firstStart,
     int firstEnd,
-    List/*<T>*/ secondList,
+    List<T> secondList,
     int secondStart,
     int secondEnd,
-    List/*<T>*/ target,
+    List<T> target,
     int targetOffset) {
   // No empty lists reaches here.
   assert(firstStart < firstEnd);

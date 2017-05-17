@@ -13,12 +13,10 @@ void main() {
     var emptyWrapper;
     var singleWrapper;
     setUp(() {
-      wrapper = DelegatingIterable
-          .typed/*<int>*/(<Object>[1, 2, 3, 4, 5].map((i) => i));
-      emptyWrapper =
-          DelegatingIterable.typed/*<int>*/(<Object>[].map((i) => i));
-      singleWrapper =
-          DelegatingIterable.typed/*<int>*/(<Object>[1].map((i) => i));
+      wrapper =
+          DelegatingIterable.typed<int>(<Object>[1, 2, 3, 4, 5].map((i) => i));
+      emptyWrapper = DelegatingIterable.typed<int>(<Object>[].map((i) => i));
+      singleWrapper = DelegatingIterable.typed<int>(<Object>[1].map((i) => i));
     });
 
     test("any()", () {
@@ -177,7 +175,7 @@ void main() {
 
     test("toSet()", () {
       expect(wrapper.toSet(), unorderedEquals([1, 2, 3, 4, 5]));
-      expect(DelegatingIterable.typed/*<int>*/(<Object>[1, 1, 2, 2]).toSet(),
+      expect(DelegatingIterable.typed<int>(<Object>[1, 1, 2, 2]).toSet(),
           unorderedEquals([1, 2]));
     });
 
@@ -196,10 +194,10 @@ void main() {
     var wrapper;
     var singleWrapper;
     setUp(() {
-      wrapper = DelegatingIterable.typed/*<int>*/(
-          <Object>["foo", "bar", "baz"].map((element) => element));
+      wrapper = DelegatingIterable
+          .typed<int>(<Object>["foo", "bar", "baz"].map((element) => element));
       singleWrapper = DelegatingIterable
-          .typed/*<int>*/(<Object>["foo"].map((element) => element));
+          .typed<int>(<Object>["foo"].map((element) => element));
     });
 
     group("throws a CastError for", () {

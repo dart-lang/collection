@@ -14,8 +14,8 @@ void main() {
     var wrapper;
     var emptyWrapper;
     setUp(() {
-      wrapper = DelegatingList.typed/*<int>*/(<Object>[1, 2, 3, 4, 5]);
-      emptyWrapper = DelegatingList.typed/*<int>*/(<Object>[]);
+      wrapper = DelegatingList.typed<int>(<Object>[1, 2, 3, 4, 5]);
+      emptyWrapper = DelegatingList.typed<int>(<Object>[]);
     });
 
     test("[]", () {
@@ -226,7 +226,7 @@ void main() {
     var wrapper;
     setUp(() {
       inner = <Object>["foo", "bar", "baz"];
-      wrapper = DelegatingList.typed/*<int>*/(inner);
+      wrapper = DelegatingList.typed<int>(inner);
     });
 
     group("throws a CastError for", () {

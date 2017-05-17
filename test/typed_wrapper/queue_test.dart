@@ -15,8 +15,8 @@ void main() {
     var emptyWrapper;
     setUp(() {
       wrapper = DelegatingQueue
-          .typed/*<int>*/(new Queue<Object>.from([1, 2, 3, 4, 5]));
-      emptyWrapper = DelegatingQueue.typed/*<int>*/(new Queue<Object>());
+          .typed<int>(new Queue<Object>.from([1, 2, 3, 4, 5]));
+      emptyWrapper = DelegatingQueue.typed<int>(new Queue<Object>());
     });
 
     test("add()", () {
@@ -85,7 +85,7 @@ void main() {
     var wrapper;
     setUp(() {
       inner = new Queue<Object>.from(["foo", "bar", "baz"]);
-      wrapper = DelegatingQueue.typed/*<int>*/(inner);
+      wrapper = DelegatingQueue.typed<int>(inner);
     });
 
     group("throws a CastError for", () {

@@ -12,9 +12,9 @@ void main() {
     var wrapper;
     var emptyWrapper;
     setUp(() {
-      wrapper = DelegatingMap.typed/*<String, int>*/(
+      wrapper = DelegatingMap.typed<String, int>(
           <Object, Object>{"foo": 1, "bar": 2, "baz": 3, "bang": 4});
-      emptyWrapper = DelegatingMap.typed/*<String, int>*/(<Object, Object>{});
+      emptyWrapper = DelegatingMap.typed<String, int>(<Object, Object>{});
     });
 
     test("[]", () {
@@ -132,7 +132,7 @@ void main() {
     var wrapper;
     setUp(() {
       inner = <Object, Object>{1: 1, 2: 2, 3: 3, 4: 4};
-      wrapper = DelegatingMap.typed/*<String, int>*/(inner);
+      wrapper = DelegatingMap.typed<String, int>(inner);
     });
 
     group("throws a CastError for", () {
@@ -230,7 +230,7 @@ void main() {
     var wrapper;
     setUp(() {
       inner = <Object, Object>{"foo": "bar", "baz": "bang"};
-      wrapper = DelegatingMap.typed/*<String, int>*/(inner);
+      wrapper = DelegatingMap.typed<String, int>(inner);
     });
 
     group("throws a CastError for", () {

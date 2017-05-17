@@ -14,13 +14,13 @@ void main() {
   var concat = {}..addAll(map1)..addAll(map2)..addAll(map3);
 
   // In every way possible this should test the same as an UnmodifiableMapView.
-  common.testReadMap(concat, new CombinedMapView(
-      [map1, map2, map3]
-  ), 'CombinedMapView');
+  common.testReadMap(
+      concat, new CombinedMapView([map1, map2, map3]), 'CombinedMapView');
 
-  common.testReadMap(concat, new CombinedMapView(
-      [map1, {}, map2, {}, map3, {}]
-  ), 'CombinedMapView (some empty)');
+  common.testReadMap(
+      concat,
+      new CombinedMapView([map1, {}, map2, {}, map3, {}]),
+      'CombinedMapView (some empty)');
 
   test('should function as an empty map when no maps are passed', () {
     var empty = new CombinedMapView([]);

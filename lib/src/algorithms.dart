@@ -79,7 +79,6 @@ void shuffle(List list, [int start = 0, int end = null]) {
   }
 }
 
-
 /// Reverses a list, or a part of a list, in-place.
 void reverse(List list, [int start = 0, int end = null]) {
   if (end == null) end = list.length;
@@ -110,8 +109,8 @@ void _reverse(List list, int start, int end) {
 ///
 /// This insertion sort is stable: Equal elements end up in the same order
 /// as they started in.
-void insertionSort/*<T>*/(List/*<T>*/ list, {int compare(/*=T*/ a, /*=T*/ b),
-    int start: 0, int end}) {
+void insertionSort/*<T>*/(List/*<T>*/ list,
+    {int compare(/*=T*/ a, /*=T*/ b), int start: 0, int end}) {
   // If the same method could have both positional and named optional
   // parameters, this should be (list, [start, end], {compare}).
   compare ??= defaultCompare/*<T>*/();
@@ -153,8 +152,8 @@ const int _MERGE_SORT_LIMIT = 32;
 ///
 /// This merge sort is stable: Equal elements end up in the same order
 /// as they started in.
-void mergeSort/*<T>*/(List/*<T>*/ list, {int start: 0, int end,
-    int compare(/*=T*/ a, /*=T*/ b)}) {
+void mergeSort/*<T>*/(List/*<T>*/ list,
+    {int start: 0, int end, int compare(/*=T*/ a, /*=T*/ b)}) {
   end ??= list.length;
   compare ??= defaultCompare/*<T>*/();
 
@@ -178,18 +177,20 @@ void mergeSort/*<T>*/(List/*<T>*/ list, {int start: 0, int end,
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   int firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);
-  _merge(compare,
-         list, firstTarget, end,
-         scratchSpace, 0, secondLength,
-         list, start);
+  _merge(compare, list, firstTarget, end, scratchSpace, 0, secondLength, list,
+      start);
 }
 
 /// Performs an insertion sort into a potentially different list than the
 /// one containing the original values.
 ///
 /// It will work in-place as well.
-void _movingInsertionSort/*<T>*/(List/*<T>*/ list,
-    int compare(/*=T*/ a, /*=T*/ b), int start, int end, List/*<T>*/ target,
+void _movingInsertionSort/*<T>*/(
+    List/*<T>*/ list,
+    int compare(/*=T*/ a, /*=T*/ b),
+    int start,
+    int end,
+    List/*<T>*/ target,
     int targetOffset) {
   int length = end - start;
   if (length == 0) return;
@@ -206,8 +207,7 @@ void _movingInsertionSort/*<T>*/(List/*<T>*/ list,
         min = mid + 1;
       }
     }
-    target.setRange(min + 1, targetOffset + i + 1,
-                    target, min);
+    target.setRange(min + 1, targetOffset + i + 1, target, min);
     target[min] = element;
   }
 }
@@ -232,16 +232,12 @@ void _mergeSort/*<T>*/(List/*<T>*/ list, int compare(/*=T*/ a, /*=T*/ b),
   // Here secondLength >= firstLength (differs by at most one).
   int targetMiddle = targetOffset + firstLength;
   // Sort the second half into the end of the target area.
-  _mergeSort(list, compare, middle, end,
-             target, targetMiddle);
+  _mergeSort(list, compare, middle, end, target, targetMiddle);
   // Sort the first half into the end of the source area.
-  _mergeSort(list, compare, start, middle,
-             list, middle);
+  _mergeSort(list, compare, start, middle, list, middle);
   // Merge the two parts into the target area.
-  _merge(compare,
-         list, middle, middle + firstLength,
-         target, targetMiddle, targetMiddle + secondLength,
-         target, targetOffset);
+  _merge(compare, list, middle, middle + firstLength, target, targetMiddle,
+      targetMiddle + secondLength, target, targetOffset);
 }
 
 /// Merges two lists into a target list.
@@ -252,10 +248,16 @@ void _mergeSort/*<T>*/(List/*<T>*/ list, int compare(/*=T*/ a, /*=T*/ b),
 /// For equal object, elements from [firstList] are always preferred.
 /// This allows the merge to be stable if the first list contains elements
 /// that started out earlier than the ones in [secondList]
-void _merge/*<T>*/(int compare(/*=T*/ a, /*=T*/ b),
-    List/*<T>*/ firstList, int firstStart, int firstEnd,
-    List/*<T>*/ secondList, int secondStart, int secondEnd,
-    List/*<T>*/ target, int targetOffset) {
+void _merge/*<T>*/(
+    int compare(/*=T*/ a, /*=T*/ b),
+    List/*<T>*/ firstList,
+    int firstStart,
+    int firstEnd,
+    List/*<T>*/ secondList,
+    int secondStart,
+    int secondEnd,
+    List/*<T>*/ target,
+    int targetOffset) {
   // No empty lists reaches here.
   assert(firstStart < firstEnd);
   assert(secondStart < secondEnd);
@@ -266,7 +268,7 @@ void _merge/*<T>*/(int compare(/*=T*/ a, /*=T*/ b),
   while (true) {
     if (compare(firstElement, secondElement) <= 0) {
       target[targetOffset++] = firstElement;
-      if (cursor1 == firstEnd) break;  // Flushing second list after loop.
+      if (cursor1 == firstEnd) break; // Flushing second list after loop.
       firstElement = firstList[cursor1++];
     } else {
       target[targetOffset++] = secondElement;
@@ -283,6 +285,6 @@ void _merge/*<T>*/(int compare(/*=T*/ a, /*=T*/ b),
   }
   // First list empties first. Reached by break above.
   target[targetOffset++] = secondElement;
-  target.setRange(targetOffset, targetOffset + (secondEnd - cursor2),
-      secondList, cursor2);
+  target.setRange(
+      targetOffset, targetOffset + (secondEnd - cursor2), secondList, cursor2);
 }

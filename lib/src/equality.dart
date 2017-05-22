@@ -164,7 +164,7 @@ class ListEquality<E> implements Equality<List<E>> {
   }
 
   int hash(List<E> list) {
-    if (elements == null) return null.hashCode;
+    if (list == null) return null.hashCode;
     // Jenkins's one-at-a-time hash function.
     // This code is almost identical to the one in IterableEquality, except
     // that it uses indexing instead of iterating to get the elements.

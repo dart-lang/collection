@@ -202,6 +202,32 @@ main() {
       expect(firstObjectEquality.isValidKey([{}]), isFalse);
     });
   });
+
+  test("Equality accepts null", () {
+    var ie = new IterableEquality();
+    var le = new ListEquality();
+    var se = new SetEquality();
+    var me = new MapEquality();
+    expect(ie.equals(null, null), true);
+    expect(ie.equals([], null), false);
+    expect(ie.equals(null, []), false);
+    expect(ie.hash(null), null.hashCode);
+
+    expect(le.equals(null, null), true);
+    expect(le.equals([], null), false);
+    expect(le.equals(null, []), false);
+    expect(le.hash(null), null.hashCode);
+
+    expect(se.equals(null, null), true);
+    expect(se.equals(new Set(), null), false);
+    expect(se.equals(null, new Set()), false);
+    expect(se.hash(null), null.hashCode);
+
+    expect(me.equals(null, null), true);
+    expect(me.equals({}, null), false);
+    expect(me.equals(null, {}), false);
+    expect(me.hash(null), null.hashCode);
+  });
 }
 
 /// Wrapper objects for an `id` value.

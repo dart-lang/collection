@@ -1,3 +1,7 @@
+## 1.14.1
+
+* Make `Equality` implementations accept `null` as argument to `hash`.
+
 ## 1.14.0
 
 * Add `CombinedListView`, a view of several lists concatenated together.

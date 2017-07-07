@@ -60,6 +60,9 @@ class SyntheticInvocation implements Invocation {
   final int _type;
   const SyntheticInvocation(this.memberName, this.positionalArguments,
       this.namedArguments, this._type);
+
+  List<Type> get typeArguments => const <Type>[];
+
   bool get isMethod => _type == METHOD;
 
   bool get isGetter => _type == GETTER;

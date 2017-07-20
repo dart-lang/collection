@@ -449,7 +449,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
   /// Throws an [UnsupportedError] since there's no corresponding method for
   /// [Map]s.
-  E lookup(E element) =>
+  E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
   /// Returns a new set which contains all the elements of [this] and [other].

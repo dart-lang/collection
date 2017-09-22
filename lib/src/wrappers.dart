@@ -159,14 +159,14 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.insert(index, element);
   }
 
-  void insertAll(int index, Iterable<E> iterable) {
+  insertAll(int index, Iterable<E> iterable) {
     _listBase.insertAll(index, iterable);
   }
 
   int lastIndexOf(E element, [int start]) =>
       _listBase.lastIndexOf(element, start);
 
-  void set length(int newLength) {
+  set length(int newLength) {
     _listBase.length = newLength;
   }
 

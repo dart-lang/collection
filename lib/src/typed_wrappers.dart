@@ -150,7 +150,7 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
   int lastIndexOf(E element, [int start]) =>
       _listBase.lastIndexOf(element, start);
 
-  void set length(int newLength) {
+  set length(int newLength) {
     _listBase.length = newLength;
   }
 

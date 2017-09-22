@@ -87,7 +87,7 @@ void main() {
   });
 
   group("with invalid types", () {
-    var inner;
+    Set inner;
     var wrapper;
     setUp(() {
       inner = new Set<Object>.from(["foo", "bar", "baz"]);

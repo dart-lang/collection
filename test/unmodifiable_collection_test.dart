@@ -11,7 +11,7 @@ import "package:collection/collection.dart";
 // an throw on the ones that aren't without affecting the original.
 
 main() {
-  List list = [];
+  var list = <int>[];
   testUnmodifiableList(list, new UnmodifiableListView(list), "empty");
   list = [42];
   testUnmodifiableList(list, new UnmodifiableListView(list), "single-42");
@@ -33,7 +33,7 @@ main() {
   list = [1, 7, 10];
   testNonGrowableList(list, new NonGrowableListView(list), "three!42");
 
-  Set aSet = new Set();
+  var aSet = new Set<int>();
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "empty");
   aSet = new Set();
   testUnmodifiableSet(aSet, const UnmodifiableSetView.empty(), "const empty");
@@ -47,7 +47,7 @@ main() {
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three!42");
 }
 
-void testUnmodifiableList(List original, List wrapped, String name) {
+void testUnmodifiableList(List<int> original, List<int> wrapped, String name) {
   name = "unmodifiable-list-$name";
   testIterable(original, wrapped, name);
   testReadList(original, wrapped, name);
@@ -55,7 +55,7 @@ void testUnmodifiableList(List original, List wrapped, String name) {
   testNoChangeLengthList(original, wrapped, name);
 }
 
-void testNonGrowableList(List original, List wrapped, String name) {
+void testNonGrowableList(List<int> original, List<int> wrapped, String name) {
   name = "nongrowable-list-$name";
   testIterable(original, wrapped, name);
   testReadList(original, wrapped, name);
@@ -63,14 +63,14 @@ void testNonGrowableList(List original, List wrapped, String name) {
   testNoChangeLengthList(original, wrapped, name);
 }
 
-void testUnmodifiableSet(Set original, Set wrapped, String name) {
+void testUnmodifiableSet(Set<int> original, Set<int> wrapped, String name) {
   name = "unmodifiable-set-$name";
   testIterable(original, wrapped, name);
   testReadSet(original, wrapped, name);
   testNoChangeSet(original, wrapped, name);
 }
 
-void testIterable(Iterable original, Iterable wrapped, String name) {
+void testIterable(Iterable<int> original, Iterable<int> wrapped, String name) {
   test("$name - any", () {
     expect(wrapped.any((x) => true), equals(original.any((x) => true)));
     expect(wrapped.any((x) => false), equals(original.any((x) => false)));
@@ -82,7 +82,7 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - elementAt", () {
     if (original.isEmpty) {
-      expect(() => wrapped.elementAt(0), throws);
+      expect(() => wrapped.elementAt(0), throwsRangeError);
     } else {
       expect(wrapped.elementAt(0), equals(original.elementAt(0)));
     }
@@ -100,7 +100,7 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - first", () {
     if (original.isEmpty) {
-      expect(() => wrapped.first, throws);
+      expect(() => wrapped.first, throwsStateError);
     } else {
       expect(wrapped.first, equals(original.first));
     }
@@ -108,12 +108,12 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - firstWhere", () {
     if (original.isEmpty) {
-      expect(() => wrapped.firstWhere((_) => true), throws);
+      expect(() => wrapped.firstWhere((_) => true), throwsStateError);
     } else {
       expect(wrapped.firstWhere((_) => true),
           equals(original.firstWhere((_) => true)));
     }
-    expect(() => wrapped.firstWhere((_) => false), throws);
+    expect(() => wrapped.firstWhere((_) => false), throwsStateError);
   });
 
   test("$name - fold", () {
@@ -158,7 +158,7 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - last", () {
     if (original.isEmpty) {
-      expect(() => wrapped.last, throws);
+      expect(() => wrapped.last, throwsStateError);
     } else {
       expect(wrapped.last, equals(original.last));
     }
@@ -166,12 +166,12 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - lastWhere", () {
     if (original.isEmpty) {
-      expect(() => wrapped.lastWhere((_) => true), throws);
+      expect(() => wrapped.lastWhere((_) => true), throwsStateError);
     } else {
       expect(wrapped.lastWhere((_) => true),
           equals(original.lastWhere((_) => true)));
     }
-    expect(() => wrapped.lastWhere((_) => false), throws);
+    expect(() => wrapped.lastWhere((_) => false), throwsStateError);
   });
 
   test("$name - length", () {
@@ -184,7 +184,7 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - reduce", () {
     if (original.isEmpty) {
-      expect(() => wrapped.reduce((x, y) => x + y), throws);
+      expect(() => wrapped.reduce((x, y) => x + y), throwsStateError);
     } else {
       expect(wrapped.reduce((x, y) => x + y),
           equals(original.reduce((x, y) => x + y)));
@@ -193,7 +193,7 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - single", () {
     if (original.length != 1) {
-      expect(() => wrapped.single, throws);
+      expect(() => wrapped.single, throwsStateError);
     } else {
       expect(wrapped.single, equals(original.single));
     }
@@ -201,12 +201,12 @@ void testIterable(Iterable original, Iterable wrapped, String name) {
 
   test("$name - singleWhere", () {
     if (original.length != 1) {
-      expect(() => wrapped.singleWhere((_) => true), throws);
+      expect(() => wrapped.singleWhere((_) => true), throwsStateError);
     } else {
       expect(wrapped.singleWhere((_) => true),
           equals(original.singleWhere((_) => true)));
     }
-    expect(() => wrapped.singleWhere((_) => false), throws);
+    expect(() => wrapped.singleWhere((_) => false), throwsStateError);
   });
 
   test("$name - skip", () {
@@ -344,8 +344,8 @@ void testNoWriteList(List original, List wrapped, String name) {
   });
 }
 
-void testWriteList(List original, List wrapped, String name) {
-  List copy = new List.from(original);
+void testWriteList(List<int> original, List wrapped, String name) {
+  var copy = new List<int>.from(original);
 
   test("$name - []=", () {
     if (original.isNotEmpty) {
@@ -356,7 +356,7 @@ void testWriteList(List original, List wrapped, String name) {
     } else {
       expect(() {
         wrapped[0] = 42;
-      }, throws);
+      }, throwsRangeError);
     }
   });
 
@@ -394,7 +394,7 @@ void testWriteList(List original, List wrapped, String name) {
 void testNoChangeLengthList(List original, List wrapped, String name) {
   List copy = new List.from(original);
 
-  testThrows(name, thunk) {
+  void testThrows(String name, thunk) {
     test(name, () {
       expect(thunk, throwsUnsupportedError);
       // No modifications happened.
@@ -539,7 +539,7 @@ void testNoChangeSet(Set original, Set wrapped, String name) {
   });
 }
 
-void testReadMap(Map original, Map wrapped, String name) {
+void testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
   test("$name length", () {
     expect(wrapped.length, equals(original.length));
   });

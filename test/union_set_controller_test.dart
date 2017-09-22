@@ -8,7 +8,7 @@ import "package:collection/collection.dart";
 
 void main() {
   var controller;
-  var innerSet;
+  Set<int> innerSet;
   setUp(() {
     innerSet = new Set.from([1, 2, 3]);
     controller = new UnionSetController<int>()..add(innerSet);

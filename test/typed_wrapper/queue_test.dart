@@ -81,7 +81,7 @@ void main() {
   });
 
   group("with invalid types", () {
-    var inner;
+    Queue inner;
     var wrapper;
     setUp(() {
       inner = new Queue<Object>.from(["foo", "bar", "baz"]);

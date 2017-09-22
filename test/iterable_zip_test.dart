@@ -10,6 +10,7 @@ import "package:collection/collection.dart";
 
 /// Iterable like [base] except that it throws when value equals [errorValue].
 Iterable iterError(Iterable base, int errorValue) {
+  // ignore: only_throw_errors
   return base.map((x) => x == errorValue ? throw "BAD" : x);
 }
 

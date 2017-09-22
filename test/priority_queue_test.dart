@@ -30,7 +30,7 @@ void testInt(PriorityQueue<int> create()) {
   }
 }
 
-void testCustom(PriorityQueue<C> create(comparator)) {
+void testCustom(PriorityQueue<C> create(int comparator(C a, C b))) {
   for (int count in [1, 5, 127, 128]) {
     testQueue("Custom:$count/null", () => create(null),
         new List<C>.generate(count, (x) => new C(x)), new C(count));
@@ -73,7 +73,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
     expect(q.contains(notElement), isFalse);
 
     List all = [];
-    while (!q.isEmpty) {
+    while (q.isNotEmpty) {
       var expected = q.first;
       var actual = q.removeFirst();
       expect(actual, same(expected));

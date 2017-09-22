@@ -3,10 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Tests algorithm utilities.
+import 'dart:math';
 
 import "package:collection/collection.dart";
 import "package:test/test.dart";
-import 'dart:math';
 
 void main() {
   void testShuffle(List list) {
@@ -212,7 +212,7 @@ void main() {
     // larger case where the internal moving insertion sort is used
     // larger cases with multiple splittings, numbers just around a power of 2.
     for (int size in [8, 50, 511, 512, 513]) {
-      List list = new List(size);
+      var list = new List<OC>(size);
       // Class OC compares using id.
       // With size elements with id's in the range 0..size/4, a number of
       // collisions are guaranteed. These should be sorted so that the "order"
@@ -234,7 +234,8 @@ void main() {
       List copy = list.toList();
       int min = size >> 2;
       int max = size - min;
-      mergeSort(list, start: min, end: max, compare: (a, b) => b.compareTo(a));
+      mergeSort<OC>(list,
+          start: min, end: max, compare: (a, b) => b.compareTo(a));
       prev = list[min];
       for (int i = min + 1; i < max; i++) {
         OC next = list[i];

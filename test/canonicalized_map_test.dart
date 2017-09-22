@@ -10,7 +10,7 @@ void main() {
     var map;
     setUp(() {
       map = new CanonicalizedMap<int, String, String>(int.parse,
-          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s));
+          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s as String));
     });
 
     test("canonicalizes keys on set and get", () {
@@ -61,8 +61,8 @@ void main() {
 
     test("canonicalizes keys for putIfAbsent", () {
       map["1"] = "value";
-      expect(
-          map.putIfAbsent("01", () => throw "shouldn't run"), equals("value"));
+      expect(map.putIfAbsent("01", () => throw new Exception("shouldn't run")),
+          equals("value"));
       expect(map.putIfAbsent("2", () => "new value"), equals("new value"));
     });
 

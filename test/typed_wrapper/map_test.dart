@@ -128,7 +128,7 @@ void main() {
   });
 
   group("with invalid key types", () {
-    var inner;
+    Map inner;
     var wrapper;
     setUp(() {
       inner = <Object, Object>{1: 1, 2: 2, 3: 3, 4: 4};
@@ -226,7 +226,7 @@ void main() {
   }, skip: "Re-enable this when test can run DDC (test#414).");
 
   group("with invalid value types", () {
-    var inner;
+    Map inner;
     var wrapper;
     setUp(() {
       inner = <Object, Object>{"foo": "bar", "baz": "bang"};

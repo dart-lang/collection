@@ -109,7 +109,7 @@ void main() {
 
     test("uses a custom comparator if provided", () {
       expect(
-          minBy([
+          minBy<Map<String, int>, Map<String, int>>([
             {"foo": 3},
             {"foo": 5},
             {"foo": 4},
@@ -145,7 +145,7 @@ void main() {
 
     test("uses a custom comparator if provided", () {
       expect(
-          maxBy([
+          maxBy<Map<String, int>, Map<String, int>>([
             {"foo": 3},
             {"foo": 5},
             {"foo": 4},

@@ -57,7 +57,7 @@ void main() {
     "~"
   ];
 
-  sortedBy(compare) => strings.toList()
+  void sortedBy(int compare(String a, String b)) => strings.toList()
     ..shuffle()
     ..sort(compare);
 

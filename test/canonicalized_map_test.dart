@@ -10,7 +10,7 @@ void main() {
     var map;
     setUp(() {
       map = new CanonicalizedMap<int, String, String>(int.parse,
-          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s));
+          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s as String));
     });
 
     test("canonicalizes keys on set and get", () {

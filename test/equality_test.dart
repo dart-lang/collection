@@ -9,7 +9,7 @@ import "package:collection/collection.dart";
 import "package:test/test.dart";
 
 main() {
-  o(id) => new Element(id);
+  o(Comparable id) => new Element(id);
 
   // Lists that are point-wise equal, but not identical.
   var list1 = [o(1), o(2), o(3), o(4), o(5)];

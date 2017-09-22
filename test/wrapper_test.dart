@@ -86,7 +86,7 @@ const TO_STRING_INVOCATION = const SyntheticInvocation(
 // argument to DelegatingIterable/Set/List.
 class IterableNSM extends NSM implements Iterable, Set, List, Queue {
   IterableNSM(action(Invocation i)) : super(action);
-  toString() => super.noSuchMethod(TO_STRING_INVOCATION);
+  toString() => super.noSuchMethod(TO_STRING_INVOCATION) as String;
 }
 
 // Expector that wraps in DelegatingIterable.
@@ -120,7 +120,7 @@ class QueueExpector extends Expector {
 // Like NSM but implements Map to allow as argument for DelegatingMap.
 class MapNSM extends NSM implements Map {
   MapNSM(action(Invocation i)) : super(action);
-  toString() => super.noSuchMethod(TO_STRING_INVOCATION);
+  toString() => super.noSuchMethod(TO_STRING_INVOCATION) as String;
 }
 
 // Expector that wraps in DelegatingMap.
@@ -458,8 +458,8 @@ void main() {
   });
 
   group("MapKeySet", () {
-    var map;
-    var set;
+    Map<String, dynamic> map;
+    Set<String> set;
 
     setUp(() {
       map = new Map<String, int>();
@@ -526,8 +526,8 @@ void main() {
   });
 
   group("MapValueSet", () {
-    var map;
-    var set;
+    Map<String, String> map;
+    Set<String> set;
 
     setUp(() {
       map = new Map<String, String>();

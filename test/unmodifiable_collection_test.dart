@@ -11,7 +11,7 @@ import "package:collection/collection.dart";
 // an throw on the ones that aren't without affecting the original.
 
 main() {
-  List list = [];
+  var list = <int>[];
   testUnmodifiableList(list, new UnmodifiableListView(list), "empty");
   list = [42];
   testUnmodifiableList(list, new UnmodifiableListView(list), "single-42");
@@ -33,7 +33,7 @@ main() {
   list = [1, 7, 10];
   testNonGrowableList(list, new NonGrowableListView(list), "three!42");
 
-  Set aSet = new Set();
+  var aSet = new Set<int>();
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "empty");
   aSet = new Set();
   testUnmodifiableSet(aSet, const UnmodifiableSetView.empty(), "const empty");
@@ -47,7 +47,7 @@ main() {
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three!42");
 }
 
-void testUnmodifiableList(List original, List wrapped, String name) {
+void testUnmodifiableList(List<int> original, List<int> wrapped, String name) {
   name = "unmodifiable-list-$name";
   testIterable(original, wrapped, name);
   testReadList(original, wrapped, name);
@@ -55,7 +55,7 @@ void testUnmodifiableList(List original, List wrapped, String name) {
   testNoChangeLengthList(original, wrapped, name);
 }
 
-void testNonGrowableList(List original, List wrapped, String name) {
+void testNonGrowableList(List<int> original, List<int> wrapped, String name) {
   name = "nongrowable-list-$name";
   testIterable(original, wrapped, name);
   testReadList(original, wrapped, name);
@@ -63,14 +63,14 @@ void testNonGrowableList(List original, List wrapped, String name) {
   testNoChangeLengthList(original, wrapped, name);
 }
 
-void testUnmodifiableSet(Set original, Set wrapped, String name) {
+void testUnmodifiableSet(Set<int> original, Set<int> wrapped, String name) {
   name = "unmodifiable-set-$name";
   testIterable(original, wrapped, name);
   testReadSet(original, wrapped, name);
   testNoChangeSet(original, wrapped, name);
 }
 
-void testIterable(Iterable original, Iterable wrapped, String name) {
+void testIterable(Iterable<int> original, Iterable<int> wrapped, String name) {
   test("$name - any", () {
     expect(wrapped.any((x) => true), equals(original.any((x) => true)));
     expect(wrapped.any((x) => false), equals(original.any((x) => false)));
@@ -344,8 +344,8 @@ void testNoWriteList(List original, List wrapped, String name) {
   });
 }
 
-void testWriteList(List original, List wrapped, String name) {
-  List copy = new List.from(original);
+void testWriteList(List<int> original, List wrapped, String name) {
+  var copy = new List<int>.from(original);
 
   test("$name - []=", () {
     if (original.isNotEmpty) {
@@ -394,7 +394,7 @@ void testWriteList(List original, List wrapped, String name) {
 void testNoChangeLengthList(List original, List wrapped, String name) {
   List copy = new List.from(original);
 
-  testThrows(name, thunk) {
+  void testThrows(String name, thunk) {
     test(name, () {
       expect(thunk, throwsUnsupportedError);
       // No modifications happened.
@@ -539,7 +539,7 @@ void testNoChangeSet(Set original, Set wrapped, String name) {
   });
 }
 
-void testReadMap(Map original, Map wrapped, String name) {
+void testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
   test("$name length", () {
     expect(wrapped.length, equals(original.length));
   });

@@ -222,7 +222,7 @@ void main() {
   });
 
   group("with invalid types", () {
-    var inner;
+    List inner;
     var wrapper;
     setUp(() {
       inner = <Object>["foo", "bar", "baz"];

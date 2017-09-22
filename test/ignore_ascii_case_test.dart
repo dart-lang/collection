@@ -42,7 +42,7 @@ main() {
     var lowerCaseLetters = "@`ABCDEFGHIJKLMNOPQRSTUVWXYZ[{åÅ";
     expect(equalsIgnoreAsciiCase(upperCaseLetters, lowerCaseLetters), true);
 
-    testChars(char1, char2, areEqual) {
+    testChars(String char1, String char2, bool areEqual) {
       expect(equalsIgnoreAsciiCase(char1, char2), areEqual,
           reason: "$char1 ${areEqual ? "=" : "!"}= $char2");
     }

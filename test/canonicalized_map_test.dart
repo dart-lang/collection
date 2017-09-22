@@ -61,8 +61,8 @@ void main() {
 
     test("canonicalizes keys for putIfAbsent", () {
       map["1"] = "value";
-      expect(
-          map.putIfAbsent("01", () => throw "shouldn't run"), equals("value"));
+      expect(map.putIfAbsent("01", () => throw new Exception("shouldn't run")),
+          equals("value"));
       expect(map.putIfAbsent("2", () => "new value"), equals("new value"));
     });
 

@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
-
-import 'wrappers.dart';
 import 'empty_unmodifiable_set.dart';
+import 'wrappers.dart';
+
+export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
 
 /// A fixed-length list.
 ///
@@ -33,7 +33,7 @@ abstract class NonGrowableListMixin<E> implements List<E> {
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void set length(int newLength) => _throw();
+  set length(int newLength) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.

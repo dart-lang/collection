@@ -3,10 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Tests algorithm utilities.
+import 'dart:math';
 
 import "package:collection/collection.dart";
 import "package:test/test.dart";
-import 'dart:math';
 
 void main() {
   void testShuffle(List list) {

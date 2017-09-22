@@ -73,7 +73,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
     expect(q.contains(notElement), isFalse);
 
     List all = [];
-    while (!q.isEmpty) {
+    while (q.isNotEmpty) {
       var expected = q.first;
       var actual = q.removeFirst();
       expect(actual, same(expected));

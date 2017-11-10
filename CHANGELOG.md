@@ -1,3 +1,8 @@
+## 1.15.0
+
+* Re-export a number of platform library classes from `dart:collection`
+  in anticipation of moving the classes to this package for Dart 2.0.
+
 ## 1.14.1
 
 * Make `Equality` implementations accept `null` as argument to `hash`.
@@ -10,7 +15,7 @@
 
 ## 1.13.0
 
-* Add `EqualityBy`
+* Add `EqualityBy`.
 
 ## 1.12.0
 

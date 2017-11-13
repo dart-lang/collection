@@ -1,7 +1,18 @@
 ## 1.15.0
 
-* Re-export a number of platform library classes from `dart:collection`
-  in anticipation of moving the classes to this package for Dart 2.0.
+* Re-export the following platform library classes from `dart:collection`
+  in anticipation of moving the classes to this package for Dart 2.0:
+  * `DoubleLinkedQueue`
+  * `DoubleLinkedQueueEntry`
+  * `HasNextIterator`
+  * `LinkedList`
+  * `LinkedListEntry`
+  * `MapView`
+  * `SplayTreeMap`
+  * `SplayTreeSet`
+  * `UnmodifiableListView`
+  * `UnmodifiableMapBase`
+  * `UnmodifiableMapView`
 
 ## 1.14.1
 

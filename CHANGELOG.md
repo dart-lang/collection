@@ -1,3 +1,19 @@
+## 1.15.0
+
+* Re-export the following platform library classes from `dart:collection`
+  in anticipation of moving the classes to this package for Dart 2.0:
+  * `DoubleLinkedQueue`
+  * `DoubleLinkedQueueEntry`
+  * `HasNextIterator`
+  * `LinkedList`
+  * `LinkedListEntry`
+  * `MapView`
+  * `SplayTreeMap`
+  * `SplayTreeSet`
+  * `UnmodifiableListView`
+  * `UnmodifiableMapBase`
+  * `UnmodifiableMapView`
+
 ## 1.14.1
 
 * Make `Equality` implementations accept `null` as argument to `hash`.
@@ -10,7 +26,7 @@
 
 ## 1.13.0
 
-* Add `EqualityBy`
+* Add `EqualityBy`.
 
 ## 1.12.0
 

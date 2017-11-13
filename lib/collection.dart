@@ -2,6 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// TODO(lrn): Move the classes to this package.
+export "dart:collection"
+    show
+        DoubleLinkedQueue,
+        DoubleLinkedQueueEntry,
+        HasNextIterator,
+        LinkedList,
+        LinkedListEntry,
+        MapView, // TODO(lrn): Drop this class, it is equivalent to DelegatingMap.
+        SplayTreeMap,
+        SplayTreeSet,
+        UnmodifiableListView,
+        UnmodifiableMapBase,
+        UnmodifiableMapView;
+
 export "src/algorithms.dart";
 export "src/canonicalized_map.dart";
 export "src/combined_wrappers/combined_iterable.dart";

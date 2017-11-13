@@ -3,18 +3,19 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // TODO(lrn): Move the classes to this package.
-export "dart:collection" show
-    DoubleLinkedQueue,
-    DoubleLinkedQueueEntry,
-    HasNextIterator,
-    LinkedList,
-    LinkedListEntry,
-    MapView, // TODO(lrn): Drop this class, it is equivalent to DelegatingMap.
-    SplayTreeMap,
-    SplayTreeSet,
-    UnmodifiableListView,
-    UnmodifiableMapBase,
-    UnmodifiableMapView;
+export "dart:collection"
+    show
+        DoubleLinkedQueue,
+        DoubleLinkedQueueEntry,
+        HasNextIterator,
+        LinkedList,
+        LinkedListEntry,
+        MapView, // TODO(lrn): Drop this class, it is equivalent to DelegatingMap.
+        SplayTreeMap,
+        SplayTreeSet,
+        UnmodifiableListView,
+        UnmodifiableMapBase,
+        UnmodifiableMapView;
 
 export "src/algorithms.dart";
 export "src/canonicalized_map.dart";

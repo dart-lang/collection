@@ -88,8 +88,8 @@ class IterableNSM extends NSM implements Iterable, Set, List, Queue {
   IterableNSM(action(Invocation i)) : super(action);
   toString() => super.noSuchMethod(TO_STRING_INVOCATION) as String;
 
-  abstract Null cast<T>();
-  abstract Null retype<T>();
+  Null cast<T>();
+  Null retype<T>();
 }
 
 // Expector that wraps in DelegatingIterable.

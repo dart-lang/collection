@@ -21,9 +21,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   bool any(bool test(E element)) => _base.any(test);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<T> cast<T>() {
     throw new UnimplementedError('cast');
   }
@@ -44,9 +42,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
       _base.fold(initialValue, combine);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<E> followedBy(Iterable<E> other) {
     throw new UnimplementedError('followedBy');
   }
@@ -72,9 +68,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   E reduce(E combine(E value, E element)) => _base.reduce(combine);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<T> retype<T>() {
     throw new UnimplementedError('retype');
   }
@@ -100,9 +94,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   Iterable<E> where(bool test(E element)) => _base.where(test);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<T> whereType<T>() {
     throw new UnimplementedError("whereType");
   }
@@ -164,9 +156,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase[index] = value;
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   List<E> operator +(List<E> other) {
     throw new UnimplementedError('+');
   }
@@ -181,9 +171,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
 
   Map<int, E> asMap() => _listBase.asMap();
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   List<T> cast<T>() {
     throw new UnimplementedError('cast');
   }
@@ -196,9 +184,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.fillRange(start, end, fillValue);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   set first(E value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[0] = value;
@@ -208,9 +194,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
 
   int indexOf(E element, [int start = 0]) => _listBase.indexOf(element, start);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   int indexWhere(bool test(E element), [int start = 0]) {
     throw new UnimplementedError('indexWhere');
   }
@@ -223,9 +207,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.insertAll(index, iterable);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   set last(E value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = value;
@@ -234,9 +216,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   int lastIndexOf(E element, [int start]) =>
       _listBase.lastIndexOf(element, start);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   int lastIndexWhere(bool test(E element), [int start]) {
     throw new UnimplementedError('lastIndexWhere');
   }
@@ -267,9 +247,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.retainWhere(test);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   List<T> retype<T>() {
     throw new UnimplementedError('retype');
   }
@@ -324,9 +302,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
     _setBase.addAll(elements);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Set<T> cast<T>() {
     throw new UnimplementedError('cast');
   }
@@ -357,9 +333,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
     _setBase.retainAll(elements);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Set<T> retype<T>() {
     throw new UnimplementedError('retype');
   }
@@ -413,9 +387,7 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
     _baseQueue.addLast(value);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Queue<T> cast<T>() {
     throw new UnimplementedError('cast');
   }
@@ -434,9 +406,7 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
     _baseQueue.retainWhere(test);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Queue<T> retype<T>() {
     throw new UnimplementedError('retype');
   }
@@ -480,9 +450,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
     _base.addAll(other);
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void addEntries(Iterable<Object> entries) {
     // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
@@ -493,9 +461,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
     _base.clear();
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> cast<K2, V2>() {
     throw new UnimplementedError('cast');
   }
@@ -504,9 +470,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   bool containsValue(Object value) => _base.containsValue(value);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_getter
   Iterable<Null> get entries {
     // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
@@ -525,9 +489,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   int get length => _base.length;
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
@@ -538,16 +500,12 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   V remove(Object key) => _base.remove(key);
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void removeWhere(bool test(K key, V value)) {
     throw new UnimplementedError('removeWhere');
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> retype<K2, V2>() {
     throw new UnimplementedError('retype');
   }
@@ -556,16 +514,12 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   String toString() => _base.toString();
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   V update(K key, V update(V value), {V ifAbsent()}) {
     throw new UnimplementedError('update');
   }
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void updateAll(V update(K key, V value)) {
     throw new UnimplementedError('updateAll');
   }
@@ -588,9 +542,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
   Iterable<E> get _base => _baseMap.keys;
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Set<T> cast<T>() {
     throw new UnimplementedError('cast');
   }
@@ -631,9 +583,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Set<T> retype<T>() {
     throw new UnimplementedError('retype');
   }
@@ -684,9 +634,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   Iterable<V> get _base => _baseMap.values;
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Set<T> cast<T>() {
     throw new UnimplementedError('cast');
   }
@@ -787,9 +735,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
 
-  @override
   // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Set<T> retype<T>() {
     throw new UnimplementedError('retype');
   }

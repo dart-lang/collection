@@ -163,6 +163,13 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
 
   Map<int, E> asMap() => new TypeSafeMap<int, E>(_listBase.asMap());
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  List<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   void clear() {
     _listBase.clear();
   }
@@ -243,6 +250,13 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
     _listBase.retainWhere(_validate(test));
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  List<T> retype<T>() {
+    throw new UnimplementedError('retype');
+  }
+
   Iterable<E> get reversed => new TypeSafeIterable<E>(_listBase.reversed);
 
   void setAll(int index, Iterable<E> iterable) {
@@ -284,6 +298,13 @@ class TypeSafeSet<E> extends TypeSafeIterable<E> implements DelegatingSet<E> {
     _setBase.addAll(elements);
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   void clear() {
     _setBase.clear();
   }
@@ -316,6 +337,13 @@ class TypeSafeSet<E> extends TypeSafeIterable<E> implements DelegatingSet<E> {
     _setBase.retainWhere(_validate(test));
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>() {
+    throw new UnimplementedError('retype');
+  }
+
   Set<E> union(Set<E> other) => new TypeSafeSet<E>(_setBase.union(other));
 }
 
@@ -345,6 +373,13 @@ class TypeSafeQueue<E> extends TypeSafeIterable<E>
     _baseQueue.addLast(value);
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Queue<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   void clear() {
     _baseQueue.clear();
   }
@@ -357,6 +392,13 @@ class TypeSafeQueue<E> extends TypeSafeIterable<E>
 
   void retainWhere(bool test(E element)) {
     _baseQueue.retainWhere(_validate(test));
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Queue<T> retype<T>() {
+    throw new UnimplementedError('retype');
   }
 
   E removeFirst() => _baseQueue.removeFirst() as E;
@@ -390,6 +432,13 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
     // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
     throw new UnimplementedError('addEntries');
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> cast<K2, V2>() {
+    throw new UnimplementedError('cast');
   }
 
   void clear() {
@@ -439,6 +488,13 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
   // ignore: override_on_non_overriding_method
   void removeWhere(bool test(K key, V value)) {
     throw new UnimplementedError('removeWhere');
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> retype<K2, V2>() {
+    throw new UnimplementedError('retype');
   }
 
   Iterable<V> get values => new TypeSafeIterable<V>(_base.values);

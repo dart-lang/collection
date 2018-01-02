@@ -181,6 +181,13 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
 
   Map<int, E> asMap() => _listBase.asMap();
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  List<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   void clear() {
     _listBase.clear();
   }
@@ -260,6 +267,13 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.retainWhere(test);
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  List<T> retype<T>() {
+    throw new UnimplementedError('retype');
+  }
+
   Iterable<E> get reversed => _listBase.reversed;
 
   void setAll(int index, Iterable<E> iterable) {
@@ -310,6 +324,13 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
     _setBase.addAll(elements);
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   void clear() {
     _setBase.clear();
   }
@@ -334,6 +355,13 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
 
   void retainAll(Iterable<Object> elements) {
     _setBase.retainAll(elements);
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>() {
+    throw new UnimplementedError('retype');
   }
 
   void retainWhere(bool test(E element)) {
@@ -385,6 +413,13 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
     _baseQueue.addLast(value);
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Queue<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   void clear() {
     _baseQueue.clear();
   }
@@ -397,6 +432,13 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
 
   void retainWhere(bool test(E element)) {
     _baseQueue.retainWhere(test);
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Queue<T> retype<T>() {
+    throw new UnimplementedError('retype');
   }
 
   E removeFirst() => _baseQueue.removeFirst();
@@ -451,6 +493,13 @@ class DelegatingMap<K, V> implements Map<K, V> {
     _base.clear();
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> cast<K2, V2>() {
+    throw new UnimplementedError('cast');
+  }
+
   bool containsKey(Object key) => _base.containsKey(key);
 
   bool containsValue(Object value) => _base.containsValue(value);
@@ -496,6 +545,13 @@ class DelegatingMap<K, V> implements Map<K, V> {
     throw new UnimplementedError('removeWhere');
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> retype<K2, V2>() {
+    throw new UnimplementedError('retype');
+  }
+
   Iterable<V> get values => _base.values;
 
   String toString() => _base.toString();
@@ -532,6 +588,13 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
   Iterable<E> get _base => _baseMap.keys;
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
+
   bool contains(Object element) => _baseMap.containsKey(element);
 
   bool get isEmpty => _baseMap.isEmpty;
@@ -567,6 +630,13 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   /// [Map]s.
   E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>() {
+    throw new UnimplementedError('retype');
+  }
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///
@@ -613,6 +683,13 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
         _keyForValue = keyForValue;
 
   Iterable<V> get _base => _baseMap.values;
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> cast<T>() {
+    throw new UnimplementedError('cast');
+  }
 
   bool contains(Object element) {
     if (element != null && element is! V) return false;
@@ -709,6 +786,13 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>() {
+    throw new UnimplementedError('retype');
+  }
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///

@@ -87,6 +87,9 @@ const TO_STRING_INVOCATION = const SyntheticInvocation(
 class IterableNSM extends NSM implements Iterable, Set, List, Queue {
   IterableNSM(action(Invocation i)) : super(action);
   toString() => super.noSuchMethod(TO_STRING_INVOCATION) as String;
+
+  Null cast<T>() => null;
+  Null retype<T>() => null;
 }
 
 // Expector that wraps in DelegatingIterable.

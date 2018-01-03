@@ -1,3 +1,7 @@
+## 1.14.5
+
+* Fix issue with EmptyUnmodifiableSet's stubs that were introduced in 1.14.4.
+
 ## 1.14.4
 
 * Add implementation stubs of upcoming Dart 2.0 core library methods, namely

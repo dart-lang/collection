@@ -1,6 +1,6 @@
 ## 1.14.5
 
-* Fix issue with EmptyUnmodifiableSet's stubs that were introduced in 1.14.4.
+* Fix issue with `EmptyUnmodifiableSet`'s stubs that were introduced in 1.14.4.
 
 ## 1.14.4
 

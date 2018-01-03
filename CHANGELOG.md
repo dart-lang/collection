@@ -1,15 +1,16 @@
 ## 1.14.4
 
 * Add implementation stubs of upcoming Dart 2.0 core library methods, namely
-  new methods for classes that implement Iterable, List, Map, Queue, and Set.
+  new methods for classes that implement `Iterable`, `List`, `Map`, `Queue`, 
+  and `Set`.
 
 ## 1.14.3
 
-* Fix MapKeySet.lookup to be a valid override in strong mode.
+* Fix `MapKeySet.lookup` to be a valid override in strong mode.
 
 ## 1.14.2
 
-* Add type arguments to SyntheticInvocation.
+* Add type arguments to `SyntheticInvocation`.
 
 ## 1.14.1
 

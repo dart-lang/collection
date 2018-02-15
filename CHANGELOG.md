@@ -1,3 +1,8 @@
+## 1.15.0
+
+* Add `CachingIterable` to efficiently cache iterable results of expensive
+  calculations.
+
 ## 1.14.5
 
 * Fix issue with `EmptyUnmodifiableSet`'s stubs that were introduced in 1.14.4.

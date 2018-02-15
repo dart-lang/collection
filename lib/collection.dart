@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export "src/algorithms.dart";
+export "src/caching_iterable.dart";
 export "src/canonicalized_map.dart";
 export "src/combined_wrappers/combined_iterable.dart";
 export "src/combined_wrappers/combined_list.dart";

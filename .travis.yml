@@ -10,6 +10,9 @@ dart_task:
   - dartanalyzer
   - dartfmt
 
+branches:
+  only: [master]
+
 matrix:
   # Only run dartfmt checks with stable.
   exclude:

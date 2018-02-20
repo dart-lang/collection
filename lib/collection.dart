@@ -13,6 +13,7 @@ export "src/equality_map.dart";
 export "src/equality_set.dart";
 export "src/functions.dart";
 export "src/iterable_zip.dart";
+export "src/multi_map.dart";
 export "src/priority_queue.dart";
 export "src/queue_list.dart";
 export "src/union_set.dart";

@@ -153,9 +153,40 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   Iterable<V> get values => _base.values.map((pair) => pair.last);
 
-  String toString() => Maps.mapToString(this);
+  String toString() {
+    // Detect toString() cycles.
+    if (_isToStringVisiting(this)) {
+      return '{...}';
+    }
+
+    var result = new StringBuffer();
+    try {
+      _toStringVisiting.add(this);
+      result.write('{');
+      bool first = true;
+      forEach((k, v) {
+        if (!first) {
+          result.write(', ');
+        }
+        first = false;
+        result.write('$k: $v');
+      });
+      result.write('}');
+    } finally {
+      assert(identical(_toStringVisiting.last, this));
+      _toStringVisiting.removeLast();
+    }
+
+    return result.toString();
+  }
 
   bool _isValidKey(Object key) =>
       (key == null || key is K) &&
       (_isValidKeyFn == null || _isValidKeyFn(key));
 }
+
+/// A collection used to identify cyclic maps during toString() calls.
+final List _toStringVisiting = [];
+
+/// Check if we are currently visiting `o` in a toString() call.
+bool _isToStringVisiting(o) => _toStringVisiting.any((e) => identical(o, e));

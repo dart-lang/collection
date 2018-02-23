@@ -132,6 +132,35 @@ void main() {
     });
   });
 
+  group("CanonicalizedMap builds an informative string representation", () {
+    var map;
+    setUp(() {
+      map = new CanonicalizedMap<int, String, dynamic>(int.parse,
+          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s as String));
+    });
+
+    test("for an empty map", () {
+      expect(map.toString(), equals('{}'));
+    });
+
+    test("for a map with one value", () {
+      map.addAll({"1": "value 1"});
+      expect(map.toString(), equals('{1: value 1}'));
+    });
+
+    test("for a map with multiple values", () {
+      map.addAll(
+          {"1": "value 1", "01": "value 01", "2": "value 2", "03": "value 03"});
+      expect(
+          map.toString(), equals('{01: value 01, 2: value 2, 03: value 03}'));
+    });
+
+    test("for a map with a loop", () {
+      map.addAll({"1": "value 1", "2": map});
+      expect(map.toString(), equals('{1: value 1, 2: {...}}'));
+    });
+  });
+
   group("CanonicalizedMap.from", () {
     test("canonicalizes its keys", () {
       var map = new CanonicalizedMap.from(

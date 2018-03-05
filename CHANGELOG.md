@@ -1,3 +1,12 @@
+## 1.14.6
+
+* Fix strong mode issue with ListEquality (the constructor of ListEquality
+  assumes that DefaultEquality will be inferred with generic type 'E' which
+  is not legal since 'E' is not a const. Change signature of 'hash' and
+  'equals' methods in 'class DefaultEquality' to use 'Object' instead of 'E'
+  to account for the above.
+
+
 ## 1.14.5
 
 * Fix issue with `EmptyUnmodifiableSet`'s stubs that were introduced in 1.14.4.

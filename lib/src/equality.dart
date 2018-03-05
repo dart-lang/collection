@@ -78,8 +78,8 @@ class EqualityBy<E, F> implements Equality<E> {
 /// the equality.
 class DefaultEquality<E> implements Equality<E> {
   const DefaultEquality();
-  bool equals(E e1, E e2) => e1 == e2;
-  int hash(E e) => e.hashCode;
+  bool equals(Object e1, Object e2) => e1 == e2;
+  int hash(Object e) => e.hashCode;
   bool isValidKey(Object o) => true;
 }
 

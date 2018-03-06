@@ -1,3 +1,13 @@
+## 1.14.6
+
+* Make `DefaultEquality`'s `equals()` and `hash()` methods take any `Object`
+  rather than objects of type `E`. This makes `const DefaultEquality<Null>()`
+  usable as `Equality<E>` for any `E`, which means it can be used in a const
+  context which expects `Equality<E>`.
+
+  This makes the default arguments of various other const equality constructors
+  work in strong mode.
+
 ## 1.14.5
 
 * Fix issue with `EmptyUnmodifiableSet`'s stubs that were introduced in 1.14.4.

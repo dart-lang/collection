@@ -76,10 +76,14 @@ class EqualityBy<E, F> implements Equality<E> {
 ///
 /// This equality uses the objects' own [Object.==] and [Object.hashCode] for
 /// the equality.
+///
+/// Note that [equals] and [hash] take `Object`s rather than `E`s. This allows
+/// `E` to be inferred as `Null` in const contexts where `E` wouldn't be a
+/// compile-time constant, while still allowing the class to be used at runtime.
 class DefaultEquality<E> implements Equality<E> {
   const DefaultEquality();
-  bool equals(E e1, E e2) => e1 == e2;
-  int hash(E e) => e.hashCode;
+  bool equals(Object e1, Object e2) => e1 == e2;
+  int hash(Object e) => e.hashCode;
   bool isValidKey(Object o) => true;
 }
 

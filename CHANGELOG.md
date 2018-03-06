@@ -1,11 +1,9 @@
 ## 1.14.6
 
-* Fix strong mode issue with ListEquality (the constructor of ListEquality
-  assumes that DefaultEquality will be inferred with generic type 'E' which
-  is not legal since 'E' is not a const. Change signature of 'hash' and
-  'equals' methods in 'class DefaultEquality' to use 'Object' instead of 'E'
-  to account for the above.
-
+* Fix strong mode issue with ListEquality. The constructor of ListEquality
+  needs a default value which is constant, assignable to Equality<E> for
+  any E and which can compare elements of type E. This change makes const
+  DefaultEquality<Null>() a solution to that constraint.
 
 ## 1.14.5
 

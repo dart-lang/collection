@@ -1,3 +1,8 @@
+## 1.14.7-dev
+
+* Only the Dart 2 dev SDK (`>=2.0.0-dev.22.0`) is now supported.
+* Add support for `Map.{addEntries|entries}` for Dart 2.0.
+
 ## 1.14.6
 
 * Make `DefaultEquality`'s `equals()` and `hash()` methods take any `Object`

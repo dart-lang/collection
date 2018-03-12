@@ -1,8 +1,7 @@
 ## 1.14.7-dev
 
 * Only the Dart 2 dev SDK (`>=2.0.0-dev.22.0`) is now supported.
-* Add support for `Map.{addEntries|entries}` for Dart 2.0.
-* Add support for `Iterable|List|Map|Set|Queue.{cast|retype}` for Dart 2.0.
+* Added support for all Dart 2 SDK methods that threw `UnimplementedError`.
 
 ## 1.14.6
 

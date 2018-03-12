@@ -20,10 +20,19 @@ frustration later on.
 ### Code reviews
 All submissions, including submissions by project members, require review.
 
+### Presubmit testing
+* All code must pass analysis by the `dartanalyzer` (`dartanalyzer --fatal-warnings .`)
+* All code must be formatted by `dartfmt` (`dartfmt -w .`)
+  * _NOTE_: We currently require formatting by the `dev` channel SDK.
+* All code must pass unit tests for the VM, Dart2JS, and DartDevC (`pub run build_runner test`).
+  * _NOTE_: We currently use `build_runner` for compilation with DartDevC. It's
+    possible to run only Dart2JS and the VM without it using `pub run test`
+    directly.
+
 ### File headers
 All files in the project must start with the following header.
 
-    // Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file
+    // Copyright (c) 2018, the Dart project authors.  Please see the AUTHORS file
     // for details. All rights reserved. Use of this source code is governed by a
     // BSD-style license that can be found in the LICENSE file.
 

@@ -5,6 +5,8 @@
 import "package:collection/collection.dart";
 import "package:test/test.dart";
 
+import "utils.dart";
+
 void main() {
   group("new QueueList()", () {
     test("creates an empty QueueList", () {
@@ -254,7 +256,7 @@ void main() {
   test("cast uses the same QueueList if possible", () {
     var queue = new QueueList<String>();
     expect(queue.cast<Pattern>(), same(queue));
-  }, skip: 'Add DDC testing (#76)');
+  }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 
   test("retype returns a new QueueList", () {
     var queue = new QueueList<String>();

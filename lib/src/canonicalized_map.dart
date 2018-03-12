@@ -73,9 +73,9 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
       _base.addEntries(entries.map(
           (e) => new MapEntry(_canonicalize(e.key), new Pair(e.key, e.value))));
 
-  Map<K2, V2> cast<K2, V2>() {
-    throw new UnimplementedError('cast');
-  }
+  CanonicalizedMap<C, K2, V2> cast<K2, V2>() => new CanonicalizedMap.from(
+      _base.cast<K2, V2>(), (K2 key) => _canonicalize(key as K),
+      isValidKey: _isValidKeyFn);
 
   void clear() {
     _base.clear();

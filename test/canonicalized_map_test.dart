@@ -154,6 +154,14 @@ void main() {
       ]);
       expect(map, {"01": "value 01", "2": "value 2"});
     });
+
+    test("cast returns the same map instance if possible", () {
+      expect(map.cast<Pattern, Pattern>(), same(map));
+    }, skip: 'Add DDC testing (#76)');
+
+    test("retype returns a new map instance", () {
+      expect(map.cast<Pattern, Pattern>(), isNot(same(map)));
+    });
   });
 
   group("CanonicalizedMap builds an informative string representation", () {

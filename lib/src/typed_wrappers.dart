@@ -22,9 +22,7 @@ abstract class _TypeSafeIterableBase<E> implements Iterable<E> {
   bool any(bool test(E element)) => _base.any(_validate(test));
 
   // TODO: Dart 2.0 requires this method to be implemented.
-  Iterable<T> cast<T>() {
-    throw new UnimplementedError('cast');
-  }
+  Iterable<T> cast<T>() => new TypeSafeIterable<T>(_base.cast<T>());
 
   bool contains(Object element) => _base.contains(element);
 
@@ -70,10 +68,7 @@ abstract class _TypeSafeIterableBase<E> implements Iterable<E> {
   E reduce(E combine(E value, E element)) =>
       _base.reduce((value, element) => combine(value as E, element as E)) as E;
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Iterable<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  Iterable<T> retype<T>() => new TypeSafeIterable<T>(_base.retype<T>());
 
   E get single => _base.single as E;
 
@@ -154,9 +149,7 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
   Map<int, E> asMap() => new TypeSafeMap<int, E>(_listBase.asMap());
 
   // TODO: Dart 2.0 requires this method to be implemented.
-  List<T> cast<T>() {
-    throw new UnimplementedError('cast');
-  }
+  List<T> cast<T>() => new TypeSafeList<T>(_listBase.cast<T>());
 
   void clear() {
     _listBase.clear();
@@ -231,9 +224,7 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
   }
 
   // TODO: Dart 2.0 requires this method to be implemented.
-  List<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  List<T> retype<T>() => new TypeSafeList<T>(_listBase.retype<T>());
 
   Iterable<E> get reversed => new TypeSafeIterable<E>(_listBase.reversed);
 
@@ -314,9 +305,7 @@ class TypeSafeSet<E> extends TypeSafeIterable<E> implements DelegatingSet<E> {
   }
 
   // TODO: Dart 2.0 requires this method to be implemented.
-  Set<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  Set<T> retype<T>() => new TypeSafeSet<T>(_setBase.retype<T>());
 
   Set<E> union(Set<E> other) => new TypeSafeSet<E>(_setBase.union(other));
 }
@@ -367,9 +356,7 @@ class TypeSafeQueue<E> extends TypeSafeIterable<E>
   }
 
   // TODO: Dart 2.0 requires this method to be implemented.
-  Queue<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  Queue<T> retype<T>() => new TypeSafeQueue<T>(_baseQueue.cast<T>());
 
   E removeFirst() => _baseQueue.removeFirst() as E;
 
@@ -443,9 +430,8 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
   }
 
   // TODO: Dart 2.0 requires this method to be implemented.
-  Map<K2, V2> retype<K2, V2>() {
-    throw new UnimplementedError('retype');
-  }
+  Map<K2, V2> retype<K2, V2>() =>
+      new TypeSafeMap<K2, V2>(_base.retype<K2, V2>());
 
   Iterable<V> get values => new TypeSafeIterable<V>(_base.values);
 

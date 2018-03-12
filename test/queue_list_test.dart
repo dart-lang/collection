@@ -250,6 +250,16 @@ void main() {
           throwsConcurrentModificationError);
     });
   });
+
+  test("cast uses the same QueueList if possible", () {
+    var queue = new QueueList<String>();
+    expect(queue.cast<Pattern>(), same(queue));
+  }, skip: 'Add DDC testing (#76)');
+
+  test("retype returns a new QueueList", () {
+    var queue = new QueueList<String>();
+    expect(queue.retype<Pattern>(), isNot(same(queue)));
+  });
 }
 
 /// Returns a queue whose internal ring buffer is full enough that adding a new

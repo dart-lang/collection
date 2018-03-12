@@ -154,6 +154,10 @@ void main() {
       ]);
       expect(map, {"01": "value 01", "2": "value 2"});
     });
+
+    test("retype returns a new map instance", () {
+      expect(map.retype<Pattern, Pattern>(), isNot(same(map)));
+    });
   });
 
   group("CanonicalizedMap builds an informative string representation", () {

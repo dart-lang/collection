@@ -21,7 +21,6 @@ abstract class _TypeSafeIterableBase<E> implements Iterable<E> {
 
   bool any(bool test(E element)) => _base.any(_validate(test));
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   Iterable<T> cast<T>() => new TypeSafeIterable<T>(_base.cast<T>());
 
   bool contains(Object element) => _base.contains(element);
@@ -429,7 +428,6 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
     throw new UnimplementedError('removeWhere');
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   Map<K2, V2> retype<K2, V2>() =>
       new TypeSafeMap<K2, V2>(_base.retype<K2, V2>());
 

@@ -84,13 +84,10 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     if (this is QueueList<T>) {
       return this as QueueList<T>;
     }
-    return new QueueList.from(_table.cast<T>());
+    return new QueueList<T>.from(_table.cast<T>());
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  QueueList<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  QueueList<T> retype<T>() => new QueueList<T>.from(_table.retype<T>());
 
   String toString() => IterableBase.iterableToFullString(this, "{", "}");
 

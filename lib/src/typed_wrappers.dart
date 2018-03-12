@@ -147,7 +147,6 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
 
   Map<int, E> asMap() => new TypeSafeMap<int, E>(_listBase.asMap());
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   List<T> cast<T>() => new TypeSafeList<T>(_listBase.cast<T>());
 
   void clear() {
@@ -222,7 +221,6 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
     _listBase.retainWhere(_validate(test));
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   List<T> retype<T>() => new TypeSafeList<T>(_listBase.retype<T>());
 
   Iterable<E> get reversed => new TypeSafeIterable<E>(_listBase.reversed);
@@ -266,10 +264,7 @@ class TypeSafeSet<E> extends TypeSafeIterable<E> implements DelegatingSet<E> {
     _setBase.addAll(elements);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Set<T> cast<T>() {
-    throw new UnimplementedError('cast');
-  }
+  Set<T> cast<T>() => new TypeSafeSet<T>(_setBase.cast<T>());
 
   void clear() {
     _setBase.clear();
@@ -303,7 +298,6 @@ class TypeSafeSet<E> extends TypeSafeIterable<E> implements DelegatingSet<E> {
     _setBase.retainWhere(_validate(test));
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   Set<T> retype<T>() => new TypeSafeSet<T>(_setBase.retype<T>());
 
   Set<E> union(Set<E> other) => new TypeSafeSet<E>(_setBase.union(other));
@@ -335,10 +329,7 @@ class TypeSafeQueue<E> extends TypeSafeIterable<E>
     _baseQueue.addLast(value);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Queue<T> cast<T>() {
-    throw new UnimplementedError('cast');
-  }
+  Queue<T> cast<T>() => new TypeSafeQueue<T>(_baseQueue.cast<T>());
 
   void clear() {
     _baseQueue.clear();
@@ -354,8 +345,7 @@ class TypeSafeQueue<E> extends TypeSafeIterable<E>
     _baseQueue.retainWhere(_validate(test));
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Queue<T> retype<T>() => new TypeSafeQueue<T>(_baseQueue.cast<T>());
+  Queue<T> retype<T>() => new TypeSafeQueue<T>(_baseQueue.retype<T>());
 
   E removeFirst() => _baseQueue.removeFirst() as E;
 
@@ -385,10 +375,7 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
     _base.addEntries(entries);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Map<K2, V2> cast<K2, V2>() {
-    throw new UnimplementedError('cast');
-  }
+  Map<K2, V2> cast<K2, V2>() => new TypeSafeMap<K2, V2>(_base.cast<K2, V2>());
 
   void clear() {
     _base.clear();

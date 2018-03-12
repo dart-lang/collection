@@ -223,7 +223,7 @@ void main() {
             ]));
       });
     });
-  }, skip: "Re-enable this when test can run DDC (test#414).");
+  }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 
   group("with invalid value types", () {
     Map inner;
@@ -323,5 +323,5 @@ void main() {
             ]));
       });
     });
-  }, skip: "Re-enable this when test can run DDC (test#414).");
+  }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 }

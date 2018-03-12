@@ -272,7 +272,7 @@ QueueList atCapacity() {
 
 /// Returns a queue whose internal tail has a lower index than its head.
 QueueList withInternalGap() {
-  var queue = new QueueList.from([null, null, null, null, 1, 2, 3, 4]);
+  var queue = new QueueList.from(<dynamic>[null, null, null, null, 1, 2, 3, 4]);
   for (var i = 0; i < 4; i++) {
     queue.removeFirst();
   }

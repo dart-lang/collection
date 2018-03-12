@@ -417,5 +417,5 @@ void main() {
         expect(inner, equals(["bar", "baz", "foo"]));
       });
     });
-  }, skip: "Re-enable this when test can run DDC (test#414).");
+  }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 }

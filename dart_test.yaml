@@ -1,0 +1,22 @@
+presets:
+  # When run with -P travis, we have different settings/options.
+  #
+  # 1: We don't use Chrome --headless:
+  # 2: We use --reporter expanded
+  # 3: We skip anything tagged "fails-on-travis".
+  travis:
+    # TODO(https://github.com/dart-lang/test/issues/772)
+    override_platforms:
+      chrome:
+        settings:
+          headless: false
+
+    # Don't run any tests that are tagged ["fails-on-travis"].
+    exclude_tags: "fails-on-travis"
+
+    # https://github.com/dart-lang/test/blob/master/doc/configuration.md#reporter
+    reporter: expanded
+
+platforms:
+  - chrome
+  - vm

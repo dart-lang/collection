@@ -64,7 +64,7 @@ int lowerBound<T>(List<T> sortedList, T value, {int compare(T a, T b)}) {
 /// Shuffles a list randomly.
 ///
 /// A sub-range of a list can be shuffled by providing [start] and [end].
-void shuffle(List list, [int start = 0, int end = null]) {
+void shuffle(List list, [int start = 0, int end]) {
   var random = new math.Random();
   if (end == null) end = list.length;
   int length = end - start;
@@ -78,7 +78,7 @@ void shuffle(List list, [int start = 0, int end = null]) {
 }
 
 /// Reverses a list, or a part of a list, in-place.
-void reverse(List list, [int start = 0, int end = null]) {
+void reverse(List list, [int start = 0, int end]) {
   if (end == null) end = list.length;
   _reverse(list, start, end);
 }

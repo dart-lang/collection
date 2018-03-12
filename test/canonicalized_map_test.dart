@@ -5,8 +5,6 @@
 import "package:collection/collection.dart";
 import "package:test/test.dart";
 
-import "utils.dart";
-
 void main() {
   group("with an empty canonicalized map", () {
     CanonicalizedMap<int, String, String> map;
@@ -157,12 +155,8 @@ void main() {
       expect(map, {"01": "value 01", "2": "value 2"});
     });
 
-    test("cast returns the same map instance if possible", () {
-      expect(map.cast<Pattern, Pattern>(), same(map));
-    }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
-
     test("retype returns a new map instance", () {
-      expect(map.cast<Pattern, Pattern>(), isNot(same(map)));
+      expect(map.retype<Pattern, Pattern>(), isNot(same(map)));
     });
   });
 

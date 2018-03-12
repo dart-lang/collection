@@ -73,9 +73,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
       _base.addEntries(entries.map(
           (e) => new MapEntry(_canonicalize(e.key), new Pair(e.key, e.value))));
 
-  CanonicalizedMap<C, K2, V2> cast<K2, V2>() => new CanonicalizedMap.from(
-      _base.cast<K2, V2>(), (K2 key) => _canonicalize(key as K),
-      isValidKey: _isValidKeyFn);
+  Map<K2, V2> cast<K2, V2>() => _base.cast<K2, V2>();
 
   void clear() {
     _base.clear();
@@ -128,10 +126,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
     throw new UnimplementedError('removeWhere');
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Map<K2, V2> retype<K2, V2>() {
-    throw new UnimplementedError('retype');
-  }
+  Map<K2, V2> retype<K2, V2>() => _base.retype<K2, V2>();
 
   // TODO: Dart 2.0 requires this method to be implemented.
   V update(K key, V update(V value), {V ifAbsent()}) {

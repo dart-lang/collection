@@ -69,10 +69,9 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
     other.forEach((key, value) => this[key] = value);
   }
 
-  void addEntries(Iterable<MapEntry<K, V>> entries) {
-    _base.addEntries(entries.map(
-        (e) => new MapEntry(_canonicalize(e.key), new Pair(e.key, e.value))));
-  }
+  void addEntries(Iterable<MapEntry<K, V>> entries) =>
+      _base.addEntries(entries.map(
+          (e) => new MapEntry(_canonicalize(e.key), new Pair(e.key, e.value))));
 
   Map<K2, V2> cast<K2, V2>() {
     throw new UnimplementedError('cast');
@@ -90,12 +89,8 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   bool containsValue(Object value) =>
       _base.values.any((pair) => pair.last == value);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Iterable<Null> get entries {
-    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError('entries');
-  }
+  Iterable<MapEntry<K, V>> get entries =>
+      _base.entries.map((e) => new MapEntry(e.value.first, e.value.last));
 
   void forEach(void f(K key, V value)) {
     _base.forEach((key, pair) => f(pair.first, pair.last));

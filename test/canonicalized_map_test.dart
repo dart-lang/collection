@@ -7,9 +7,10 @@ import "package:test/test.dart";
 
 void main() {
   group("with an empty canonicalized map", () {
-    var map;
+    CanonicalizedMap<int, String, String> map;
+
     setUp(() {
-      map = new CanonicalizedMap<int, String, String>(int.parse,
+      map = new CanonicalizedMap(int.parse,
           isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s as String));
     });
 
@@ -129,6 +130,29 @@ void main() {
           {"1": "value 1", "01": "value 01", "2": "value 2", "03": "value 03"});
 
       expect(map.values, equals(["value 01", "value 2", "value 03"]));
+    });
+
+    test("entries returns all key-value pairs in the map", () {
+      map.addAll({
+        "1": "value 1",
+        "01": "value 01",
+        "2": "value 2",
+      });
+
+      var entries = map.entries.toList();
+      expect(entries[0].key, "01");
+      expect(entries[0].value, "value 01");
+      expect(entries[1].key, "2");
+      expect(entries[1].value, "value 2");
+    });
+
+    test("addEntries adds key-value pairs to the map", () {
+      map.addEntries([
+        new MapEntry("1", "value 1"),
+        new MapEntry("01", "value 01"),
+        new MapEntry("2", "value 2"),
+      ]);
+      expect(map, {"01": "value 01", "2": "value 2"});
     });
   });
 

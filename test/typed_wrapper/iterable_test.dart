@@ -350,5 +350,5 @@ void main() {
         expect(wrapper.toString(), equals("(foo, bar, baz)"));
       });
     });
-  }, skip: "Re-enable this when test can run DDC (test#414).");
+  }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 }

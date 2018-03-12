@@ -15,4 +15,3 @@ bool _isTypeArgString<T>(T arg) {
     return false;
   }
 }
-

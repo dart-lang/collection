@@ -395,11 +395,8 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
     _base.addAll(other);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  void addEntries(Iterable<Object> entries) {
-    // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError('addEntries');
+  void addEntries(Iterable<MapEntry<K, V>> entries) {
+    _base.addEntries(entries);
   }
 
   // TODO: Dart 2.0 requires this method to be implemented.
@@ -415,12 +412,7 @@ class TypeSafeMap<K, V> implements DelegatingMap<K, V> {
 
   bool containsValue(Object value) => _base.containsValue(value);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Iterable<Null> get entries {
-    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError('entries');
-  }
+  Iterable<MapEntry<K, V>> get entries => _base.entries;
 
   void forEach(void f(K key, V value)) {
     _base.forEach((key, value) => f(key as K, value as V));

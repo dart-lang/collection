@@ -67,8 +67,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   E get single => _base.single;
 
   E singleWhere(bool test(E element), {E orElse()}) {
-    if (orElse != null) throw new UnimplementedError('singleWhere:orElse');
-    return _base.singleWhere(test);
+    return _base.singleWhere(test, orElse: orElse);
   }
 
   Iterable<E> skip(int n) => _base.skip(n);

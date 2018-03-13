@@ -70,8 +70,7 @@ abstract class _TypeSafeIterableBase<E> implements Iterable<E> {
   E get single => _base.single as E;
 
   E singleWhere(bool test(E element), {E orElse()}) {
-    if (orElse != null) throw new UnimplementedError('singleWhere:orElse');
-    return _base.singleWhere(_validate(test)) as E;
+    return _base.singleWhere(_validate(test), orElse: orElse) as E;
   }
 
   Iterable<E> skip(int n) => new TypeSafeIterable<E>(_base.skip(n));
@@ -178,9 +177,8 @@ class TypeSafeList<E> extends TypeSafeIterable<E> implements DelegatingList<E> {
   int lastIndexOf(E element, [int start]) =>
       _listBase.lastIndexOf(element, start);
 
-  int lastIndexWhere(bool test(E element), [int start]) {
-    throw new UnimplementedError('lastIndexWhere');
-  }
+  int lastIndexWhere(bool test(E element), [int start]) =>
+      _listBase.lastIndexWhere((e) => test(e as E), start);
 
   set length(int newLength) {
     _listBase.length = newLength;

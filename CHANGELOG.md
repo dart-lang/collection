@@ -1,4 +1,4 @@
-## 1.14.7-dev
+## 1.14.7
 
 * Only the Dart 2 dev SDK (`>=2.0.0-dev.22.0`) is now supported.
 * Added support for all Dart 2 SDK methods that threw `UnimplementedError`.

@@ -1,8 +1,8 @@
 ## 1.14.8
 
 * Deprecated `Delegating{Name}.typed` static methods in favor of the new Dart 2
-  `cast` methods. For example, `DelegatingList.typed<String>(list)` can now just
-  be written as `list.cast<String>()`. 
+  `cast` methods. For example, `DelegatingList.typed<String>(list)` can now be
+  written as `list.cast<String>()`. 
 
 ## 1.14.7
 

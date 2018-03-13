@@ -5,7 +5,6 @@
 import "dart:collection";
 import "dart:math" as math;
 
-import "typed_wrappers.dart";
 import "unmodifiable_wrappers.dart";
 
 typedef K _KeyForValue<K, V>(V value);
@@ -109,8 +108,8 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
   /// This forwards all operations to [base], so any changes in [base] will be
   /// reflected in [this]. If [base] is already an `Iterable<E>`, it's returned
   /// unmodified.
-  static Iterable<E> typed<E>(Iterable base) =>
-      base is Iterable<E> ? base : new TypeSafeIterable<E>(base);
+  @Deprecated('Use iterable.cast<E> instead.')
+  static Iterable<E> typed<E>(Iterable base) => base.cast<E>();
 }
 
 /// A [List] that delegates all operations to a base list.
@@ -132,8 +131,8 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   /// This forwards all operations to [base], so any changes in [base] will be
   /// reflected in [this]. If [base] is already a `List<E>`, it's returned
   /// unmodified.
-  static List<E> typed<E>(List base) =>
-      base is List<E> ? base : new TypeSafeList<E>(base);
+  @Deprecated('Use list.cast<E> instead.')
+  static List<E> typed<E>(List base) => base.cast<E>();
 
   List<E> get _listBase => _base;
 
@@ -263,8 +262,8 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   /// This forwards all operations to [base], so any changes in [base] will be
   /// reflected in [this]. If [base] is already a `Set<E>`, it's returned
   /// unmodified.
-  static Set<E> typed<E>(Set base) =>
-      base is Set<E> ? base : new TypeSafeSet<E>(base);
+  @Deprecated('Use set.cast<E> instead.')
+  static Set<E> typed<E>(Set base) => base.cast<E>();
 
   Set<E> get _setBase => _base;
 
@@ -332,8 +331,8 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   /// This forwards all operations to [base], so any changes in [base] will be
   /// reflected in [this]. If [base] is already a `Queue<E>`, it's returned
   /// unmodified.
-  static Queue<E> typed<E>(Queue base) =>
-      base is Queue<E> ? base : new TypeSafeQueue<E>(base);
+  @Deprecated('Use queue.cast<E> instead.')
+  static Queue<E> typed<E>(Queue base) => base.cast<E>();
 
   Queue<E> get _baseQueue => _base;
 
@@ -397,8 +396,8 @@ class DelegatingMap<K, V> implements Map<K, V> {
   /// This forwards all operations to [base], so any changes in [base] will be
   /// reflected in [this]. If [base] is already a `Map<K, V>`, it's returned
   /// unmodified.
-  static Map<K, V> typed<K, V>(Map base) =>
-      base is Map<K, V> ? base : new TypeSafeMap<K, V>(base);
+  @Deprecated('Use map.cast<K, V> instead.')
+  static Map<K, V> typed<K, V>(Map base) => base.cast<K, V>();
 
   V operator [](Object key) => _base[key];
 

@@ -21,7 +21,6 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   bool any(bool test(E element)) => _base.any(test);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   Iterable<T> cast<T>() => _base.cast<T>();
 
   bool contains(Object element) => _base.contains(element);
@@ -40,10 +39,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
       _base.fold(initialValue, combine);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Iterable<E> followedBy(Iterable<E> other) {
-    throw new UnimplementedError('followedBy');
-  }
+  Iterable<E> followedBy(Iterable<E> other) => _base.followedBy(other);
 
   void forEach(void f(E element)) => _base.forEach(f);
 
@@ -71,8 +67,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   E get single => _base.single;
 
   E singleWhere(bool test(E element), {E orElse()}) {
-    if (orElse != null) throw new UnimplementedError('singleWhere:orElse');
-    return _base.singleWhere(test);
+    return _base.singleWhere(test, orElse: orElse);
   }
 
   Iterable<E> skip(int n) => _base.skip(n);
@@ -89,10 +84,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   Iterable<E> where(bool test(E element)) => _base.where(test);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Iterable<T> whereType<T>() {
-    throw new UnimplementedError("whereType");
-  }
+  Iterable<T> whereType<T>() => _base.whereType<T>();
 
   String toString() => _base.toString();
 }
@@ -151,10 +143,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase[index] = value;
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  List<E> operator +(List<E> other) {
-    throw new UnimplementedError('+');
-  }
+  List<E> operator +(List<E> other) => _listBase + other;
 
   void add(E value) {
     _listBase.add(value);
@@ -176,7 +165,6 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.fillRange(start, end, fillValue);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   set first(E value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[0] = value;
@@ -186,10 +174,8 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
 
   int indexOf(E element, [int start = 0]) => _listBase.indexOf(element, start);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  int indexWhere(bool test(E element), [int start = 0]) {
-    throw new UnimplementedError('indexWhere');
-  }
+  int indexWhere(bool test(E element), [int start = 0]) =>
+      _listBase.indexWhere(test, start);
 
   void insert(int index, E element) {
     _listBase.insert(index, element);
@@ -199,7 +185,6 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.insertAll(index, iterable);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   set last(E value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = value;
@@ -208,10 +193,8 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   int lastIndexOf(E element, [int start]) =>
       _listBase.lastIndexOf(element, start);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  int lastIndexWhere(bool test(E element), [int start]) {
-    throw new UnimplementedError('lastIndexWhere');
-  }
+  int lastIndexWhere(bool test(E element), [int start]) =>
+      _listBase.lastIndexWhere(test, start);
 
   set length(int newLength) {
     _listBase.length = newLength;
@@ -291,10 +274,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
     _setBase.addAll(elements);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Set<T> cast<T>() {
-    throw new UnimplementedError('cast');
-  }
+  Set<T> cast<T>() => _setBase.cast<T>();
 
   void clear() {
     _setBase.clear();
@@ -373,10 +353,7 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
     _baseQueue.addLast(value);
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Queue<T> cast<T>() {
-    throw new UnimplementedError('cast');
-  }
+  Queue<T> cast<T>() => _baseQueue.cast<T>();
 
   void clear() {
     _baseQueue.clear();
@@ -441,10 +418,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
     _base.clear();
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Map<K2, V2> cast<K2, V2>() {
-    throw new UnimplementedError('cast');
-  }
+  Map<K2, V2> cast<K2, V2>() => _base.cast<K2, V2>();
 
   bool containsKey(Object key) => _base.containsKey(key);
 
@@ -464,38 +438,25 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   int get length => _base.length;
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
-    // Change Object to MapEntry<K2, V2> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError('map');
-  }
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) =>
+      _base.map(transform);
 
   V putIfAbsent(K key, V ifAbsent()) => _base.putIfAbsent(key, ifAbsent);
 
   V remove(Object key) => _base.remove(key);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  void removeWhere(bool test(K key, V value)) {
-    throw new UnimplementedError('removeWhere');
-  }
+  void removeWhere(bool test(K key, V value)) => _base.removeWhere(test);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
   Map<K2, V2> retype<K2, V2>() => _base.retype<K2, V2>();
 
   Iterable<V> get values => _base.values;
 
   String toString() => _base.toString();
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  V update(K key, V update(V value), {V ifAbsent()}) {
-    throw new UnimplementedError('update');
-  }
+  V update(K key, V update(V value), {V ifAbsent()}) =>
+      _base.update(key, update, ifAbsent: ifAbsent);
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  void updateAll(V update(K key, V value)) {
-    throw new UnimplementedError('updateAll');
-  }
+  void updateAll(V update(K key, V value)) => _base.updateAll(update);
 }
 
 /// An unmodifiable [Set] view of the keys of a [Map].
@@ -553,10 +514,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Set<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  Set<T> retype<T>() => _baseMap.keys.toSet().retype<T>();
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///
@@ -702,10 +660,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Set<T> retype<T>() {
-    throw new UnimplementedError('retype');
-  }
+  Set<T> retype<T>() => toSet().retype<T>();
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///

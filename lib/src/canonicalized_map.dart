@@ -102,12 +102,8 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   int get length => _base.length;
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
-    // Change Object to MapEntry<K2, V2> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError('map');
-  }
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) =>
+      _base.map((_, pair) => transform(pair.first, pair.last));
 
   V putIfAbsent(K key, V ifAbsent()) {
     return _base
@@ -121,22 +117,18 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
     return pair == null ? null : pair.last;
   }
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  void removeWhere(bool test(K key, V value)) {
-    throw new UnimplementedError('removeWhere');
-  }
+  void removeWhere(bool test(K key, V value)) =>
+      _base.removeWhere((_, pair) => test(pair.first, pair.last));
 
   Map<K2, V2> retype<K2, V2>() => _base.retype<K2, V2>();
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  V update(K key, V update(V value), {V ifAbsent()}) {
-    throw new UnimplementedError('update');
-  }
+  V update(K key, V update(V value), {V ifAbsent()}) => _base
+      .update(_canonicalize(key), (pair) => new Pair(key, update(pair.last)),
+          ifAbsent: ifAbsent == null ? null : () => new Pair(key, ifAbsent()))
+      .last;
 
-  // TODO: Dart 2.0 requires this method to be implemented.
-  void updateAll(V update(K key, V value)) {
-    throw new UnimplementedError('updateAll');
-  }
+  void updateAll(V update(K key, V value)) => _base.updateAll(
+      (_, pair) => new Pair(pair.first, update(pair.first, pair.last)));
 
   Iterable<V> get values => _base.values.map((pair) => pair.last);
 

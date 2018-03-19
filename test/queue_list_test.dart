@@ -258,6 +258,25 @@ void main() {
     expect(queue.cast<Pattern>(), same(queue));
   }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 
+  test("cast does not throw on mutation when the type is valid", () {
+    var patternQueue = new QueueList<Pattern>()..addAll(['a', 'b']);
+    QueueList<Object> untypedQueue = patternQueue;
+    var stringQueue = untypedQueue.cast<String>();
+    stringQueue.addAll(['c', 'd']);
+
+    expect(stringQueue, ['a', 'b', 'c', 'd']);
+  });
+
+  test("cast throws on mutation when the type is not valid", () {
+    QueueList<Object> stringQueue = new QueueList<String>();
+    var numQueue = stringQueue.cast<num>();
+    expect(
+      () => numQueue.add(1),
+      throwsCastError,
+      skip: isDart2 ? false : 'In checked mode (VM), CastError is not thrown',
+    );
+  });
+
   test("retype returns a new QueueList", () {
     var queue = new QueueList<String>();
     expect(queue.retype<Pattern>(), isNot(same(queue)));

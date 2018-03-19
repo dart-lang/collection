@@ -99,10 +99,11 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   }
 
   QueueList<T> cast<T>() {
-    if (this is QueueList<T>) {
-      return this as QueueList<T>;
+    QueueList<Object> self = this;
+    if (self is QueueList<T>) {
+      return self;
     }
-    return QueueList.castFrom<E, T>(this);
+    return retype<T>();
   }
 
   QueueList<T> retype<T>() => QueueList.castFrom<E, T>(this);

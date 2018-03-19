@@ -469,13 +469,33 @@ class DelegatingMap<K, V> implements Map<K, V> {
 /// Note that [lookup] is not supported for this set.
 class MapKeySet<E> extends _DelegatingIterableBase<E>
     with UnmodifiableSetMixin<E> {
+  /// Adapts [source] to be a `MapKeySet<T>`.
+  ///
+  /// Any time the set would produce an element that is not a [T], the element
+  /// access will throw.
+  ///
+  /// Any time a [T] value is attempted stored into the adapted set, the store
+  /// will throw unless the value is also an instance of [S].
+  ///
+  /// If all accessed elements of [source] are actually instances of [T] and if
+  /// all elements stored in the returned  are actually instance of [S],
+  /// then the returned set can be used as a `MapKeySet<T>`.
+  static MapKeySet<T> castFrom<S, T>(MapKeySet<S> source) {
+    return new MapKeySet(source._baseMap.cast<T, dynamic>());
+  }
+
   final Map<E, dynamic> _baseMap;
 
   MapKeySet(Map<E, dynamic> base) : _baseMap = base;
 
   Iterable<E> get _base => _baseMap.keys;
 
-  Set<T> cast<T>() => _baseMap.keys.toSet().cast<T>();
+  MapKeySet<T> cast<T>() {
+    if (this is MapKeySet<T>) {
+      return this as MapKeySet<T>;
+    }
+    return MapKeySet.castFrom<E, T>(this);
+  }
 
   bool contains(Object element) => _baseMap.containsKey(element);
 
@@ -513,7 +533,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
-  Set<T> retype<T>() => _baseMap.keys.toSet().retype<T>();
+  Set<T> retype<T>() => MapKeySet.castFrom<E, T>(this);
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///
@@ -547,6 +567,24 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 ///
 /// Effectively, the map will act as a kind of index for the set.
 class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
+  /// Adapts [source] to be a `MapKeySet<T>`.
+  ///
+  /// Any time the set would produce an element that is not a [T], the element
+  /// access will throw.
+  ///
+  /// Any time a [T] value is attempted stored into the adapted set, the store
+  /// will throw unless the value is also an instance of [S].
+  ///
+  /// If all accessed elements of [source] are actually instances of [T] and if
+  /// all elements stored in the returned  are actually instance of [S],
+  /// then the returned set can be used as a `MapKeySet<T>`.
+  static MapValueSet<K2, V2> castFrom<K, V, K2, V2>(MapValueSet<K, V> source) {
+    return new MapValueSet<K2, V2>(
+      source._baseMap.cast<K2, V2>(),
+      (V2 value) => source._keyForValue(value as V) as K2,
+    );
+  }
+
   final Map<K, V> _baseMap;
   final _KeyForValue<K, V> _keyForValue;
 
@@ -561,7 +599,12 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   Iterable<V> get _base => _baseMap.values;
 
-  Set<T> cast<T>() => _baseMap.values.toSet().cast<T>();
+  Set<T> cast<T>() {
+    if (this is Set<T>) {
+      return this as Set<T>;
+    }
+    return MapValueSet.castFrom<K, V, K, T>(this);
+  }
 
   bool contains(Object element) {
     if (element != null && element is! V) return false;
@@ -659,7 +702,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
 
-  Set<T> retype<T>() => toSet().retype<T>();
+  Set<T> retype<T>() => MapValueSet.castFrom<K, V, K, T>(this);
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///

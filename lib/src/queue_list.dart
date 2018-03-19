@@ -21,7 +21,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   /// If all accessed elements of [source] are actually instances of [T] and if
   /// all elements stored in the returned  are actually instance of [S],
   /// then the returned instance can be used as a `QueueList<T>`.
-  static QueueList<T> castFrom<S, T>(QueueList<S> source) {
+  static QueueList<T> _castFrom<S, T>(QueueList<S> source) {
     return new _CastQueueList<S, T>(source);
   }
 
@@ -106,7 +106,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     return retype<T>();
   }
 
-  QueueList<T> retype<T>() => QueueList.castFrom<E, T>(this);
+  QueueList<T> retype<T>() => QueueList._castFrom<E, T>(this);
 
   String toString() => IterableBase.iterableToFullString(this, "{", "}");
 

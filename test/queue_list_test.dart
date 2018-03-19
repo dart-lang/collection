@@ -260,20 +260,36 @@ void main() {
 
   test("cast does not throw on mutation when the type is valid", () {
     var patternQueue = new QueueList<Pattern>()..addAll(['a', 'b']);
-    QueueList<Object> untypedQueue = patternQueue;
-    var stringQueue = untypedQueue.cast<String>();
+    var stringQueue = patternQueue.cast<String>();
     stringQueue.addAll(['c', 'd']);
+    expect(
+      stringQueue,
+      const isInstanceOf<QueueList<Pattern>>(),
+      reason: 'Expected QueueList<Pattern>, got ${stringQueue.runtimeType}',
+    );
 
-    expect(stringQueue, ['a', 'b', 'c', 'd']);
+    expect(
+      stringQueue,
+      ['a', 'b', 'c', 'd'],
+      skip: isDart2 ? false : 'Cast does nothing in Dart1',
+    );
+
+    expect(patternQueue, stringQueue, reason: 'Should forward to original');
   });
 
   test("cast throws on mutation when the type is not valid", () {
     QueueList<Object> stringQueue = new QueueList<String>();
     var numQueue = stringQueue.cast<num>();
     expect(
+      numQueue,
+      const isInstanceOf<QueueList<num>>(),
+      reason: 'Expected QueueList<num>, got ${numQueue.runtimeType}',
+      skip: isDart2 ? false : 'Cast does nothing in Dart1',
+    );
+    expect(
       () => numQueue.add(1),
       throwsCastError,
-      skip: isDart2 ? false : 'In checked mode (VM), CastError is not thrown',
+      skip: isDart2 ? false : 'In Dart1 a TypeError is not thrown',
     );
   });
 

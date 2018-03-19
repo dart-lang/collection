@@ -1,7 +1,5 @@
 ## 1.15.0
 
-* Added `QueueList.castFrom<S, T>` (similar to `List.castFrom`, `Queue.castFrom`).
-
 * Fixed bugs where `QueueList`, `MapKeySet`, and `MapValueSet` did not adhere to
   the contract laid out by `List.cast`, `Set.cast` and `Map.cast` respectively.
   The returned instances of these methods now correctly forward to the existing

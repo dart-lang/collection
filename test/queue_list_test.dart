@@ -264,8 +264,9 @@ void main() {
     stringQueue.addAll(['c', 'd']);
     expect(
       stringQueue,
-      const isInstanceOf<QueueList<Pattern>>(),
-      reason: 'Expected QueueList<Pattern>, got ${stringQueue.runtimeType}',
+      const isInstanceOf<QueueList<String>>(),
+      reason: 'Expected QueueList<String>, got ${stringQueue.runtimeType}',
+      skip: isDart2 ? false : 'Cast does nothing in Dart1',
     );
 
     expect(

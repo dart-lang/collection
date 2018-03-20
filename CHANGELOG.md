@@ -1,3 +1,10 @@
+## 1.15.0
+
+* Fixed bugs where `QueueList`, `MapKeySet`, and `MapValueSet` did not adhere to
+  the contract laid out by `List.cast`, `Set.cast` and `Map.cast` respectively.
+  The returned instances of these methods now correctly forward to the existing
+  instance instead of always creating a new copy.
+
 ## 1.14.8
 
 * Deprecated `Delegating{Name}.typed` static methods in favor of the new Dart 2

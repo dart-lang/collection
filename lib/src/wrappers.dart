@@ -475,7 +475,12 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 
   Iterable<E> get _base => _baseMap.keys;
 
-  Set<T> cast<T>() => _baseMap.keys.toSet().cast<T>();
+  Set<T> cast<T>() {
+    if (this is MapKeySet<T>) {
+      return this as MapKeySet<T>;
+    }
+    return Set.castFrom<E, T>(this);
+  }
 
   bool contains(Object element) => _baseMap.containsKey(element);
 
@@ -513,7 +518,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
-  Set<T> retype<T>() => _baseMap.keys.toSet().retype<T>();
+  Set<T> retype<T>() => Set.castFrom<E, T>(this);
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///
@@ -561,7 +566,12 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   Iterable<V> get _base => _baseMap.values;
 
-  Set<T> cast<T>() => _baseMap.values.toSet().cast<T>();
+  Set<T> cast<T>() {
+    if (this is Set<T>) {
+      return this as Set<T>;
+    }
+    return Set.castFrom<V, T>(this);
+  }
 
   bool contains(Object element) {
     if (element != null && element is! V) return false;
@@ -659,7 +669,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
 
-  Set<T> retype<T>() => toSet().retype<T>();
+  Set<T> retype<T>() => Set.castFrom<V, T>(this);
 
   /// Returns a new set which contains all the elements of [this] and [other].
   ///

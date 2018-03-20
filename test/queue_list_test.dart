@@ -258,6 +258,42 @@ void main() {
     expect(queue.cast<Pattern>(), same(queue));
   }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
 
+  test("cast does not throw on mutation when the type is valid", () {
+    var patternQueue = new QueueList<Pattern>()..addAll(['a', 'b']);
+    var stringQueue = patternQueue.cast<String>();
+    stringQueue.addAll(['c', 'd']);
+    expect(
+      stringQueue,
+      const isInstanceOf<QueueList<String>>(),
+      reason: 'Expected QueueList<String>, got ${stringQueue.runtimeType}',
+      skip: isDart2 ? false : 'Cast does nothing in Dart1',
+    );
+
+    expect(
+      stringQueue,
+      ['a', 'b', 'c', 'd'],
+      skip: isDart2 ? false : 'Cast does nothing in Dart1',
+    );
+
+    expect(patternQueue, stringQueue, reason: 'Should forward to original');
+  });
+
+  test("cast throws on mutation when the type is not valid", () {
+    QueueList<Object> stringQueue = new QueueList<String>();
+    var numQueue = stringQueue.cast<num>();
+    expect(
+      numQueue,
+      const isInstanceOf<QueueList<num>>(),
+      reason: 'Expected QueueList<num>, got ${numQueue.runtimeType}',
+      skip: isDart2 ? false : 'Cast does nothing in Dart1',
+    );
+    expect(
+      () => numQueue.add(1),
+      throwsCastError,
+      skip: isDart2 ? false : 'In Dart1 a TypeError is not thrown',
+    );
+  });
+
   test("retype returns a new QueueList", () {
     var queue = new QueueList<String>();
     expect(queue.retype<Pattern>(), isNot(same(queue)));

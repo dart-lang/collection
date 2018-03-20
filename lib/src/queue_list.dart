@@ -10,6 +10,21 @@ import 'dart:collection';
 // that are redundant with ListMixin. Remove or simplify it when issue 21330 is
 // fixed.
 class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
+  /// Adapts [source] to be a `QueueList<T>`.
+  ///
+  /// Any time the class would produce an element that is not a [T], the element
+  /// access will throw.
+  ///
+  /// Any time a [T] value is attempted stored into the adapted class, the store
+  /// will throw unless the value is also an instance of [S].
+  ///
+  /// If all accessed elements of [source] are actually instances of [T] and if
+  /// all elements stored in the returned  are actually instance of [S],
+  /// then the returned instance can be used as a `QueueList<T>`.
+  static QueueList<T> _castFrom<S, T>(QueueList<S> source) {
+    return new _CastQueueList<S, T>(source);
+  }
+
   static const int _INITIAL_CAPACITY = 8;
   List<E> _table;
   int _head;
@@ -30,6 +45,9 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     assert(_isPowerOf2(initialCapacity));
     _table = new List<E>(initialCapacity);
   }
+
+  // An internal constructor for use by _CastQueueList.
+  QueueList._();
 
   /// Create a queue initially containing the elements of [source].
   factory QueueList.from(Iterable<E> source) {
@@ -81,13 +99,14 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   }
 
   QueueList<T> cast<T>() {
-    if (this is QueueList<T>) {
-      return this as QueueList<T>;
+    QueueList<Object> self = this;
+    if (self is QueueList<T>) {
+      return self;
     }
-    return new QueueList<T>.from(_table.cast<T>());
+    return retype<T>();
   }
 
-  QueueList<T> retype<T>() => new QueueList<T>.from(_table.retype<T>());
+  QueueList<T> retype<T>() => QueueList._castFrom<E, T>(this);
 
   String toString() => IterableBase.iterableToFullString(this, "{", "}");
 
@@ -229,4 +248,18 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     _table = newTable;
     _head = 0;
   }
+}
+
+class _CastQueueList<S, T> extends QueueList<T> {
+  final QueueList<S> _delegate;
+
+  _CastQueueList(this._delegate) : super._() {
+    _table = _delegate._table.cast<T>();
+  }
+
+  int get _head => _delegate._head;
+  set _head(int value) => _delegate._head = value;
+
+  int get _tail => _delegate._tail;
+  set _tail(int value) => _delegate._tail = value;
 }

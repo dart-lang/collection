@@ -1,4 +1,4 @@
-## 1.15.0
+## 1.14.9
 
 * Fixed bugs where `QueueList`, `MapKeySet`, and `MapValueSet` did not adhere to
   the contract laid out by `List.cast`, `Set.cast` and `Map.cast` respectively.

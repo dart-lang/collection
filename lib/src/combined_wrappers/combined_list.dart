@@ -56,11 +56,11 @@ class CombinedListView<T> extends ListBase<T>
     return null;
   }
 
-  void removeWhere(bool filter(T element)) {
+  void removeWhere(bool test(T element)) {
     _throw();
   }
 
-  void retainWhere(bool filter(T element)) {
+  void retainWhere(bool test(T element)) {
     _throw();
   }
 }

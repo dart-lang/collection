@@ -70,9 +70,9 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     _add(element);
   }
 
-  void addAll(Iterable<E> elements) {
-    if (elements is List) {
-      var list = elements;
+  void addAll(Iterable<E> iterable) {
+    if (iterable is List) {
+      var list = iterable;
       int addCount = list.length;
       int length = this.length;
       if (length + addCount >= _table.length) {
@@ -94,7 +94,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
         }
       }
     } else {
-      for (E element in elements) _add(element);
+      for (E element in iterable) _add(element);
     }
   }
 

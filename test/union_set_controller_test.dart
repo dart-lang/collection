@@ -7,11 +7,11 @@ import "package:test/test.dart";
 import "package:collection/collection.dart";
 
 void main() {
-  var controller;
+  UnionSetController<int> controller;
   Set<int> innerSet;
   setUp(() {
     innerSet = new Set.from([1, 2, 3]);
-    controller = new UnionSetController<int>()..add(innerSet);
+    controller = new UnionSetController()..add(innerSet);
   });
 
   test("exposes a union set", () {

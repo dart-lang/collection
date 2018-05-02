@@ -56,6 +56,7 @@ class InvocationChecker {
     testInvocations(_expected, actual);
     return null;
   }
+
   toString() {
     testInvocations(_expected, toStringInvocation);
     return "";
@@ -69,19 +70,25 @@ final toStringInvocation = new Invocation.method(#toString, const []);
 
 // InvocationCheckers with types Queue, Set, List or Iterable to allow them as
 // argument to DelegatingIterable/Set/List/Queue.
-class IterableInvocationChecker<T> extends InvocationChecker implements Iterable<T> {
+class IterableInvocationChecker<T> extends InvocationChecker
+    implements Iterable<T> {
   IterableInvocationChecker(Invocation expected) : super(expected);
 }
+
 class ListInvocationChecker<T> extends InvocationChecker implements List<T> {
   ListInvocationChecker(Invocation expected) : super(expected);
 }
+
 class SetInvocationChecker<T> extends InvocationChecker implements Set<T> {
   SetInvocationChecker(Invocation expected) : super(expected);
 }
+
 class QueueInvocationChecker<T> extends InvocationChecker implements Queue<T> {
   QueueInvocationChecker(Invocation expected) : super(expected);
 }
-class MapInvocationChecker<K, V> extends InvocationChecker implements Map<K, V> {
+
+class MapInvocationChecker<K, V> extends InvocationChecker
+    implements Map<K, V> {
   MapInvocationChecker(Invocation expected) : super(expected);
 }
 
@@ -325,8 +332,7 @@ void main() {
       test(".lastWhere", () {
         expect(set.lastWhere((element) => element is String), equals("bar"));
         expect(
-            set.lastWhere((element) => element.startsWith("f")),
-            equals("foo"));
+            set.lastWhere((element) => element.startsWith("f")), equals("foo"));
         expect(
             () => set.lastWhere((element) => element is int), throwsStateError);
         expect(set.lastWhere((element) => element is int, orElse: () => "baz"),

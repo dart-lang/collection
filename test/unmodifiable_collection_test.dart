@@ -391,7 +391,8 @@ void testWriteList(List<int> original, List wrapped, String name) {
   });
 }
 
-void testNoChangeLengthList(List<int> original, List<int> wrapped, String name) {
+void testNoChangeLengthList(
+    List<int> original, List<int> wrapped, String name) {
   List copy = new List.from(original);
 
   void testThrows(String name, thunk) {

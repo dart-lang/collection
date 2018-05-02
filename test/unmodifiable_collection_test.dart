@@ -311,8 +311,8 @@ void testReadList(List original, List wrapped, String name) {
   });
 }
 
-void testNoWriteList(List original, List wrapped, String name) {
-  List copy = new List.from(original);
+void testNoWriteList(List<int> original, List<int> wrapped, String name) {
+  var copy = new List<int>.from(original);
 
   testThrows(name, thunk) {
     test(name, () {
@@ -391,7 +391,7 @@ void testWriteList(List<int> original, List wrapped, String name) {
   });
 }
 
-void testNoChangeLengthList(List original, List wrapped, String name) {
+void testNoChangeLengthList(List<int> original, List<int> wrapped, String name) {
   List copy = new List.from(original);
 
   void testThrows(String name, thunk) {
@@ -455,8 +455,8 @@ void testNoChangeLengthList(List original, List wrapped, String name) {
   });
 }
 
-void testReadSet(Set original, Set wrapped, String name) {
-  Set copy = new Set.from(original);
+void testReadSet(Set<int> original, Set<int> wrapped, String name) {
+  var copy = new Set<int>.from(original);
 
   test("$name - containsAll", () {
     expect(wrapped.containsAll(copy), isTrue);
@@ -487,8 +487,8 @@ void testReadSet(Set original, Set wrapped, String name) {
   });
 }
 
-void testNoChangeSet(Set original, Set wrapped, String name) {
-  List originalElements = original.toList();
+void testNoChangeSet(Set<int> original, Set<int> wrapped, String name) {
+  var originalElements = original.toList();
 
   testThrows(name, thunk) {
     test(name, () {
@@ -588,8 +588,8 @@ void testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
   });
 }
 
-testNoChangeMap(Map original, Map wrapped, String name) {
-  Map copy = new Map.from(original);
+testNoChangeMap(Map<int, int> original, Map<int, int> wrapped, String name) {
+  var copy = new Map<int, int>.from(original);
 
   testThrows(name, thunk) {
     test(name, () {

@@ -42,10 +42,10 @@ void main() {
   group("with multiple disjoint sets", () {
     var set;
     setUp(() {
-      set = new UnionSet<int>.from([
-        new Set.from([1, 2]),
-        new Set.from([3, 4]),
-        new Set.from([5]),
+      set = new UnionSet.from([
+        new Set.of([1, 2]),
+        new Set.of([3, 4]),
+        new Set.of([5]),
         new Set()
       ], disjoint: true);
     });
@@ -81,10 +81,10 @@ void main() {
   group("with multiple overlapping sets", () {
     var set;
     setUp(() {
-      set = new UnionSet<int>.from([
-        new Set.from([1, 2, 3]),
-        new Set.from([3, 4]),
-        new Set.from([5, 1]),
+      set = new UnionSet.from([
+        new Set.of([1, 2, 3]),
+        new Set.of([3, 4]),
+        new Set.of([5, 1]),
         new Set()
       ]);
     });
@@ -114,8 +114,8 @@ void main() {
       expect(duration1, isNot(same(duration2)));
 
       var set = new UnionSet.from([
-        new Set.from([duration1]),
-        new Set.from([duration2])
+        new Set.of([duration1]),
+        new Set.of([duration2])
       ]);
 
       expect(set.lookup(new Duration(seconds: 0)), same(duration1));
@@ -134,10 +134,10 @@ void main() {
   group("after an inner set was modified", () {
     var set;
     setUp(() {
-      var innerSet = new Set<int>.from([3, 7]);
-      set = new UnionSet<int>.from([
-        new Set.from([1, 2]),
-        new Set.from([5]),
+      var innerSet = new Set.of([3, 7]);
+      set = new UnionSet.from([
+        new Set.of([1, 2]),
+        new Set.of([5]),
         innerSet
       ]);
 
@@ -178,16 +178,16 @@ void main() {
   group("after the outer set was modified", () {
     var set;
     setUp(() {
-      var innerSet = new Set.from([6]);
-      var outerSet = new Set<Set<int>>.from([
-        new Set.from([1, 2]),
-        new Set.from([5]),
+      var innerSet = new Set.of([6]);
+      var outerSet = new Set.of([
+        new Set.of([1, 2]),
+        new Set.of([5]),
         innerSet
       ]);
 
       set = new UnionSet<int>(outerSet);
       outerSet.remove(innerSet);
-      outerSet.add(new Set.from([3, 4]));
+      outerSet.add(new Set.of([3, 4]));
     });
 
     test("length returns the total length", () {

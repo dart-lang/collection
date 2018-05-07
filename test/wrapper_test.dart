@@ -47,7 +47,7 @@ abstract class Expector {
   }
 }
 
-// Parameterization of noSuchMethod. Calles [_action] on every
+// Parameterization of noSuchMethod. Calls [_action] on every
 // member invocation.
 class InvocationChecker {
   Invocation _expected;

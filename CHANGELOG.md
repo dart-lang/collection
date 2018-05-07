@@ -1,6 +1,7 @@
 ## 1.14.10
 
-* Fix the parameter names in overridden methods to match the source. 
+* Fix the parameter names in overridden methods to match the source.
+* Make tests Dart 2 type-safe.
 
 ## 1.14.9
 
@@ -13,7 +14,7 @@
 
 * Deprecated `Delegating{Name}.typed` static methods in favor of the new Dart 2
   `cast` methods. For example, `DelegatingList.typed<String>(list)` can now be
-  written as `list.cast<String>()`. 
+  written as `list.cast<String>()`.
 
 ## 1.14.7
 
@@ -37,7 +38,7 @@
 ## 1.14.4
 
 * Add implementation stubs of upcoming Dart 2.0 core library methods, namely
-  new methods for classes that implement `Iterable`, `List`, `Map`, `Queue`, 
+  new methods for classes that implement `Iterable`, `List`, `Map`, `Queue`,
   and `Set`.
 
 ## 1.14.3

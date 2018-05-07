@@ -37,13 +37,13 @@ main() {
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "empty");
   aSet = new Set();
   testUnmodifiableSet(aSet, const UnmodifiableSetView.empty(), "const empty");
-  aSet = new Set.from([42]);
+  aSet = new Set.of([42]);
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "single-42");
-  aSet = new Set.from([7]);
+  aSet = new Set.of([7]);
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "single!42");
-  aSet = new Set.from([1, 42, 10]);
+  aSet = new Set.of([1, 42, 10]);
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three-42");
-  aSet = new Set.from([1, 7, 10]);
+  aSet = new Set.of([1, 7, 10]);
   testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three!42");
 }
 
@@ -311,8 +311,8 @@ void testReadList(List original, List wrapped, String name) {
   });
 }
 
-void testNoWriteList(List original, List wrapped, String name) {
-  List copy = new List.from(original);
+void testNoWriteList(List<int> original, List<int> wrapped, String name) {
+  var copy = new List.of(original);
 
   testThrows(name, thunk) {
     test(name, () {
@@ -345,7 +345,7 @@ void testNoWriteList(List original, List wrapped, String name) {
 }
 
 void testWriteList(List<int> original, List wrapped, String name) {
-  var copy = new List<int>.from(original);
+  var copy = new List.of(original);
 
   test("$name - []=", () {
     if (original.isNotEmpty) {
@@ -361,7 +361,7 @@ void testWriteList(List<int> original, List wrapped, String name) {
   });
 
   test("$name - sort", () {
-    List sortCopy = new List.from(original);
+    List sortCopy = new List.of(original);
     sortCopy.sort();
     wrapped.sort();
     expect(original, orderedEquals(sortCopy));
@@ -391,8 +391,9 @@ void testWriteList(List<int> original, List wrapped, String name) {
   });
 }
 
-void testNoChangeLengthList(List original, List wrapped, String name) {
-  List copy = new List.from(original);
+void testNoChangeLengthList(
+    List<int> original, List<int> wrapped, String name) {
+  var copy = new List.of(original);
 
   void testThrows(String name, thunk) {
     test(name, () {
@@ -455,8 +456,8 @@ void testNoChangeLengthList(List original, List wrapped, String name) {
   });
 }
 
-void testReadSet(Set original, Set wrapped, String name) {
-  Set copy = new Set.from(original);
+void testReadSet(Set<int> original, Set<int> wrapped, String name) {
+  var copy = new Set.of(original);
 
   test("$name - containsAll", () {
     expect(wrapped.containsAll(copy), isTrue);
@@ -468,27 +469,27 @@ void testReadSet(Set original, Set wrapped, String name) {
   test("$name - intersection", () {
     expect(wrapped.intersection(new Set()), isEmpty);
     expect(wrapped.intersection(copy), unorderedEquals(original));
-    expect(wrapped.intersection(new Set.from([42])),
-        new Set.from(original.contains(42) ? [42] : []));
+    expect(wrapped.intersection(new Set.of([42])),
+        new Set.of(original.contains(42) ? [42] : []));
   });
 
   test("$name - union", () {
     expect(wrapped.union(new Set()), unorderedEquals(original));
     expect(wrapped.union(copy), unorderedEquals(original));
-    expect(wrapped.union(new Set.from([42])),
-        equals(original.union(new Set.from([42]))));
+    expect(wrapped.union(new Set.of([42])),
+        equals(original.union(new Set.of([42]))));
   });
 
   test("$name - difference", () {
     expect(wrapped.difference(new Set()), unorderedEquals(original));
     expect(wrapped.difference(copy), isEmpty);
-    expect(wrapped.difference(new Set.from([42])),
-        equals(original.difference(new Set.from([42]))));
+    expect(wrapped.difference(new Set.of([42])),
+        equals(original.difference(new Set.of([42]))));
   });
 }
 
-void testNoChangeSet(Set original, Set wrapped, String name) {
-  List originalElements = original.toList();
+void testNoChangeSet(Set<int> original, Set<int> wrapped, String name) {
+  var originalElements = original.toList();
 
   testThrows(name, thunk) {
     test(name, () {
@@ -588,8 +589,8 @@ void testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
   });
 }
 
-testNoChangeMap(Map original, Map wrapped, String name) {
-  Map copy = new Map.from(original);
+testNoChangeMap(Map<int, int> original, Map<int, int> wrapped, String name) {
+  var copy = new Map.of(original);
 
   testThrows(name, thunk) {
     test(name, () {

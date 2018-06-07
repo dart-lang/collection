@@ -98,15 +98,10 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     }
   }
 
-  QueueList<T> cast<T>() {
-    QueueList<Object> self = this;
-    if (self is QueueList<T>) {
-      return self;
-    }
-    return retype<T>();
-  }
+  QueueList<T> cast<T>() => QueueList._castFrom<E, T>(this);
 
-  QueueList<T> retype<T>() => QueueList._castFrom<E, T>(this);
+  @deprecated
+  QueueList<T> retype<T>() => cast<T>();
 
   String toString() => IterableBase.iterableToFullString(this, "{", "}");
 

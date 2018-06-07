@@ -2,6 +2,7 @@
 
 * Fix the parameter names in overridden methods to match the source.
 * Make tests Dart 2 type-safe.
+* Stop depending on SDK `retype` and deprecate methods.
 
 ## 1.14.9
 

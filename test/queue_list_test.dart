@@ -294,9 +294,9 @@ void main() {
     );
   });
 
-  test("retype returns a new QueueList", () {
+  test("cast returns a new QueueList", () {
     var queue = new QueueList<String>();
-    expect(queue.retype<Pattern>(), isNot(same(queue)));
+    expect(queue.cast<Pattern>(), isNot(same(queue)));
   });
 }
 

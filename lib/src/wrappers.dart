@@ -61,7 +61,8 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   E reduce(E combine(E value, E element)) => _base.reduce(combine);
 
-  Iterable<T> retype<T>() => _base.retype<T>();
+  @deprecated
+  Iterable<T> retype<T>() => cast<T>();
 
   E get single => _base.single;
 
@@ -221,7 +222,8 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
     _listBase.retainWhere(test);
   }
 
-  List<T> retype<T>() => _listBase.retype<T>();
+  @deprecated
+  List<T> retype<T>() => cast<T>();
 
   Iterable<E> get reversed => _listBase.reversed;
 
@@ -301,7 +303,8 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
     _setBase.retainAll(elements);
   }
 
-  Set<T> retype<T>() => _setBase.retype<T>();
+  @deprecated
+  Set<T> retype<T>() => cast<T>();
 
   void retainWhere(bool test(E element)) {
     _setBase.retainWhere(test);
@@ -368,7 +371,8 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
     _baseQueue.retainWhere(test);
   }
 
-  Queue<T> retype<T>() => _baseQueue.retype<T>();
+  @deprecated
+  Queue<T> retype<T>() => cast<T>();
 
   E removeFirst() => _baseQueue.removeFirst();
 
@@ -446,7 +450,8 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   void removeWhere(bool test(K key, V value)) => _base.removeWhere(test);
 
-  Map<K2, V2> retype<K2, V2>() => _base.retype<K2, V2>();
+  @deprecated
+  Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   Iterable<V> get values => _base.values;
 
@@ -518,6 +523,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object element) =>
       throw new UnsupportedError("MapKeySet doesn't support lookup().");
 
+  @deprecated
   Set<T> retype<T>() => Set.castFrom<E, T>(this);
 
   /// Returns a new set which contains all the elements of [this] and [other].
@@ -669,6 +675,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool test(V element)) =>
       removeWhere((element) => !test(element));
 
+  @deprecated
   Set<T> retype<T>() => Set.castFrom<V, T>(this);
 
   /// Returns a new set which contains all the elements of [this] and [other].

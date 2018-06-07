@@ -1,12 +1,12 @@
 name: collection
-version: 1.14.10-dev
+version: 1.14.10
 author: Dart Team <misc@dartlang.org>
 description: Collections and utilities functions and classes related to collections.
 homepage: https://www.github.com/dart-lang/collection
 
 environment:
   # Required for Dart 2.0 collection changes.
-  sdk: '>=2.0.0-dev.49.0 <2.0.0'
+  sdk: '>=2.0.0-dev.55.0 <2.0.0'
 
 dev_dependencies:
   build_runner: ^0.8.0

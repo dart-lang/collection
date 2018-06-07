@@ -25,6 +25,7 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   bool containsAll(Iterable<Object> other) => other.isEmpty;
   Iterable<E> followedBy(Iterable<E> other) => new Set.from(other);
   E lookup(Object element) => null;
+  @deprecated
   EmptyUnmodifiableSet<T> retype<T>() => new EmptyUnmodifiableSet<T>();
   E singleWhere(bool test(E element), {E orElse()}) => super.singleWhere(test);
   Iterable<T> whereType<T>() => new EmptyUnmodifiableSet<T>();

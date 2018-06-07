@@ -120,7 +120,8 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   void removeWhere(bool test(K key, V value)) =>
       _base.removeWhere((_, pair) => test(pair.first, pair.last));
 
-  Map<K2, V2> retype<K2, V2>() => _base.retype<K2, V2>();
+  @deprecated
+  Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   V update(K key, V update(V value), {V ifAbsent()}) => _base
       .update(_canonicalize(key), (pair) => new Pair(key, update(pair.last)),

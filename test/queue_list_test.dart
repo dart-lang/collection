@@ -253,11 +253,6 @@ void main() {
     });
   });
 
-  test("cast uses the same QueueList if possible", () {
-    var queue = new QueueList<String>();
-    expect(queue.cast<Pattern>(), same(queue));
-  }, skip: isDart2 ? false : 'Requires a Dart2 runtime');
-
   test("cast does not throw on mutation when the type is valid", () {
     var patternQueue = new QueueList<Pattern>()..addAll(['a', 'b']);
     var stringQueue = patternQueue.cast<String>();

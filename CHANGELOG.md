@@ -1,3 +1,7 @@
+## 1.14.11
+
+* Set max SDK version to `<3.0.0`.
+
 ## 1.14.10
 
 * Fix the parameter names in overridden methods to match the source.

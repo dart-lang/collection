@@ -259,7 +259,7 @@ void main() {
     stringQueue.addAll(['c', 'd']);
     expect(
       stringQueue,
-      const isInstanceOf<QueueList<String>>(),
+      const TypeMatcher<QueueList<String>>(),
       reason: 'Expected QueueList<String>, got ${stringQueue.runtimeType}',
       skip: isDart2 ? false : 'Cast does nothing in Dart1',
     );
@@ -278,7 +278,7 @@ void main() {
     var numQueue = stringQueue.cast<num>();
     expect(
       numQueue,
-      const isInstanceOf<QueueList<num>>(),
+      const TypeMatcher<QueueList<num>>(),
       reason: 'Expected QueueList<num>, got ${numQueue.runtimeType}',
       skip: isDart2 ? false : 'Cast does nothing in Dart1',
     );
@@ -318,4 +318,4 @@ QueueList withInternalGap() {
 /// Returns a matcher that expects that a closure throws a
 /// [ConcurrentModificationError].
 final throwsConcurrentModificationError =
-    throwsA(new isInstanceOf<ConcurrentModificationError>());
+    throwsA(new TypeMatcher<ConcurrentModificationError>());

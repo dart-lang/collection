@@ -16,8 +16,7 @@ void main() {
 
 void testDefault() {
   test('new PriorityQueue() returns a HeapPriorityQueue', () {
-    expect(
-        new PriorityQueue<int>(), new isInstanceOf<HeapPriorityQueue<int>>());
+    expect(new PriorityQueue<int>(), new TypeMatcher<HeapPriorityQueue<int>>());
   });
   testInt(() => new PriorityQueue<int>());
   testCustom((comparator) => new PriorityQueue<C>(comparator));

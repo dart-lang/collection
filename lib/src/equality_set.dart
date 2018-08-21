@@ -7,7 +7,7 @@ import 'dart:collection';
 import 'equality.dart';
 import 'wrappers.dart';
 
-/// A [Map] whose key equality is determined by an [Equality] object.
+/// A [Set] whose key equality is determined by an [Equality] object.
 class EqualitySet<E> extends DelegatingSet<E> {
   /// Creates a set with equality based on [equality].
   EqualitySet(Equality<E> equality)

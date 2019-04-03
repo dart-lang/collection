@@ -1,41 +1,24 @@
-
 language: dart
 
-# Gives more resources on Travis (8GB Ram, 2 CPUs).
-# Do not remove without verifying w/ Travis.
-sudo: required
-addons:
-  chrome: stable
+dart:
+- 2.0.0
+- dev
 
-# Build stages: https://docs.travis-ci.com/user/build-stages/.
-stages:
-  - presubmit
-  - build
-  - testing
+dart_task:
+- test: --platform vm
+- test: --platform firefox
 
-# 1. Run dartfmt, dartanalyzer, pub run test (VM).
-# 2. Then run a build.
-# 3. Then run tests compiled via dartdevc and dart2js.
-jobs:
+matrix:
   include:
-    - stage: presubmit
-      script: ./tool/travis.sh dartfmt
-      dart: dev
-    - stage: presubmit
-      script: ./tool/travis.sh dartanalyzer
-      dart: dev
-    - stage: build
-      script: ./tool/travis.sh dartdevc_build
-      dart: dev
-    - stage: testing
-      script: ./tool/travis.sh vm_test
-      dart: dev
-    - stage: testing
-      script: ./tool/travis.sh dartdevc_test
-      dart: dev
-    - stage: testing
-      script: ./tool/travis.sh dart2js_test
-      dart: dev
+  # Only validate formatting using the dev release
+  - dart: dev
+    dart_task: dartfmt
+  - dart: dev
+    dart_task:
+      dartanalyzer: --fatal-infos --fatal-warnings .
+  - dart: 2.0.0
+    dart_task:
+      dartanalyzer: --fatal-warnings .
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
@@ -44,11 +27,4 @@ branches:
 # Incremental pub cache and builds.
 cache:
   directories:
-    - $HOME/.pub-cache
-    - .dart_tool
-
-# Necessary for Chrome and Firefox to run
-before_install:
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
- - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
+  - $HOME/.pub-cache

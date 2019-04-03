@@ -5,8 +5,7 @@ dart:
 - dev
 
 dart_task:
-- test: --platform vm
-- test: --platform firefox
+- test
 
 matrix:
   include:

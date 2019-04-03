@@ -7,7 +7,7 @@ homepage: https://www.github.com/dart-lang/collection
 
 environment:
   # Required for Dart 2.0 collection changes.
-  sdk: '>=2.0.0-dev.55.0 <3.0.0'
+  sdk: '>=2.0.0 <3.0.0'
 
 dev_dependencies:
   build_runner: ^1.0.0

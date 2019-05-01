@@ -29,7 +29,7 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   /// is, that they contain no elements in common. This makes many operations
   /// including [length] more efficient. If the component sets turn out not to
   /// be disjoint, some operations may behave inconsistently.
-  UnionSet(this._sets, {bool disjoint: false}) : _disjoint = disjoint;
+  UnionSet(this._sets, {bool disjoint = false}) : _disjoint = disjoint;
 
   /// Creates a new set that's a view of the union of all sets in [sets].
   ///
@@ -41,7 +41,7 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   /// is, that they contain no elements in common. This makes many operations
   /// including [length] more efficient. If the component sets turn out not to
   /// be disjoint, some operations may behave inconsistently.
-  UnionSet.from(Iterable<Set<E>> sets, {bool disjoint: false})
+  UnionSet.from(Iterable<Set<E>> sets, {bool disjoint = false})
       : this(sets.toSet(), disjoint: disjoint);
 
   int get length => _disjoint
@@ -60,7 +60,7 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   /// If the sets aren't guaranteed to be disjoint, this keeps track of the
   /// elements we've already emitted so that we can de-duplicate them.
   Iterable<E> get _dedupIterable {
-    var seen = new Set<E>();
+    var seen = Set<E>();
     return _sets.expand((set) => set).where((element) {
       if (seen.contains(element)) return false;
       seen.add(element);
@@ -79,7 +79,7 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   }
 
   Set<E> toSet() {
-    var result = new Set<E>();
+    var result = Set<E>();
     for (var set in _sets) {
       result.addAll(set);
     }

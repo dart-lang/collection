@@ -27,8 +27,7 @@ class NonGrowableListView<E> extends DelegatingList<E>
 /// change the List's length.
 abstract class NonGrowableListMixin<E> implements List<E> {
   static T _throw<T>() {
-    throw new UnsupportedError(
-        "Cannot change the length of a fixed-length list");
+    throw UnsupportedError("Cannot change the length of a fixed-length list");
   }
 
   /// Throws an [UnsupportedError];
@@ -106,7 +105,7 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 /// change the Set.
 abstract class UnmodifiableSetMixin<E> implements Set<E> {
   static T _throw<T>() {
-    throw new UnsupportedError("Cannot modify an unmodifiable Set");
+    throw UnsupportedError("Cannot modify an unmodifiable Set");
   }
 
   /// Throws an [UnsupportedError];
@@ -146,7 +145,7 @@ abstract class UnmodifiableSetMixin<E> implements Set<E> {
 /// change the Map.
 abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
   static T _throw<T>() {
-    throw new UnsupportedError("Cannot modify an unmodifiable Map");
+    throw UnsupportedError("Cannot modify an unmodifiable Map");
   }
 
   /// Throws an [UnsupportedError];

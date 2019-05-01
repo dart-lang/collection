@@ -65,7 +65,7 @@ int lowerBound<T>(List<T> sortedList, T value, {int compare(T a, T b)}) {
 ///
 /// A sub-range of a list can be shuffled by providing [start] and [end].
 void shuffle(List list, [int start = 0, int end]) {
-  var random = new math.Random();
+  var random = math.Random();
   if (end == null) end = list.length;
   int length = end - start;
   while (length > 1) {
@@ -108,7 +108,7 @@ void _reverse(List list, int start, int end) {
 /// This insertion sort is stable: Equal elements end up in the same order
 /// as they started in.
 void insertionSort<T>(List<T> list,
-    {int compare(T a, T b), int start: 0, int end}) {
+    {int compare(T a, T b), int start = 0, int end}) {
   // If the same method could have both positional and named optional
   // parameters, this should be (list, [start, end], {compare}).
   compare ??= defaultCompare<T>();
@@ -151,7 +151,7 @@ const int _MERGE_SORT_LIMIT = 32;
 /// This merge sort is stable: Equal elements end up in the same order
 /// as they started in.
 void mergeSort<T>(List<T> list,
-    {int start: 0, int end, int compare(T a, T b)}) {
+    {int start = 0, int end, int compare(T a, T b)}) {
   end ??= list.length;
   compare ??= defaultCompare<T>();
 
@@ -171,7 +171,7 @@ void mergeSort<T>(List<T> list,
   int firstLength = middle - start;
   int secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = new List<T>(secondLength);
+  var scratchSpace = List<T>(secondLength);
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   int firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);

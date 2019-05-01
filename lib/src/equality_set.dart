@@ -11,7 +11,7 @@ import 'wrappers.dart';
 class EqualitySet<E> extends DelegatingSet<E> {
   /// Creates a set with equality based on [equality].
   EqualitySet(Equality<E> equality)
-      : super(new LinkedHashSet(
+      : super(LinkedHashSet(
             equals: equality.equals,
             hashCode: equality.hash,
             isValidKey: equality.isValidKey));
@@ -22,7 +22,7 @@ class EqualitySet<E> extends DelegatingSet<E> {
   /// If [other] has multiple values that are equivalent according to
   /// [equality], the first one reached during iteration takes precedence.
   EqualitySet.from(Equality<E> equality, Iterable<E> other)
-      : super(new LinkedHashSet(
+      : super(LinkedHashSet(
             equals: equality.equals,
             hashCode: equality.hash,
             isValidKey: equality.isValidKey)) {

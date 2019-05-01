@@ -22,7 +22,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   /// all elements stored in the returned  are actually instance of [S],
   /// then the returned instance can be used as a `QueueList<T>`.
   static QueueList<T> _castFrom<S, T>(QueueList<S> source) {
-    return new _CastQueueList<S, T>(source);
+    return _CastQueueList<S, T>(source);
   }
 
   static const int _INITIAL_CAPACITY = 8;
@@ -43,7 +43,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
       initialCapacity = _nextPowerOf2(initialCapacity);
     }
     assert(_isPowerOf2(initialCapacity));
-    _table = new List<E>(initialCapacity);
+    _table = List<E>(initialCapacity);
   }
 
   // An internal constructor for use by _CastQueueList.
@@ -53,14 +53,14 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   factory QueueList.from(Iterable<E> source) {
     if (source is List) {
       int length = source.length;
-      QueueList<E> queue = new QueueList(length + 1);
+      QueueList<E> queue = QueueList(length + 1);
       assert(queue._table.length > length);
       var sourceList = source;
       queue._table.setRange(0, length, sourceList, 0);
       queue._tail = length;
       return queue;
     } else {
-      return new QueueList<E>()..addAll(source);
+      return QueueList<E>()..addAll(source);
     }
   }
 
@@ -118,7 +118,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   }
 
   E removeFirst() {
-    if (_head == _tail) throw new StateError("No element");
+    if (_head == _tail) throw StateError("No element");
     E result = _table[_head];
     _table[_head] = null;
     _head = (_head + 1) & (_table.length - 1);
@@ -126,7 +126,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   }
 
   E removeLast() {
-    if (_head == _tail) throw new StateError("No element");
+    if (_head == _tail) throw StateError("No element");
     _tail = (_tail - 1) & (_table.length - 1);
     E result = _table[_tail];
     _table[_tail] = null;
@@ -138,7 +138,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   int get length => (_tail - _head) & (_table.length - 1);
 
   set length(int value) {
-    if (value < 0) throw new RangeError("Length $value may not be negative.");
+    if (value < 0) throw RangeError("Length $value may not be negative.");
 
     int delta = value - length;
     if (delta >= 0) {
@@ -162,7 +162,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   E operator [](int index) {
     if (index < 0 || index >= length) {
-      throw new RangeError("Index $index must be in the range [0..$length).");
+      throw RangeError("Index $index must be in the range [0..$length).");
     }
 
     return _table[(_head + index) & (_table.length - 1)];
@@ -170,7 +170,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   void operator []=(int index, E value) {
     if (index < 0 || index >= length) {
-      throw new RangeError("Index $index must be in the range [0..$length).");
+      throw RangeError("Index $index must be in the range [0..$length).");
     }
 
     _table[(_head + index) & (_table.length - 1)] = value;
@@ -207,7 +207,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   /// Grow the table when full.
   void _grow() {
-    List<E> newTable = new List<E>(_table.length * 2);
+    List<E> newTable = List<E>(_table.length * 2);
     int split = _table.length - _head;
     newTable.setRange(0, split, _table, _head);
     newTable.setRange(split, split + _head, _table, 0);
@@ -238,7 +238,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     // expansion.
     newElementCount += newElementCount >> 1;
     int newCapacity = _nextPowerOf2(newElementCount);
-    List<E> newTable = new List<E>(newCapacity);
+    List<E> newTable = List<E>(newCapacity);
     _tail = _writeToList(newTable);
     _table = newTable;
     _head = 0;

@@ -32,7 +32,7 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 /// values. If [value] is omitted, the value from [map2] is used.
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
     {V value(V value1, V value2)}) {
-  var result = new Map<K, V>.from(map1);
+  var result = Map<K, V>.from(map1);
   if (value == null) return result..addAll(map2);
 
   map2.forEach((key, mapValue) {
@@ -118,7 +118,7 @@ Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
   // [Warshall's algorithm]: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Applications_and_generalizations.
   var result = <T, Set<T>>{};
   graph.forEach((vertex, edges) {
-    result[vertex] = new Set<T>.from(edges);
+    result[vertex] = Set<T>.from(edges);
   });
 
   // Lists are faster to iterate than maps, so we create a list since we're
@@ -160,9 +160,9 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
 
   // The order of these doesn't matter, so we use un-linked implementations to
   // avoid unnecessary overhead.
-  var indices = new HashMap<T, int>();
-  var lowLinks = new HashMap<T, int>();
-  var onStack = new HashSet<T>();
+  var indices = HashMap<T, int>();
+  var lowLinks = HashMap<T, int>();
+  var onStack = HashSet<T>();
 
   strongConnect(T vertex) {
     indices[vertex] = index;
@@ -182,7 +182,7 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
     }
 
     if (lowLinks[vertex] == indices[vertex]) {
-      var component = new Set<T>();
+      var component = Set<T>();
       T neighbor;
       do {
         neighbor = stack.removeLast();

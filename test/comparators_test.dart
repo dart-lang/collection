@@ -85,11 +85,9 @@ void main() {
   // This will sort alphabetically (by charcode) the way digits sort
   // numerically, and the leading 0 means it sorts like a digit
   // compared to non-digits.
-  replaceNumbers(String string) =>
-      string.replaceAllMapped(new RegExp(r"\d+"), (m) {
+  replaceNumbers(String string) => string.replaceAllMapped(RegExp(r"\d+"), (m) {
         var digits = m[0];
-        return new String.fromCharCodes(
-            [0x30, int.parse(digits), digits.length]);
+        return String.fromCharCodes([0x30, int.parse(digits), digits.length]);
       });
 
   test("compareNatural", () {

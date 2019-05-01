@@ -9,7 +9,7 @@ import "package:collection/collection.dart";
 import "package:test/test.dart";
 
 main() {
-  o(Comparable id) => new Element(id);
+  o(Comparable id) => Element(id);
 
   // Lists that are point-wise equal, but not identical.
   var list1 = [o(1), o(2), o(3), o(4), o(5)];
@@ -19,42 +19,41 @@ main() {
 
   test("IterableEquality - List", () {
     expect(const IterableEquality().equals(list1, list2), isTrue);
-    Equality iterId = const IterableEquality(const IdentityEquality());
+    Equality iterId = const IterableEquality(IdentityEquality());
     expect(iterId.equals(list1, list2), isFalse);
   });
 
   test("IterableEquality - LinkedSet", () {
-    var l1 = new LinkedHashSet.from(list1);
-    var l2 = new LinkedHashSet.from(list2);
+    var l1 = LinkedHashSet.from(list1);
+    var l2 = LinkedHashSet.from(list2);
     expect(const IterableEquality().equals(l1, l2), isTrue);
-    Equality iterId = const IterableEquality(const IdentityEquality());
+    Equality iterId = const IterableEquality(IdentityEquality());
     expect(iterId.equals(l1, l2), isFalse);
   });
 
   test("ListEquality", () {
     expect(const ListEquality().equals(list1, list2), isTrue);
-    Equality listId = const ListEquality(const IdentityEquality());
+    Equality listId = const ListEquality(IdentityEquality());
     expect(listId.equals(list1, list2), isFalse);
   });
 
   test("ListInequality length", () {
     var list4 = [o(1), o(2), o(3), o(4), o(5), o(6)];
     expect(const ListEquality().equals(list1, list4), isFalse);
-    expect(const ListEquality(const IdentityEquality()).equals(list1, list4),
-        isFalse);
+    expect(
+        const ListEquality(IdentityEquality()).equals(list1, list4), isFalse);
   });
 
   test("ListInequality value", () {
     var list5 = [o(1), o(2), o(3), o(4), o(6)];
     expect(const ListEquality().equals(list1, list5), isFalse);
-    expect(const ListEquality(const IdentityEquality()).equals(list1, list5),
-        isFalse);
+    expect(
+        const ListEquality(IdentityEquality()).equals(list1, list5), isFalse);
   });
 
   test("UnorderedIterableEquality", () {
     expect(const UnorderedIterableEquality().equals(list1, list3), isTrue);
-    Equality uniterId =
-        const UnorderedIterableEquality(const IdentityEquality());
+    Equality uniterId = const UnorderedIterableEquality(IdentityEquality());
     expect(uniterId.equals(list1, list3), isFalse);
   });
 
@@ -62,7 +61,7 @@ main() {
     var list6 = [o(1), o(3), o(5), o(4), o(2), o(1)];
     expect(const UnorderedIterableEquality().equals(list1, list6), isFalse);
     expect(
-        const UnorderedIterableEquality(const IdentityEquality())
+        const UnorderedIterableEquality(IdentityEquality())
             .equals(list1, list6),
         isFalse);
   });
@@ -71,35 +70,33 @@ main() {
     var list7 = [o(1), o(3), o(5), o(4), o(6)];
     expect(const UnorderedIterableEquality().equals(list1, list7), isFalse);
     expect(
-        const UnorderedIterableEquality(const IdentityEquality())
+        const UnorderedIterableEquality(IdentityEquality())
             .equals(list1, list7),
         isFalse);
   });
 
   test("SetEquality", () {
-    var set1 = new HashSet.from(list1);
-    var set2 = new LinkedHashSet.from(list3);
+    var set1 = HashSet.from(list1);
+    var set2 = LinkedHashSet.from(list3);
     expect(const SetEquality().equals(set1, set2), isTrue);
-    Equality setId = const SetEquality(const IdentityEquality());
+    Equality setId = const SetEquality(IdentityEquality());
     expect(setId.equals(set1, set2), isFalse);
   });
 
   test("SetInequality length", () {
     var list8 = [o(1), o(3), o(5), o(4), o(2), o(6)];
-    var set1 = new HashSet.from(list1);
-    var set2 = new LinkedHashSet.from(list8);
+    var set1 = HashSet.from(list1);
+    var set2 = LinkedHashSet.from(list8);
     expect(const SetEquality().equals(set1, set2), isFalse);
-    expect(const SetEquality(const IdentityEquality()).equals(set1, set2),
-        isFalse);
+    expect(const SetEquality(IdentityEquality()).equals(set1, set2), isFalse);
   });
 
   test("SetInequality value", () {
     var list7 = [o(1), o(3), o(5), o(4), o(6)];
-    var set1 = new HashSet.from(list1);
-    var set2 = new LinkedHashSet.from(list7);
+    var set1 = HashSet.from(list1);
+    var set2 = LinkedHashSet.from(list7);
     expect(const SetEquality().equals(set1, set2), isFalse);
-    expect(const SetEquality(const IdentityEquality()).equals(set1, set2),
-        isFalse);
+    expect(const SetEquality(IdentityEquality()).equals(set1, set2), isFalse);
   });
 
   var map1a = {
@@ -120,21 +117,21 @@ main() {
   };
   var l1 = [map1a, map1b];
   var l2 = [map2a, map2b];
-  var s1 = new Set<Map>.from(l1);
-  var s2 = new Set<Map>.from([map2b, map2a]);
+  var s1 = Set<Map>.from(l1);
+  var s2 = Set<Map>.from([map2b, map2a]);
 
   test("RecursiveEquality", () {
-    const unordered = const UnorderedIterableEquality();
+    const unordered = UnorderedIterableEquality();
     expect(unordered.equals(map1a["x"], map2a["x"]), isTrue);
     expect(unordered.equals(map1a["y"], map2a["y"]), isTrue);
     expect(unordered.equals(map1b["x"], map2b["x"]), isTrue);
     expect(unordered.equals(map1b["y"], map2b["y"]), isTrue);
-    const mapval = const MapEquality(values: unordered);
+    const mapval = MapEquality(values: unordered);
     expect(mapval.equals(map1a, map2a), isTrue);
     expect(mapval.equals(map1b, map2b), isTrue);
-    const listmapval = const ListEquality(mapval);
+    const listmapval = ListEquality(mapval);
     expect(listmapval.equals(l1, l2), isTrue);
-    const setmapval = const SetEquality<Map>(mapval);
+    const setmapval = SetEquality<Map>(mapval);
     expect(setmapval.equals(s1, s2), isTrue);
   });
 
@@ -166,10 +163,10 @@ main() {
   });
 
   group("EqualityBy should use a derived value for ", () {
-    var firstEquality = new EqualityBy<List<String>, String>((e) => e.first);
-    var firstInsensitiveEquality = new EqualityBy<List<String>, String>(
+    var firstEquality = EqualityBy<List<String>, String>((e) => e.first);
+    var firstInsensitiveEquality = EqualityBy<List<String>, String>(
         (e) => e.first, const CaseInsensitiveEquality());
-    var firstObjectEquality = new EqualityBy<List<Object>, Object>(
+    var firstObjectEquality = EqualityBy<List<Object>, Object>(
         (e) => e.first, const IterableEquality());
 
     test("equality", () {
@@ -204,10 +201,10 @@ main() {
   });
 
   test("Equality accepts null", () {
-    var ie = new IterableEquality();
-    var le = new ListEquality();
-    var se = new SetEquality();
-    var me = new MapEquality();
+    var ie = IterableEquality();
+    var le = ListEquality();
+    var se = SetEquality();
+    var me = MapEquality();
     expect(ie.equals(null, null), true);
     expect(ie.equals([], null), false);
     expect(ie.equals(null, []), false);
@@ -219,8 +216,8 @@ main() {
     expect(le.hash(null), null.hashCode);
 
     expect(se.equals(null, null), true);
-    expect(se.equals(new Set(), null), false);
-    expect(se.equals(null, new Set()), false);
+    expect(se.equals(Set(), null), false);
+    expect(se.equals(null, Set()), false);
     expect(se.hash(null), null.hashCode);
 
     expect(me.equals(null, null), true);

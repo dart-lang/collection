@@ -10,33 +10,32 @@ import "package:collection/src/priority_queue.dart";
 
 void main() {
   testDefault();
-  testInt(() => new HeapPriorityQueue<int>());
-  testCustom((comparator) => new HeapPriorityQueue<C>(comparator));
+  testInt(() => HeapPriorityQueue<int>());
+  testCustom((comparator) => HeapPriorityQueue<C>(comparator));
 }
 
 void testDefault() {
   test('new PriorityQueue() returns a HeapPriorityQueue', () {
-    expect(new PriorityQueue<int>(), new TypeMatcher<HeapPriorityQueue<int>>());
+    expect(PriorityQueue<int>(), TypeMatcher<HeapPriorityQueue<int>>());
   });
-  testInt(() => new PriorityQueue<int>());
-  testCustom((comparator) => new PriorityQueue<C>(comparator));
+  testInt(() => PriorityQueue<int>());
+  testCustom((comparator) => PriorityQueue<C>(comparator));
 }
 
 void testInt(PriorityQueue<int> create()) {
   for (int count in [1, 5, 127, 128]) {
-    testQueue(
-        "int:$count", create, new List<int>.generate(count, (x) => x), count);
+    testQueue("int:$count", create, List<int>.generate(count, (x) => x), count);
   }
 }
 
 void testCustom(PriorityQueue<C> create(int comparator(C a, C b))) {
   for (int count in [1, 5, 127, 128]) {
     testQueue("Custom:$count/null", () => create(null),
-        new List<C>.generate(count, (x) => new C(x)), new C(count));
+        List<C>.generate(count, (x) => C(x)), C(count));
     testQueue("Custom:$count/compare", () => create(compare),
-        new List<C>.generate(count, (x) => new C(x)), new C(count));
+        List<C>.generate(count, (x) => C(x)), C(count));
     testQueue("Custom:$count/compareNeg", () => create(compareNeg),
-        new List<C>.generate(count, (x) => new C(count - x)), new C(0));
+        List<C>.generate(count, (x) => C(count - x)), C(0));
   }
 }
 

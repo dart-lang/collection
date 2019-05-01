@@ -19,7 +19,7 @@ class CombinedIterableView<T> extends IterableBase<T> {
   const CombinedIterableView(this._iterables);
 
   Iterator<T> get iterator =>
-      new _CombinedIterator<T>(_iterables.map((i) => i.iterator).iterator);
+      _CombinedIterator<T>(_iterables.map((i) => i.iterator).iterator);
 
   // Special cased contains/isEmpty/length since many iterables have an
   // efficient implementation instead of running through the entire iterator.

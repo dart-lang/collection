@@ -7,7 +7,7 @@ import "dart:math" as math;
 
 import "unmodifiable_wrappers.dart";
 
-typedef K _KeyForValue<K, V>(V value);
+typedef _KeyForValue<K, V> = K Function(V value);
 
 /// A base class for delegating iterables.
 ///
@@ -78,7 +78,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
 
   Iterable<E> takeWhile(bool test(E value)) => _base.takeWhile(test);
 
-  List<E> toList({bool growable: true}) => _base.toList(growable: growable);
+  List<E> toList({bool growable = true}) => _base.toList(growable: growable);
 
   Set<E> toSet() => _base.toSet();
 
@@ -166,7 +166,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   set first(E value) {
-    if (this.isEmpty) throw new RangeError.index(0, this);
+    if (this.isEmpty) throw RangeError.index(0, this);
     this[0] = value;
   }
 
@@ -186,7 +186,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   set last(E value) {
-    if (this.isEmpty) throw new RangeError.index(0, this);
+    if (this.isEmpty) throw RangeError.index(0, this);
     this[this.length - 1] = value;
   }
 
@@ -312,7 +312,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
 
   Set<E> union(Set<E> other) => _setBase.union(other);
 
-  Set<E> toSet() => new DelegatingSet<E>(_setBase.toSet());
+  Set<E> toSet() => DelegatingSet<E>(_setBase.toSet());
 }
 
 /// A [Queue] that delegates all operations to a base queue.
@@ -521,7 +521,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   /// Throws an [UnsupportedError] since there's no corresponding method for
   /// [Map]s.
   E lookup(Object element) =>
-      throw new UnsupportedError("MapKeySet doesn't support lookup().");
+      throw UnsupportedError("MapKeySet doesn't support lookup().");
 
   @deprecated
   Set<T> retype<T>() => Set.castFrom<E, T>(this);
@@ -656,7 +656,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   }
 
   void retainAll(Iterable<Object> elements) {
-    var valuesToRetain = new Set<V>.identity();
+    var valuesToRetain = Set<V>.identity();
     for (var element in elements) {
       if (element != null && element is! V) continue;
       var key = _keyForValue(element as V);

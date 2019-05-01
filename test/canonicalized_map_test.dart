@@ -10,8 +10,8 @@ void main() {
     CanonicalizedMap<int, String, String> map;
 
     setUp(() {
-      map = new CanonicalizedMap(int.parse,
-          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s as String));
+      map = CanonicalizedMap(int.parse,
+          isValidKey: (s) => RegExp(r"^\d+$").hasMatch(s as String));
     });
 
     test("canonicalizes keys on set and get", () {
@@ -62,7 +62,7 @@ void main() {
 
     test("canonicalizes keys for putIfAbsent", () {
       map["1"] = "value";
-      expect(map.putIfAbsent("01", () => throw new Exception("shouldn't run")),
+      expect(map.putIfAbsent("01", () => throw Exception("shouldn't run")),
           equals("value"));
       expect(map.putIfAbsent("2", () => "new value"), equals("new value"));
     });
@@ -148,9 +148,9 @@ void main() {
 
     test("addEntries adds key-value pairs to the map", () {
       map.addEntries([
-        new MapEntry("1", "value 1"),
-        new MapEntry("01", "value 01"),
-        new MapEntry("2", "value 2"),
+        MapEntry("1", "value 1"),
+        MapEntry("01", "value 01"),
+        MapEntry("2", "value 2"),
       ]);
       expect(map, {"01": "value 01", "2": "value 2"});
     });
@@ -163,8 +163,8 @@ void main() {
   group("CanonicalizedMap builds an informative string representation", () {
     var map;
     setUp(() {
-      map = new CanonicalizedMap<int, String, dynamic>(int.parse,
-          isValidKey: (s) => new RegExp(r"^\d+$").hasMatch(s as String));
+      map = CanonicalizedMap<int, String, dynamic>(int.parse,
+          isValidKey: (s) => RegExp(r"^\d+$").hasMatch(s as String));
     });
 
     test("for an empty map", () {
@@ -191,7 +191,7 @@ void main() {
 
   group("CanonicalizedMap.from", () {
     test("canonicalizes its keys", () {
-      var map = new CanonicalizedMap.from(
+      var map = CanonicalizedMap.from(
           {"1": "value 1", "2": "value 2", "3": "value 3"}, int.parse);
       expect(map["01"], equals("value 1"));
       expect(map["02"], equals("value 2"));
@@ -199,7 +199,7 @@ void main() {
     });
 
     test("uses the final value for collisions", () {
-      var map = new CanonicalizedMap.from(
+      var map = CanonicalizedMap.from(
           {"1": "value 1", "01": "value 2", "001": "value 3"}, int.parse);
       expect(map.length, equals(1));
       expect(map["0001"], equals("value 3"));

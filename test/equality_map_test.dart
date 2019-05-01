@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   test("uses the given equality", () {
-    var map = new EqualityMap(const IterableEquality());
+    var map = EqualityMap(const IterableEquality());
     expect(map, isEmpty);
 
     map[[1, 2, 3]] = 1;
@@ -22,7 +22,7 @@ void main() {
   });
 
   test("EqualityMap.from() prefers the lattermost equivalent key", () {
-    var map = new EqualityMap.from(const IterableEquality(), {
+    var map = EqualityMap.from(const IterableEquality(), {
       [1, 2, 3]: 1,
       [2, 3, 4]: 2,
       [1, 2, 3]: 3,

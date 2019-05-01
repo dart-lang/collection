@@ -10,21 +10,21 @@ import "utils.dart";
 void main() {
   group("new QueueList()", () {
     test("creates an empty QueueList", () {
-      expect(new QueueList(), isEmpty);
+      expect(QueueList(), isEmpty);
     });
 
     test("takes an initial capacity", () {
-      expect(new QueueList(100), isEmpty);
+      expect(QueueList(100), isEmpty);
     });
   });
 
   test("new QueueList.from() copies the contents of an iterable", () {
-    expect(new QueueList.from([1, 2, 3].skip(1)), equals([2, 3]));
+    expect(QueueList.from([1, 2, 3].skip(1)), equals([2, 3]));
   });
 
   group("add()", () {
     test("adds an element to the end of the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       queue.add(4);
       expect(queue, equals([1, 2, 3, 4]));
     });
@@ -38,7 +38,7 @@ void main() {
 
   group("addAll()", () {
     test("adds elements to the end of the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       queue.addAll([4, 5, 6]);
       expect(queue, equals([1, 2, 3, 4, 5, 6]));
     });
@@ -52,7 +52,7 @@ void main() {
 
   group("addFirst()", () {
     test("adds an element to the beginning of the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       queue.addFirst(0);
       expect(queue, equals([0, 1, 2, 3]));
     });
@@ -66,7 +66,7 @@ void main() {
 
   group("removeFirst()", () {
     test("removes an element from the beginning of the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(queue.removeFirst(), equals(1));
       expect(queue, equals([2, 3]));
     });
@@ -86,13 +86,13 @@ void main() {
     });
 
     test("throws a StateError for an empty queue", () {
-      expect(new QueueList().removeFirst, throwsStateError);
+      expect(QueueList().removeFirst, throwsStateError);
     });
   });
 
   group("removeLast()", () {
     test("removes an element from the end of the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(queue.removeLast(), equals(3));
       expect(queue, equals([1, 2]));
     });
@@ -110,13 +110,13 @@ void main() {
     });
 
     test("throws a StateError for an empty queue", () {
-      expect(new QueueList().removeLast, throwsStateError);
+      expect(QueueList().removeLast, throwsStateError);
     });
   });
 
   group("length", () {
     test("returns the length of a queue", () {
-      expect(new QueueList.from([1, 2, 3]).length, equals(3));
+      expect(QueueList.from([1, 2, 3]).length, equals(3));
     });
 
     test("returns the length of a queue with an internal gap", () {
@@ -130,25 +130,25 @@ void main() {
 
   group("length=", () {
     test("shrinks a larger queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       queue.length = 1;
       expect(queue, equals([1]));
     });
 
     test("grows a smaller queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       queue.length = 5;
       expect(queue, equals([1, 2, 3, null, null]));
     });
 
     test("throws a RangeError if length is less than 0", () {
-      expect(() => new QueueList().length = -1, throwsRangeError);
+      expect(() => QueueList().length = -1, throwsRangeError);
     });
   });
 
   group("[]", () {
     test("returns individual entries in the queue", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(queue[0], equals(1));
       expect(queue[1], equals(2));
       expect(queue[2], equals(3));
@@ -166,21 +166,21 @@ void main() {
     });
 
     test("throws a RangeError if the index is less than 0", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(() => queue[-1], throwsRangeError);
     });
 
     test(
         "throws a RangeError if the index is greater than or equal to the "
         "length", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(() => queue[3], throwsRangeError);
     });
   });
 
   group("[]=", () {
     test("sets individual entries in the queue", () {
-      var queue = new QueueList<dynamic>.from([1, 2, 3]);
+      var queue = QueueList<dynamic>.from([1, 2, 3]);
       queue[0] = "a";
       queue[1] = "b";
       queue[2] = "c";
@@ -200,7 +200,7 @@ void main() {
     });
 
     test("throws a RangeError if the index is less than 0", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(() {
         queue[-1] = 0;
       }, throwsRangeError);
@@ -209,7 +209,7 @@ void main() {
     test(
         "throws a RangeError if the index is greater than or equal to the "
         "length", () {
-      var queue = new QueueList.from([1, 2, 3]);
+      var queue = QueueList.from([1, 2, 3]);
       expect(() {
         queue[3] = 4;
       }, throwsRangeError);
@@ -219,7 +219,7 @@ void main() {
   group("throws a modification error for", () {
     var queue;
     setUp(() {
-      queue = new QueueList.from([1, 2, 3]);
+      queue = QueueList.from([1, 2, 3]);
     });
 
     test("add", () {
@@ -254,7 +254,7 @@ void main() {
   });
 
   test("cast does not throw on mutation when the type is valid", () {
-    var patternQueue = new QueueList<Pattern>()..addAll(['a', 'b']);
+    var patternQueue = QueueList<Pattern>()..addAll(['a', 'b']);
     var stringQueue = patternQueue.cast<String>();
     stringQueue.addAll(['c', 'd']);
     expect(
@@ -274,7 +274,7 @@ void main() {
   });
 
   test("cast throws on mutation when the type is not valid", () {
-    QueueList<Object> stringQueue = new QueueList<String>();
+    QueueList<Object> stringQueue = QueueList<String>();
     var numQueue = stringQueue.cast<num>();
     expect(
       numQueue,
@@ -290,7 +290,7 @@ void main() {
   });
 
   test("cast returns a new QueueList", () {
-    var queue = new QueueList<String>();
+    var queue = QueueList<String>();
     expect(queue.cast<Pattern>(), isNot(same(queue)));
   });
 }
@@ -300,12 +300,12 @@ void main() {
 QueueList atCapacity() {
   // Use addAll because [new QueueList.from(List)] won't use the default initial
   // capacity of 8.
-  return new QueueList()..addAll([1, 2, 3, 4, 5, 6, 7]);
+  return QueueList()..addAll([1, 2, 3, 4, 5, 6, 7]);
 }
 
 /// Returns a queue whose internal tail has a lower index than its head.
 QueueList withInternalGap() {
-  var queue = new QueueList.from(<dynamic>[null, null, null, null, 1, 2, 3, 4]);
+  var queue = QueueList.from(<dynamic>[null, null, null, null, 1, 2, 3, 4]);
   for (var i = 0; i < 4; i++) {
     queue.removeFirst();
   }
@@ -318,4 +318,4 @@ QueueList withInternalGap() {
 /// Returns a matcher that expects that a closure throws a
 /// [ConcurrentModificationError].
 final throwsConcurrentModificationError =
-    throwsA(new TypeMatcher<ConcurrentModificationError>());
+    throwsA(TypeMatcher<ConcurrentModificationError>());

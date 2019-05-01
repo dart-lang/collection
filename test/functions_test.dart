@@ -220,7 +220,7 @@ void main() {
       expect(
           stronglyConnectedComponents({"a": []}),
           equals([
-            new Set.from(["a"])
+            Set.from(["a"])
           ]));
     });
 
@@ -231,8 +231,8 @@ void main() {
             "b": []
           }),
           equals([
-            new Set.from(["a"]),
-            new Set.from(["b"])
+            Set.from(["a"]),
+            Set.from(["b"])
           ]));
     });
 
@@ -243,7 +243,7 @@ void main() {
             "b": ["a"]
           }),
           equals([
-            new Set.from(["a", "b"])
+            Set.from(["a", "b"])
           ]));
     });
 
@@ -261,12 +261,12 @@ void main() {
             // This is expected to return *a* topological ordering, but this isn't
             // the only valid one. If the function implementation changes in the
             // future, this test may need to be updated.
-            new Set.from(["foo"]),
-            new Set.from(["bar"]),
-            new Set.from(["bang"]),
-            new Set.from(["zap"]),
-            new Set.from(["baz"]),
-            new Set.from(["qux"])
+            Set.from(["foo"]),
+            Set.from(["bar"]),
+            Set.from(["bang"]),
+            Set.from(["zap"]),
+            Set.from(["baz"]),
+            Set.from(["qux"])
           ]));
     });
 
@@ -279,7 +279,7 @@ void main() {
             "bang": ["foo"]
           }),
           equals([
-            new Set.from(["foo", "bar", "baz", "bang"])
+            Set.from(["foo", "bar", "baz", "bang"])
           ]));
     });
 
@@ -300,9 +300,9 @@ void main() {
             // This is expected to return *a* topological ordering, but this isn't
             // the only valid one. If the function implementation changes in the
             // future, this test may need to be updated.
-            new Set.from(["a", "b", "e"]),
-            new Set.from(["c", "d", "h"]),
-            new Set.from(["f", "g"]),
+            Set.from(["a", "b", "e"]),
+            Set.from(["c", "d", "h"]),
+            Set.from(["f", "g"]),
           ]));
     });
 
@@ -320,12 +320,12 @@ void main() {
             // This is expected to return *a* topological ordering, but this isn't
             // the only valid one. If the function implementation changes in the
             // future, this test may need to be updated.
-            new Set.from(["foo"]),
-            new Set.from(["bar"]),
-            new Set.from(["bang"]),
-            new Set.from(["zap"]),
-            new Set.from(["baz"]),
-            new Set.from(["qux"])
+            Set.from(["foo"]),
+            Set.from(["bar"]),
+            Set.from(["bang"]),
+            Set.from(["zap"]),
+            Set.from(["baz"]),
+            Set.from(["qux"])
           ]));
     });
   });

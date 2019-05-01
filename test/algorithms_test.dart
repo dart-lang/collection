@@ -12,7 +12,7 @@ void main() {
   void testShuffle(List list) {
     List copy = list.toList();
     shuffle(list);
-    expect(new UnorderedIterableEquality().equals(list, copy), isTrue);
+    expect(UnorderedIterableEquality().equals(list, copy), isTrue);
   }
 
   test("Shuffle 0", () {
@@ -79,25 +79,25 @@ void main() {
   });
 
   test("binsearchCompare0", () {
-    expect(binarySearch(<C>[], new C(2), compare: compareC), equals(-1));
+    expect(binarySearch(<C>[], C(2), compare: compareC), equals(-1));
   });
 
   test("binsearchCompare1", () {
-    var l1 = [new C(5)];
-    expect(binarySearch(l1, new C(2), compare: compareC), equals(-1));
-    expect(binarySearch(l1, new C(5), compare: compareC), equals(0));
-    expect(binarySearch(l1, new C(7), compare: compareC), equals(-1));
+    var l1 = [C(5)];
+    expect(binarySearch(l1, C(2), compare: compareC), equals(-1));
+    expect(binarySearch(l1, C(5), compare: compareC), equals(0));
+    expect(binarySearch(l1, C(7), compare: compareC), equals(-1));
   });
 
   test("binsearchCompare3", () {
-    var l3 = [new C(0), new C(5), new C(10)];
-    expect(binarySearch(l3, new C(-1), compare: compareC), equals(-1));
-    expect(binarySearch(l3, new C(0), compare: compareC), equals(0));
-    expect(binarySearch(l3, new C(2), compare: compareC), equals(-1));
-    expect(binarySearch(l3, new C(5), compare: compareC), equals(1));
-    expect(binarySearch(l3, new C(7), compare: compareC), equals(-1));
-    expect(binarySearch(l3, new C(10), compare: compareC), equals(2));
-    expect(binarySearch(l3, new C(12), compare: compareC), equals(-1));
+    var l3 = [C(0), C(5), C(10)];
+    expect(binarySearch(l3, C(-1), compare: compareC), equals(-1));
+    expect(binarySearch(l3, C(0), compare: compareC), equals(0));
+    expect(binarySearch(l3, C(2), compare: compareC), equals(-1));
+    expect(binarySearch(l3, C(5), compare: compareC), equals(1));
+    expect(binarySearch(l3, C(7), compare: compareC), equals(-1));
+    expect(binarySearch(l3, C(10), compare: compareC), equals(2));
+    expect(binarySearch(l3, C(12), compare: compareC), equals(-1));
   });
 
   test("lowerbound0", () {
@@ -126,38 +126,38 @@ void main() {
   });
 
   test("lowerboundCompare0", () {
-    expect(lowerBound(<C>[], new C(2), compare: compareC), equals(0));
+    expect(lowerBound(<C>[], C(2), compare: compareC), equals(0));
   });
 
   test("lowerboundCompare1", () {
-    var l1 = [new C(5)];
-    expect(lowerBound(l1, new C(2), compare: compareC), equals(0));
-    expect(lowerBound(l1, new C(5), compare: compareC), equals(0));
-    expect(lowerBound(l1, new C(7), compare: compareC), equals(1));
+    var l1 = [C(5)];
+    expect(lowerBound(l1, C(2), compare: compareC), equals(0));
+    expect(lowerBound(l1, C(5), compare: compareC), equals(0));
+    expect(lowerBound(l1, C(7), compare: compareC), equals(1));
   });
 
   test("lowerboundCompare3", () {
-    var l3 = [new C(0), new C(5), new C(10)];
-    expect(lowerBound(l3, new C(-1), compare: compareC), equals(0));
-    expect(lowerBound(l3, new C(0), compare: compareC), equals(0));
-    expect(lowerBound(l3, new C(2), compare: compareC), equals(1));
-    expect(lowerBound(l3, new C(5), compare: compareC), equals(1));
-    expect(lowerBound(l3, new C(7), compare: compareC), equals(2));
-    expect(lowerBound(l3, new C(10), compare: compareC), equals(2));
-    expect(lowerBound(l3, new C(12), compare: compareC), equals(3));
+    var l3 = [C(0), C(5), C(10)];
+    expect(lowerBound(l3, C(-1), compare: compareC), equals(0));
+    expect(lowerBound(l3, C(0), compare: compareC), equals(0));
+    expect(lowerBound(l3, C(2), compare: compareC), equals(1));
+    expect(lowerBound(l3, C(5), compare: compareC), equals(1));
+    expect(lowerBound(l3, C(7), compare: compareC), equals(2));
+    expect(lowerBound(l3, C(10), compare: compareC), equals(2));
+    expect(lowerBound(l3, C(12), compare: compareC), equals(3));
   });
 
   test("lowerboundCompareRepeat", () {
-    var l1 = [new C(5), new C(5), new C(5)];
-    var l2 = [new C(0), new C(5), new C(5), new C(5), new C(10)];
-    expect(lowerBound(l1, new C(5), compare: compareC), equals(0));
-    expect(lowerBound(l2, new C(5), compare: compareC), equals(1));
+    var l1 = [C(5), C(5), C(5)];
+    var l2 = [C(0), C(5), C(5), C(5), C(10)];
+    expect(lowerBound(l1, C(5), compare: compareC), equals(0));
+    expect(lowerBound(l2, C(5), compare: compareC), equals(1));
   });
 
   test("insertionSortRandom", () {
-    Random random = new Random();
+    Random random = Random();
     for (int i = 0; i < 25; i++) {
-      List list = new List(i);
+      List list = List(i);
       for (int j = 0; j < i; j++) {
         list[j] = random.nextInt(25); // Expect some equal elements.
       }
@@ -193,9 +193,9 @@ void main() {
   });
 
   test("MergeSortRandom", () {
-    Random random = new Random();
+    Random random = Random();
     for (int i = 0; i < 250; i += 1) {
-      List list = new List(i);
+      List list = List(i);
       for (int j = 0; j < i; j++) {
         list[j] = random.nextInt(i); // Expect some equal elements.
       }
@@ -207,18 +207,18 @@ void main() {
   });
 
   test("MergeSortPreservesOrder", () {
-    Random random = new Random();
+    Random random = Random();
     // Small case where only insertion call is called,
     // larger case where the internal moving insertion sort is used
     // larger cases with multiple splittings, numbers just around a power of 2.
     for (int size in [8, 50, 511, 512, 513]) {
-      var list = new List<OC>(size);
+      var list = List<OC>(size);
       // Class OC compares using id.
       // With size elements with id's in the range 0..size/4, a number of
       // collisions are guaranteed. These should be sorted so that the "order"
       // part of the objects are still in order.
       for (int i = 0; i < size; i++) {
-        list[i] = new OC(random.nextInt(size >> 2), i);
+        list[i] = OC(random.nextInt(size >> 2), i);
       }
       mergeSort(list);
       OC prev = list[0];
@@ -255,18 +255,18 @@ void main() {
   test("MergeSortSpecialCases", () {
     for (int size in [511, 512, 513]) {
       // All equal.
-      List list = new List(size);
+      List list = List(size);
       for (int i = 0; i < size; i++) {
-        list[i] = new OC(0, i);
+        list[i] = OC(0, i);
       }
       mergeSort(list);
       for (int i = 0; i < size; i++) {
         expect(list[i].order, equals(i));
       }
       // All but one equal, first.
-      list[0] = new OC(1, 0);
+      list[0] = OC(1, 0);
       for (int i = 1; i < size; i++) {
-        list[i] = new OC(0, i);
+        list[i] = OC(0, i);
       }
       mergeSort(list);
       for (int i = 0; i < size - 1; i++) {
@@ -276,9 +276,9 @@ void main() {
 
       // All but one equal, last.
       for (int i = 0; i < size - 1; i++) {
-        list[i] = new OC(0, i);
+        list[i] = OC(0, i);
       }
-      list[size - 1] = new OC(-1, size - 1);
+      list[size - 1] = OC(-1, size - 1);
       mergeSort(list);
       expect(list[0].order, equals(size - 1));
       for (int i = 1; i < size; i++) {
@@ -287,7 +287,7 @@ void main() {
 
       // Reversed.
       for (int i = 0; i < size; i++) {
-        list[i] = new OC(size - 1 - i, i);
+        list[i] = OC(size - 1 - i, i);
       }
       mergeSort(list);
       for (int i = 0; i < size; i++) {

@@ -30,7 +30,7 @@ abstract class Equality<E> {
   bool isValidKey(Object o);
 }
 
-typedef F _GetKey<E, F>(E object);
+typedef _GetKey<E, F> = F Function(E object);
 
 /// Equality of objects based on derived values.
 ///
@@ -197,7 +197,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
   bool equals(T elements1, T elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
-    HashMap<E, int> counts = new HashMap(
+    HashMap<E, int> counts = HashMap(
         equals: _elementEquality.equals,
         hashCode: _elementEquality.hash,
         isValidKey: _elementEquality.isValidKey);
@@ -296,8 +296,8 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
   final Equality<K> _keyEquality;
   final Equality<V> _valueEquality;
   const MapEquality(
-      {Equality<K> keys: const DefaultEquality(),
-      Equality<V> values: const DefaultEquality()})
+      {Equality<K> keys = const DefaultEquality(),
+      Equality<V> values = const DefaultEquality()})
       : _keyEquality = keys,
         _valueEquality = values;
 
@@ -306,15 +306,15 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
     if (map1 == null || map2 == null) return false;
     int length = map1.length;
     if (length != map2.length) return false;
-    Map<_MapEntry, int> equalElementCounts = new HashMap();
+    Map<_MapEntry, int> equalElementCounts = HashMap();
     for (K key in map1.keys) {
-      _MapEntry entry = new _MapEntry(this, key, map1[key]);
+      _MapEntry entry = _MapEntry(this, key, map1[key]);
       int count = equalElementCounts[entry];
       if (count == null) count = 0;
       equalElementCounts[entry] = count + 1;
     }
     for (K key in map2.keys) {
-      _MapEntry entry = new _MapEntry(this, key, map2[key]);
+      _MapEntry entry = _MapEntry(this, key, map2[key]);
       int count = equalElementCounts[entry];
       if (count == null || count == 0) return false;
       equalElementCounts[entry] = count - 1;
@@ -413,35 +413,33 @@ class DeepCollectionEquality implements Equality {
 
   bool equals(e1, e2) {
     if (e1 is Set) {
-      return e2 is Set && new SetEquality(this).equals(e1, e2);
+      return e2 is Set && SetEquality(this).equals(e1, e2);
     }
     if (e1 is Map) {
-      return e2 is Map &&
-          new MapEquality(keys: this, values: this).equals(e1, e2);
+      return e2 is Map && MapEquality(keys: this, values: this).equals(e1, e2);
     }
     if (!_unordered) {
       if (e1 is List) {
-        return e2 is List && new ListEquality(this).equals(e1, e2);
+        return e2 is List && ListEquality(this).equals(e1, e2);
       }
       if (e1 is Iterable) {
-        return e2 is Iterable && new IterableEquality(this).equals(e1, e2);
+        return e2 is Iterable && IterableEquality(this).equals(e1, e2);
       }
     } else if (e1 is Iterable) {
       if (e1 is List != e2 is List) return false;
-      return e2 is Iterable &&
-          new UnorderedIterableEquality(this).equals(e1, e2);
+      return e2 is Iterable && UnorderedIterableEquality(this).equals(e1, e2);
     }
     return _base.equals(e1, e2);
   }
 
   int hash(Object o) {
-    if (o is Set) return new SetEquality(this).hash(o);
-    if (o is Map) return new MapEquality(keys: this, values: this).hash(o);
+    if (o is Set) return SetEquality(this).hash(o);
+    if (o is Map) return MapEquality(keys: this, values: this).hash(o);
     if (!_unordered) {
-      if (o is List) return new ListEquality(this).hash(o);
-      if (o is Iterable) return new IterableEquality(this).hash(o);
+      if (o is List) return ListEquality(this).hash(o);
+      if (o is Iterable) return IterableEquality(this).hash(o);
     } else if (o is Iterable) {
-      return new UnorderedIterableEquality(this).hash(o);
+      return UnorderedIterableEquality(this).hash(o);
     }
     return _base.hash(o);
   }

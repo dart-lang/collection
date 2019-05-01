@@ -66,7 +66,7 @@ class InvocationChecker {
   // don't override those and so the wrappers don't forward those.
 }
 
-final toStringInvocation = new Invocation.method(#toString, const []);
+final toStringInvocation = Invocation.method(#toString, const []);
 
 // InvocationCheckers with types Queue, Set, List or Iterable to allow them as
 // argument to DelegatingIterable/Set/List/Queue.
@@ -95,38 +95,37 @@ class MapInvocationChecker<K, V> extends InvocationChecker
 // Expector that wraps in DelegatingIterable.
 class IterableExpector<T> extends Expector implements Iterable<T> {
   wrappedChecker(Invocation i) =>
-      new DelegatingIterable<T>(new IterableInvocationChecker<T>(i));
+      DelegatingIterable<T>(IterableInvocationChecker<T>(i));
 }
 
 // Expector that wraps in DelegatingList.
 class ListExpector<T> extends Expector implements List<T> {
   wrappedChecker(Invocation i) =>
-      new DelegatingList<T>(new ListInvocationChecker<T>(i));
+      DelegatingList<T>(ListInvocationChecker<T>(i));
 }
 
 // Expector that wraps in DelegatingSet.
 class SetExpector<T> extends Expector implements Set<T> {
-  wrappedChecker(Invocation i) =>
-      new DelegatingSet<T>(new SetInvocationChecker<T>(i));
+  wrappedChecker(Invocation i) => DelegatingSet<T>(SetInvocationChecker<T>(i));
 }
 
 // Expector that wraps in DelegatingSet.
 class QueueExpector<T> extends Expector implements Queue<T> {
   wrappedChecker(Invocation i) =>
-      new DelegatingQueue<T>(new QueueInvocationChecker<T>(i));
+      DelegatingQueue<T>(QueueInvocationChecker<T>(i));
 }
 
 // Expector that wraps in DelegatingMap.
 class MapExpector<K, V> extends Expector implements Map<K, V> {
   wrappedChecker(Invocation i) =>
-      new DelegatingMap<K, V>(new MapInvocationChecker<K, V>(i));
+      DelegatingMap<K, V>(MapInvocationChecker<K, V>(i));
 }
 
 // Utility values to use as arguments in calls.
 Null func0() => null;
 Null func1(Object x) => null;
 Null func2(Object x, Object y) => null;
-var val = new Object();
+var val = Object();
 
 void main() {
   testIterable(var expect) {
@@ -212,7 +211,7 @@ void main() {
 
   void testSet(var expect) {
     testIterable(expect);
-    Set set = new Set();
+    Set set = Set();
     (expect..add(val)).equals.add(val);
     (expect..addAll([val])).equals.addAll([val]);
     (expect..clear()).equals.clear();
@@ -240,7 +239,7 @@ void main() {
   }
 
   void testMap(var expect) {
-    Map map = new Map();
+    Map map = Map();
     (expect..[val]).equals[val];
     (expect..[val] = val).equals[val] = val;
     (expect..addAll(map)).equals.addAll(map);
@@ -393,7 +392,7 @@ void main() {
       });
 
       test(".toSet", () {
-        expect(set.toSet(), equals(new Set.from(["foo", "bar"])));
+        expect(set.toSet(), equals(Set.from(["foo", "bar"])));
       });
 
       test(".where", () {
@@ -411,40 +410,40 @@ void main() {
       });
 
       test(".difference", () {
-        expect(set.difference(new Set.from(["foo", "baz"])),
-            equals(new Set.from(["bar"])));
+        expect(set.difference(Set.from(["foo", "baz"])),
+            equals(Set.from(["bar"])));
       });
 
       test(".intersection", () {
-        expect(set.intersection(new Set.from(["foo", "baz"])),
-            equals(new Set.from(["foo"])));
+        expect(set.intersection(Set.from(["foo", "baz"])),
+            equals(Set.from(["foo"])));
       });
 
       test(".union", () {
-        expect(set.union(new Set.from(["foo", "baz"])),
-            equals(new Set.from(["foo", "bar", "baz"])));
+        expect(set.union(Set.from(["foo", "baz"])),
+            equals(Set.from(["foo", "bar", "baz"])));
       });
     });
   }
 
   test("Iterable", () {
-    testIterable(new IterableExpector());
+    testIterable(IterableExpector());
   });
 
   test("List", () {
-    testList(new ListExpector());
+    testList(ListExpector());
   });
 
   test("Set", () {
-    testSet(new SetExpector());
+    testSet(SetExpector());
   });
 
   test("Queue", () {
-    testQueue(new QueueExpector());
+    testQueue(QueueExpector());
   });
 
   test("Map", () {
-    testMap(new MapExpector());
+    testMap(MapExpector());
   });
 
   group("MapKeySet", () {
@@ -452,8 +451,8 @@ void main() {
     Set<String> set;
 
     setUp(() {
-      map = new Map<String, int>();
-      set = new MapKeySet<String>(map);
+      map = Map<String, int>();
+      set = MapKeySet<String>(map);
     });
 
     testTwoElementSet(() {
@@ -520,9 +519,9 @@ void main() {
     Set<String> set;
 
     setUp(() {
-      map = new Map<String, String>();
-      set = new MapValueSet<String, String>(
-          map, (string) => string.substring(0, 1));
+      map = Map<String, String>();
+      set =
+          MapValueSet<String, String>(map, (string) => string.substring(0, 1));
     });
 
     testTwoElementSet(() {
@@ -629,12 +628,12 @@ void main() {
     });
 
     test(".retainAll respects an unusual notion of equality", () {
-      map = new HashMap<String, String>(
+      map = HashMap<String, String>(
           equals: (value1, value2) =>
               value1.toLowerCase() == value2.toLowerCase(),
           hashCode: (value) => value.toLowerCase().hashCode);
-      set = new MapValueSet<String, String>(
-          map, (string) => string.substring(0, 1));
+      set =
+          MapValueSet<String, String>(map, (string) => string.substring(0, 1));
 
       map["f"] = "foo";
       map["B"] = "bar";

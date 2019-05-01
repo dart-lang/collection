@@ -11,7 +11,7 @@ import 'wrappers.dart';
 class EqualityMap<K, V> extends DelegatingMap<K, V> {
   /// Creates a map with equality based on [equality].
   EqualityMap(Equality<K> equality)
-      : super(new LinkedHashMap(
+      : super(LinkedHashMap(
             equals: equality.equals,
             hashCode: equality.hash,
             isValidKey: equality.isValidKey));
@@ -22,7 +22,7 @@ class EqualityMap<K, V> extends DelegatingMap<K, V> {
   /// If [other] has multiple keys that are equivalent according to [equality],
   /// the last one reached during iteration takes precedence.
   EqualityMap.from(Equality<K> equality, Map<K, V> other)
-      : super(new LinkedHashMap(
+      : super(LinkedHashMap(
             equals: equality.equals,
             hashCode: equality.hash,
             isValidKey: equality.isValidKey)) {

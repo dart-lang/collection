@@ -16,7 +16,7 @@ import 'dart:collection';
 class CombinedListView<T> extends ListBase<T>
     implements UnmodifiableListView<T> {
   static void _throw() {
-    throw new UnsupportedError('Cannot modify an unmodifiable List');
+    throw UnsupportedError('Cannot modify an unmodifiable List');
   }
 
   /// The lists that this combines.
@@ -40,7 +40,7 @@ class CombinedListView<T> extends ListBase<T>
       }
       index -= list.length;
     }
-    throw new RangeError.index(initialIndex, this, 'index', null, length);
+    throw RangeError.index(initialIndex, this, 'index', null, length);
   }
 
   void operator []=(int index, T value) {

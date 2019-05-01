@@ -128,7 +128,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   final Comparator<E> comparison;
 
   /// List implementation of a heap.
-  List<E> _queue = new List<E>(_INITIAL_CAPACITY);
+  List<E> _queue = List<E>(_INITIAL_CAPACITY);
 
   /// Number of elements in queue.
   ///
@@ -167,7 +167,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   }
 
   E get first {
-    if (_length == 0) throw new StateError("No such element");
+    if (_length == 0) throw StateError("No such element");
     return _queue[0];
   }
 
@@ -201,7 +201,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   }
 
   E removeFirst() {
-    if (_length == 0) throw new StateError("No such element");
+    if (_length == 0) throw StateError("No such element");
     E result = _queue[0];
     E last = _removeLast();
     if (_length > 0) {
@@ -211,14 +211,14 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   }
 
   List<E> toList() {
-    List<E> list = new List<E>()..length = _length;
+    List<E> list = List<E>()..length = _length;
     list.setRange(0, _length, _queue);
     list.sort(comparison);
     return list;
   }
 
   Set<E> toSet() {
-    Set<E> set = new SplayTreeSet<E>(comparison);
+    Set<E> set = SplayTreeSet<E>(comparison);
     for (int i = 0; i < _length; i++) {
       set.add(_queue[i]);
     }
@@ -353,7 +353,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   void _grow() {
     int newCapacity = _queue.length * 2 + 1;
     if (newCapacity < _INITIAL_CAPACITY) newCapacity = _INITIAL_CAPACITY;
-    List<E> newQueue = new List<E>(newCapacity);
+    List<E> newQueue = List<E>(newCapacity);
     newQueue.setRange(0, _length, _queue);
     _queue = newQueue;
   }

@@ -10,7 +10,7 @@ void main() {
   group("with an empty outer set", () {
     var set;
     setUp(() {
-      set = new UnionSet<int>(new Set());
+      set = UnionSet<int>(Set());
     });
 
     test("length returns 0", () {
@@ -42,11 +42,11 @@ void main() {
   group("with multiple disjoint sets", () {
     var set;
     setUp(() {
-      set = new UnionSet.from([
-        new Set.of([1, 2]),
-        new Set.of([3, 4]),
-        new Set.of([5]),
-        new Set()
+      set = UnionSet.from([
+        Set.of([1, 2]),
+        Set.of([3, 4]),
+        Set.of([5]),
+        Set()
       ], disjoint: true);
     });
 
@@ -81,11 +81,11 @@ void main() {
   group("with multiple overlapping sets", () {
     var set;
     setUp(() {
-      set = new UnionSet.from([
-        new Set.of([1, 2, 3]),
-        new Set.of([3, 4]),
-        new Set.of([5, 1]),
-        new Set()
+      set = UnionSet.from([
+        Set.of([1, 2, 3]),
+        Set.of([3, 4]),
+        Set.of([5, 1]),
+        Set()
       ]);
     });
 
@@ -108,17 +108,17 @@ void main() {
     });
 
     test("lookup() returns the first element in an ordered context", () {
-      var duration1 = new Duration(seconds: 0);
-      var duration2 = new Duration(seconds: 0);
+      var duration1 = Duration(seconds: 0);
+      var duration2 = Duration(seconds: 0);
       expect(duration1, equals(duration2));
       expect(duration1, isNot(same(duration2)));
 
-      var set = new UnionSet.from([
-        new Set.of([duration1]),
-        new Set.of([duration2])
+      var set = UnionSet.from([
+        Set.of([duration1]),
+        Set.of([duration2])
       ]);
 
-      expect(set.lookup(new Duration(seconds: 0)), same(duration1));
+      expect(set.lookup(Duration(seconds: 0)), same(duration1));
     });
 
     test("toSet() returns the union of all the sets", () {
@@ -134,10 +134,10 @@ void main() {
   group("after an inner set was modified", () {
     var set;
     setUp(() {
-      var innerSet = new Set.of([3, 7]);
-      set = new UnionSet.from([
-        new Set.of([1, 2]),
-        new Set.of([5]),
+      var innerSet = Set.of([3, 7]);
+      set = UnionSet.from([
+        Set.of([1, 2]),
+        Set.of([5]),
         innerSet
       ]);
 
@@ -178,16 +178,16 @@ void main() {
   group("after the outer set was modified", () {
     var set;
     setUp(() {
-      var innerSet = new Set.of([6]);
-      var outerSet = new Set.of([
-        new Set.of([1, 2]),
-        new Set.of([5]),
+      var innerSet = Set.of([6]);
+      var outerSet = Set.of([
+        Set.of([1, 2]),
+        Set.of([5]),
         innerSet
       ]);
 
-      set = new UnionSet<int>(outerSet);
+      set = UnionSet<int>(outerSet);
       outerSet.remove(innerSet);
-      outerSet.add(new Set.of([3, 4]));
+      outerSet.add(Set.of([3, 4]));
     });
 
     test("length returns the total length", () {

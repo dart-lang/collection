@@ -6,9 +6,9 @@ import 'dart:collection';
 
 import 'utils.dart';
 
-typedef C _Canonicalize<C, K>(K key);
+typedef _Canonicalize<C, K> = C Function(K key);
 
-typedef bool _IsValidKey(Object key);
+typedef _IsValidKey = bool Function(Object key);
 
 /// A map whose keys are converted to canonical values of type `C`.
 ///
@@ -24,7 +24,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   final _IsValidKey _isValidKeyFn;
 
-  final _base = new Map<C, Pair<K, V>>();
+  final _base = Map<C, Pair<K, V>>();
 
   /// Creates an empty canonicalized map.
   ///
@@ -62,16 +62,15 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   void operator []=(K key, V value) {
     if (!_isValidKey(key)) return;
-    _base[_canonicalize(key)] = new Pair(key, value);
+    _base[_canonicalize(key)] = Pair(key, value);
   }
 
   void addAll(Map<K, V> other) {
     other.forEach((key, value) => this[key] = value);
   }
 
-  void addEntries(Iterable<MapEntry<K, V>> entries) =>
-      _base.addEntries(entries.map(
-          (e) => new MapEntry(_canonicalize(e.key), new Pair(e.key, e.value))));
+  void addEntries(Iterable<MapEntry<K, V>> entries) => _base.addEntries(
+      entries.map((e) => MapEntry(_canonicalize(e.key), Pair(e.key, e.value))));
 
   Map<K2, V2> cast<K2, V2>() => _base.cast<K2, V2>();
 
@@ -88,7 +87,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
       _base.values.any((pair) => pair.last == value);
 
   Iterable<MapEntry<K, V>> get entries =>
-      _base.entries.map((e) => new MapEntry(e.value.first, e.value.last));
+      _base.entries.map((e) => MapEntry(e.value.first, e.value.last));
 
   void forEach(void f(K key, V value)) {
     _base.forEach((key, pair) => f(pair.first, pair.last));
@@ -107,7 +106,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   V putIfAbsent(K key, V ifAbsent()) {
     return _base
-        .putIfAbsent(_canonicalize(key), () => new Pair(key, ifAbsent()))
+        .putIfAbsent(_canonicalize(key), () => Pair(key, ifAbsent()))
         .last;
   }
 
@@ -124,12 +123,12 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   V update(K key, V update(V value), {V ifAbsent()}) => _base
-      .update(_canonicalize(key), (pair) => new Pair(key, update(pair.last)),
-          ifAbsent: ifAbsent == null ? null : () => new Pair(key, ifAbsent()))
+      .update(_canonicalize(key), (pair) => Pair(key, update(pair.last)),
+          ifAbsent: ifAbsent == null ? null : () => Pair(key, ifAbsent()))
       .last;
 
-  void updateAll(V update(K key, V value)) => _base.updateAll(
-      (_, pair) => new Pair(pair.first, update(pair.first, pair.last)));
+  void updateAll(V update(K key, V value)) => _base
+      .updateAll((_, pair) => Pair(pair.first, update(pair.first, pair.last)));
 
   Iterable<V> get values => _base.values.map((pair) => pair.last);
 
@@ -139,7 +138,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
       return '{...}';
     }
 
-    var result = new StringBuffer();
+    var result = StringBuffer();
     try {
       _toStringVisiting.add(this);
       result.write('{');

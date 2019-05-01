@@ -17,7 +17,7 @@ Iterable iterError(Iterable base, int errorValue) {
 main() {
   test("Basic", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3],
           [4, 5, 6],
           [7, 8, 9]
@@ -31,7 +31,7 @@ main() {
 
   test("Uneven length 1", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3, 99, 100],
           [4, 5, 6],
           [7, 8, 9]
@@ -45,7 +45,7 @@ main() {
 
   test("Uneven length 2", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3],
           [4, 5, 6, 99, 100],
           [7, 8, 9]
@@ -59,7 +59,7 @@ main() {
 
   test("Uneven length 3", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3],
           [4, 5, 6],
           [7, 8, 9, 99, 100]
@@ -73,7 +73,7 @@ main() {
 
   test("Uneven length 3", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3, 98],
           [4, 5, 6],
           [7, 8, 9, 99, 100]
@@ -87,7 +87,7 @@ main() {
 
   test("Empty 1", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [],
           [4, 5, 6],
           [7, 8, 9]
@@ -97,7 +97,7 @@ main() {
 
   test("Empty 2", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3],
           [],
           [7, 8, 9]
@@ -107,7 +107,7 @@ main() {
 
   test("Empty 3", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3],
           [4, 5, 6],
           []
@@ -116,12 +116,12 @@ main() {
   });
 
   test("Empty source", () {
-    expect(new IterableZip([]), equals([]));
+    expect(IterableZip([]), equals([]));
   });
 
   test("Single Source", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3]
         ]),
         equals([
@@ -134,16 +134,15 @@ main() {
   test("Not-lists", () {
     // Use other iterables than list literals.
     Iterable it1 = [1, 2, 3, 4, 5, 6].where((x) => x < 4);
-    Set it2 = new LinkedHashSet()..add(4)..add(5)..add(6);
-    Iterable it3 = (new LinkedHashMap()
+    Set it2 = LinkedHashSet()..add(4)..add(5)..add(6);
+    Iterable it3 = (LinkedHashMap()
           ..[7] = 0
           ..[8] = 0
           ..[9] = 0)
         .keys;
-    Iterable<Iterable> allIts =
-        new Iterable.generate(3, (i) => [it1, it2, it3][i]);
+    Iterable<Iterable> allIts = Iterable.generate(3, (i) => [it1, it2, it3][i]);
     expect(
-        new IterableZip(allIts),
+        IterableZip(allIts),
         equals([
           [1, 4, 7],
           [2, 5, 8],
@@ -153,7 +152,7 @@ main() {
 
   test("Error 1", () {
     expect(
-        () => new IterableZip([
+        () => IterableZip([
               iterError([1, 2, 3], 2),
               [4, 5, 6],
               [7, 8, 9]
@@ -163,7 +162,7 @@ main() {
 
   test("Error 2", () {
     expect(
-        () => new IterableZip([
+        () => IterableZip([
               [1, 2, 3],
               iterError([4, 5, 6], 5),
               [7, 8, 9]
@@ -173,7 +172,7 @@ main() {
 
   test("Error 3", () {
     expect(
-        () => new IterableZip([
+        () => IterableZip([
               [1, 2, 3],
               [4, 5, 6],
               iterError([7, 8, 9], 8)
@@ -183,7 +182,7 @@ main() {
 
   test("Error at end", () {
     expect(
-        () => new IterableZip([
+        () => IterableZip([
               [1, 2, 3],
               iterError([4, 5, 6], 6),
               [7, 8, 9]
@@ -193,7 +192,7 @@ main() {
 
   test("Error before first end", () {
     expect(
-        () => new IterableZip([
+        () => IterableZip([
               iterError([1, 2, 3, 4], 4),
               [4, 5, 6],
               [7, 8, 9]
@@ -203,7 +202,7 @@ main() {
 
   test("Error after first end", () {
     expect(
-        new IterableZip([
+        IterableZip([
           [1, 2, 3],
           [4, 5, 6],
           iterError([7, 8, 9, 10], 10)

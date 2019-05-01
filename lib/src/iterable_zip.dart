@@ -23,7 +23,7 @@ class IterableZip<T> extends IterableBase<List<T>> {
   Iterator<List<T>> get iterator {
     var iterators = _iterables.map((x) => x.iterator).toList(growable: false);
     // TODO(lrn): Return an empty iterator directly if iterators is empty?
-    return new _IteratorZip<T>(iterators);
+    return _IteratorZip<T>(iterators);
   }
 }
 
@@ -41,7 +41,7 @@ class _IteratorZip<T> implements Iterator<List<T>> {
         return false;
       }
     }
-    _current = new List(_iterators.length);
+    _current = List(_iterators.length);
     for (int i = 0; i < _iterators.length; i++) {
       _current[i] = _iterators[i].current;
     }

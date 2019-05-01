@@ -15,21 +15,19 @@ void main() {
 
   // In every way possible this should test the same as an UnmodifiableMapView.
   common.testReadMap(
-      concat, new CombinedMapView([map1, map2, map3]), 'CombinedMapView');
+      concat, CombinedMapView([map1, map2, map3]), 'CombinedMapView');
 
-  common.testReadMap(
-      concat,
-      new CombinedMapView([map1, {}, map2, {}, map3, {}]),
+  common.testReadMap(concat, CombinedMapView([map1, {}, map2, {}, map3, {}]),
       'CombinedMapView (some empty)');
 
   test('should function as an empty map when no maps are passed', () {
-    var empty = new CombinedMapView([]);
+    var empty = CombinedMapView([]);
     expect(empty, isEmpty);
     expect(empty.length, 0);
   });
 
   test('should function as an empty map when only empty maps are passed', () {
-    var empty = new CombinedMapView([{}, {}, {}]);
+    var empty = CombinedMapView([{}, {}, {}]);
     expect(empty, isEmpty);
     expect(empty.length, 0);
   });
@@ -37,17 +35,17 @@ void main() {
   test('should reflect underlying changes back to the combined map', () {
     var backing1 = <int, int>{};
     var backing2 = <int, int>{};
-    var combined = new CombinedMapView([backing1, backing2]);
+    var combined = CombinedMapView([backing1, backing2]);
     expect(combined, isEmpty);
     backing1.addAll(map1);
     expect(combined, map1);
     backing2.addAll(map2);
-    expect(combined, new Map.from(backing1)..addAll(backing2));
+    expect(combined, Map.from(backing1)..addAll(backing2));
   });
 
   test('should reflect underlying changes with a single map', () {
     var backing1 = <int, int>{};
-    var combined = new CombinedMapView([backing1]);
+    var combined = CombinedMapView([backing1]);
     expect(combined, isEmpty);
     backing1.addAll(map1);
     expect(combined, map1);

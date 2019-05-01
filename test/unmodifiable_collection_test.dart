@@ -12,39 +12,39 @@ import "package:collection/collection.dart";
 
 main() {
   var list = <int>[];
-  testUnmodifiableList(list, new UnmodifiableListView(list), "empty");
+  testUnmodifiableList(list, UnmodifiableListView(list), "empty");
   list = [42];
-  testUnmodifiableList(list, new UnmodifiableListView(list), "single-42");
+  testUnmodifiableList(list, UnmodifiableListView(list), "single-42");
   list = [7];
-  testUnmodifiableList(list, new UnmodifiableListView(list), "single!42");
+  testUnmodifiableList(list, UnmodifiableListView(list), "single!42");
   list = [1, 42, 10];
-  testUnmodifiableList(list, new UnmodifiableListView(list), "three-42");
+  testUnmodifiableList(list, UnmodifiableListView(list), "three-42");
   list = [1, 7, 10];
-  testUnmodifiableList(list, new UnmodifiableListView(list), "three!42");
+  testUnmodifiableList(list, UnmodifiableListView(list), "three!42");
 
   list = [];
-  testNonGrowableList(list, new NonGrowableListView(list), "empty");
+  testNonGrowableList(list, NonGrowableListView(list), "empty");
   list = [42];
-  testNonGrowableList(list, new NonGrowableListView(list), "single-42");
+  testNonGrowableList(list, NonGrowableListView(list), "single-42");
   list = [7];
-  testNonGrowableList(list, new NonGrowableListView(list), "single!42");
+  testNonGrowableList(list, NonGrowableListView(list), "single!42");
   list = [1, 42, 10];
-  testNonGrowableList(list, new NonGrowableListView(list), "three-42");
+  testNonGrowableList(list, NonGrowableListView(list), "three-42");
   list = [1, 7, 10];
-  testNonGrowableList(list, new NonGrowableListView(list), "three!42");
+  testNonGrowableList(list, NonGrowableListView(list), "three!42");
 
-  var aSet = new Set<int>();
-  testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "empty");
-  aSet = new Set();
+  var aSet = Set<int>();
+  testUnmodifiableSet(aSet, UnmodifiableSetView(aSet), "empty");
+  aSet = Set();
   testUnmodifiableSet(aSet, const UnmodifiableSetView.empty(), "const empty");
-  aSet = new Set.of([42]);
-  testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "single-42");
-  aSet = new Set.of([7]);
-  testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "single!42");
-  aSet = new Set.of([1, 42, 10]);
-  testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three-42");
-  aSet = new Set.of([1, 7, 10]);
-  testUnmodifiableSet(aSet, new UnmodifiableSetView(aSet), "three!42");
+  aSet = Set.of([42]);
+  testUnmodifiableSet(aSet, UnmodifiableSetView(aSet), "single-42");
+  aSet = Set.of([7]);
+  testUnmodifiableSet(aSet, UnmodifiableSetView(aSet), "single!42");
+  aSet = Set.of([1, 42, 10]);
+  testUnmodifiableSet(aSet, UnmodifiableSetView(aSet), "three-42");
+  aSet = Set.of([1, 7, 10]);
+  testUnmodifiableSet(aSet, UnmodifiableSetView(aSet), "three!42");
 }
 
 void testUnmodifiableList(List<int> original, List<int> wrapped, String name) {
@@ -312,7 +312,7 @@ void testReadList(List original, List wrapped, String name) {
 }
 
 void testNoWriteList(List<int> original, List<int> wrapped, String name) {
-  var copy = new List.of(original);
+  var copy = List.of(original);
 
   testThrows(name, thunk) {
     test(name, () {
@@ -336,16 +336,16 @@ void testNoWriteList(List<int> original, List<int> wrapped, String name) {
 
   testThrows("$name - setRange throws", () {
     wrapped.setRange(
-        0, wrapped.length, new Iterable.generate(wrapped.length, (i) => i));
+        0, wrapped.length, Iterable.generate(wrapped.length, (i) => i));
   });
 
   testThrows("$name - setAll throws", () {
-    wrapped.setAll(0, new Iterable.generate(wrapped.length, (i) => i));
+    wrapped.setAll(0, Iterable.generate(wrapped.length, (i) => i));
   });
 }
 
 void testWriteList(List<int> original, List wrapped, String name) {
-  var copy = new List.of(original);
+  var copy = List.of(original);
 
   test("$name - []=", () {
     if (original.isNotEmpty) {
@@ -361,7 +361,7 @@ void testWriteList(List<int> original, List wrapped, String name) {
   });
 
   test("$name - sort", () {
-    List sortCopy = new List.of(original);
+    List sortCopy = List.of(original);
     sortCopy.sort();
     wrapped.sort();
     expect(original, orderedEquals(sortCopy));
@@ -393,7 +393,7 @@ void testWriteList(List<int> original, List wrapped, String name) {
 
 void testNoChangeLengthList(
     List<int> original, List<int> wrapped, String name) {
-  var copy = new List.of(original);
+  var copy = List.of(original);
 
   void testThrows(String name, thunk) {
     test(name, () {
@@ -457,7 +457,7 @@ void testNoChangeLengthList(
 }
 
 void testReadSet(Set<int> original, Set<int> wrapped, String name) {
-  var copy = new Set.of(original);
+  var copy = Set.of(original);
 
   test("$name - containsAll", () {
     expect(wrapped.containsAll(copy), isTrue);
@@ -467,24 +467,23 @@ void testReadSet(Set<int> original, Set<int> wrapped, String name) {
   });
 
   test("$name - intersection", () {
-    expect(wrapped.intersection(new Set()), isEmpty);
+    expect(wrapped.intersection(Set()), isEmpty);
     expect(wrapped.intersection(copy), unorderedEquals(original));
-    expect(wrapped.intersection(new Set.of([42])),
-        new Set.of(original.contains(42) ? [42] : []));
+    expect(wrapped.intersection(Set.of([42])),
+        Set.of(original.contains(42) ? [42] : []));
   });
 
   test("$name - union", () {
-    expect(wrapped.union(new Set()), unorderedEquals(original));
+    expect(wrapped.union(Set()), unorderedEquals(original));
     expect(wrapped.union(copy), unorderedEquals(original));
-    expect(wrapped.union(new Set.of([42])),
-        equals(original.union(new Set.of([42]))));
+    expect(wrapped.union(Set.of([42])), equals(original.union(Set.of([42]))));
   });
 
   test("$name - difference", () {
-    expect(wrapped.difference(new Set()), unorderedEquals(original));
+    expect(wrapped.difference(Set()), unorderedEquals(original));
     expect(wrapped.difference(copy), isEmpty);
-    expect(wrapped.difference(new Set.of([42])),
-        equals(original.difference(new Set.of([42]))));
+    expect(wrapped.difference(Set.of([42])),
+        equals(original.difference(Set.of([42]))));
   });
 }
 
@@ -590,7 +589,7 @@ void testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
 }
 
 testNoChangeMap(Map<int, int> original, Map<int, int> wrapped, String name) {
-  var copy = new Map.of(original);
+  var copy = Map.of(original);
 
   testThrows(name, thunk) {
     test(name, () {
@@ -609,11 +608,11 @@ testNoChangeMap(Map<int, int> original, Map<int, int> wrapped, String name) {
   });
 
   testThrows("$name addAll throws", () {
-    wrapped.addAll(new Map()..[42] = 42);
+    wrapped.addAll(Map()..[42] = 42);
   });
 
   testThrows("$name addAll empty throws", () {
-    wrapped.addAll(new Map());
+    wrapped.addAll(Map());
   });
 
   testThrows("$name remove throws", () {

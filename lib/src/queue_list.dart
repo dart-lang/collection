@@ -94,7 +94,9 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
         }
       }
     } else {
-      for (E element in iterable) _add(element);
+      for (E element in iterable) {
+        _add(element);
+      }
     }
   }
 
@@ -253,8 +255,10 @@ class _CastQueueList<S, T> extends QueueList<T> {
   }
 
   int get _head => _delegate._head;
+
   set _head(int value) => _delegate._head = value;
 
   int get _tail => _delegate._tail;
+
   set _tail(int value) => _delegate._tail = value;
 }

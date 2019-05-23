@@ -89,7 +89,7 @@ void main() {
     test("returns null for an empty iterable", () {
       expect(
           minBy([], expectAsync1((_) {}, count: 0),
-              compare: expectAsync2((_, __) {}, count: 0)),
+              compare: expectAsync2((_, __) => null, count: 0)),
           isNull);
     });
 
@@ -125,7 +125,7 @@ void main() {
     test("returns null for an empty iterable", () {
       expect(
           maxBy([], expectAsync1((_) {}, count: 0),
-              compare: expectAsync2((_, __) {}, count: 0)),
+              compare: expectAsync2((_, __) => null, count: 0)),
           isNull);
     });
 

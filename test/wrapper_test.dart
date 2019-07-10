@@ -50,7 +50,7 @@ abstract class Expector {
 // Parameterization of noSuchMethod. Calls [_action] on every
 // member invocation.
 class InvocationChecker {
-  Invocation _expected;
+  final Invocation _expected;
   InvocationChecker(this._expected);
   noSuchMethod(Invocation actual) {
     testInvocations(_expected, actual);
@@ -399,8 +399,7 @@ void main() {
         expect(
             set.where((element) => element.startsWith("f")), equals(["foo"]));
         expect(set.where((element) => element.startsWith("z")), equals([]));
-        expect(
-            set.where((element) => element is String), equals(["foo", "bar"]));
+        expect(set.whereType<String>(), equals(["foo", "bar"]));
       });
 
       test(".containsAll", () {

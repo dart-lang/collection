@@ -48,5 +48,9 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   /// Unlike most [Map] implementations, modifying an individual map while
   /// iterating the keys will _sometimes_ throw. This behavior may change in
   /// the future.
-  Iterable<K> get keys => CombinedIterableView<K>(_maps.map((m) => m.keys));
+  Iterable<K> get keys {
+    var seen = Set<K>();
+    var allKeys = CombinedIterableView<K>(_maps.map((m) => m.keys));
+    return allKeys.where((key) => seen.add(key));
+  }
 }

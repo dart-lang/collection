@@ -27,7 +27,9 @@ void main() {
   common.testReadMap(
       concat, CombinedMapView([map1, map2, map3, map4]), 'CombinedMapView');
 
-  common.testReadMap(concat, CombinedMapView([map1, {}, map2, {}, map3, {}]),
+  common.testReadMap(
+      concat,
+      CombinedMapView([map1, {}, map2, {}, map3, {}, map4, {}]),
       'CombinedMapView (some empty)');
 
   test('should function as an empty map when no maps are passed', () {

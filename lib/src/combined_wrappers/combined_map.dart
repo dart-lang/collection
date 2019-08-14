@@ -48,9 +48,37 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   /// Unlike most [Map] implementations, modifying an individual map while
   /// iterating the keys will _sometimes_ throw. This behavior may change in
   /// the future.
-  Iterable<K> get keys {
-    var seen = Set<K>();
-    var allKeys = CombinedIterableView<K>(_maps.map((m) => m.keys));
-    return allKeys.where((key) => seen.add(key));
+  Iterable<K> get keys => _LazyDeduplicatingIterableView(
+      CombinedIterableView(_maps.map((m) => m.keys)));
+}
+
+/// A view of an iterable that lazily skips any duplicate entries.
+class _LazyDeduplicatingIterableView<T> extends IterableBase<T> {
+  final Iterable<T> _iterable;
+
+  const _LazyDeduplicatingIterableView(this._iterable);
+
+  Iterator<T> get iterator => _LazyDeduplicatingIterator(_iterable.iterator);
+}
+
+/// The iterator that iterates another iterator and lazily skips duplicate
+/// values.
+class _LazyDeduplicatingIterator<T> implements Iterator<T> {
+  final Iterator<T> _iterator;
+
+  final _emitted = Set<T>();
+
+  _LazyDeduplicatingIterator(this._iterator);
+
+  T get current => _iterator.current;
+
+  bool moveNext() {
+    while (_iterator.moveNext()) {
+      if (_emitted.add(current)) {
+        return true;
+      }
+    }
+    _emitted.clear();
+    return false;
   }
 }

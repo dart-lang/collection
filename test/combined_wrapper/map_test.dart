@@ -62,4 +62,10 @@ void main() {
     backing1.addAll(map1);
     expect(combined, map1);
   });
+
+  test('re-iterating keys produces same result', () {
+    var combined = CombinedMapView([map1, map2, map3, map4]);
+    var keys = combined.keys;
+    expect(keys.toList(), keys.toList());
+  });
 }

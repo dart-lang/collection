@@ -13,10 +13,12 @@ import 'combined_iterable.dart';
 /// accessing individual map instances. In the occasion where a key occurs in
 /// multiple maps the first value is returned.
 ///
-/// The resulting map has an index operator (`[]`) and `length` property that
-/// are both `O(maps)`, rather than `O(1)`, and the map is unmodifiable - but
-/// underlying changes to these maps are still accessible from the resulting
-/// map.
+/// The resulting map has an index operator (`[]`) that is `O(maps)`, rather
+/// than `O(1)`, and the map is unmodifiable, but underlying changes to these
+/// maps are still accessible from the resulting map.
+///
+/// The `length` is `O(maps.reduce((value, map) => value + map.length))` since
+/// it has to remove duplicate entries.
 class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   final Iterable<Map<K, V>> _maps;
 
@@ -39,8 +41,10 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
 
   /// The keys of [this].
   ///
-  /// The returned iterable has efficient `length` and `contains` operations,
-  /// based on [length] and [containsKey] of the individual maps.
+  /// The returned iterable has efficient `contains` operations, based on
+  /// [containsKey] of the individual maps.
+  ///
+  /// The `length` must do deduplication and thus is not optimized.
   ///
   /// The order of iteration is defined by the individual `Map` implementations,
   /// but must be consistent between changes to the maps.
@@ -59,6 +63,16 @@ class _LazyDeduplicatingIterableView<T> extends IterableBase<T> {
   const _LazyDeduplicatingIterableView(this._iterable);
 
   Iterator<T> get iterator => _LazyDeduplicatingIterator(_iterable.iterator);
+
+  // Special cased contains/isEmpty since many iterables have an efficient
+  // implementation instead of running through the entire iterator.
+  //
+  // Note: We do not do this for `length` because we have to remove the
+  // duplicates.
+
+  bool contains(Object element) => _iterable.contains(element);
+
+  bool get isEmpty => _iterable.isEmpty;
 }
 
 /// An iterator that wraps another iterator and lazily skips duplicate values.

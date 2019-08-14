@@ -61,8 +61,7 @@ class _LazyDeduplicatingIterableView<T> extends IterableBase<T> {
   Iterator<T> get iterator => _LazyDeduplicatingIterator(_iterable.iterator);
 }
 
-/// The iterator that iterates another iterator and lazily skips duplicate
-/// values.
+/// An iterator that wraps another iterator and lazily skips duplicate values.
 class _LazyDeduplicatingIterator<T> implements Iterator<T> {
   final Iterator<T> _iterator;
 

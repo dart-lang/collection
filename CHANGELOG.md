@@ -1,3 +1,9 @@
+## 1.14.12
+
+* Fix `CombinedMapView.keys`, `CombinedMapView.length`,
+  `CombinedMapView.forEach`, and `CombinedMapView.values` to work as specified
+  and not repeat duplicate items from the maps.
+
 ## 1.14.11
 
 * Set max SDK version to `<3.0.0`.

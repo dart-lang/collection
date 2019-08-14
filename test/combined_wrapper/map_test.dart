@@ -11,11 +11,16 @@ void main() {
   var map1 = const {1: 1, 2: 2, 3: 3};
   var map2 = const {4: 4, 5: 5, 6: 6};
   var map3 = const {7: 7, 8: 8, 9: 9};
-  var concat = <int, int>{}..addAll(map1)..addAll(map2)..addAll(map3);
+  var map4 = const {1: 1, 4: 4, 7: 7};
+  var concat = <int, int>{}
+    ..addAll(map1)
+    ..addAll(map2)
+    ..addAll(map3)
+    ..addAll(map4);
 
   // In every way possible this should test the same as an UnmodifiableMapView.
   common.testReadMap(
-      concat, CombinedMapView([map1, map2, map3]), 'CombinedMapView');
+      concat, CombinedMapView([map1, map2, map3, map4]), 'CombinedMapView');
 
   common.testReadMap(concat, CombinedMapView([map1, {}, map2, {}, map3, {}]),
       'CombinedMapView (some empty)');

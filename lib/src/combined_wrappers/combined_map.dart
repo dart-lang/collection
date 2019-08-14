@@ -91,7 +91,6 @@ class _LazyDeduplicatingIterator<T> implements Iterator<T> {
         return true;
       }
     }
-    _emitted.clear();
     return false;
   }
 }

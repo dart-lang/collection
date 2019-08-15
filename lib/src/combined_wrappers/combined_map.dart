@@ -17,12 +17,12 @@ import 'combined_iterable.dart';
 /// than `O(1)`, and the map is unmodifiable, but underlying changes to these
 /// maps are still accessible from the resulting map.
 ///
-/// The `length` is `O(maps.reduce((value, map) => value + map.length))` since
-/// it has to remove duplicate entries.
+/// The `length` getter is `O(M)` where M is the total number of entries in
+/// all maps, since it has to remove duplicate entries.
 class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   final Iterable<Map<K, V>> _maps;
 
-  /// Create a new combined view into multiple maps.
+  /// Create a new combined view of multiple maps.
   ///
   /// The iterable is accessed lazily so it should be collection type like
   /// [List] or [Set] rather than a lazy iterable produced by `map()` et al.
@@ -52,17 +52,17 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   /// Unlike most [Map] implementations, modifying an individual map while
   /// iterating the keys will _sometimes_ throw. This behavior may change in
   /// the future.
-  Iterable<K> get keys => _LazyDeduplicatingIterableView(
+  Iterable<K> get keys => _DeduplicatingIterableView(
       CombinedIterableView(_maps.map((m) => m.keys)));
 }
 
-/// A view of an iterable that lazily skips any duplicate entries.
-class _LazyDeduplicatingIterableView<T> extends IterableBase<T> {
+/// A view of an iterable that skips any duplicate entries.
+class _DeduplicatingIterableView<T> extends IterableBase<T> {
   final Iterable<T> _iterable;
 
-  const _LazyDeduplicatingIterableView(this._iterable);
+  const _DeduplicatingIterableView(this._iterable);
 
-  Iterator<T> get iterator => _LazyDeduplicatingIterator(_iterable.iterator);
+  Iterator<T> get iterator => _DeduplicatingIterator(_iterable.iterator);
 
   // Special cased contains/isEmpty since many iterables have an efficient
   // implementation instead of running through the entire iterator.
@@ -75,13 +75,13 @@ class _LazyDeduplicatingIterableView<T> extends IterableBase<T> {
   bool get isEmpty => _iterable.isEmpty;
 }
 
-/// An iterator that wraps another iterator and lazily skips duplicate values.
-class _LazyDeduplicatingIterator<T> implements Iterator<T> {
+/// An iterator that wraps another iterator and skips duplicate values.
+class _DeduplicatingIterator<T> implements Iterator<T> {
   final Iterator<T> _iterator;
 
-  final _emitted = Set<T>();
+  final _emitted = HashSet<T>();
 
-  _LazyDeduplicatingIterator(this._iterator);
+  _DeduplicatingIterator(this._iterator);
 
   T get current => _iterator.current;
 

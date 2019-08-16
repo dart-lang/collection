@@ -1,5 +1,5 @@
 name: collection
-version: 1.14.12-dev
+version: 1.14.12
 
 description: Collections and utilities functions and classes related to collections.
 author: Dart Team <misc@dartlang.org>

@@ -13,14 +13,16 @@ import 'combined_iterable.dart';
 /// accessing individual map instances. In the occasion where a key occurs in
 /// multiple maps the first value is returned.
 ///
-/// The resulting map has an index operator (`[]`) and `length` property that
-/// are both `O(maps)`, rather than `O(1)`, and the map is unmodifiable - but
-/// underlying changes to these maps are still accessible from the resulting
-/// map.
+/// The resulting map has an index operator (`[]`) that is `O(maps)`, rather
+/// than `O(1)`, and the map is unmodifiable, but underlying changes to these
+/// maps are still accessible from the resulting map.
+///
+/// The `length` getter is `O(M)` where M is the total number of entries in
+/// all maps, since it has to remove duplicate entries.
 class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   final Iterable<Map<K, V>> _maps;
 
-  /// Create a new combined view into multiple maps.
+  /// Create a new combined view of multiple maps.
   ///
   /// The iterable is accessed lazily so it should be collection type like
   /// [List] or [Set] rather than a lazy iterable produced by `map()` et al.
@@ -39,8 +41,11 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
 
   /// The keys of [this].
   ///
-  /// The returned iterable has efficient `length` and `contains` operations,
-  /// based on [length] and [containsKey] of the individual maps.
+  /// The returned iterable has efficient `contains` operations, assuming the
+  /// iterables returned by the wrapped maps have efficient `contains` operations
+  /// for their `keys` iterables.
+  ///
+  /// The `length` must do deduplication and thus is not optimized.
   ///
   /// The order of iteration is defined by the individual `Map` implementations,
   /// but must be consistent between changes to the maps.
@@ -48,5 +53,45 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   /// Unlike most [Map] implementations, modifying an individual map while
   /// iterating the keys will _sometimes_ throw. This behavior may change in
   /// the future.
-  Iterable<K> get keys => CombinedIterableView<K>(_maps.map((m) => m.keys));
+  Iterable<K> get keys => _DeduplicatingIterableView(
+      CombinedIterableView(_maps.map((m) => m.keys)));
+}
+
+/// A view of an iterable that skips any duplicate entries.
+class _DeduplicatingIterableView<T> extends IterableBase<T> {
+  final Iterable<T> _iterable;
+
+  const _DeduplicatingIterableView(this._iterable);
+
+  Iterator<T> get iterator => _DeduplicatingIterator(_iterable.iterator);
+
+  // Special cased contains/isEmpty since many iterables have an efficient
+  // implementation instead of running through the entire iterator.
+  //
+  // Note: We do not do this for `length` because we have to remove the
+  // duplicates.
+
+  bool contains(Object element) => _iterable.contains(element);
+
+  bool get isEmpty => _iterable.isEmpty;
+}
+
+/// An iterator that wraps another iterator and skips duplicate values.
+class _DeduplicatingIterator<T> implements Iterator<T> {
+  final Iterator<T> _iterator;
+
+  final _emitted = HashSet<T>();
+
+  _DeduplicatingIterator(this._iterator);
+
+  T get current => _iterator.current;
+
+  bool moveNext() {
+    while (_iterator.moveNext()) {
+      if (_emitted.add(current)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

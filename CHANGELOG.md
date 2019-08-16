@@ -1,3 +1,12 @@
+## 1.14.12
+
+* Fix `CombinedMapView.keys`, `CombinedMapView.length`,
+  `CombinedMapView.forEach`, and `CombinedMapView.values` to work as specified
+  and not repeat duplicate items from the maps.
+  * As a result of this fix the `length` getter now must iterate all maps in
+    order to remove duplicates and return an accurate length, so it is no
+    longer `O(maps)`.
+
 ## 1.14.11
 
 * Set max SDK version to `<3.0.0`.

@@ -28,6 +28,7 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   /// [List] or [Set] rather than a lazy iterable produced by `map()` et al.
   CombinedMapView(this._maps);
 
+  @override
   V operator [](Object key) {
     for (var map in _maps) {
       // Avoid two hash lookups on a positive hit.
@@ -53,6 +54,7 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   /// Unlike most [Map] implementations, modifying an individual map while
   /// iterating the keys will _sometimes_ throw. This behavior may change in
   /// the future.
+  @override
   Iterable<K> get keys => _DeduplicatingIterableView(
       CombinedIterableView(_maps.map((m) => m.keys)));
 }
@@ -63,6 +65,7 @@ class _DeduplicatingIterableView<T> extends IterableBase<T> {
 
   const _DeduplicatingIterableView(this._iterable);
 
+  @override
   Iterator<T> get iterator => _DeduplicatingIterator(_iterable.iterator);
 
   // Special cased contains/isEmpty since many iterables have an efficient
@@ -71,8 +74,10 @@ class _DeduplicatingIterableView<T> extends IterableBase<T> {
   // Note: We do not do this for `length` because we have to remove the
   // duplicates.
 
+  @override
   bool contains(Object element) => _iterable.contains(element);
 
+  @override
   bool get isEmpty => _iterable.isEmpty;
 }
 
@@ -84,8 +89,10 @@ class _DeduplicatingIterator<T> implements Iterator<T> {
 
   _DeduplicatingIterator(this._iterator);
 
+  @override
   T get current => _iterator.current;
 
+  @override
   bool moveNext() {
     while (_iterator.moveNext()) {
       if (_emitted.add(current)) {

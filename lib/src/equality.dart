@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:collection";
+import 'dart:collection';
 
-import "comparators.dart";
+import 'comparators.dart';
 
 const int _HASH_MASK = 0x7fffffff;
 
@@ -55,14 +55,18 @@ class EqualityBy<E, F> implements Equality<E> {
   // Determines equality between two values of F.
   final Equality<F> _inner;
 
-  EqualityBy(F getKey(E object), [Equality<F> inner = const DefaultEquality()])
+  EqualityBy(F Function(E) getKey,
+      [Equality<F> inner = const DefaultEquality()])
       : _getKey = getKey,
         _inner = inner;
 
+  @override
   bool equals(E e1, E e2) => _inner.equals(_getKey(e1), _getKey(e2));
 
+  @override
   int hash(E e) => _inner.hash(_getKey(e));
 
+  @override
   bool isValidKey(Object o) {
     if (o is E) {
       final value = _getKey(o);
@@ -82,16 +86,22 @@ class EqualityBy<E, F> implements Equality<E> {
 /// compile-time constant, while still allowing the class to be used at runtime.
 class DefaultEquality<E> implements Equality<E> {
   const DefaultEquality();
+  @override
   bool equals(Object e1, Object e2) => e1 == e2;
+  @override
   int hash(Object e) => e.hashCode;
+  @override
   bool isValidKey(Object o) => true;
 }
 
 /// Equality of objects that compares only the identity of the objects.
 class IdentityEquality<E> implements Equality<E> {
   const IdentityEquality();
+  @override
   bool equals(E e1, E e2) => identical(e1, e2);
+  @override
   int hash(E e) => identityHashCode(e);
+  @override
   bool isValidKey(Object o) => true;
 }
 
@@ -108,25 +118,27 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
       [Equality<E> elementEquality = const DefaultEquality()])
       : _elementEquality = elementEquality;
 
+  @override
   bool equals(Iterable<E> elements1, Iterable<E> elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
     var it1 = elements1.iterator;
     var it2 = elements2.iterator;
     while (true) {
-      bool hasNext = it1.moveNext();
+      var hasNext = it1.moveNext();
       if (hasNext != it2.moveNext()) return false;
       if (!hasNext) return true;
       if (!_elementEquality.equals(it1.current, it2.current)) return false;
     }
   }
 
+  @override
   int hash(Iterable<E> elements) {
     if (elements == null) return null.hashCode;
     // Jenkins's one-at-a-time hash function.
-    int hash = 0;
-    for (E element in elements) {
-      int c = _elementEquality.hash(element);
+    var hash = 0;
+    for (var element in elements) {
+      var c = _elementEquality.hash(element);
       hash = (hash + c) & _HASH_MASK;
       hash = (hash + (hash << 10)) & _HASH_MASK;
       hash ^= (hash >> 6);
@@ -137,6 +149,7 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
     return hash;
   }
 
+  @override
   bool isValidKey(Object o) => o is Iterable<E>;
 }
 
@@ -156,25 +169,27 @@ class ListEquality<E> implements Equality<List<E>> {
   const ListEquality([Equality<E> elementEquality = const DefaultEquality()])
       : _elementEquality = elementEquality;
 
+  @override
   bool equals(List<E> list1, List<E> list2) {
     if (identical(list1, list2)) return true;
     if (list1 == null || list2 == null) return false;
-    int length = list1.length;
+    var length = list1.length;
     if (length != list2.length) return false;
-    for (int i = 0; i < length; i++) {
+    for (var i = 0; i < length; i++) {
       if (!_elementEquality.equals(list1[i], list2[i])) return false;
     }
     return true;
   }
 
+  @override
   int hash(List<E> list) {
     if (list == null) return null.hashCode;
     // Jenkins's one-at-a-time hash function.
     // This code is almost identical to the one in IterableEquality, except
     // that it uses indexing instead of iterating to get the elements.
-    int hash = 0;
-    for (int i = 0; i < list.length; i++) {
-      int c = _elementEquality.hash(list[i]);
+    var hash = 0;
+    for (var i = 0; i < list.length; i++) {
+      var c = _elementEquality.hash(list[i]);
       hash = (hash + c) & _HASH_MASK;
       hash = (hash + (hash << 10)) & _HASH_MASK;
       hash ^= (hash >> 6);
@@ -185,6 +200,7 @@ class ListEquality<E> implements Equality<List<E>> {
     return hash;
   }
 
+  @override
   bool isValidKey(Object o) => o is List<E>;
 }
 
@@ -194,22 +210,22 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
 
   const _UnorderedEquality(this._elementEquality);
 
+  @override
   bool equals(T elements1, T elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
-    HashMap<E, int> counts = HashMap(
+    var counts = HashMap(
         equals: _elementEquality.equals,
         hashCode: _elementEquality.hash,
         isValidKey: _elementEquality.isValidKey);
-    int length = 0;
+    var length = 0;
     for (var e in elements1) {
-      int count = counts[e];
-      if (count == null) count = 0;
+      var count = counts[e] ?? 0;
       counts[e] = count + 1;
       length++;
     }
     for (var e in elements2) {
-      int count = counts[e];
+      var count = counts[e];
       if (count == null || count == 0) return false;
       counts[e] = count - 1;
       length--;
@@ -217,11 +233,12 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
     return length == 0;
   }
 
+  @override
   int hash(T elements) {
     if (elements == null) return null.hashCode;
-    int hash = 0;
+    var hash = 0;
     for (E element in elements) {
-      int c = _elementEquality.hash(element);
+      var c = _elementEquality.hash(element);
       hash = (hash + c) & _HASH_MASK;
     }
     hash = (hash + (hash << 3)) & _HASH_MASK;
@@ -241,6 +258,7 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
       [Equality<E> elementEquality = const DefaultEquality()])
       : super(elementEquality);
 
+  @override
   bool isValidKey(Object o) => o is Iterable<E>;
 }
 
@@ -260,6 +278,7 @@ class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
   const SetEquality([Equality<E> elementEquality = const DefaultEquality()])
       : super(elementEquality);
 
+  @override
   bool isValidKey(Object o) => o is Set<E>;
 }
 
@@ -273,11 +292,13 @@ class _MapEntry {
   final value;
   _MapEntry(this.equality, this.key, this.value);
 
+  @override
   int get hashCode =>
       (3 * equality._keyEquality.hash(key) +
           7 * equality._valueEquality.hash(value)) &
       _HASH_MASK;
 
+  @override
   bool operator ==(Object other) =>
       other is _MapEntry &&
       equality._keyEquality.equals(key, other.key) &&
@@ -301,33 +322,34 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
       : _keyEquality = keys,
         _valueEquality = values;
 
+  @override
   bool equals(Map<K, V> map1, Map<K, V> map2) {
     if (identical(map1, map2)) return true;
     if (map1 == null || map2 == null) return false;
-    int length = map1.length;
+    var length = map1.length;
     if (length != map2.length) return false;
     Map<_MapEntry, int> equalElementCounts = HashMap();
-    for (K key in map1.keys) {
-      _MapEntry entry = _MapEntry(this, key, map1[key]);
-      int count = equalElementCounts[entry];
-      if (count == null) count = 0;
+    for (var key in map1.keys) {
+      var entry = _MapEntry(this, key, map1[key]);
+      var count = equalElementCounts[entry] ?? 0;
       equalElementCounts[entry] = count + 1;
     }
-    for (K key in map2.keys) {
-      _MapEntry entry = _MapEntry(this, key, map2[key]);
-      int count = equalElementCounts[entry];
+    for (var key in map2.keys) {
+      var entry = _MapEntry(this, key, map2[key]);
+      var count = equalElementCounts[entry];
       if (count == null || count == 0) return false;
       equalElementCounts[entry] = count - 1;
     }
     return true;
   }
 
+  @override
   int hash(Map<K, V> map) {
     if (map == null) return null.hashCode;
-    int hash = 0;
-    for (K key in map.keys) {
-      int keyHash = _keyEquality.hash(key);
-      int valueHash = _valueEquality.hash(map[key]);
+    var hash = 0;
+    for (var key in map.keys) {
+      var keyHash = _keyEquality.hash(key);
+      var valueHash = _valueEquality.hash(map[key]);
       hash = (hash + 3 * keyHash + 7 * valueHash) & _HASH_MASK;
     }
     hash = (hash + (hash << 3)) & _HASH_MASK;
@@ -336,6 +358,7 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
     return hash;
   }
 
+  @override
   bool isValidKey(Object o) => o is Map<K, V>;
 }
 
@@ -359,22 +382,25 @@ class MultiEquality<E> implements Equality<E> {
   const MultiEquality(Iterable<Equality<E>> equalities)
       : _equalities = equalities;
 
+  @override
   bool equals(E e1, E e2) {
-    for (Equality<E> eq in _equalities) {
+    for (var eq in _equalities) {
       if (eq.isValidKey(e1)) return eq.isValidKey(e2) && eq.equals(e1, e2);
     }
     return false;
   }
 
+  @override
   int hash(E e) {
-    for (Equality<E> eq in _equalities) {
+    for (var eq in _equalities) {
       if (eq.isValidKey(e)) return eq.hash(e);
     }
     return 0;
   }
 
+  @override
   bool isValidKey(Object o) {
-    for (Equality<E> eq in _equalities) {
+    for (var eq in _equalities) {
       if (eq.isValidKey(o)) return true;
     }
     return false;
@@ -411,6 +437,7 @@ class DeepCollectionEquality implements Equality {
       : _base = base,
         _unordered = true;
 
+  @override
   bool equals(e1, e2) {
     if (e1 is Set) {
       return e2 is Set && SetEquality(this).equals(e1, e2);
@@ -432,6 +459,7 @@ class DeepCollectionEquality implements Equality {
     return _base.equals(e1, e2);
   }
 
+  @override
   int hash(Object o) {
     if (o is Set) return SetEquality(this).hash(o);
     if (o is Map) return MapEquality(keys: this, values: this).hash(o);
@@ -444,6 +472,7 @@ class DeepCollectionEquality implements Equality {
     return _base.hash(o);
   }
 
+  @override
   bool isValidKey(Object o) => o is Iterable || o is Map || _base.isValidKey(o);
 }
 
@@ -453,10 +482,13 @@ class DeepCollectionEquality implements Equality {
 class CaseInsensitiveEquality implements Equality<String> {
   const CaseInsensitiveEquality();
 
+  @override
   bool equals(String string1, String string2) =>
       equalsIgnoreAsciiCase(string1, string2);
 
+  @override
   int hash(String string) => hashIgnoreAsciiCase(string);
 
+  @override
   bool isValidKey(Object object) => object is String;
 }

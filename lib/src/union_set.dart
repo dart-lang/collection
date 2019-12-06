@@ -44,10 +44,12 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   UnionSet.from(Iterable<Set<E>> sets, {bool disjoint = false})
       : this(sets.toSet(), disjoint: disjoint);
 
+  @override
   int get length => _disjoint
       ? _sets.fold(0, (length, set) => length + set.length)
       : _iterable.length;
 
+  @override
   Iterator<E> get iterator => _iterable.iterator;
 
   /// Returns an iterable over the contents of all the sets in [this].
@@ -60,7 +62,7 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   /// If the sets aren't guaranteed to be disjoint, this keeps track of the
   /// elements we've already emitted so that we can de-duplicate them.
   Iterable<E> get _dedupIterable {
-    var seen = Set<E>();
+    var seen = <E>{};
     return _sets.expand((set) => set).where((element) {
       if (seen.contains(element)) return false;
       seen.add(element);
@@ -68,8 +70,10 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
     });
   }
 
+  @override
   bool contains(Object element) => _sets.any((set) => set.contains(element));
 
+  @override
   E lookup(Object element) {
     if (element == null) return null;
 
@@ -78,8 +82,9 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
         .firstWhere((result) => result != null, orElse: () => null);
   }
 
+  @override
   Set<E> toSet() {
-    var result = Set<E>();
+    var result = <E>{};
     for (var set in _sets) {
       result.addAll(set);
     }

@@ -52,8 +52,8 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   /// Create a queue initially containing the elements of [source].
   factory QueueList.from(Iterable<E> source) {
     if (source is List) {
-      int length = source.length;
-      QueueList<E> queue = QueueList(length + 1);
+      var length = source.length;
+      var queue = QueueList<E>(length + 1);
       assert(queue._table.length > length);
       var sourceList = source;
       queue._table.setRange(0, length, sourceList, 0);
@@ -66,15 +66,17 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   // Collection interface.
 
+  @override
   void add(E element) {
     _add(element);
   }
 
+  @override
   void addAll(Iterable<E> iterable) {
     if (iterable is List) {
       var list = iterable;
-      int addCount = list.length;
-      int length = this.length;
+      var addCount = list.length;
+      var length = this.length;
       if (length + addCount >= _table.length) {
         _preGrow(length + addCount);
         // After preGrow, all elements are at the start of the list.
@@ -82,19 +84,19 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
         _tail += addCount;
       } else {
         // Adding addCount elements won't reach _head.
-        int endSpace = _table.length - _tail;
+        var endSpace = _table.length - _tail;
         if (addCount < endSpace) {
           _table.setRange(_tail, _tail + addCount, list, 0);
           _tail += addCount;
         } else {
-          int preSpace = addCount - endSpace;
+          var preSpace = addCount - endSpace;
           _table.setRange(_tail, _tail + endSpace, list, 0);
           _table.setRange(0, preSpace, list, endSpace);
           _tail = preSpace;
         }
       }
     } else {
-      for (E element in iterable) {
+      for (var element in iterable) {
         _add(element);
       }
     }
@@ -105,44 +107,51 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   @deprecated
   QueueList<T> retype<T>() => cast<T>();
 
-  String toString() => IterableBase.iterableToFullString(this, "{", "}");
+  @override
+  String toString() => IterableBase.iterableToFullString(this, '{', '}');
 
   // Queue interface.
 
+  @override
   void addLast(E element) {
     _add(element);
   }
 
+  @override
   void addFirst(E element) {
     _head = (_head - 1) & (_table.length - 1);
     _table[_head] = element;
     if (_head == _tail) _grow();
   }
 
+  @override
   E removeFirst() {
-    if (_head == _tail) throw StateError("No element");
-    E result = _table[_head];
+    if (_head == _tail) throw StateError('No element');
+    var result = _table[_head];
     _table[_head] = null;
     _head = (_head + 1) & (_table.length - 1);
     return result;
   }
 
+  @override
   E removeLast() {
-    if (_head == _tail) throw StateError("No element");
+    if (_head == _tail) throw StateError('No element');
     _tail = (_tail - 1) & (_table.length - 1);
-    E result = _table[_tail];
+    var result = _table[_tail];
     _table[_tail] = null;
     return result;
   }
 
   // List interface.
 
+  @override
   int get length => (_tail - _head) & (_table.length - 1);
 
+  @override
   set length(int value) {
-    if (value < 0) throw RangeError("Length $value may not be negative.");
+    if (value < 0) throw RangeError('Length $value may not be negative.');
 
-    int delta = value - length;
+    var delta = value - length;
     if (delta >= 0) {
       if (_table.length <= value) {
         _preGrow(value);
@@ -151,7 +160,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
       return;
     }
 
-    int newTail = _tail + delta; // [delta] is negative.
+    var newTail = _tail + delta; // [delta] is negative.
     if (newTail >= 0) {
       _table.fillRange(newTail, _tail, null);
     } else {
@@ -162,17 +171,19 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     _tail = newTail;
   }
 
+  @override
   E operator [](int index) {
     if (index < 0 || index >= length) {
-      throw RangeError("Index $index must be in the range [0..$length).");
+      throw RangeError('Index $index must be in the range [0..$length).');
     }
 
     return _table[(_head + index) & (_table.length - 1)];
   }
 
+  @override
   void operator []=(int index, E value) {
     if (index < 0 || index >= length) {
-      throw RangeError("Index $index must be in the range [0..$length).");
+      throw RangeError('Index $index must be in the range [0..$length).');
     }
 
     _table[(_head + index) & (_table.length - 1)] = value;
@@ -194,7 +205,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     assert(number > 0);
     number = (number << 1) - 1;
     for (;;) {
-      int nextNumber = number & (number - 1);
+      var nextNumber = number & (number - 1);
       if (nextNumber == 0) return number;
       number = nextNumber;
     }
@@ -209,8 +220,8 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   /// Grow the table when full.
   void _grow() {
-    List<E> newTable = List<E>(_table.length * 2);
-    int split = _table.length - _head;
+    var newTable = List<E>(_table.length * 2);
+    var split = _table.length - _head;
     newTable.setRange(0, split, _table, _head);
     newTable.setRange(split, split + _head, _table, 0);
     _head = 0;
@@ -221,11 +232,11 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   int _writeToList(List<E> target) {
     assert(target.length >= length);
     if (_head <= _tail) {
-      int length = _tail - _head;
+      var length = _tail - _head;
       target.setRange(0, length, _table, _head);
       return length;
     } else {
-      int firstPartSize = _table.length - _head;
+      var firstPartSize = _table.length - _head;
       target.setRange(0, firstPartSize, _table, _head);
       target.setRange(firstPartSize, firstPartSize + _tail, _table, 0);
       return _tail + firstPartSize;
@@ -239,8 +250,8 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     // Add 1.5x extra room to ensure that there's room for more elements after
     // expansion.
     newElementCount += newElementCount >> 1;
-    int newCapacity = _nextPowerOf2(newElementCount);
-    List<E> newTable = List<E>(newCapacity);
+    var newCapacity = _nextPowerOf2(newElementCount);
+    var newTable = List<E>(newCapacity);
     _tail = _writeToList(newTable);
     _table = newTable;
     _head = 0;
@@ -254,11 +265,15 @@ class _CastQueueList<S, T> extends QueueList<T> {
     _table = _delegate._table.cast<T>();
   }
 
+  @override
   int get _head => _delegate._head;
 
+  @override
   set _head(int value) => _delegate._head = value;
 
+  @override
   int get _tail => _delegate._tail;
 
+  @override
   set _tail(int value) => _delegate._tail = value;
 }

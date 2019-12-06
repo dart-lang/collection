@@ -14,7 +14,7 @@ import 'utils.dart';
 /// The return values of [key] are used as the keys and the return values of
 /// [value] are used as the values for the new map.
 Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
-    {K2 key(K1 key, V1 value), V2 value(K1 key, V1 value)}) {
+    {K2 Function(K1, V1) key, V2 Function(K1, V1) value}) {
   key ??= (mapKey, _) => mapKey as K2;
   value ??= (_, mapValue) => mapValue as V2;
 
@@ -31,7 +31,7 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 /// select the value that goes into the resulting map based on the two original
 /// values. If [value] is omitted, the value from [map2] is used.
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
-    {V value(V value1, V value2)}) {
+    {V Function(V, V) value}) {
   var result = Map<K, V>.from(map1);
   if (value == null) return result..addAll(map2);
 
@@ -47,7 +47,7 @@ Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
 /// Returns a map from keys computed by [key] to a list of all values for which
 /// [key] returns that key. The values appear in the list in the same relative
 /// order as in [values].
-Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T key(S element)) {
+Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
   var map = <T, List<S>>{};
   for (var element in values) {
     var list = map.putIfAbsent(key(element), () => []);
@@ -62,8 +62,8 @@ Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T key(S element)) {
 /// The values returned by [orderBy] are compared using the [compare] function.
 /// If [compare] is omitted, values must implement [Comparable<T>] and they are
 /// compared using their [Comparable.compareTo].
-S minBy<S, T>(Iterable<S> values, T orderBy(S element),
-    {int compare(T value1, T value2)}) {
+S minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
+    {int Function(T, T) compare}) {
   compare ??= defaultCompare<T>();
 
   S minValue;
@@ -84,8 +84,8 @@ S minBy<S, T>(Iterable<S> values, T orderBy(S element),
 /// The values returned by [orderBy] are compared using the [compare] function.
 /// If [compare] is omitted, values must implement [Comparable<T>] and they are
 /// compared using their [Comparable.compareTo].
-S maxBy<S, T>(Iterable<S> values, T orderBy(S element),
-    {int compare(T value1, T value2)}) {
+S maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,
+    {int Function(T, T) compare}) {
   compare ??= defaultCompare<T>();
 
   S maxValue;
@@ -164,7 +164,7 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
   var lowLinks = HashMap<T, int>();
   var onStack = HashSet<T>();
 
-  strongConnect(T vertex) {
+  void strongConnect(T vertex) {
     indices[vertex] = index;
     lowLinks[vertex] = index;
     index++;
@@ -182,7 +182,7 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
     }
 
     if (lowLinks[vertex] == indices[vertex]) {
-      var component = Set<T>();
+      var component = <T>{};
       T neighbor;
       do {
         neighbor = stack.removeLast();

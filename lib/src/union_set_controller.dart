@@ -27,7 +27,7 @@ class UnionSetController<E> {
   UnionSet<E> _set;
 
   /// The sets whose union is exposed through [set].
-  final _sets = Set<Set<E>>();
+  final _sets = <Set<E>>{};
 
   /// Creates a set of sets that provides a view of the union of those sets.
   ///

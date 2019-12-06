@@ -4,9 +4,9 @@
 
 /// Tests priority queue implementations utilities.
 
-import "package:test/test.dart";
+import 'package:test/test.dart';
 
-import "package:collection/src/priority_queue.dart";
+import 'package:collection/src/priority_queue.dart';
 
 void main() {
   testDefault();
@@ -22,19 +22,20 @@ void testDefault() {
   testCustom((comparator) => PriorityQueue<C>(comparator));
 }
 
-void testInt(PriorityQueue<int> create()) {
-  for (int count in [1, 5, 127, 128]) {
-    testQueue("int:$count", create, List<int>.generate(count, (x) => x), count);
+void testInt(PriorityQueue<int> Function() create) {
+  for (var count in [1, 5, 127, 128]) {
+    testQueue('int:$count', create, List<int>.generate(count, (x) => x), count);
   }
 }
 
-void testCustom(PriorityQueue<C> create(int comparator(C a, C b))) {
-  for (int count in [1, 5, 127, 128]) {
-    testQueue("Custom:$count/null", () => create(null),
+void testCustom(
+    PriorityQueue<C> Function(int Function(C, C) comparator) create) {
+  for (var count in [1, 5, 127, 128]) {
+    testQueue('Custom:$count/null', () => create(null),
         List<C>.generate(count, (x) => C(x)), C(count));
-    testQueue("Custom:$count/compare", () => create(compare),
+    testQueue('Custom:$count/compare', () => create(compare),
         List<C>.generate(count, (x) => C(x)), C(count));
-    testQueue("Custom:$count/compareNeg", () => create(compareNeg),
+    testQueue('Custom:$count/compareNeg', () => create(compareNeg),
         List<C>.generate(count, (x) => C(count - x)), C(0));
   }
 }
@@ -42,12 +43,13 @@ void testCustom(PriorityQueue<C> create(int comparator(C a, C b))) {
 /// Test that a queue behaves correctly.
 ///
 /// The elements must be in priority order, from highest to lowest.
-void testQueue(String name, PriorityQueue create(), List elements, notElement) {
+void testQueue(
+    String name, PriorityQueue Function() create, List elements, notElement) {
   test(name, () => testQueueBody(create, elements, notElement));
 }
 
-void testQueueBody(PriorityQueue create(), List elements, notElement) {
-  PriorityQueue q = create();
+void testQueueBody(PriorityQueue Function() create, List elements, notElement) {
+  var q = create();
   expect(q.isEmpty, isTrue);
   expect(q, hasLength(0));
   expect(() {
@@ -65,12 +67,12 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
     expect(q.toList(), equals(elements));
     expect(q.toSet().toList(), equals(elements));
 
-    for (int i = 0; i < elements.length; i++) {
+    for (var i = 0; i < elements.length; i++) {
       expect(q.contains(elements[i]), isTrue);
     }
     expect(q.contains(notElement), isFalse);
 
-    List all = [];
+    var all = [];
     while (q.isNotEmpty) {
       var expected = q.first;
       var actual = q.removeFirst();
@@ -79,7 +81,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
     }
 
     expect(all.length, elements.length);
-    for (int i = 0; i < all.length; i++) {
+    for (var i = 0; i < all.length; i++) {
       expect(all[i], same(elements[i]));
     }
 
@@ -93,7 +95,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
   testElements();
 
   // Add elements in a non-linear order (gray order).
-  for (int i = 0, j = 0; i < elements.length; i++) {
+  for (var i = 0, j = 0; i < elements.length; i++) {
     int gray;
     do {
       gray = j ^ (j >> 1);
@@ -106,7 +108,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
   // Add elements by picking the middle element first, and then recursing
   // on each side.
   void addRec(int min, int max) {
-    int mid = min + ((max - min) >> 1);
+    var mid = min + ((max - min) >> 1);
     q.add(elements[mid]);
     if (mid + 1 < max) addRec(mid + 1, max);
     if (mid > min) addRec(min, mid);
@@ -118,10 +120,10 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
   // Test removeAll.
   q.addAll(elements);
   expect(q, hasLength(elements.length));
-  Iterable all = q.removeAll();
+  var all = q.removeAll();
   expect(q.isEmpty, isTrue);
   expect(all, hasLength(elements.length));
-  for (int i = 0; i < elements.length; i++) {
+  for (var i = 0; i < elements.length; i++) {
     expect(all, contains(elements[i]));
   }
 
@@ -129,7 +131,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
   q.addAll(elements);
   q.addAll(elements.reversed);
   expect(q, hasLength(elements.length * 2));
-  for (int i = 0; i < elements.length; i++) {
+  for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
     expect(q.contains(element), isTrue);
     expect(q.removeFirst(), element);
@@ -138,7 +140,7 @@ void testQueueBody(PriorityQueue create(), List elements, notElement) {
 
   // Test queue with all same element.
   var a = elements[0];
-  for (int i = 0; i < elements.length; i++) {
+  for (var i = 0; i < elements.length; i++) {
     q.add(a);
   }
   expect(q, hasLength(elements.length));
@@ -162,8 +164,12 @@ int compareNeg(C c1, C c2) => c2.value - c1.value;
 class C implements Comparable<C> {
   final int value;
   const C(this.value);
+  @override
   int get hashCode => value;
+  @override
   bool operator ==(Object other) => other is C && value == other.value;
+  @override
   int compareTo(C other) => value - other.value;
-  String toString() => "C($value)";
+  @override
+  String toString() => 'C($value)';
 }

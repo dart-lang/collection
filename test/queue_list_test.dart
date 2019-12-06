@@ -2,159 +2,159 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "package:collection/collection.dart";
-import "package:test/test.dart";
+import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
-import "utils.dart";
+import 'utils.dart';
 
 void main() {
-  group("new QueueList()", () {
-    test("creates an empty QueueList", () {
+  group('new QueueList()', () {
+    test('creates an empty QueueList', () {
       expect(QueueList(), isEmpty);
     });
 
-    test("takes an initial capacity", () {
+    test('takes an initial capacity', () {
       expect(QueueList(100), isEmpty);
     });
   });
 
-  test("new QueueList.from() copies the contents of an iterable", () {
+  test('new QueueList.from() copies the contents of an iterable', () {
     expect(QueueList.from([1, 2, 3].skip(1)), equals([2, 3]));
   });
 
-  group("add()", () {
-    test("adds an element to the end of the queue", () {
+  group('add()', () {
+    test('adds an element to the end of the queue', () {
       var queue = QueueList.from([1, 2, 3]);
       queue.add(4);
       expect(queue, equals([1, 2, 3, 4]));
     });
 
-    test("expands a full queue", () {
+    test('expands a full queue', () {
       var queue = atCapacity();
       queue.add(8);
       expect(queue, equals([1, 2, 3, 4, 5, 6, 7, 8]));
     });
   });
 
-  group("addAll()", () {
-    test("adds elements to the end of the queue", () {
+  group('addAll()', () {
+    test('adds elements to the end of the queue', () {
       var queue = QueueList.from([1, 2, 3]);
       queue.addAll([4, 5, 6]);
       expect(queue, equals([1, 2, 3, 4, 5, 6]));
     });
 
-    test("expands a full queue", () {
+    test('expands a full queue', () {
       var queue = atCapacity();
       queue.addAll([8, 9]);
       expect(queue, equals([1, 2, 3, 4, 5, 6, 7, 8, 9]));
     });
   });
 
-  group("addFirst()", () {
-    test("adds an element to the beginning of the queue", () {
+  group('addFirst()', () {
+    test('adds an element to the beginning of the queue', () {
       var queue = QueueList.from([1, 2, 3]);
       queue.addFirst(0);
       expect(queue, equals([0, 1, 2, 3]));
     });
 
-    test("expands a full queue", () {
+    test('expands a full queue', () {
       var queue = atCapacity();
       queue.addFirst(0);
       expect(queue, equals([0, 1, 2, 3, 4, 5, 6, 7]));
     });
   });
 
-  group("removeFirst()", () {
-    test("removes an element from the beginning of the queue", () {
+  group('removeFirst()', () {
+    test('removes an element from the beginning of the queue', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(queue.removeFirst(), equals(1));
       expect(queue, equals([2, 3]));
     });
 
     test(
-        "removes an element from the beginning of a queue with an internal "
-        "gap", () {
+        'removes an element from the beginning of a queue with an internal '
+        'gap', () {
       var queue = withInternalGap();
       expect(queue.removeFirst(), equals(1));
       expect(queue, equals([2, 3, 4, 5, 6, 7]));
     });
 
-    test("removes an element from the beginning of a queue at capacity", () {
+    test('removes an element from the beginning of a queue at capacity', () {
       var queue = atCapacity();
       expect(queue.removeFirst(), equals(1));
       expect(queue, equals([2, 3, 4, 5, 6, 7]));
     });
 
-    test("throws a StateError for an empty queue", () {
+    test('throws a StateError for an empty queue', () {
       expect(QueueList().removeFirst, throwsStateError);
     });
   });
 
-  group("removeLast()", () {
-    test("removes an element from the end of the queue", () {
+  group('removeLast()', () {
+    test('removes an element from the end of the queue', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(queue.removeLast(), equals(3));
       expect(queue, equals([1, 2]));
     });
 
-    test("removes an element from the end of a queue with an internal gap", () {
+    test('removes an element from the end of a queue with an internal gap', () {
       var queue = withInternalGap();
       expect(queue.removeLast(), equals(7));
       expect(queue, equals([1, 2, 3, 4, 5, 6]));
     });
 
-    test("removes an element from the end of a queue at capacity", () {
+    test('removes an element from the end of a queue at capacity', () {
       var queue = atCapacity();
       expect(queue.removeLast(), equals(7));
       expect(queue, equals([1, 2, 3, 4, 5, 6]));
     });
 
-    test("throws a StateError for an empty queue", () {
+    test('throws a StateError for an empty queue', () {
       expect(QueueList().removeLast, throwsStateError);
     });
   });
 
-  group("length", () {
-    test("returns the length of a queue", () {
+  group('length', () {
+    test('returns the length of a queue', () {
       expect(QueueList.from([1, 2, 3]).length, equals(3));
     });
 
-    test("returns the length of a queue with an internal gap", () {
+    test('returns the length of a queue with an internal gap', () {
       expect(withInternalGap().length, equals(7));
     });
 
-    test("returns the length of a queue at capacity", () {
+    test('returns the length of a queue at capacity', () {
       expect(atCapacity().length, equals(7));
     });
   });
 
-  group("length=", () {
-    test("shrinks a larger queue", () {
+  group('length=', () {
+    test('shrinks a larger queue', () {
       var queue = QueueList.from([1, 2, 3]);
       queue.length = 1;
       expect(queue, equals([1]));
     });
 
-    test("grows a smaller queue", () {
+    test('grows a smaller queue', () {
       var queue = QueueList.from([1, 2, 3]);
       queue.length = 5;
       expect(queue, equals([1, 2, 3, null, null]));
     });
 
-    test("throws a RangeError if length is less than 0", () {
+    test('throws a RangeError if length is less than 0', () {
       expect(() => QueueList().length = -1, throwsRangeError);
     });
   });
 
-  group("[]", () {
-    test("returns individual entries in the queue", () {
+  group('[]', () {
+    test('returns individual entries in the queue', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(queue[0], equals(1));
       expect(queue[1], equals(2));
       expect(queue[2], equals(3));
     });
 
-    test("returns individual entries in a queue with an internal gap", () {
+    test('returns individual entries in a queue with an internal gap', () {
       var queue = withInternalGap();
       expect(queue[0], equals(1));
       expect(queue[1], equals(2));
@@ -165,41 +165,41 @@ void main() {
       expect(queue[6], equals(7));
     });
 
-    test("throws a RangeError if the index is less than 0", () {
+    test('throws a RangeError if the index is less than 0', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(() => queue[-1], throwsRangeError);
     });
 
     test(
-        "throws a RangeError if the index is greater than or equal to the "
-        "length", () {
+        'throws a RangeError if the index is greater than or equal to the '
+        'length', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(() => queue[3], throwsRangeError);
     });
   });
 
-  group("[]=", () {
-    test("sets individual entries in the queue", () {
+  group('[]=', () {
+    test('sets individual entries in the queue', () {
       var queue = QueueList<dynamic>.from([1, 2, 3]);
-      queue[0] = "a";
-      queue[1] = "b";
-      queue[2] = "c";
-      expect(queue, equals(["a", "b", "c"]));
+      queue[0] = 'a';
+      queue[1] = 'b';
+      queue[2] = 'c';
+      expect(queue, equals(['a', 'b', 'c']));
     });
 
-    test("sets individual entries in a queue with an internal gap", () {
+    test('sets individual entries in a queue with an internal gap', () {
       var queue = withInternalGap();
-      queue[0] = "a";
-      queue[1] = "b";
-      queue[2] = "c";
-      queue[3] = "d";
-      queue[4] = "e";
-      queue[5] = "f";
-      queue[6] = "g";
-      expect(queue, equals(["a", "b", "c", "d", "e", "f", "g"]));
+      queue[0] = 'a';
+      queue[1] = 'b';
+      queue[2] = 'c';
+      queue[3] = 'd';
+      queue[4] = 'e';
+      queue[5] = 'f';
+      queue[6] = 'g';
+      expect(queue, equals(['a', 'b', 'c', 'd', 'e', 'f', 'g']));
     });
 
-    test("throws a RangeError if the index is less than 0", () {
+    test('throws a RangeError if the index is less than 0', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(() {
         queue[-1] = 0;
@@ -207,8 +207,8 @@ void main() {
     });
 
     test(
-        "throws a RangeError if the index is greater than or equal to the "
-        "length", () {
+        'throws a RangeError if the index is greater than or equal to the '
+        'length', () {
       var queue = QueueList.from([1, 2, 3]);
       expect(() {
         queue[3] = 4;
@@ -216,44 +216,44 @@ void main() {
     });
   });
 
-  group("throws a modification error for", () {
+  group('throws a modification error for', () {
     var queue;
     setUp(() {
       queue = QueueList.from([1, 2, 3]);
     });
 
-    test("add", () {
+    test('add', () {
       expect(() => queue.forEach((_) => queue.add(4)),
           throwsConcurrentModificationError);
     });
 
-    test("addAll", () {
+    test('addAll', () {
       expect(() => queue.forEach((_) => queue.addAll([4, 5, 6])),
           throwsConcurrentModificationError);
     });
 
-    test("addFirst", () {
+    test('addFirst', () {
       expect(() => queue.forEach((_) => queue.addFirst(0)),
           throwsConcurrentModificationError);
     });
 
-    test("removeFirst", () {
+    test('removeFirst', () {
       expect(() => queue.forEach((_) => queue.removeFirst()),
           throwsConcurrentModificationError);
     });
 
-    test("removeLast", () {
+    test('removeLast', () {
       expect(() => queue.forEach((_) => queue.removeLast()),
           throwsConcurrentModificationError);
     });
 
-    test("length=", () {
+    test('length=', () {
       expect(() => queue.forEach((_) => queue.length = 1),
           throwsConcurrentModificationError);
     });
   });
 
-  test("cast does not throw on mutation when the type is valid", () {
+  test('cast does not throw on mutation when the type is valid', () {
     var patternQueue = QueueList<Pattern>()..addAll(['a', 'b']);
     var stringQueue = patternQueue.cast<String>();
     stringQueue.addAll(['c', 'd']);
@@ -273,7 +273,7 @@ void main() {
     expect(patternQueue, stringQueue, reason: 'Should forward to original');
   });
 
-  test("cast throws on mutation when the type is not valid", () {
+  test('cast throws on mutation when the type is not valid', () {
     QueueList<Object> stringQueue = QueueList<String>();
     var numQueue = stringQueue.cast<num>();
     expect(
@@ -289,7 +289,7 @@ void main() {
     );
   });
 
-  test("cast returns a new QueueList", () {
+  test('cast returns a new QueueList', () {
     var queue = QueueList<String>();
     expect(queue.cast<Pattern>(), isNot(same(queue)));
   });

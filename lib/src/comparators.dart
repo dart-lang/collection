@@ -26,7 +26,7 @@ const int _asciiCaseBit = 0x20;
 /// strings with a known structure.
 bool equalsIgnoreAsciiCase(String a, String b) {
   if (a.length != b.length) return false;
-  for (int i = 0; i < a.length; i++) {
+  for (var i = 0; i < a.length; i++) {
     var aChar = a.codeUnitAt(i);
     var bChar = b.codeUnitAt(i);
     if (aChar == bChar) continue;
@@ -34,7 +34,7 @@ bool equalsIgnoreAsciiCase(String a, String b) {
     if (aChar ^ bChar != _asciiCaseBit) return false;
     // If it's possible, then check if either character is actually an ASCII
     // letter.
-    int aCharLowerCase = aChar | _asciiCaseBit;
+    var aCharLowerCase = aChar | _asciiCaseBit;
     if (_lowerCaseA <= aCharLowerCase && aCharLowerCase <= _lowerCaseZ) {
       continue;
     }
@@ -52,9 +52,9 @@ int hashIgnoreAsciiCase(String string) {
   // adapted to smi values.
   // Same hash used by dart2js for strings, modified to ignore ASCII letter
   // case.
-  int hash = 0;
-  for (int i = 0; i < string.length; i++) {
-    int char = string.codeUnitAt(i);
+  var hash = 0;
+  for (var i = 0; i < string.length; i++) {
+    var char = string.codeUnitAt(i);
     // Convert lower-case ASCII letters to upper case.upper
     // This ensures that strings that differ only in case will have the
     // same hash code.
@@ -83,15 +83,15 @@ int hashIgnoreAsciiCase(String string) {
 /// be Dart identifiers, base-64 or hex encoded strings, GUIDs or similar
 /// strings with a known structure.
 int compareAsciiUpperCase(String a, String b) {
-  int defaultResult = 0; // Returned if no difference found.
-  for (int i = 0; i < a.length; i++) {
+  var defaultResult = 0; // Returned if no difference found.
+  for (var i = 0; i < a.length; i++) {
     if (i >= b.length) return 1;
     var aChar = a.codeUnitAt(i);
     var bChar = b.codeUnitAt(i);
     if (aChar == bChar) continue;
     // Upper-case if letters.
-    int aUpperCase = aChar;
-    int bUpperCase = bChar;
+    var aUpperCase = aChar;
+    var bUpperCase = bChar;
     if (_lowerCaseA <= aChar && aChar <= _lowerCaseZ) {
       aUpperCase -= _asciiCaseBit;
     }
@@ -120,14 +120,14 @@ int compareAsciiUpperCase(String a, String b) {
 /// be Dart identifiers, base-64 or hex encoded strings, GUIDs or similar
 /// strings with a known structure.
 int compareAsciiLowerCase(String a, String b) {
-  int defaultResult = 0;
-  for (int i = 0; i < a.length; i++) {
+  var defaultResult = 0;
+  for (var i = 0; i < a.length; i++) {
     if (i >= b.length) return 1;
     var aChar = a.codeUnitAt(i);
     var bChar = b.codeUnitAt(i);
     if (aChar == bChar) continue;
-    int aLowerCase = aChar;
-    int bLowerCase = bChar;
+    var aLowerCase = aChar;
+    var bLowerCase = bChar;
     // Upper case if ASCII letters.
     if (_upperCaseA <= bChar && bChar <= _upperCaseZ) {
       bLowerCase += _asciiCaseBit;
@@ -159,7 +159,7 @@ int compareAsciiLowerCase(String a, String b) {
 ///
 /// [natural sort ordering]: https://en.wikipedia.org/wiki/Natural_sort_order
 int compareNatural(String a, String b) {
-  for (int i = 0; i < a.length; i++) {
+  for (var i = 0; i < a.length; i++) {
     if (i >= b.length) return 1;
     var aChar = a.codeUnitAt(i);
     var bChar = b.codeUnitAt(i);
@@ -185,14 +185,14 @@ int compareNatural(String a, String b) {
 ///
 /// [natural sort ordering]: https://en.wikipedia.org/wiki/Natural_sort_order
 int compareAsciiLowerCaseNatural(String a, String b) {
-  int defaultResult = 0; // Returned if no difference found.
-  for (int i = 0; i < a.length; i++) {
+  var defaultResult = 0; // Returned if no difference found.
+  for (var i = 0; i < a.length; i++) {
     if (i >= b.length) return 1;
     var aChar = a.codeUnitAt(i);
     var bChar = b.codeUnitAt(i);
     if (aChar == bChar) continue;
-    int aLowerCase = aChar;
-    int bLowerCase = bChar;
+    var aLowerCase = aChar;
+    var bLowerCase = bChar;
     if (_upperCaseA <= aChar && aChar <= _upperCaseZ) {
       aLowerCase += _asciiCaseBit;
     }
@@ -222,14 +222,14 @@ int compareAsciiLowerCaseNatural(String a, String b) {
 ///
 /// [natural sort ordering]: https://en.wikipedia.org/wiki/Natural_sort_order
 int compareAsciiUpperCaseNatural(String a, String b) {
-  int defaultResult = 0;
-  for (int i = 0; i < a.length; i++) {
+  var defaultResult = 0;
+  for (var i = 0; i < a.length; i++) {
     if (i >= b.length) return 1;
     var aChar = a.codeUnitAt(i);
     var bChar = b.codeUnitAt(i);
     if (aChar == bChar) continue;
-    int aUpperCase = aChar;
-    int bUpperCase = bChar;
+    var aUpperCase = aChar;
+    var bUpperCase = bChar;
     if (_lowerCaseA <= aChar && aChar <= _lowerCaseZ) {
       aUpperCase -= _asciiCaseBit;
     }
@@ -285,7 +285,7 @@ int _compareNumerically(String a, String b, int aChar, int bChar, int index) {
   // the length of the numbers.
   if (_isNonZeroNumberSuffix(a, index)) {
     // Part of a longer number, differs at this index, just count the length.
-    int result = _compareDigitCount(a, b, index, index);
+    var result = _compareDigitCount(a, b, index, index);
     if (result != 0) return result;
     // If same length, the current character is the most significant differing
     // digit.
@@ -293,8 +293,8 @@ int _compareNumerically(String a, String b, int aChar, int bChar, int index) {
   }
   // Not part of larger (non-zero) number, so skip leading zeros before
   // comparing numbers.
-  int aIndex = index;
-  int bIndex = index;
+  var aIndex = index;
+  var bIndex = index;
   if (aChar == _zero) {
     do {
       aIndex++;
@@ -311,7 +311,7 @@ int _compareNumerically(String a, String b, int aChar, int bChar, int index) {
     if (!_isDigit(bChar)) return 1;
   }
   if (aChar != bChar) {
-    int result = _compareDigitCount(a, b, aIndex, bIndex);
+    var result = _compareDigitCount(a, b, aIndex, bIndex);
     if (result != 0) return result;
     return (aChar - bChar).sign;
   }
@@ -348,7 +348,7 @@ int _compareNumerically(String a, String b, int aChar, int bChar, int index) {
     }
   }
   // At first differing digits.
-  int result = _compareDigitCount(a, b, aIndex, bIndex);
+  var result = _compareDigitCount(a, b, aIndex, bIndex);
   if (result != 0) return result;
   return (aChar - bChar).sign;
 }
@@ -359,9 +359,9 @@ int _compareNumerically(String a, String b, int aChar, int bChar, int index) {
 /// both already known to be digits).
 int _compareDigitCount(String a, String b, int i, int j) {
   while (++i < a.length) {
-    bool aIsDigit = _isDigit(a.codeUnitAt(i));
+    var aIsDigit = _isDigit(a.codeUnitAt(i));
     if (++j == b.length) return aIsDigit ? 1 : 0;
-    bool bIsDigit = _isDigit(b.codeUnitAt(j));
+    var bIsDigit = _isDigit(b.codeUnitAt(j));
     if (aIsDigit) {
       if (bIsDigit) continue;
       return 1;
@@ -386,7 +386,7 @@ bool _isDigit(int charCode) => (charCode ^ _zero) <= 9;
 /// before, then zeros at [index] are significant.
 bool _isNonZeroNumberSuffix(String string, int index) {
   while (--index >= 0) {
-    int char = string.codeUnitAt(index);
+    var char = string.codeUnitAt(index);
     if (char != _zero) return _isDigit(char);
   }
   return false;

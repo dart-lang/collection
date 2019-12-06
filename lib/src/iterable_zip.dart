@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import "dart:collection";
+import 'dart:collection';
 
 /// Iterable that iterates over lists of values from other iterables.
 ///
@@ -16,10 +16,11 @@ import "dart:collection";
 class IterableZip<T> extends IterableBase<List<T>> {
   final Iterable<Iterable<T>> _iterables;
 
-  IterableZip(Iterable<Iterable<T>> iterables) : this._iterables = iterables;
+  IterableZip(Iterable<Iterable<T>> iterables) : _iterables = iterables;
 
   /// Returns an iterator that combines values of the iterables' iterators
   /// as long as they all have values.
+  @override
   Iterator<List<T>> get iterator {
     var iterators = _iterables.map((x) => x.iterator).toList(growable: false);
     // TODO(lrn): Return an empty iterator directly if iterators is empty?
@@ -33,20 +34,22 @@ class _IteratorZip<T> implements Iterator<List<T>> {
 
   _IteratorZip(List<Iterator<T>> iterators) : _iterators = iterators;
 
+  @override
   bool moveNext() {
     if (_iterators.isEmpty) return false;
-    for (int i = 0; i < _iterators.length; i++) {
+    for (var i = 0; i < _iterators.length; i++) {
       if (!_iterators[i].moveNext()) {
         _current = null;
         return false;
       }
     }
     _current = List(_iterators.length);
-    for (int i = 0; i < _iterators.length; i++) {
+    for (var i = 0; i < _iterators.length; i++) {
       _current[i] = _iterators[i].current;
     }
     return true;
   }
 
+  @override
   List<T> get current => _current;
 }

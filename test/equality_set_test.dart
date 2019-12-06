@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test("uses the given equality", () {
+  test('uses the given equality', () {
     var set = EqualitySet(const IterableEquality());
     expect(set, isEmpty);
 
@@ -27,7 +27,7 @@ void main() {
     expect(set, contains(same(list3)));
   });
 
-  test("EqualitySet.from() prefers the lattermost equivalent value", () {
+  test('EqualitySet.from() prefers the lattermost equivalent value', () {
     var list1 = [1, 2, 3];
     var list2 = [2, 3, 4];
     var list3 = [1, 2, 3];

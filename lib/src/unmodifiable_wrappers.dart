@@ -5,7 +5,7 @@
 import 'empty_unmodifiable_set.dart';
 import 'wrappers.dart';
 
-export "dart:collection" show UnmodifiableListView, UnmodifiableMapView;
+export 'dart:collection' show UnmodifiableListView, UnmodifiableMapView;
 
 /// A fixed-length list.
 ///
@@ -27,59 +27,72 @@ class NonGrowableListView<E> extends DelegatingList<E>
 /// change the List's length.
 abstract class NonGrowableListMixin<E> implements List<E> {
   static T _throw<T>() {
-    throw UnsupportedError("Cannot change the length of a fixed-length list");
+    throw UnsupportedError('Cannot change the length of a fixed-length list');
   }
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   set length(int newLength) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   bool add(E value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   void addAll(Iterable<E> iterable) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   void insert(int index, E element) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   void insertAll(int index, Iterable<E> iterable) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   bool remove(Object value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   E removeAt(int index) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   E removeLast() => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void removeWhere(bool test(E element)) => _throw();
+  @override
+  void removeWhere(bool Function(E) test) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
-  void retainWhere(bool test(E element)) => _throw();
+  @override
+  void retainWhere(bool Function(E) test) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   void removeRange(int start, int end) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   void replaceRange(int start, int end, Iterable<E> iterable) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
+  @override
   void clear() => _throw();
 }
 
@@ -105,39 +118,47 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 /// change the Set.
 abstract class UnmodifiableSetMixin<E> implements Set<E> {
   static T _throw<T>() {
-    throw UnsupportedError("Cannot modify an unmodifiable Set");
+    throw UnsupportedError('Cannot modify an unmodifiable Set');
   }
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
+  @override
   bool add(E value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
+  @override
   void addAll(Iterable<E> elements) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
+  @override
   bool remove(Object value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
+  @override
   void removeAll(Iterable elements) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
+  @override
   void retainAll(Iterable elements) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void removeWhere(bool test(E element)) => _throw();
+  @override
+  void removeWhere(bool Function(E) test) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
-  void retainWhere(bool test(E element)) => _throw();
+  @override
+  void retainWhere(bool Function(E) test) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
+  @override
   void clear() => _throw();
 }
 
@@ -145,27 +166,32 @@ abstract class UnmodifiableSetMixin<E> implements Set<E> {
 /// change the Map.
 abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
   static T _throw<T>() {
-    throw UnsupportedError("Cannot modify an unmodifiable Map");
+    throw UnsupportedError('Cannot modify an unmodifiable Map');
   }
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
+  @override
   void operator []=(K key, V value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  V putIfAbsent(K key, V ifAbsent()) => _throw();
+  @override
+  V putIfAbsent(K key, V Function() ifAbsent) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
+  @override
   void addAll(Map<K, V> other) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
+  @override
   V remove(Object key) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
+  @override
   void clear() => _throw();
 
   /// Throws an [UnsupportedError];

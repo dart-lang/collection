@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Import `collection.dart` instead.
-@Deprecated("Will be removed in collection 2.0.0.")
+@Deprecated('Will be removed in collection 2.0.0.')
 library dart.pkg.collection.equality;
 
-export "src/equality.dart";
+export 'src/equality.dart';

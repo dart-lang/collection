@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test("uses the given equality", () {
+  test('uses the given equality', () {
     var map = EqualityMap(const IterableEquality());
     expect(map, isEmpty);
 
@@ -21,7 +21,7 @@ void main() {
     expect(map, containsPair([2, 3, 4], 3));
   });
 
-  test("EqualityMap.from() prefers the lattermost equivalent key", () {
+  test('EqualityMap.from() prefers the lattermost equivalent key', () {
     var map = EqualityMap.from(const IterableEquality(), {
       [1, 2, 3]: 1,
       [2, 3, 4]: 2,

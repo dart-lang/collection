@@ -25,12 +25,15 @@ class CombinedListView<T> extends ListBase<T>
   /// Creates a combined view of [lists].
   CombinedListView(this._lists);
 
+  @override
   set length(int length) {
     _throw();
   }
 
+  @override
   int get length => _lists.fold(0, (length, list) => length + list.length);
 
+  @override
   T operator [](int index) {
     var initialIndex = index;
     for (var i = 0; i < _lists.length; i++) {
@@ -43,24 +46,29 @@ class CombinedListView<T> extends ListBase<T>
     throw RangeError.index(initialIndex, this, 'index', null, length);
   }
 
+  @override
   void operator []=(int index, T value) {
     _throw();
   }
 
+  @override
   void clear() {
     _throw();
   }
 
+  @override
   bool remove(Object element) {
     _throw();
     return null;
   }
 
-  void removeWhere(bool test(T element)) {
+  @override
+  void removeWhere(bool Function(T) test) {
     _throw();
   }
 
-  void retainWhere(bool test(T element)) {
+  @override
+  void retainWhere(bool Function(T) test) {
     _throw();
   }
 }

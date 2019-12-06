@@ -12,34 +12,57 @@ import 'unmodifiable_wrappers.dart';
 class EmptyUnmodifiableSet<E> extends IterableBase<E>
     implements UnmodifiableSetView<E> {
   static T _throw<T>() {
-    throw UnsupportedError("Cannot modify an unmodifiable Set");
+    throw UnsupportedError('Cannot modify an unmodifiable Set');
   }
 
+  @override
   Iterator<E> get iterator => Iterable<E>.empty().iterator;
+  @override
   int get length => 0;
 
   const EmptyUnmodifiableSet();
 
+  @override
   EmptyUnmodifiableSet<T> cast<T>() => EmptyUnmodifiableSet<T>();
+  @override
   bool contains(Object element) => false;
+  @override
   bool containsAll(Iterable<Object> other) => other.isEmpty;
+  @override
   Iterable<E> followedBy(Iterable<E> other) => Set.from(other);
+  @override
   E lookup(Object element) => null;
   @deprecated
+  @override
   EmptyUnmodifiableSet<T> retype<T>() => EmptyUnmodifiableSet<T>();
-  E singleWhere(bool test(E element), {E orElse()}) => super.singleWhere(test);
+  @override
+  E singleWhere(bool Function(E) test, {E Function() orElse}) =>
+      super.singleWhere(test);
+  @override
   Iterable<T> whereType<T>() => EmptyUnmodifiableSet<T>();
-  Set<E> toSet() => Set();
+  @override
+  Set<E> toSet() => {};
+  @override
   Set<E> union(Set<E> other) => Set.from(other);
-  Set<E> intersection(Set<Object> other) => Set();
-  Set<E> difference(Set<Object> other) => Set();
+  @override
+  Set<E> intersection(Set<Object> other) => {};
+  @override
+  Set<E> difference(Set<Object> other) => {};
 
+  @override
   bool add(E value) => _throw();
+  @override
   void addAll(Iterable<E> elements) => _throw();
+  @override
   void clear() => _throw();
+  @override
   bool remove(Object element) => _throw();
+  @override
   void removeAll(Iterable<Object> elements) => _throw();
-  void removeWhere(bool test(E element)) => _throw();
-  void retainWhere(bool test(E element)) => _throw();
+  @override
+  void removeWhere(bool Function(E) test) => _throw();
+  @override
+  void retainWhere(bool Function(E) test) => _throw();
+  @override
   void retainAll(Iterable<Object> elements) => _throw();
 }

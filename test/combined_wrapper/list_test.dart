@@ -11,7 +11,7 @@ void main() {
   var list1 = [1, 2, 3];
   var list2 = [4, 5, 6];
   var list3 = [7, 8, 9];
-  var concat = <int>[]..addAll(list1)..addAll(list2)..addAll(list3);
+  var concat = <int>[...list1, ...list2, ...list3];
 
   // In every way possible this should test the same as an UnmodifiableListView.
   common.testUnmodifiableList(
@@ -52,7 +52,7 @@ void main() {
     listOfLists.add(list1);
     expect(combined, list1);
     listOfLists.add(list2);
-    expect(combined, []..addAll(list1)..addAll(list2));
+    expect(combined, [...list1, ...list2]);
     listOfLists.clear();
     expect(combined, isEmpty);
   });

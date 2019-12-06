@@ -18,16 +18,20 @@ class CombinedIterableView<T> extends IterableBase<T> {
   /// Creates a combined view of [iterables].
   const CombinedIterableView(this._iterables);
 
+  @override
   Iterator<T> get iterator =>
       _CombinedIterator<T>(_iterables.map((i) => i.iterator).iterator);
 
   // Special cased contains/isEmpty/length since many iterables have an
   // efficient implementation instead of running through the entire iterator.
 
+  @override
   bool contains(Object element) => _iterables.any((i) => i.contains(element));
 
+  @override
   bool get isEmpty => _iterables.every((i) => i.isEmpty);
 
+  @override
   int get length => _iterables.fold(0, (length, i) => length + i.length);
 }
 
@@ -43,8 +47,10 @@ class _CombinedIterator<T> implements Iterator<T> {
 
   _CombinedIterator(this._iterators);
 
+  @override
   T get current => _iterators.current?.current;
 
+  @override
   bool moveNext() {
     var current = _iterators.current;
     if (current != null && current.moveNext()) {

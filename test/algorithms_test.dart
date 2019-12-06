@@ -5,32 +5,32 @@
 /// Tests algorithm utilities.
 import 'dart:math';
 
-import "package:collection/collection.dart";
-import "package:test/test.dart";
+import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
 void main() {
   void testShuffle(List list) {
-    List copy = list.toList();
+    var copy = list.toList();
     shuffle(list);
     expect(UnorderedIterableEquality().equals(list, copy), isTrue);
   }
 
-  test("Shuffle 0", () {
+  test('Shuffle 0', () {
     testShuffle([]);
   });
-  test("Shuffle 1", () {
+  test('Shuffle 1', () {
     testShuffle([1]);
   });
-  test("Shuffle 3", () {
+  test('Shuffle 3', () {
     testShuffle([1, 2, 3]);
   });
-  test("Shuffle 10", () {
+  test('Shuffle 10', () {
     testShuffle([1, 2, 3, 4, 5, 1, 3, 5, 7, 9]);
   });
-  test("Shuffle shuffles", () {
-    List l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-    List c = l.toList();
-    int count = 0;
+  test('Shuffle shuffles', () {
+    var l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    var c = l.toList();
+    var count = 0;
     do {
       shuffle(l);
       if (!const ListEquality().equals(c, l)) return;
@@ -39,13 +39,13 @@ void main() {
       // same result every time is disappearingly tiny.
       count++;
       // If this happens even once, it's ok to report it.
-      print("Failed shuffle $count times");
+      print('Failed shuffle $count times');
       if (count == 10) fail("Shuffle didn't change order.");
     } while (true);
   });
-  test("Shuffle sublist", () {
-    List l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-    List c = l.toList();
+  test('Shuffle sublist', () {
+    var l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    var c = l.toList();
     shuffle(l, 4, 12);
     expect(const IterableEquality().equals(l.getRange(0, 4), c.getRange(0, 4)),
         isTrue);
@@ -58,17 +58,17 @@ void main() {
         isTrue);
   });
 
-  test("binsearch0", () {
+  test('binsearch0', () {
     expect(binarySearch([], 2), equals(-1));
   });
 
-  test("binsearch1", () {
+  test('binsearch1', () {
     expect(binarySearch([5], 2), equals(-1));
     expect(binarySearch([5], 5), equals(0));
     expect(binarySearch([5], 7), equals(-1));
   });
 
-  test("binsearch3", () {
+  test('binsearch3', () {
     expect(binarySearch([0, 5, 10], -1), equals(-1));
     expect(binarySearch([0, 5, 10], 0), equals(0));
     expect(binarySearch([0, 5, 10], 2), equals(-1));
@@ -78,18 +78,18 @@ void main() {
     expect(binarySearch([0, 5, 10], 12), equals(-1));
   });
 
-  test("binsearchCompare0", () {
+  test('binsearchCompare0', () {
     expect(binarySearch(<C>[], C(2), compare: compareC), equals(-1));
   });
 
-  test("binsearchCompare1", () {
+  test('binsearchCompare1', () {
     var l1 = [C(5)];
     expect(binarySearch(l1, C(2), compare: compareC), equals(-1));
     expect(binarySearch(l1, C(5), compare: compareC), equals(0));
     expect(binarySearch(l1, C(7), compare: compareC), equals(-1));
   });
 
-  test("binsearchCompare3", () {
+  test('binsearchCompare3', () {
     var l3 = [C(0), C(5), C(10)];
     expect(binarySearch(l3, C(-1), compare: compareC), equals(-1));
     expect(binarySearch(l3, C(0), compare: compareC), equals(0));
@@ -100,17 +100,17 @@ void main() {
     expect(binarySearch(l3, C(12), compare: compareC), equals(-1));
   });
 
-  test("lowerbound0", () {
+  test('lowerbound0', () {
     expect(lowerBound([], 2), equals(0));
   });
 
-  test("lowerbound1", () {
+  test('lowerbound1', () {
     expect(lowerBound([5], 2), equals(0));
     expect(lowerBound([5], 5), equals(0));
     expect(lowerBound([5], 7), equals(1));
   });
 
-  test("lowerbound3", () {
+  test('lowerbound3', () {
     expect(lowerBound([0, 5, 10], -1), equals(0));
     expect(lowerBound([0, 5, 10], 0), equals(0));
     expect(lowerBound([0, 5, 10], 2), equals(1));
@@ -120,23 +120,23 @@ void main() {
     expect(lowerBound([0, 5, 10], 12), equals(3));
   });
 
-  test("lowerboundRepeat", () {
+  test('lowerboundRepeat', () {
     expect(lowerBound([5, 5, 5], 5), equals(0));
     expect(lowerBound([0, 5, 5, 5, 10], 5), equals(1));
   });
 
-  test("lowerboundCompare0", () {
+  test('lowerboundCompare0', () {
     expect(lowerBound(<C>[], C(2), compare: compareC), equals(0));
   });
 
-  test("lowerboundCompare1", () {
+  test('lowerboundCompare1', () {
     var l1 = [C(5)];
     expect(lowerBound(l1, C(2), compare: compareC), equals(0));
     expect(lowerBound(l1, C(5), compare: compareC), equals(0));
     expect(lowerBound(l1, C(7), compare: compareC), equals(1));
   });
 
-  test("lowerboundCompare3", () {
+  test('lowerboundCompare3', () {
     var l3 = [C(0), C(5), C(10)];
     expect(lowerBound(l3, C(-1), compare: compareC), equals(0));
     expect(lowerBound(l3, C(0), compare: compareC), equals(0));
@@ -147,29 +147,29 @@ void main() {
     expect(lowerBound(l3, C(12), compare: compareC), equals(3));
   });
 
-  test("lowerboundCompareRepeat", () {
+  test('lowerboundCompareRepeat', () {
     var l1 = [C(5), C(5), C(5)];
     var l2 = [C(0), C(5), C(5), C(5), C(10)];
     expect(lowerBound(l1, C(5), compare: compareC), equals(0));
     expect(lowerBound(l2, C(5), compare: compareC), equals(1));
   });
 
-  test("insertionSortRandom", () {
-    Random random = Random();
-    for (int i = 0; i < 25; i++) {
-      List list = List(i);
-      for (int j = 0; j < i; j++) {
+  test('insertionSortRandom', () {
+    var random = Random();
+    for (var i = 0; i < 25; i++) {
+      var list = List(i);
+      for (var j = 0; j < i; j++) {
         list[j] = random.nextInt(25); // Expect some equal elements.
       }
       insertionSort(list);
-      for (int j = 1; j < i; j++) {
+      for (var j = 1; j < i; j++) {
         expect(list[j - 1], lessThanOrEqualTo(list[j]));
       }
     }
   });
 
-  test("insertionSortSubRanges", () {
-    List l = [6, 5, 4, 3, 2, 1];
+  test('insertionSortSubRanges', () {
+    var l = [6, 5, 4, 3, 2, 1];
     insertionSort(l, start: 2, end: 4);
     expect(l, equals([6, 5, 3, 4, 2, 1]));
     insertionSort(l, start: 1, end: 1);
@@ -182,8 +182,8 @@ void main() {
     expect(l, equals([1, 2, 3, 4, 5, 6]));
   });
 
-  test("insertionSortSpecialCases", () {
-    List l = [6, 6, 6, 6, 6, 6];
+  test('insertionSortSpecialCases', () {
+    var l = [6, 6, 6, 6, 6, 6];
     insertionSort(l);
     expect(l, equals([6, 6, 6, 6, 6, 6]));
 
@@ -192,38 +192,38 @@ void main() {
     expect(l, equals([0, 0, 3, 3, 6, 6]));
   });
 
-  test("MergeSortRandom", () {
-    Random random = Random();
-    for (int i = 0; i < 250; i += 1) {
-      List list = List(i);
-      for (int j = 0; j < i; j++) {
+  test('MergeSortRandom', () {
+    var random = Random();
+    for (var i = 0; i < 250; i += 1) {
+      var list = List(i);
+      for (var j = 0; j < i; j++) {
         list[j] = random.nextInt(i); // Expect some equal elements.
       }
       mergeSort(list);
-      for (int j = 1; j < i; j++) {
+      for (var j = 1; j < i; j++) {
         expect(list[j - 1], lessThanOrEqualTo(list[j]));
       }
     }
   });
 
-  test("MergeSortPreservesOrder", () {
-    Random random = Random();
+  test('MergeSortPreservesOrder', () {
+    var random = Random();
     // Small case where only insertion call is called,
     // larger case where the internal moving insertion sort is used
     // larger cases with multiple splittings, numbers just around a power of 2.
-    for (int size in [8, 50, 511, 512, 513]) {
+    for (var size in [8, 50, 511, 512, 513]) {
       var list = List<OC>(size);
       // Class OC compares using id.
       // With size elements with id's in the range 0..size/4, a number of
-      // collisions are guaranteed. These should be sorted so that the "order"
+      // collisions are guaranteed. These should be sorted so that the 'order'
       // part of the objects are still in order.
-      for (int i = 0; i < size; i++) {
+      for (var i = 0; i < size; i++) {
         list[i] = OC(random.nextInt(size >> 2), i);
       }
       mergeSort(list);
-      OC prev = list[0];
-      for (int i = 1; i < size; i++) {
-        OC next = list[i];
+      var prev = list[0];
+      for (var i = 1; i < size; i++) {
+        var next = list[i];
         expect(prev.id, lessThanOrEqualTo(next.id));
         if (next.id == prev.id) {
           expect(prev.order, lessThanOrEqualTo(next.order));
@@ -232,13 +232,13 @@ void main() {
       }
       // Reverse compare on part of list.
       List copy = list.toList();
-      int min = size >> 2;
-      int max = size - min;
+      var min = size >> 2;
+      var max = size - min;
       mergeSort<OC>(list,
           start: min, end: max, compare: (a, b) => b.compareTo(a));
       prev = list[min];
-      for (int i = min + 1; i < max; i++) {
-        OC next = list[i];
+      for (var i = min + 1; i < max; i++) {
+        var next = list[i];
         expect(prev.id, greaterThanOrEqualTo(next.id));
         if (next.id == prev.id) {
           expect(prev.order, lessThanOrEqualTo(next.order));
@@ -252,53 +252,53 @@ void main() {
     }
   });
 
-  test("MergeSortSpecialCases", () {
-    for (int size in [511, 512, 513]) {
+  test('MergeSortSpecialCases', () {
+    for (var size in [511, 512, 513]) {
       // All equal.
-      List list = List(size);
-      for (int i = 0; i < size; i++) {
+      var list = List(size);
+      for (var i = 0; i < size; i++) {
         list[i] = OC(0, i);
       }
       mergeSort(list);
-      for (int i = 0; i < size; i++) {
+      for (var i = 0; i < size; i++) {
         expect(list[i].order, equals(i));
       }
       // All but one equal, first.
       list[0] = OC(1, 0);
-      for (int i = 1; i < size; i++) {
+      for (var i = 1; i < size; i++) {
         list[i] = OC(0, i);
       }
       mergeSort(list);
-      for (int i = 0; i < size - 1; i++) {
+      for (var i = 0; i < size - 1; i++) {
         expect(list[i].order, equals(i + 1));
       }
       expect(list[size - 1].order, equals(0));
 
       // All but one equal, last.
-      for (int i = 0; i < size - 1; i++) {
+      for (var i = 0; i < size - 1; i++) {
         list[i] = OC(0, i);
       }
       list[size - 1] = OC(-1, size - 1);
       mergeSort(list);
       expect(list[0].order, equals(size - 1));
-      for (int i = 1; i < size; i++) {
+      for (var i = 1; i < size; i++) {
         expect(list[i].order, equals(i - 1));
       }
 
       // Reversed.
-      for (int i = 0; i < size; i++) {
+      for (var i = 0; i < size; i++) {
         list[i] = OC(size - 1 - i, i);
       }
       mergeSort(list);
-      for (int i = 0; i < size; i++) {
+      for (var i = 0; i < size; i++) {
         expect(list[i].id, equals(i));
         expect(list[i].order, equals(size - 1 - i));
       }
     }
   });
 
-  test("Reverse", () {
-    List l = [6, 5, 4, 3, 2, 1];
+  test('Reverse', () {
+    var l = [6, 5, 4, 3, 2, 1];
     reverse(l, 2, 4);
     expect(l, equals([6, 5, 3, 4, 2, 1]));
     reverse(l, 1, 1);
@@ -323,6 +323,8 @@ class OC implements Comparable<OC> {
   final int id;
   final int order;
   OC(this.id, this.order);
+  @override
   int compareTo(OC other) => id - other.id;
-  String toString() => "OC[$id,$order]";
+  @override
+  String toString() => 'OC[$id,$order]';
 }

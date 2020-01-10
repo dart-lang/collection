@@ -10,6 +10,7 @@ void main() {
   group('mapMap()', () {
     test('with an empty map returns an empty map', () {
       expect(
+          // ignore: deprecated_member_use_from_same_package
           mapMap({},
               key: expectAsync2((_, __) {}, count: 0),
               value: expectAsync2((_, __) {}, count: 0)),
@@ -18,6 +19,7 @@ void main() {
 
     test('with no callbacks, returns a copy of the map', () {
       var map = {'foo': 1, 'bar': 2};
+      // ignore: deprecated_member_use_from_same_package
       var result = mapMap(map);
       expect(result, equals({'foo': 1, 'bar': 2}));
 
@@ -27,17 +29,20 @@ void main() {
     });
 
     test("maps the map's keys", () {
+      // ignore: deprecated_member_use_from_same_package
       expect(mapMap({'foo': 1, 'bar': 2}, key: (key, value) => key[value]),
           equals({'o': 1, 'r': 2}));
     });
 
     test("maps the map's values", () {
+      // ignore: deprecated_member_use_from_same_package
       expect(mapMap({'foo': 1, 'bar': 2}, value: (key, value) => key[value]),
           equals({'foo': 'o', 'bar': 'r'}));
     });
 
     test("maps both the map's keys and values", () {
       expect(
+          // ignore: deprecated_member_use_from_same_package
           mapMap({'foo': 1, 'bar': 2},
               key: (key, value) => '$key$value',
               value: (key, value) => key[value]),

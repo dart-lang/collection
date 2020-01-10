@@ -1,3 +1,8 @@
+## 1.14.13-dev
+
+* Deprecate `mapMap`. The Map interface has a `map` call and map literals can
+  use for-loop elements which supersede this method.
+
 ## 1.14.12
 
 * Fix `CombinedMapView.keys`, `CombinedMapView.length`,

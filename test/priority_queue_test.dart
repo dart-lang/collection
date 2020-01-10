@@ -15,7 +15,7 @@ void main() {
 }
 
 void testDefault() {
-  test('new PriorityQueue() returns a HeapPriorityQueue', () {
+  test('PriorityQueue() returns a HeapPriorityQueue', () {
     expect(PriorityQueue<int>(), TypeMatcher<HeapPriorityQueue<int>>());
   });
   testInt(() => PriorityQueue<int>());

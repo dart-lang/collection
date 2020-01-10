@@ -12,7 +12,7 @@ import 'union_set.dart';
 /// ```dart
 /// class Engine {
 ///   Set<Test> get activeTests => _activeTestsGroup.set;
-///   final _activeTestsGroup = new UnionSetController<Test>();
+///   final _activeTestsGroup = UnionSetController<Test>();
 ///
 ///   void addSuite(Suite suite) {
 ///     _activeTestsGroup.add(suite.tests);

@@ -41,7 +41,7 @@ abstract class Equality<E> {
 ///
 /// The following [Equality] considers employees with the same IDs to be equal:
 /// ```dart
-/// new EqualityBy((Employee e) => e.employmentId);
+/// EqualityBy((Employee e) => e.employmentId);
 /// ```
 ///
 /// It's also possible to pass an additional equality instance that should be

@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  group('new QueueList()', () {
+  group('QueueList()', () {
     test('creates an empty QueueList', () {
       expect(QueueList(), isEmpty);
     });
@@ -18,7 +18,7 @@ void main() {
     });
   });
 
-  test('new QueueList.from() copies the contents of an iterable', () {
+  test('QueueList.from() copies the contents of an iterable', () {
     expect(QueueList.from([1, 2, 3].skip(1)), equals([2, 3]));
   });
 
@@ -298,7 +298,7 @@ void main() {
 /// Returns a queue whose internal ring buffer is full enough that adding a new
 /// element will expand it.
 QueueList atCapacity() {
-  // Use addAll because [new QueueList.from(List)] won't use the default initial
+  // Use addAll because `QueueList.from(list)` won't use the default initial
   // capacity of 8.
   return QueueList()..addAll([1, 2, 3, 4, 5, 6, 7]);
 }

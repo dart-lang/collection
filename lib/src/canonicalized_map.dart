@@ -6,10 +6,6 @@ import 'dart:collection';
 
 import 'utils.dart';
 
-typedef _Canonicalize<C, K> = C Function(K key);
-
-typedef _IsValidKey = bool Function(Object key);
-
 /// A map whose keys are converted to canonical values of type `C`.
 ///
 /// This is useful for using case-insensitive String keys, for example. It's
@@ -20,9 +16,9 @@ typedef _IsValidKey = bool Function(Object key);
 /// By default, `null` is allowed as a key. It can be forbidden via the
 /// `isValidKey` parameter.
 class CanonicalizedMap<C, K, V> implements Map<K, V> {
-  final _Canonicalize<C, K> _canonicalize;
+  final C Function(K) _canonicalize;
 
-  final _IsValidKey _isValidKeyFn;
+  final bool Function(Object) _isValidKeyFn;
 
   final _base = <C, Pair<K, V>>{};
 

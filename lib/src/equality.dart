@@ -30,8 +30,6 @@ abstract class Equality<E> {
   bool isValidKey(Object o);
 }
 
-typedef _GetKey<E, F> = F Function(E object);
-
 /// Equality of objects based on derived values.
 ///
 /// For example, given the class:
@@ -49,27 +47,26 @@ typedef _GetKey<E, F> = F Function(E object);
 /// It's also possible to pass an additional equality instance that should be
 /// used to compare the value itself.
 class EqualityBy<E, F> implements Equality<E> {
-  // Returns a derived value F from an object E.
-  final _GetKey<E, F> _getKey;
+  final F Function(E) _comparisonKey;
 
-  // Determines equality between two values of F.
   final Equality<F> _inner;
 
-  EqualityBy(F Function(E) getKey,
+  EqualityBy(F Function(E) comparisonKey,
       [Equality<F> inner = const DefaultEquality()])
-      : _getKey = getKey,
+      : _comparisonKey = comparisonKey,
         _inner = inner;
 
   @override
-  bool equals(E e1, E e2) => _inner.equals(_getKey(e1), _getKey(e2));
+  bool equals(E e1, E e2) =>
+      _inner.equals(_comparisonKey(e1), _comparisonKey(e2));
 
   @override
-  int hash(E e) => _inner.hash(_getKey(e));
+  int hash(E e) => _inner.hash(_comparisonKey(e));
 
   @override
   bool isValidKey(Object o) {
     if (o is E) {
-      final value = _getKey(o);
+      final value = _comparisonKey(o);
       return value is F && _inner.isValidKey(value);
     }
     return false;

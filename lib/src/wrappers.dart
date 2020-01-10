@@ -7,8 +7,6 @@ import 'dart:math' as math;
 
 import 'unmodifiable_wrappers.dart';
 
-typedef _KeyForValue<K, V> = K Function(V value);
-
 /// A base class for delegating iterables.
 ///
 /// Subclasses can provide a [_base] that should be delegated to. Unlike
@@ -688,7 +686,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
 /// Effectively, the map will act as a kind of index for the set.
 class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   final Map<K, V> _baseMap;
-  final _KeyForValue<K, V> _keyForValue;
+  final K Function(V) _keyForValue;
 
   /// Creates a new [MapValueSet] based on [base].
   ///

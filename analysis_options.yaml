@@ -20,6 +20,7 @@ linter:
 
     # Style
     - avoid_init_to_null
+    - avoid_private_typedef_functions
     - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
     - await_only_futures

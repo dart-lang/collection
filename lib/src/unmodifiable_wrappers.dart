@@ -109,7 +109,7 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 
   /// An unmodifiable empty set.
   ///
-  /// This is the same as `new UnmodifiableSetView(new Set())`, except that it
+  /// This is the same as `UnmodifiableSetView(Set())`, except that it
   /// can be used in const contexts.
   const factory UnmodifiableSetView.empty() = EmptyUnmodifiableSet<E>;
 }

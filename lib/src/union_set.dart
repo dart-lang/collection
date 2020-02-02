@@ -52,22 +52,13 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   @override
   Iterator<E> get iterator => _iterable.iterator;
 
-  /// Returns an iterable over the contents of all the sets in [this].
-  Iterable<E> get _iterable =>
-      _disjoint ? _sets.expand((set) => set) : _dedupIterable;
-
-  /// Returns an iterable over the contents of all the sets in [this] that
-  /// de-duplicates elements.
+  /// An iterable over the contents of all [_sets].
   ///
-  /// If the sets aren't guaranteed to be disjoint, this keeps track of the
-  /// elements we've already emitted so that we can de-duplicate them.
-  Iterable<E> get _dedupIterable {
-    var seen = <E>{};
-    return _sets.expand((set) => set).where((element) {
-      if (seen.contains(element)) return false;
-      seen.add(element);
-      return true;
-    });
+  /// If this is not a [_disjoint] union an extra set is used to deduplicate
+  /// values.
+  Iterable<E> get _iterable {
+    var allElements = _sets.expand((set) => set);
+    return _disjoint ? allElements : allElements.where(<E>{}.add);
   }
 
   @override

@@ -15,7 +15,7 @@ The package provides a way to specify the equality of elements and collections.
 Collections in Dart have no inherent equality. Two sets are not equal, even
 if they contain exactly the same objects as elements.
 
-The `Equality` interface provides a way to say define such an equality. In this
+The `Equality` interface provides a way to define such an equality. In this
 case, for example, `const SetEquality(const IdentityEquality())` is an equality
 that considers two sets equal exactly if they contain identical elements.
 

@@ -2,7 +2,6 @@ name: collection
 version: 1.14.13-dev
 
 description: Collections and utilities functions and classes related to collections.
-author: Dart Team <misc@dartlang.org>
 homepage: https://www.github.com/dart-lang/collection
 
 environment:

@@ -10,8 +10,7 @@ void main() {
     late CanonicalizedMap<int, String, String> map;
 
     setUp(() {
-      map = CanonicalizedMap((s) => int.parse(s!),
-          isValidKey: (s) => RegExp(r'^\d+$').hasMatch((s as String?)!));
+      map = CanonicalizedMap(int.parse, isValidKey: RegExp(r'^\d+$').hasMatch);
     });
 
     test('canonicalizes keys on set and get', () {
@@ -163,8 +162,8 @@ void main() {
   group('CanonicalizedMap builds an informative string representation', () {
     var map;
     setUp(() {
-      map = CanonicalizedMap<int, String, dynamic>((s) => int.parse(s!),
-          isValidKey: (s) => RegExp(r'^\d+$').hasMatch((s as String?)!));
+      map = CanonicalizedMap<int, String, dynamic>(int.parse,
+          isValidKey: RegExp(r'^\d+$').hasMatch);
     });
 
     test('for an empty map', () {
@@ -192,8 +191,7 @@ void main() {
   group('CanonicalizedMap.from', () {
     test('canonicalizes its keys', () {
       var map = CanonicalizedMap.from(
-          {'1': 'value 1', '2': 'value 2', '3': 'value 3'},
-          (String? s) => int.parse(s!));
+          {'1': 'value 1', '2': 'value 2', '3': 'value 3'}, int.parse);
       expect(map['01'], equals('value 1'));
       expect(map['02'], equals('value 2'));
       expect(map['03'], equals('value 3'));
@@ -201,8 +199,7 @@ void main() {
 
     test('uses the final value for collisions', () {
       var map = CanonicalizedMap.from(
-          {'1': 'value 1', '01': 'value 2', '001': 'value 3'},
-          (String? s) => int.parse(s!));
+          {'1': 'value 1', '01': 'value 2', '001': 'value 3'}, int.parse);
       expect(map.length, equals(1));
       expect(map['0001'], equals('value 3'));
     });

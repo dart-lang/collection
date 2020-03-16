@@ -26,7 +26,7 @@ class CombinedIterableView<T> extends IterableBase<T> {
   // efficient implementation instead of running through the entire iterator.
 
   @override
-  bool contains(Object element) => _iterables.any((i) => i.contains(element));
+  bool contains(Object? element) => _iterables.any((i) => i.contains(element));
 
   @override
   bool get isEmpty => _iterables.every((i) => i.isEmpty);
@@ -48,12 +48,12 @@ class _CombinedIterator<T> implements Iterator<T> {
   _CombinedIterator(this._iterators);
 
   @override
-  T get current => _iterators.current?.current;
+  T get current => _iterators.current.current;
 
   @override
   bool moveNext() {
     var current = _iterators.current;
-    if (current != null && current.moveNext()) {
+    if (current.moveNext()) {
       return true;
     }
     return _iterators.moveNext() && moveNext();

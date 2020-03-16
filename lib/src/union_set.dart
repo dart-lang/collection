@@ -62,10 +62,10 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   }
 
   @override
-  bool contains(Object element) => _sets.any((set) => set.contains(element));
+  bool contains(Object? element) => _sets.any((set) => set.contains(element));
 
   @override
-  E lookup(Object element) {
+  E? lookup(Object? element) {
     if (element == null) return null;
 
     return _sets

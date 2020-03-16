@@ -13,13 +13,13 @@ import 'utils.dart';
 /// [value] are used as the values for the new map.
 @Deprecated('Use Map.map or a for loop in a Map literal.')
 Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
-    {K2 Function(K1, V1) key, V2 Function(K1, V1) value}) {
-  key ??= (mapKey, _) => mapKey as K2;
-  value ??= (_, mapValue) => mapValue as V2;
+    {K2 Function(K1, V1)? key, V2 Function(K1, V1)? value}) {
+  var keyFn = key ?? (mapKey, _) => mapKey as K2;
+  var valueFn = value ?? (_, mapValue) => mapValue as V2;
 
   var result = <K2, V2>{};
   map.forEach((mapKey, mapValue) {
-    result[key(mapKey, mapValue)] = value(mapKey, mapValue);
+    result[keyFn(mapKey, mapValue)] = valueFn(mapKey, mapValue);
   });
   return result;
 }
@@ -30,13 +30,13 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 /// select the value that goes into the resulting map based on the two original
 /// values. If [value] is omitted, the value from [map2] is used.
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
-    {V Function(V, V) value}) {
+    {V Function(V, V)? value}) {
   var result = Map<K, V>.from(map1);
   if (value == null) return result..addAll(map2);
 
   map2.forEach((key, mapValue) {
     result[key] =
-        result.containsKey(key) ? value(result[key], mapValue) : mapValue;
+        result.containsKey(key) ? value(result[key] as V, mapValue) : mapValue;
   });
   return result;
 }
@@ -61,12 +61,14 @@ Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
 /// The values returned by [orderBy] are compared using the [compare] function.
 /// If [compare] is omitted, values must implement [Comparable<T>] and they are
 /// compared using their [Comparable.compareTo].
-S minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
-    {int Function(T, T) compare}) {
+///
+/// Returns `null` if [values] is empty.
+S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
+    {int Function(T, T)? compare}) {
   compare ??= defaultCompare<T>();
 
-  S minValue;
-  T minOrderBy;
+  S? minValue;
+  T? minOrderBy;
   for (var element in values) {
     var elementOrderBy = orderBy(element);
     if (minOrderBy == null || compare(elementOrderBy, minOrderBy) < 0) {
@@ -83,15 +85,17 @@ S minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
 /// The values returned by [orderBy] are compared using the [compare] function.
 /// If [compare] is omitted, values must implement [Comparable<T>] and they are
 /// compared using their [Comparable.compareTo].
-S maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,
-    {int Function(T, T) compare}) {
+///
+/// Returns `null` if [values] is empty.
+S? maxBy<S, T>(Iterable<S> values, T Function(S?) orderBy,
+    {int? Function(T, T)? compare}) {
   compare ??= defaultCompare<T>();
 
-  S maxValue;
-  T maxOrderBy;
+  S? maxValue;
+  T? maxOrderBy;
   for (var element in values) {
     var elementOrderBy = orderBy(element);
-    if (maxOrderBy == null || compare(elementOrderBy, maxOrderBy) > 0) {
+    if (maxOrderBy == null || compare(elementOrderBy, maxOrderBy)! > 0) {
       maxValue = element;
       maxOrderBy = elementOrderBy;
     }
@@ -126,9 +130,9 @@ Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
   for (var vertex1 in keys) {
     for (var vertex2 in keys) {
       for (var vertex3 in keys) {
-        if (result[vertex2].contains(vertex1) &&
-            result[vertex1].contains(vertex3)) {
-          result[vertex2].add(vertex3);
+        if (result[vertex2]!.contains(vertex1) &&
+            result[vertex1]!.contains(vertex3)) {
+          result[vertex2]!.add(vertex3);
         }
       }
     }
@@ -154,7 +158,7 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
   //
   // [Tarjan's algorithm]: https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm
   var index = 0;
-  var stack = <T>[];
+  var stack = <T?>[];
   var result = <Set<T>>[];
 
   // The order of these doesn't matter, so we use un-linked implementations to
@@ -171,22 +175,22 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
     stack.add(vertex);
     onStack.add(vertex);
 
-    for (var successor in graph[vertex]) {
+    for (var successor in graph[vertex]!) {
       if (!indices.containsKey(successor)) {
         strongConnect(successor);
-        lowLinks[vertex] = math.min(lowLinks[vertex], lowLinks[successor]);
+        lowLinks[vertex] = math.min(lowLinks[vertex]!, lowLinks[successor]!);
       } else if (onStack.contains(successor)) {
-        lowLinks[vertex] = math.min(lowLinks[vertex], lowLinks[successor]);
+        lowLinks[vertex] = math.min(lowLinks[vertex]!, lowLinks[successor]!);
       }
     }
 
     if (lowLinks[vertex] == indices[vertex]) {
       var component = <T>{};
-      T neighbor;
+      T? neighbor;
       do {
         neighbor = stack.removeLast();
         onStack.remove(neighbor);
-        component.add(neighbor);
+        component.add(neighbor as T);
       } while (neighbor != vertex);
       result.add(component);
     }

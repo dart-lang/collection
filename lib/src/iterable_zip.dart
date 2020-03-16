@@ -30,7 +30,7 @@ class IterableZip<T> extends IterableBase<List<T>> {
 
 class _IteratorZip<T> implements Iterator<List<T>> {
   final List<Iterator<T>> _iterators;
-  List<T> _current;
+  List<T>? _current;
 
   _IteratorZip(List<Iterator<T>> iterators) : _iterators = iterators;
 
@@ -43,13 +43,11 @@ class _IteratorZip<T> implements Iterator<List<T>> {
         return false;
       }
     }
-    _current = List(_iterators.length);
-    for (var i = 0; i < _iterators.length; i++) {
-      _current[i] = _iterators[i].current;
-    }
+    _current = List.generate(_iterators.length, (i) => _iterators[i].current,
+        growable: false);
     return true;
   }
 
   @override
-  List<T> get current => _current;
+  List<T> get current => _current!;
 }

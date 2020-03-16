@@ -21,7 +21,8 @@ abstract class PriorityQueue<E> {
   /// If [comparison] is omitted, it defaults to [Comparable.compare]. If this
   /// is the case, `E` must implement [Comparable], and this is checked at
   /// runtime for every comparison.
-  factory PriorityQueue([int Function(E, E) comparison]) = HeapPriorityQueue<E>;
+  factory PriorityQueue([int Function(E, E)? comparison]) =
+      HeapPriorityQueue<E>;
 
   /// Number of elements in the queue.
   int get length;
@@ -128,7 +129,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   final Comparator<E> comparison;
 
   /// List implementation of a heap.
-  List<E> _queue = List<E>(_INITIAL_CAPACITY);
+  List<E?> _queue = List<E?>(_INITIAL_CAPACITY);
 
   /// Number of elements in queue.
   ///
@@ -144,7 +145,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// If [comparison] is omitted, it defaults to [Comparable.compare]. If this
   /// is the case, `E` must implement [Comparable], and this is checked at
   /// runtime for every comparison.
-  HeapPriorityQueue([int Function(E, E) comparison])
+  HeapPriorityQueue([int Function(E, E)? comparison])
       : comparison = comparison ?? defaultCompare<E>();
 
   @override
@@ -173,7 +174,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   @override
   E get first {
     if (_length == 0) throw StateError('No such element');
-    return _queue[0];
+    return _queue[0]!;
   }
 
   @override
@@ -207,13 +208,13 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     var length = _length;
     _queue = const [];
     _length = 0;
-    return result.take(length);
+    return result.take(length).cast();
   }
 
   @override
   E removeFirst() {
     if (_length == 0) throw StateError('No such element');
-    var result = _queue[0];
+    var result = _queue[0]!;
     var last = _removeLast();
     if (_length > 0) {
       _bubbleDown(last, 0);
@@ -222,19 +223,14 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   }
 
   @override
-  List<E> toList() {
-    var list = <E>[]
-      ..length = _length
-      ..setRange(0, _length, _queue)
-      ..sort(comparison);
-    return list;
-  }
+  List<E> toList() =>
+      List<E>.generate(_length, (i) => _queue[i]!)..sort(comparison);
 
   @override
   Set<E> toSet() {
-    Set<E> set = SplayTreeSet<E>(comparison);
+    var set = SplayTreeSet<E>(comparison);
     for (var i = 0; i < _length; i++) {
-      set.add(_queue[i]);
+      set.add(_queue[i]!);
     }
     return set;
   }
@@ -271,7 +267,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     // in the heap will also have lower priority.
     do {
       var index = position - 1;
-      var element = _queue[index];
+      var element = _queue[index]!;
       var comp = comparison(element, object);
       if (comp == 0) return index;
       if (comp < 0) {
@@ -298,7 +294,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
 
   E _removeLast() {
     var newLength = _length - 1;
-    var last = _queue[newLength];
+    var last = _queue[newLength]!;
     _queue[newLength] = null;
     _length = newLength;
     return last;
@@ -312,7 +308,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   void _bubbleUp(E element, int index) {
     while (index > 0) {
       var parentIndex = (index - 1) ~/ 2;
-      var parent = _queue[parentIndex];
+      var parent = _queue[parentIndex]!;
       if (comparison(element, parent) > 0) break;
       _queue[index] = parent;
       index = parentIndex;
@@ -329,10 +325,10 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     var rightChildIndex = index * 2 + 2;
     while (rightChildIndex < _length) {
       var leftChildIndex = rightChildIndex - 1;
-      var leftChild = _queue[leftChildIndex];
-      var rightChild = _queue[rightChildIndex];
+      var leftChild = _queue[leftChildIndex]!;
+      var rightChild = _queue[rightChildIndex]!;
       var comp = comparison(leftChild, rightChild);
-      var minChildIndex;
+      int minChildIndex;
       E minChild;
       if (comp < 0) {
         minChild = leftChild;
@@ -352,7 +348,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     }
     var leftChildIndex = rightChildIndex - 1;
     if (leftChildIndex < _length) {
-      var child = _queue[leftChildIndex];
+      var child = _queue[leftChildIndex]!;
       var comp = comparison(element, child);
       if (comp > 0) {
         _queue[index] = child;
@@ -368,7 +364,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   void _grow() {
     var newCapacity = _queue.length * 2 + 1;
     if (newCapacity < _INITIAL_CAPACITY) newCapacity = _INITIAL_CAPACITY;
-    var newQueue = List<E>(newCapacity);
+    var newQueue = List<E?>(newCapacity);
     newQueue.setRange(0, _length, _queue);
     _queue = newQueue;
   }

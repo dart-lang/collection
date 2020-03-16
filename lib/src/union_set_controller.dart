@@ -23,8 +23,8 @@ import 'union_set.dart';
 /// ```
 class UnionSetController<E> {
   /// The [UnionSet] that provides a view of the union of sets in [this].
-  UnionSet<E> get set => _set;
-  UnionSet<E> _set;
+  UnionSet<E>? get set => _set;
+  UnionSet<E>? _set;
 
   /// The sets whose union is exposed through [set].
   final _sets = <Set<E>>{};
@@ -50,5 +50,5 @@ class UnionSetController<E> {
   ///
   /// If another set in [this] has overlapping elements with [component], those
   /// elements will remain in [set].
-  bool remove(Set<E> component) => _sets.remove(component);
+  bool remove(Set<E>? component) => _sets.remove(component);
 }

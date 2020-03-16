@@ -117,8 +117,8 @@ void testIterable(Iterable<int> original, Iterable<int> wrapped, String name) {
   });
 
   test('$name - fold', () {
-    expect(wrapped.fold(0, (x, y) => x + y),
-        equals(original.fold(0, (x, y) => x + y)));
+    expect(wrapped.fold(0, (dynamic x, y) => x + y),
+        equals(original.fold(0, (dynamic x, y) => x + y)));
   });
 
   test('$name - forEach', () {

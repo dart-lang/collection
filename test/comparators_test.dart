@@ -57,7 +57,7 @@ void main() {
     '~'
   ];
 
-  List<String> sortedBy(int Function(String, String) compare) =>
+  List<String> sortedBy(int Function(String, String)? compare) =>
       strings.toList()
         ..shuffle()
         ..sort(compare);
@@ -65,6 +65,7 @@ void main() {
   test('String.compareTo', () {
     expect(sortedBy(null), strings);
   });
+
   test('compareAsciiLowerCase', () {
     expect(sortedBy(compareAsciiLowerCase), sortedBy((a, b) {
       var delta = a.toLowerCase().compareTo(b.toLowerCase());
@@ -73,6 +74,7 @@ void main() {
       return a.compareTo(b);
     }));
   });
+
   test('compareAsciiUpperCase', () {
     expect(sortedBy(compareAsciiUpperCase), sortedBy((a, b) {
       var delta = a.toUpperCase().compareTo(b.toUpperCase());
@@ -88,7 +90,7 @@ void main() {
   // compared to non-digits.
   String replaceNumbers(String string) =>
       string.replaceAllMapped(RegExp(r'\d+'), (m) {
-        var digits = m[0];
+        var digits = m[0]!;
         return String.fromCharCodes([0x30, int.parse(digits), digits.length]);
       });
 

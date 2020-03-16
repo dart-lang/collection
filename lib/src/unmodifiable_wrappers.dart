@@ -58,7 +58,7 @@ abstract class NonGrowableListMixin<E> implements List<E> {
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
   @override
-  bool remove(Object value) => _throw();
+  bool remove(Object? value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the length of the list are disallowed.
@@ -134,7 +134,7 @@ abstract class UnmodifiableSetMixin<E> implements Set<E> {
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
   @override
-  bool remove(Object value) => _throw();
+  bool remove(Object? value) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the set are disallowed.
@@ -187,7 +187,7 @@ abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
   @override
-  V remove(Object key) => _throw();
+  V remove(Object? key) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.

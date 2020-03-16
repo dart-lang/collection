@@ -273,7 +273,7 @@ void main() {
   // [setUpSet] should return a set with two elements: "foo" and "bar".
   void testTwoElementSet(Set<String> Function() setUpSet) {
     group('with two elements', () {
-      Set<String> set;
+      late Set<String> set;
       setUp(() => set = setUpSet());
 
       test('.any', () {
@@ -313,7 +313,9 @@ void main() {
       });
 
       test('.fold', () {
-        expect(set.fold('start', (previous, element) => previous + element),
+        expect(
+            set.fold(
+                'start', (dynamic previous, element) => previous + element),
             equals('startfoobar'));
       });
 
@@ -454,8 +456,8 @@ void main() {
   });
 
   group('MapKeySet', () {
-    Map<String, dynamic> map;
-    Set<String> set;
+    late Map<String, dynamic> map;
+    late Set<String> set;
 
     setUp(() {
       map = <String, int>{};
@@ -522,8 +524,8 @@ void main() {
   });
 
   group('MapValueSet', () {
-    Map<String, String> map;
-    Set<String> set;
+    late Map<String, String> map;
+    late Set<String> set;
 
     setUp(() {
       map = <String, String>{};

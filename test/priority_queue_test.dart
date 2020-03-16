@@ -29,7 +29,7 @@ void testInt(PriorityQueue<int> Function() create) {
 }
 
 void testCustom(
-    PriorityQueue<C> Function(int Function(C, C) comparator) create) {
+    PriorityQueue<C> Function(int Function(C, C)? comparator) create) {
   for (var count in [1, 5, 127, 128]) {
     testQueue('Custom:$count/null', () => create(null),
         List<C>.generate(count, (x) => C(x)), C(count));

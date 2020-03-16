@@ -48,7 +48,8 @@ void testQueue(
   test(name, () => testQueueBody(create, elements, notElement));
 }
 
-void testQueueBody(PriorityQueue Function() create, List elements, notElement) {
+void testQueueBody<T>(
+    PriorityQueue<T> Function() create, List<T> elements, notElement) {
   var q = create();
   expect(q.isEmpty, isTrue);
   expect(q, hasLength(0));

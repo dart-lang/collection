@@ -67,10 +67,10 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   @override
   E? lookup(Object? element) {
     if (element == null) return null;
-
-    return _sets
-        .map((set) => set.lookup(element))
-        .firstWhere((result) => result != null, orElse: () => null);
+    for (var set in _sets) {
+      var result = set.lookup(element);
+      if (result != null) return result;
+    }
   }
 
   @override

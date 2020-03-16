@@ -43,7 +43,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
       initialCapacity = _nextPowerOf2(initialCapacity);
     }
     assert(_isPowerOf2(initialCapacity));
-    _table = List<E?>(initialCapacity);
+    _table = List<E?>.filled(initialCapacity, null);
   }
 
   /// An internal constructor for use by [_CastQueueList].
@@ -220,7 +220,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   /// Grow the table when full.
   void _grow() {
-    var newTable = List<E?>(_table.length * 2);
+    var newTable = List<E?>.filled(_table.length * 2, null);
     var split = _table.length - _head;
     newTable.setRange(0, split, _table, _head);
     newTable.setRange(split, split + _head, _table, 0);
@@ -251,7 +251,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     // expansion.
     newElementCount += newElementCount >> 1;
     var newCapacity = _nextPowerOf2(newElementCount);
-    var newTable = List<E?>(newCapacity);
+    var newTable = List<E?>.filled(newCapacity, null);
     _tail = _writeToList(newTable);
     _table = newTable;
     _head = 0;

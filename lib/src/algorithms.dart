@@ -172,7 +172,7 @@ void mergeSort<T>(List<T> list,
   var firstLength = middle - start;
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = List<T?>(secondLength);
+  var scratchSpace = List<T?>.filled(secondLength, null);
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);

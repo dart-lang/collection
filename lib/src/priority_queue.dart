@@ -129,7 +129,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   final Comparator<E> comparison;
 
   /// List implementation of a heap.
-  List<E?> _queue = List<E?>(_INITIAL_CAPACITY);
+  List<E?> _queue = List<E?>.filled(_INITIAL_CAPACITY, null);
 
   /// Number of elements in queue.
   ///
@@ -364,7 +364,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   void _grow() {
     var newCapacity = _queue.length * 2 + 1;
     if (newCapacity < _INITIAL_CAPACITY) newCapacity = _INITIAL_CAPACITY;
-    var newQueue = List<E?>(newCapacity);
+    var newQueue = List<E?>.filled(newCapacity, null);
     newQueue.setRange(0, _length, _queue);
     _queue = newQueue;
   }

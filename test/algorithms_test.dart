@@ -217,7 +217,7 @@ void main() {
       // collisions are guaranteed. These should be sorted so that the 'order'
       // part of the objects are still in order.
       var list =
-          List<OC>.generate(size, (i) => OC(random.nextInt(size >> 2), i));
+          [for (var i = 0; i < size; i++ ) OC(random.nextInt(size >> 2), i)];
       mergeSort(list);
       var prev = list[0];
       for (var i = 1; i < size; i++) {

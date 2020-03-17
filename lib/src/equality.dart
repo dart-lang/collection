@@ -52,7 +52,7 @@ class EqualityBy<E, F> implements Equality<E> {
   final Equality<F> _inner;
 
   EqualityBy(F Function(E) comparisonKey,
-      [Equality<F> inner = const DefaultEquality()])
+      [Equality<F> inner = const DefaultEquality<Never>()])
       : _comparisonKey = comparisonKey,
         _inner = inner;
 
@@ -112,7 +112,7 @@ class IdentityEquality<E> implements Equality<E> {
 class IterableEquality<E> implements Equality<Iterable<E>> {
   final Equality<E?> _elementEquality;
   const IterableEquality(
-      [Equality<E> elementEquality = const DefaultEquality()])
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : _elementEquality = elementEquality;
 
   @override
@@ -163,7 +163,8 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
 /// The [hash] of `null` is `null.hashCode`.
 class ListEquality<E> implements Equality<List<E>> {
   final Equality<E> _elementEquality;
-  const ListEquality([Equality<E> elementEquality = const DefaultEquality()])
+  const ListEquality(
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : _elementEquality = elementEquality;
 
   @override
@@ -252,7 +253,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
 /// of the other iterable, so that each pair are equal.
 class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
   const UnorderedIterableEquality(
-      [Equality<E> elementEquality = const DefaultEquality()])
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
 
   @override
@@ -272,7 +273,8 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
 class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
-  const SetEquality([Equality<E> elementEquality = const DefaultEquality()])
+  const SetEquality(
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
 
   @override
@@ -314,8 +316,8 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
   final Equality<K> _keyEquality;
   final Equality<V> _valueEquality;
   const MapEquality(
-      {Equality<K> keys = const DefaultEquality(),
-      Equality<V> values = const DefaultEquality()})
+      {Equality<K> keys = const DefaultEquality<Never>(),
+      Equality<V> values = const DefaultEquality<Never>()})
       : _keyEquality = keys,
         _valueEquality = values;
 
@@ -422,7 +424,7 @@ class MultiEquality<E> implements Equality<E> {
 class DeepCollectionEquality implements Equality {
   final Equality _base;
   final bool _unordered;
-  const DeepCollectionEquality([Equality base = const DefaultEquality()])
+  const DeepCollectionEquality([Equality base = const DefaultEquality<Never>()])
       : _base = base,
         _unordered = false;
 
@@ -430,7 +432,7 @@ class DeepCollectionEquality implements Equality {
   /// iterables are not considered important. That is, lists and iterables are
   /// treated as unordered iterables.
   const DeepCollectionEquality.unordered(
-      [Equality base = const DefaultEquality()])
+      [Equality base = const DefaultEquality<Never>()])
       : _base = base,
         _unordered = true;
 

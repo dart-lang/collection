@@ -157,10 +157,10 @@ void main() {
   test('insertionSortRandom', () {
     var random = Random();
     for (var i = 0; i < 25; i++) {
-      var list = List(i);
-      for (var j = 0; j < i; j++) {
-        list[j] = random.nextInt(25); // Expect some equal elements.
-      }
+      var list = [
+        for (var j = 0; j < i; j++)
+          random.nextInt(25) // Expect some equal elements.
+      ];
       insertionSort(list);
       for (var j = 1; j < i; j++) {
         expect(list[j - 1], lessThanOrEqualTo(list[j]));
@@ -195,10 +195,10 @@ void main() {
   test('MergeSortRandom', () {
     var random = Random();
     for (var i = 0; i < 250; i += 1) {
-      var list = List(i);
-      for (var j = 0; j < i; j++) {
-        list[j] = random.nextInt(i); // Expect some equal elements.
-      }
+      var list = [
+        for (var j = 0; j < i; j++)
+          random.nextInt(i) // Expect some equal elements.
+      ];
       mergeSort(list);
       for (var j = 1; j < i; j++) {
         expect(list[j - 1], lessThanOrEqualTo(list[j]));
@@ -216,8 +216,9 @@ void main() {
       // With size elements with id's in the range 0..size/4, a number of
       // collisions are guaranteed. These should be sorted so that the 'order'
       // part of the objects are still in order.
-      var list =
-          [for (var i = 0; i < size; i++ ) OC(random.nextInt(size >> 2), i)];
+      var list = [
+        for (var i = 0; i < size; i++) OC(random.nextInt(size >> 2), i)
+      ];
       mergeSort(list);
       var prev = list[0];
       for (var i = 1; i < size; i++) {
@@ -253,10 +254,7 @@ void main() {
   test('MergeSortSpecialCases', () {
     for (var size in [511, 512, 513]) {
       // All equal.
-      var list = List(size);
-      for (var i = 0; i < size; i++) {
-        list[i] = OC(0, i);
-      }
+      var list = [for (var i = 0; i < size; i++) OC(0, i)];
       mergeSort(list);
       for (var i = 0; i < size; i++) {
         expect(list[i].order, equals(i));

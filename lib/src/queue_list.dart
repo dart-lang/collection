@@ -261,8 +261,8 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 class _CastQueueList<S, T> extends QueueList<T> {
   final QueueList<S> _delegate;
 
-  /// Assigns invalid values for head/tail because it uses the delegate to hold
-  /// the real values, but they are non-null fields.
+  // Assigns invalid values for head/tail because it uses the delegate to hold
+  // the real values, but they are non-null fields.
   _CastQueueList(this._delegate) : super._(-1, -1) {
     _table = _delegate._table.cast<T>();
   }

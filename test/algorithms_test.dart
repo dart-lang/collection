@@ -212,14 +212,12 @@ void main() {
     // larger case where the internal moving insertion sort is used
     // larger cases with multiple splittings, numbers just around a power of 2.
     for (var size in [8, 50, 511, 512, 513]) {
-      var list = List<OC>(size);
       // Class OC compares using id.
       // With size elements with id's in the range 0..size/4, a number of
       // collisions are guaranteed. These should be sorted so that the 'order'
       // part of the objects are still in order.
-      for (var i = 0; i < size; i++) {
-        list[i] = OC(random.nextInt(size >> 2), i);
-      }
+      var list =
+          [for (var i = 0; i < size; i++ ) OC(random.nextInt(size >> 2), i)];
       mergeSort(list);
       var prev = list[0];
       for (var i = 1; i < size; i++) {

@@ -7,8 +7,8 @@ import 'package:test/test.dart';
 import 'package:collection/collection.dart';
 
 void main() {
-  UnionSetController<int> controller;
-  Set<int> innerSet;
+  late UnionSetController<int> controller;
+  late Set<int> innerSet;
   setUp(() {
     innerSet = {1, 2, 3};
     controller = UnionSetController()..add(innerSet);

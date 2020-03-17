@@ -29,7 +29,7 @@ void testInt(PriorityQueue<int> Function() create) {
 }
 
 void testCustom(
-    PriorityQueue<C> Function(int Function(C, C) comparator) create) {
+    PriorityQueue<C> Function(int Function(C, C)? comparator) create) {
   for (var count in [1, 5, 127, 128]) {
     testQueue('Custom:$count/null', () => create(null),
         List<C>.generate(count, (x) => C(x)), C(count));
@@ -48,7 +48,8 @@ void testQueue(
   test(name, () => testQueueBody(create, elements, notElement));
 }
 
-void testQueueBody(PriorityQueue Function() create, List elements, notElement) {
+void testQueueBody<T>(
+    PriorityQueue<T> Function() create, List<T> elements, notElement) {
   var q = create();
   expect(q.isEmpty, isTrue);
   expect(q, hasLength(0));

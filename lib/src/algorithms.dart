@@ -15,7 +15,8 @@ import 'utils.dart';
 /// the objects. If any object is not [Comparable], this throws a [CastError].
 ///
 /// Returns -1 if [value] is not in the list by default.
-int binarySearch<T>(List<T> sortedList, T value, {int Function(T, T) compare}) {
+int binarySearch<T>(List<T> sortedList, T value,
+    {int Function(T, T)? compare}) {
   compare ??= defaultCompare<T>();
   var min = 0;
   var max = sortedList.length;
@@ -44,7 +45,7 @@ int binarySearch<T>(List<T> sortedList, T value, {int Function(T, T) compare}) {
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
-int lowerBound<T>(List<T> sortedList, T value, {int Function(T, T) compare}) {
+int lowerBound<T>(List<T> sortedList, T value, {int Function(T, T)? compare}) {
   compare ??= defaultCompare<T>();
   var min = 0;
   var max = sortedList.length;
@@ -64,7 +65,7 @@ int lowerBound<T>(List<T> sortedList, T value, {int Function(T, T) compare}) {
 /// Shuffles a list randomly.
 ///
 /// A sub-range of a list can be shuffled by providing [start] and [end].
-void shuffle(List list, [int start = 0, int end]) {
+void shuffle(List list, [int start = 0, int? end]) {
   var random = math.Random();
   end ??= list.length;
   var length = end - start;
@@ -78,7 +79,7 @@ void shuffle(List list, [int start = 0, int end]) {
 }
 
 /// Reverses a list, or a part of a list, in-place.
-void reverse(List list, [int start = 0, int end]) {
+void reverse(List list, [int start = 0, int? end]) {
   end ??= list.length;
   _reverse(list, start, end);
 }
@@ -108,7 +109,7 @@ void _reverse(List list, int start, int end) {
 /// This insertion sort is stable: Equal elements end up in the same order
 /// as they started in.
 void insertionSort<T>(List<T> list,
-    {int Function(T, T) compare, int start = 0, int end}) {
+    {int Function(T, T)? compare, int start = 0, int? end}) {
   // If the same method could have both positional and named optional
   // parameters, this should be (list, [start, end], {compare}).
   compare ??= defaultCompare<T>();
@@ -151,7 +152,7 @@ const int _MERGE_SORT_LIMIT = 32;
 /// This merge sort is stable: Equal elements end up in the same order
 /// as they started in.
 void mergeSort<T>(List<T> list,
-    {int start = 0, int end, int Function(T, T) compare}) {
+    {int start = 0, int? end, int Function(T, T)? compare}) {
   end ??= list.length;
   compare ??= defaultCompare<T>();
 
@@ -171,7 +172,7 @@ void mergeSort<T>(List<T> list,
   var firstLength = middle - start;
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = List<T>(secondLength);
+  var scratchSpace = List<T?>.filled(secondLength, null);
   _mergeSort(list, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort(list, compare, start, middle, list, firstTarget);
@@ -184,7 +185,7 @@ void mergeSort<T>(List<T> list,
 ///
 /// It will work in-place as well.
 void _movingInsertionSort<T>(List<T> list, int Function(T, T) compare,
-    int start, int end, List<T> target, int targetOffset) {
+    int start, int end, List<T?> target, int targetOffset) {
   var length = end - start;
   if (length == 0) return;
   target[targetOffset] = list[start];
@@ -194,7 +195,7 @@ void _movingInsertionSort<T>(List<T> list, int Function(T, T) compare,
     var max = targetOffset + i;
     while (min < max) {
       var mid = min + ((max - min) >> 1);
-      if (compare(element, target[mid]) < 0) {
+      if (compare(element, target[mid]!) < 0) {
         max = mid;
       } else {
         min = mid + 1;
@@ -213,7 +214,7 @@ void _movingInsertionSort<T>(List<T> list, int Function(T, T) compare,
 /// Allows target to be the same list as [list], as long as it's not
 /// overlapping the `start..end` range.
 void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
-    List<T> target, int targetOffset) {
+    List<T?> target, int targetOffset) {
   var length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
     _movingInsertionSort(list, compare, start, end, target, targetOffset);
@@ -246,10 +247,10 @@ void _merge<T>(
     List<T> firstList,
     int firstStart,
     int firstEnd,
-    List<T> secondList,
+    List<T?> secondList,
     int secondStart,
     int secondEnd,
-    List<T> target,
+    List<T?> target,
     int targetOffset) {
   // No empty lists reaches here.
   assert(firstStart < firstEnd);
@@ -257,7 +258,7 @@ void _merge<T>(
   var cursor1 = firstStart;
   var cursor2 = secondStart;
   var firstElement = firstList[cursor1++];
-  var secondElement = secondList[cursor2++];
+  var secondElement = secondList[cursor2++]!;
   while (true) {
     if (compare(firstElement, secondElement) <= 0) {
       target[targetOffset++] = firstElement;
@@ -266,7 +267,7 @@ void _merge<T>(
     } else {
       target[targetOffset++] = secondElement;
       if (cursor2 != secondEnd) {
-        secondElement = secondList[cursor2++];
+        secondElement = secondList[cursor2++]!;
         continue;
       }
       // Second list empties first. Flushing first list here.

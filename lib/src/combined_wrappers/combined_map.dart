@@ -29,7 +29,7 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
   CombinedMapView(this._maps);
 
   @override
-  V operator [](Object key) {
+  V? operator [](Object? key) {
     for (var map in _maps) {
       // Avoid two hash lookups on a positive hit.
       var value = map[key];
@@ -75,7 +75,7 @@ class _DeduplicatingIterableView<T> extends IterableBase<T> {
   // duplicates.
 
   @override
-  bool contains(Object element) => _iterable.contains(element);
+  bool contains(Object? element) => _iterable.contains(element);
 
   @override
   bool get isEmpty => _iterable.isEmpty;

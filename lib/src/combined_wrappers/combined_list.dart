@@ -15,7 +15,7 @@ import 'dart:collection';
 /// both `O(lists)` rather than `O(1)`. A [CombinedListView] is unmodifiable.
 class CombinedListView<T> extends ListBase<T>
     implements UnmodifiableListView<T> {
-  static void _throw() {
+  static Never _throw() {
     throw UnsupportedError('Cannot modify an unmodifiable List');
   }
 
@@ -57,9 +57,8 @@ class CombinedListView<T> extends ListBase<T>
   }
 
   @override
-  bool remove(Object element) {
+  bool remove(Object? element) {
     _throw();
-    return null;
   }
 
   @override

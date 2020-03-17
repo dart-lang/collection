@@ -7,11 +7,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('with an empty canonicalized map', () {
-    CanonicalizedMap<int, String, String> map;
+    late CanonicalizedMap<int, String, String> map;
 
     setUp(() {
-      map = CanonicalizedMap(int.parse,
-          isValidKey: (s) => RegExp(r'^\d+$').hasMatch(s as String));
+      map = CanonicalizedMap(int.parse, isValidKey: RegExp(r'^\d+$').hasMatch);
     });
 
     test('canonicalizes keys on set and get', () {
@@ -164,7 +163,7 @@ void main() {
     var map;
     setUp(() {
       map = CanonicalizedMap<int, String, dynamic>(int.parse,
-          isValidKey: (s) => RegExp(r'^\d+$').hasMatch(s as String));
+          isValidKey: RegExp(r'^\d+$').hasMatch);
     });
 
     test('for an empty map', () {

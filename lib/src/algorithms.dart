@@ -267,7 +267,7 @@ void _merge<T>(
     } else {
       target[targetOffset++] = secondElement;
       if (cursor2 != secondEnd) {
-        secondElement = secondList[cursor2++];
+        secondElement = secondList[cursor2++]!;
         continue;
       }
       // Second list empties first. Flushing first list here.

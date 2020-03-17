@@ -47,7 +47,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   }
 
   /// An internal constructor for use by [_CastQueueList].
-  QueueList._(this._head, this._tail);
+  QueueList._(this._head, this._tail, this._table);
 
   /// Create a queue initially containing the elements of [source].
   factory QueueList.from(Iterable<E> source) {
@@ -263,9 +263,7 @@ class _CastQueueList<S, T> extends QueueList<T> {
 
   // Assigns invalid values for head/tail because it uses the delegate to hold
   // the real values, but they are non-null fields.
-  _CastQueueList(this._delegate) : super._(-1, -1) {
-    _table = _delegate._table.cast<T>();
-  }
+  _CastQueueList(this._delegate) : super._(-1, -1, _delegate._table.cast<T>());
 
   @override
   int get _head => _delegate._head;

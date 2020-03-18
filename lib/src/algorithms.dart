@@ -173,10 +173,10 @@ void mergeSort<T>(List<T> list,
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
   var scratchSpace = List<T?>.filled(secondLength, null);
-  _mergeSort(list, compare, middle, end, scratchSpace, 0);
+  _mergeSort<T>(list, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
-  _mergeSort(list, compare, start, middle, list, firstTarget);
-  _merge(compare, list, firstTarget, end, scratchSpace, 0, secondLength, list,
+  _mergeSort<T>(list, compare, start, middle, list, firstTarget);
+  _merge<T>(compare, list, firstTarget, end, scratchSpace, 0, secondLength, list,
       start);
 }
 
@@ -217,7 +217,7 @@ void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
     List<T?> target, int targetOffset) {
   var length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
-    _movingInsertionSort(list, compare, start, end, target, targetOffset);
+    _movingInsertionSort<T>(list, compare, start, end, target, targetOffset);
     return;
   }
   var middle = start + (length >> 1);
@@ -226,11 +226,11 @@ void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
   // Here secondLength >= firstLength (differs by at most one).
   var targetMiddle = targetOffset + firstLength;
   // Sort the second half into the end of the target area.
-  _mergeSort(list, compare, middle, end, target, targetMiddle);
+  _mergeSort<T>(list, compare, middle, end, target, targetMiddle);
   // Sort the first half into the end of the source area.
-  _mergeSort(list, compare, start, middle, list, middle);
+  _mergeSort<T>(list, compare, start, middle, list, middle);
   // Merge the two parts into the target area.
-  _merge(compare, list, middle, middle + firstLength, target, targetMiddle,
+  _merge<T>(compare, list, middle, middle + firstLength, target, targetMiddle,
       targetMiddle + secondLength, target, targetOffset);
 }
 

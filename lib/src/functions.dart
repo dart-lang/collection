@@ -49,8 +49,7 @@ Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
 Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
   var map = <T, List<S>>{};
   for (var element in values) {
-    var list = map.putIfAbsent(key(element), () => []);
-    list.add(element);
+    (map[key(element)] ??= []).add(element);
   }
   return map;
 }

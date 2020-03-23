@@ -127,7 +127,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   @override
   E removeFirst() {
     if (_head == _tail) throw StateError('No element');
-    var result = _table[_head]!;
+    var result = _table[_head] as E;
     _table[_head] = null;
     _head = (_head + 1) & (_table.length - 1);
     return result;
@@ -150,6 +150,15 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   @override
   set length(int value) {
     if (value < 0) throw RangeError('Length $value may not be negative.');
+    if (value > length) {
+      try {
+        null as E;
+      } on CastError {
+        throw UnsupportedError(
+            'The length can only be increased when the element type is '
+            'nullable, but the current element type is `$E`.');
+      }
+    }
 
     var delta = value - length;
     if (delta >= 0) {
@@ -177,7 +186,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
       throw RangeError('Index $index must be in the range [0..$length).');
     }
 
-    return _table[(_head + index) & (_table.length - 1)]!;
+    return _table[(_head + index) & (_table.length - 1)] as E;
   }
 
   @override

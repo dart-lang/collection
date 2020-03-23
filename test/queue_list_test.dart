@@ -136,13 +136,17 @@ void main() {
     });
 
     test('grows a smaller queue', () {
-      var queue = QueueList.from([1, 2, 3]);
+      var queue = QueueList<int?>.from([1, 2, 3]);
       queue.length = 5;
       expect(queue, equals([1, 2, 3, null, null]));
     });
 
     test('throws a RangeError if length is less than 0', () {
       expect(() => QueueList().length = -1, throwsRangeError);
+    });
+
+    test('throws an UnsupportedError if element type is non-nullable', () {
+      expect(() => QueueList<int>().length = 1, throwsUnsupportedError);
     });
   });
 

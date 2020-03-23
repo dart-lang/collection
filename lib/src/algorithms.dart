@@ -176,8 +176,8 @@ void mergeSort<T>(List<T> list,
   _mergeSort<T>(list, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort<T>(list, compare, start, middle, list, firstTarget);
-  _merge<T>(compare, list, firstTarget, end, scratchSpace, 0, secondLength, list,
-      start);
+  _merge<T>(compare, list, firstTarget, end, scratchSpace.cast<T>(), 0,
+      secondLength, list, start);
 }
 
 /// Performs an insertion sort into a potentially different list than the
@@ -230,8 +230,8 @@ void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
   // Sort the first half into the end of the source area.
   _mergeSort<T>(list, compare, start, middle, list, middle);
   // Merge the two parts into the target area.
-  _merge<T>(compare, list, middle, middle + firstLength, target, targetMiddle,
-      targetMiddle + secondLength, target, targetOffset);
+  _merge<T>(compare, list, middle, middle + firstLength, target.cast<T>(),
+      targetMiddle, targetMiddle + secondLength, target, targetOffset);
 }
 
 /// Merges two lists into a target list.
@@ -247,7 +247,7 @@ void _merge<T>(
     List<T> firstList,
     int firstStart,
     int firstEnd,
-    List<T?> secondList,
+    List<T> secondList,
     int secondStart,
     int secondEnd,
     List<T?> target,

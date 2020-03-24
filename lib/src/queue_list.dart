@@ -153,7 +153,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     if (value > length) {
       try {
         null as E;
-      } on CastError {
+      } on TypeError {
         throw UnsupportedError(
             'The length can only be increased when the element type is '
             'nullable, but the current element type is `$E`.');

@@ -153,7 +153,9 @@ const int _MERGE_SORT_LIMIT = 32;
 /// as they started in.
 void mergeSort<T>(List<T> list,
     {int start = 0, int? end, int Function(T, T)? compare}) {
-  end ??= list.length;
+  end = RangeError.checkValidRange(start, end, list.length);
+  // TODO: Remove https://github.com/dart-lang/sdk/issues/41172
+  end = end!;
   compare ??= defaultCompare<T>();
 
   var length = end - start;
@@ -172,12 +174,12 @@ void mergeSort<T>(List<T> list,
   var firstLength = middle - start;
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = List<T?>.filled(secondLength, null);
+  var scratchSpace = List<T>.filled(secondLength, list[start]);
   _mergeSort<T>(list, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort<T>(list, compare, start, middle, list, firstTarget);
-  _merge<T>(compare, list, firstTarget, end, scratchSpace.cast<T>(), 0,
-      secondLength, list, start);
+  _merge<T>(compare, list, firstTarget, end, scratchSpace, 0, secondLength,
+      list, start);
 }
 
 /// Performs an insertion sort into a potentially different list than the
@@ -185,7 +187,7 @@ void mergeSort<T>(List<T> list,
 ///
 /// It will work in-place as well.
 void _movingInsertionSort<T>(List<T> list, int Function(T, T) compare,
-    int start, int end, List<T?> target, int targetOffset) {
+    int start, int end, List<T> target, int targetOffset) {
   var length = end - start;
   if (length == 0) return;
   target[targetOffset] = list[start];
@@ -214,7 +216,7 @@ void _movingInsertionSort<T>(List<T> list, int Function(T, T) compare,
 /// Allows target to be the same list as [list], as long as it's not
 /// overlapping the `start..end` range.
 void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
-    List<T?> target, int targetOffset) {
+    List<T> target, int targetOffset) {
   var length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
     _movingInsertionSort<T>(list, compare, start, end, target, targetOffset);
@@ -230,8 +232,8 @@ void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
   // Sort the first half into the end of the source area.
   _mergeSort<T>(list, compare, start, middle, list, middle);
   // Merge the two parts into the target area.
-  _merge<T>(compare, list, middle, middle + firstLength, target.cast<T>(),
-      targetMiddle, targetMiddle + secondLength, target, targetOffset);
+  _merge<T>(compare, list, middle, middle + firstLength, target, targetMiddle,
+      targetMiddle + secondLength, target, targetOffset);
 }
 
 /// Merges two lists into a target list.
@@ -250,7 +252,7 @@ void _merge<T>(
     List<T> secondList,
     int secondStart,
     int secondEnd,
-    List<T?> target,
+    List<T> target,
     int targetOffset) {
   // No empty lists reaches here.
   assert(firstStart < firstEnd);

@@ -5,8 +5,6 @@
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
-import 'utils.dart';
-
 void main() {
   group('QueueList()', () {
     test('creates an empty QueueList', () {
@@ -257,18 +255,10 @@ void main() {
     var patternQueue = QueueList<Pattern>()..addAll(['a', 'b']);
     var stringQueue = patternQueue.cast<String>();
     stringQueue.addAll(['c', 'd']);
-    expect(
-      stringQueue,
-      const TypeMatcher<QueueList<String>>(),
-      reason: 'Expected QueueList<String>, got ${stringQueue.runtimeType}',
-      skip: isDart2 ? false : 'Cast does nothing in Dart1',
-    );
+    expect(stringQueue, const TypeMatcher<QueueList<String>>(),
+        reason: 'Expected QueueList<String>, got ${stringQueue.runtimeType}');
 
-    expect(
-      stringQueue,
-      ['a', 'b', 'c', 'd'],
-      skip: isDart2 ? false : 'Cast does nothing in Dart1',
-    );
+    expect(stringQueue, ['a', 'b', 'c', 'd']);
 
     expect(patternQueue, stringQueue, reason: 'Should forward to original');
   });
@@ -276,18 +266,12 @@ void main() {
   test('cast throws on mutation when the type is not valid', () {
     QueueList<Object> stringQueue = QueueList<String>();
     var numQueue = stringQueue.cast<num>();
+    expect(numQueue, const TypeMatcher<QueueList<num>>(),
+        reason: 'Expected QueueList<num>, got ${numQueue.runtimeType}');
     expect(
-      numQueue,
-      const TypeMatcher<QueueList<num>>(),
-      reason: 'Expected QueueList<num>, got ${numQueue.runtimeType}',
-      skip: isDart2 ? false : 'Cast does nothing in Dart1',
-    );
-    expect(
-      () => numQueue.add(1),
-      // ignore: deprecated_member_use
-      throwsA(isA<CastError>()),
-      skip: isDart2 ? false : 'In Dart1 a TypeError is not thrown',
-    );
+        () => numQueue.add(1),
+        // ignore: deprecated_member_use
+        throwsA(isA<CastError>()));
   });
 
   test('cast returns a new QueueList', () {

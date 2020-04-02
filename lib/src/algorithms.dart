@@ -12,7 +12,8 @@ import 'utils.dart';
 /// is unpredictable.
 ///
 /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
-/// the objects. If any object is not [Comparable], this throws a [CastError].
+/// the objects. If any object is not [Comparable], this throws a [TypeError]
+/// (`CastError` on some SDK versions).
 ///
 /// Returns -1 if [value] is not in the list by default.
 int binarySearch<T>(List<T> sortedList, T value,
@@ -41,7 +42,8 @@ int binarySearch<T>(List<T> sortedList, T value,
 /// is unpredictable.
 ///
 /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
-/// the objects. If any object is not [Comparable], this throws a [CastError].
+/// the objects. If any object is not [Comparable], this throws a [TypeError]
+/// (`CastError` on some SDK versions).
 ///
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
@@ -97,7 +99,8 @@ void _reverse(List list, int start, int end) {
 /// insertion sort.
 ///
 /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
-/// the objects. If any object is not [Comparable], this throws a [CastError].
+/// the objects. If any object is not [Comparable], this throws a [TypeError]
+/// (`CastError` on some SDK versions).
 ///
 /// Insertion sort is a simple sorting algorithm. For `n` elements it does on
 /// the order of `n * log(n)` comparisons but up to `n` squared moves. The
@@ -140,7 +143,8 @@ const int _MERGE_SORT_LIMIT = 32;
 /// merge sort algorithm.
 ///
 /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
-/// the objects. If any object is not [Comparable], this throws a [CastError].
+/// the objects. If any object is not [Comparable], this throws a [TypeError]
+/// (`CastError` on some SDK versions).
 ///
 /// Merge-sorting works by splitting the job into two parts, sorting each
 /// recursively, and then merging the two sorted parts.

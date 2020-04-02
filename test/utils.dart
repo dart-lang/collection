@@ -4,7 +4,7 @@
 
 import 'package:test/test.dart';
 
-final Matcher throwsCastError = throwsA(TypeMatcher<CastError>());
+final Matcher throwsTypeError = throwsA(TypeMatcher<TypeError>());
 
 /// A hack to determine whether we are running in a Dart 2 runtime.
 final bool isDart2 = _isTypeArgString('');

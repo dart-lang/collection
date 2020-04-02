@@ -284,7 +284,7 @@ void main() {
     );
     expect(
       () => numQueue.add(1),
-      throwsCastError,
+      throwsTypeError,
       skip: isDart2 ? false : 'In Dart1 a TypeError is not thrown',
     );
   });

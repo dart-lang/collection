@@ -284,7 +284,8 @@ void main() {
     );
     expect(
       () => numQueue.add(1),
-      throwsCastError,
+      // ignore: deprecated_member_use
+      throwsA(isA<CastError>()),
       skip: isDart2 ? false : 'In Dart1 a TypeError is not thrown',
     );
   });

@@ -158,8 +158,6 @@ const int _MERGE_SORT_LIMIT = 32;
 void mergeSort<T>(List<T> list,
     {int start = 0, int? end, int Function(T, T)? compare}) {
   end = RangeError.checkValidRange(start, end, list.length);
-  // TODO: Remove https://github.com/dart-lang/sdk/issues/41172
-  end = end!;
   compare ??= defaultCompare<T>();
 
   var length = end - start;

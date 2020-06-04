@@ -5,6 +5,7 @@
 /// Tests wrapper utilities.
 
 import 'dart:collection';
+import 'dart:mirrors';
 
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
@@ -35,10 +36,12 @@ abstract class Expector {
   // the *same* invocation on the wrapped object.
   dynamic equals;
 
+  InstanceMirror get mirror;
+
   @override
-  dynamic noSuchMethod(Invocation i) {
-    equals = wrappedChecker(i);
-    return null;
+  dynamic noSuchMethod(Invocation actual) {
+    equals = wrappedChecker(actual);
+    return mirror.delegate(actual);
   }
 
   @override
@@ -54,11 +57,14 @@ abstract class Expector {
 // member invocation.
 class InvocationChecker {
   final Invocation _expected;
-  InvocationChecker(this._expected);
+  final InstanceMirror _instanceMirror;
+
+  InvocationChecker(this._expected, this._instanceMirror);
+
   @override
   dynamic noSuchMethod(Invocation actual) {
     testInvocations(_expected, actual);
-    return null;
+    return _instanceMirror.delegate(actual);
   }
 
   @override
@@ -77,122 +83,147 @@ final toStringInvocation = Invocation.method(#toString, const []);
 // argument to DelegatingIterable/Set/List/Queue.
 class IterableInvocationChecker<T> extends InvocationChecker
     implements Iterable<T> {
-  IterableInvocationChecker(Invocation expected) : super(expected);
+  IterableInvocationChecker(Invocation expected, InstanceMirror mirror)
+      : super(expected, mirror);
 }
 
 class ListInvocationChecker<T> extends InvocationChecker implements List<T> {
-  ListInvocationChecker(Invocation expected) : super(expected);
+  ListInvocationChecker(Invocation expected, InstanceMirror mirror)
+      : super(expected, mirror);
 }
 
 class SetInvocationChecker<T> extends InvocationChecker implements Set<T> {
-  SetInvocationChecker(Invocation expected) : super(expected);
+  SetInvocationChecker(Invocation expected, InstanceMirror mirror)
+      : super(expected, mirror);
 }
 
 class QueueInvocationChecker<T> extends InvocationChecker implements Queue<T> {
-  QueueInvocationChecker(Invocation expected) : super(expected);
+  QueueInvocationChecker(Invocation expected, InstanceMirror mirror)
+      : super(expected, mirror);
 }
 
 class MapInvocationChecker<K, V> extends InvocationChecker
     implements Map<K, V> {
-  MapInvocationChecker(Invocation expected) : super(expected);
+  MapInvocationChecker(Invocation expected, InstanceMirror mirror)
+      : super(expected, mirror);
 }
 
 // Expector that wraps in DelegatingIterable.
 class IterableExpector<T> extends Expector implements Iterable<T> {
   @override
+  final InstanceMirror mirror;
+
+  IterableExpector(Iterable<T> realInstance) : mirror = reflect(realInstance);
+
+  @override
   dynamic wrappedChecker(Invocation i) =>
-      DelegatingIterable<T>(IterableInvocationChecker<T>(i));
+      DelegatingIterable<T>(IterableInvocationChecker<T>(i, mirror));
 }
 
 // Expector that wraps in DelegatingList.
-class ListExpector<T> extends Expector implements List<T> {
+class ListExpector<T> extends IterableExpector<T> implements List<T> {
+  ListExpector(List<T> realInstance) : super(realInstance);
+
   @override
   dynamic wrappedChecker(Invocation i) =>
-      DelegatingList<T>(ListInvocationChecker<T>(i));
+      DelegatingList<T>(ListInvocationChecker<T>(i, mirror));
 }
 
 // Expector that wraps in DelegatingSet.
-class SetExpector<T> extends Expector implements Set<T> {
+class SetExpector<T> extends IterableExpector<T> implements Set<T> {
+  SetExpector(Set<T> realInstance) : super(realInstance);
+
   @override
   dynamic wrappedChecker(Invocation i) =>
-      DelegatingSet<T>(SetInvocationChecker<T>(i));
+      DelegatingSet<T>(SetInvocationChecker<T>(i, mirror));
 }
 
 // Expector that wraps in DelegatingSet.
-class QueueExpector<T> extends Expector implements Queue<T> {
+class QueueExpector<T> extends IterableExpector<T> implements Queue<T> {
+  QueueExpector(Queue<T> realInstance) : super(realInstance);
+
   @override
   dynamic wrappedChecker(Invocation i) =>
-      DelegatingQueue<T>(QueueInvocationChecker<T>(i));
+      DelegatingQueue<T>(QueueInvocationChecker<T>(i, mirror));
 }
 
 // Expector that wraps in DelegatingMap.
 class MapExpector<K, V> extends Expector implements Map<K, V> {
   @override
+  final InstanceMirror mirror;
+
+  MapExpector(Map<K, V> realInstance) : mirror = reflect(realInstance);
+
+  @override
   dynamic wrappedChecker(Invocation i) =>
-      DelegatingMap<K, V>(MapInvocationChecker<K, V>(i));
+      DelegatingMap<K, V>(MapInvocationChecker<K, V>(i, mirror));
 }
 
 // Utility values to use as arguments in calls.
 Null func0() => null;
-Null func1(Object x) => null;
-Null func2(Object x, Object y) => null;
-var val = Object();
+dynamic func1(dynamic x) => null;
+dynamic func2(dynamic x, dynamic y) => null;
+bool boolFunc(dynamic x) => true;
+Iterable<dynamic> expandFunc(dynamic x) => [x];
+dynamic foldFunc(dynamic previous, dynamic next) => previous;
+int compareFunc(dynamic x, dynamic y) => 0;
+var val = 10;
 
 void main() {
-  void testIterable(var expect) {
-    (expect..any(func1)).equals.any(func1);
+  void testIterable(IterableExpector expect) {
+    (expect..any(boolFunc)).equals.any(boolFunc);
     (expect..contains(val)).equals.contains(val);
     (expect..elementAt(0)).equals.elementAt(0);
-    (expect..every(func1)).equals.every(func1);
-    (expect..expand(func1)).equals.expand(func1);
+    (expect..every(boolFunc)).equals.every(boolFunc);
+    (expect..expand(expandFunc)).equals.expand(expandFunc);
     (expect..first).equals.first;
     // Default values of the Iterable interface will be added in the
     // second call to firstWhere, so we must record them in our
     // expectation (which doesn't have the interface implemented or
     // its default values).
-    (expect..firstWhere(func1, orElse: null)).equals.firstWhere(func1);
-    (expect..firstWhere(func1, orElse: func0))
+    (expect..firstWhere(boolFunc, orElse: null)).equals.firstWhere(boolFunc);
+    (expect..firstWhere(boolFunc, orElse: func0))
         .equals
-        .firstWhere(func1, orElse: func0);
-    (expect..fold(null, func2)).equals.fold(null, func2);
-    (expect..forEach(func1)).equals.forEach(func1);
+        .firstWhere(boolFunc, orElse: func0);
+    (expect..fold(null, foldFunc)).equals.fold(null, foldFunc);
+    (expect..forEach(boolFunc)).equals.forEach(boolFunc);
     (expect..isEmpty).equals.isEmpty;
     (expect..isNotEmpty).equals.isNotEmpty;
     (expect..iterator).equals.iterator;
     (expect..join('')).equals.join();
     (expect..join('X')).equals.join('X');
     (expect..last).equals.last;
-    (expect..lastWhere(func1, orElse: null)).equals.lastWhere(func1);
-    (expect..lastWhere(func1, orElse: func0))
+    (expect..lastWhere(boolFunc, orElse: null)).equals.lastWhere(boolFunc);
+    (expect..lastWhere(boolFunc, orElse: func0))
         .equals
-        .lastWhere(func1, orElse: func0);
+        .lastWhere(boolFunc, orElse: func0);
     (expect..length).equals.length;
     (expect..map(func1)).equals.map(func1);
     (expect..reduce(func2)).equals.reduce(func2);
     (expect..single).equals.single;
-    (expect..singleWhere(func1, orElse: null)).equals.singleWhere(func1);
+    (expect..singleWhere(boolFunc, orElse: null)).equals.singleWhere(boolFunc);
     (expect..skip(5)).equals.skip(5);
-    (expect..skipWhile(func1)).equals.skipWhile(func1);
+    (expect..skipWhile(boolFunc)).equals.skipWhile(boolFunc);
     (expect..take(5)).equals.take(5);
-    (expect..takeWhile(func1)).equals.takeWhile(func1);
+    (expect..takeWhile(boolFunc)).equals.takeWhile(boolFunc);
     (expect..toList(growable: true)).equals.toList();
     (expect..toList(growable: true)).equals.toList(growable: true);
     (expect..toList(growable: false)).equals.toList(growable: false);
     (expect..toSet()).equals.toSet();
     (expect..toString()).equals.toString();
-    (expect..where(func1)).equals.where(func1);
+    (expect..where(boolFunc)).equals.where(boolFunc);
   }
 
-  void testList(var expect) {
+  void testList(ListExpector expect) {
     testIterable(expect);
+    // Later expects require at least 5 items
+    (expect..add(val)).equals.add(val);
+    (expect..addAll([val, val, val, val])).equals.addAll([val, val, val, val]);
 
     (expect..[4]).equals[4];
     (expect..[4] = 5).equals[4] = 5;
 
-    (expect..add(val)).equals.add(val);
-    (expect..addAll([val])).equals.addAll([val]);
     (expect..asMap()).equals.asMap();
-    (expect..clear()).equals.clear();
     (expect..fillRange(4, 5, null)).equals.fillRange(4, 5);
     (expect..fillRange(4, 5, val)).equals.fillRange(4, 5, val);
     (expect..getRange(4, 5)).equals.getRange(4, 5);
@@ -202,25 +233,30 @@ void main() {
     (expect..insertAll(4, [val])).equals.insertAll(4, [val]);
     (expect..lastIndexOf(val, null)).equals.lastIndexOf(val);
     (expect..lastIndexOf(val, 4)).equals.lastIndexOf(val, 4);
-    (expect..length = 4).equals.length = 4;
-    (expect..remove(val)).equals.remove(val);
-    (expect..removeAt(4)).equals.removeAt(4);
-    (expect..removeLast()).equals.removeLast();
-    (expect..removeRange(4, 5)).equals.removeRange(4, 5);
-    (expect..removeWhere(func1)).equals.removeWhere(func1);
     (expect..replaceRange(4, 5, [val])).equals.replaceRange(4, 5, [val]);
-    (expect..retainWhere(func1)).equals.retainWhere(func1);
+    (expect..retainWhere(boolFunc)).equals.retainWhere(boolFunc);
     (expect..reversed).equals.reversed;
     (expect..setAll(4, [val])).equals.setAll(4, [val]);
     (expect..setRange(4, 5, [val], 0)).equals.setRange(4, 5, [val]);
-    (expect..setRange(4, 5, [val], 3)).equals.setRange(4, 5, [val], 3);
-    (expect..sort(null)).equals.sort();
-    (expect..sort(func2)).equals.sort(func2);
+    (expect..setRange(4, 5, [val, val], 1))
+        .equals
+        .setRange(4, 5, [val, val], 1);
+    (expect..sort()).equals.sort();
+    (expect..sort(compareFunc)).equals.sort(compareFunc);
     (expect..sublist(4, null)).equals.sublist(4);
     (expect..sublist(4, 5)).equals.sublist(4, 5);
+
+    // Do destructive apis last so other ones can work properly
+    (expect..removeAt(4)).equals.removeAt(4);
+    (expect..remove(val)).equals.remove(val);
+    (expect..removeLast()).equals.removeLast();
+    (expect..removeRange(4, 5)).equals.removeRange(4, 5);
+    (expect..removeWhere(boolFunc)).equals.removeWhere(boolFunc);
+    (expect..length = 5).equals.length = 5;
+    (expect..clear()).equals.clear();
   }
 
-  void testSet(var expect) {
+  void testSet(SetExpector expect) {
     testIterable(expect);
     var set = <dynamic>{};
     (expect..add(val)).equals.add(val);
@@ -231,25 +267,25 @@ void main() {
     (expect..intersection(set)).equals.intersection(set);
     (expect..remove(val)).equals.remove(val);
     (expect..removeAll([val])).equals.removeAll([val]);
-    (expect..removeWhere(func1)).equals.removeWhere(func1);
+    (expect..removeWhere(boolFunc)).equals.removeWhere(boolFunc);
     (expect..retainAll([val])).equals.retainAll([val]);
-    (expect..retainWhere(func1)).equals.retainWhere(func1);
+    (expect..retainWhere(boolFunc)).equals.retainWhere(boolFunc);
     (expect..union(set)).equals.union(set);
   }
 
-  void testQueue(var expect) {
+  void testQueue(QueueExpector expect) {
     testIterable(expect);
     (expect..add(val)).equals.add(val);
     (expect..addAll([val])).equals.addAll([val]);
     (expect..addFirst(val)).equals.addFirst(val);
     (expect..addLast(val)).equals.addLast(val);
-    (expect..clear()).equals.clear();
     (expect..remove(val)).equals.remove(val);
     (expect..removeFirst()).equals.removeFirst();
     (expect..removeLast()).equals.removeLast();
+    (expect..clear()).equals.clear();
   }
 
-  void testMap(var expect) {
+  void testMap(MapExpector expect) {
     var map = {};
     (expect..[val]).equals[val];
     (expect..[val] = val).equals[val] = val;
@@ -436,23 +472,23 @@ void main() {
   }
 
   test('Iterable', () {
-    testIterable(IterableExpector());
+    testIterable(IterableExpector([1]));
   });
 
   test('List', () {
-    testList(ListExpector());
+    testList(ListExpector([1]));
   });
 
   test('Set', () {
-    testSet(SetExpector());
+    testSet(SetExpector({1}));
   });
 
   test('Queue', () {
-    testQueue(QueueExpector());
+    testQueue(QueueExpector(Queue.of([1])));
   });
 
   test('Map', () {
-    testMap(MapExpector());
+    testMap(MapExpector({'a': 'b'}));
   });
 
   group('MapKeySet', () {

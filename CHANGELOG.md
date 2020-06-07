@@ -2,6 +2,7 @@
 
 * Deprecate `mapMap`. The Map interface has a `map` call and map literals can
   use for-loop elements which supersede this method.
+* Correct the `DeepCollectionEquality` documentation.
 
 ## 1.14.12
 

@@ -407,7 +407,12 @@ class MultiEquality<E> implements Equality<E> {
 /// Deep equality on collections.
 ///
 /// Recognizes lists, sets, iterables and maps and compares their elements using
-/// deep equality as well.
+/// deep equality as well.  
+/// **Note**: the maximum depth for these comparisons is 1! This means that the
+/// comparison will fail when a sub collection in the collections to be compared
+/// contains another collection. For example, if you want to compare a list
+/// containing a list containing another list, [DeepCollectionEquality] will not
+/// be able to deeply compare the nested lists.
 ///
 /// Non-iterable/map objects are compared using a configurable base equality.
 ///

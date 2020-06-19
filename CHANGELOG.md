@@ -1,4 +1,4 @@
-## 1.14.13-dev
+## 1.14.13
 
 * Deprecate `mapMap`. The Map interface has a `map` call and map literals can
   use for-loop elements which supersede this method.

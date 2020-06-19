@@ -1,27 +1,16 @@
 language: dart
 
 dart:
-- 2.3.0
-- dev
+- be/raw/latest
 
 dart_task:
 - test
-
-matrix:
-  include:
-  # Only validate formatting using the dev release
-  - dart: dev
-    dart_task: dartfmt
-  - dart: dev
-    dart_task:
-      dartanalyzer: --fatal-infos --fatal-warnings .
-  - dart: 2.3.0
-    dart_task:
-      dartanalyzer: --fatal-warnings .
+- dartfmt
+- dartanalyzer: --fatal-infos --fatal-warnings .
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
-  only: [master]
+  only: [master, null_safety]
 
 # Incremental pub cache and builds.
 cache:

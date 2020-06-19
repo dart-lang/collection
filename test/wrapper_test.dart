@@ -4,6 +4,7 @@
 
 /// Tests wrapper utilities.
 
+@TestOn('vm')
 import 'dart:collection';
 import 'dart:mirrors';
 

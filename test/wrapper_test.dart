@@ -4,6 +4,7 @@
 
 /// Tests wrapper utilities.
 
+@TestOn('vm')
 import 'dart:collection';
 
 import 'package:collection/collection.dart';

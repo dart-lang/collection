@@ -1,5 +1,5 @@
 name: collection
-version: 1.14.13-dev
+version: 1.14.13
 
 description: Collections and utilities functions and classes related to collections.
 homepage: https://www.github.com/dart-lang/collection

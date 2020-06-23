@@ -25,18 +25,18 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   @override
   EmptyUnmodifiableSet<T> cast<T>() => EmptyUnmodifiableSet<T>();
   @override
-  bool contains(Object element) => false;
+  bool contains(Object? element) => false;
   @override
-  bool containsAll(Iterable<Object> other) => other.isEmpty;
+  bool containsAll(Iterable<Object?> other) => other.isEmpty;
   @override
   Iterable<E> followedBy(Iterable<E> other) => Set.from(other);
   @override
-  E lookup(Object element) => null;
+  E? lookup(Object? element) => null;
   @deprecated
   @override
   EmptyUnmodifiableSet<T> retype<T>() => EmptyUnmodifiableSet<T>();
   @override
-  E singleWhere(bool Function(E) test, {E Function() orElse}) =>
+  E singleWhere(bool Function(E) test, {E Function()? orElse}) =>
       super.singleWhere(test);
   @override
   Iterable<T> whereType<T>() => EmptyUnmodifiableSet<T>();
@@ -45,9 +45,9 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   @override
   Set<E> union(Set<E> other) => Set.from(other);
   @override
-  Set<E> intersection(Set<Object> other) => {};
+  Set<E> intersection(Set<Object?> other) => {};
   @override
-  Set<E> difference(Set<Object> other) => {};
+  Set<E> difference(Set<Object?> other) => {};
 
   @override
   bool add(E value) => _throw();
@@ -56,13 +56,13 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   @override
   void clear() => _throw();
   @override
-  bool remove(Object element) => _throw();
+  bool remove(Object? element) => _throw();
   @override
-  void removeAll(Iterable<Object> elements) => _throw();
+  void removeAll(Iterable<Object?> elements) => _throw();
   @override
   void removeWhere(bool Function(E) test) => _throw();
   @override
   void retainWhere(bool Function(E) test) => _throw();
   @override
-  void retainAll(Iterable<Object> elements) => _throw();
+  void retainAll(Iterable<Object?> elements) => _throw();
 }

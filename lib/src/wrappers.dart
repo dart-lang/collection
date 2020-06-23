@@ -23,7 +23,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   Iterable<T> cast<T>() => _base.cast<T>();
 
   @override
-  bool contains(Object element) => _base.contains(element);
+  bool contains(Object? element) => _base.contains(element);
 
   @override
   E elementAt(int index) => _base.elementAt(index);
@@ -38,7 +38,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   E get first => _base.first;
 
   @override
-  E firstWhere(bool Function(E) test, {E Function() orElse}) =>
+  E firstWhere(bool Function(E) test, {E Function()? orElse}) =>
       _base.firstWhere(test, orElse: orElse);
 
   @override
@@ -67,7 +67,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   E get last => _base.last;
 
   @override
-  E lastWhere(bool Function(E) test, {E Function() orElse}) =>
+  E lastWhere(bool Function(E) test, {E Function()? orElse}) =>
       _base.lastWhere(test, orElse: orElse);
 
   @override
@@ -86,7 +86,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   E get single => _base.single;
 
   @override
-  E singleWhere(bool Function(E) test, {E Function() orElse}) {
+  E singleWhere(bool Function(E) test, {E Function()? orElse}) {
     return _base.singleWhere(test, orElse: orElse);
   }
 
@@ -165,7 +165,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   @Deprecated('Use list.cast<E> instead.')
   static List<E> typed<E>(List base) => base.cast<E>();
 
-  List<E> get _listBase => _base;
+  List<E> get _listBase => _base as List<E>;
 
   @override
   E operator [](int index) => _listBase[index];
@@ -200,7 +200,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   @override
-  void fillRange(int start, int end, [E fillValue]) {
+  void fillRange(int start, int end, [E? fillValue]) {
     _listBase.fillRange(start, end, fillValue);
   }
 
@@ -237,11 +237,11 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   @override
-  int lastIndexOf(E element, [int start]) =>
+  int lastIndexOf(E element, [int? start]) =>
       _listBase.lastIndexOf(element, start);
 
   @override
-  int lastIndexWhere(bool Function(E) test, [int start]) =>
+  int lastIndexWhere(bool Function(E) test, [int? start]) =>
       _listBase.lastIndexWhere(test, start);
 
   @override
@@ -250,7 +250,7 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   @override
-  bool remove(Object value) => _listBase.remove(value);
+  bool remove(Object? value) => _listBase.remove(value);
 
   @override
   E removeAt(int index) => _listBase.removeAt(index);
@@ -296,17 +296,17 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   @override
-  void shuffle([math.Random random]) {
+  void shuffle([math.Random? random]) {
     _listBase.shuffle(random);
   }
 
   @override
-  void sort([int Function(E, E) compare]) {
+  void sort([int Function(E, E)? compare]) {
     _listBase.sort(compare);
   }
 
   @override
-  List<E> sublist(int start, [int end]) => _listBase.sublist(start, end);
+  List<E> sublist(int start, [int? end]) => _listBase.sublist(start, end);
 }
 
 /// A [Set] that delegates all operations to a base set.
@@ -330,7 +330,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   @Deprecated('Use set.cast<E> instead.')
   static Set<E> typed<E>(Set base) => base.cast<E>();
 
-  Set<E> get _setBase => _base;
+  Set<E> get _setBase => _base as Set<E>;
 
   @override
   bool add(E value) => _setBase.add(value);
@@ -349,22 +349,22 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   }
 
   @override
-  bool containsAll(Iterable<Object> other) => _setBase.containsAll(other);
+  bool containsAll(Iterable<Object?> other) => _setBase.containsAll(other);
 
   @override
-  Set<E> difference(Set<Object> other) => _setBase.difference(other);
+  Set<E> difference(Set<Object?> other) => _setBase.difference(other);
 
   @override
-  Set<E> intersection(Set<Object> other) => _setBase.intersection(other);
+  Set<E> intersection(Set<Object?> other) => _setBase.intersection(other);
 
   @override
-  E lookup(Object element) => _setBase.lookup(element);
+  E? lookup(Object? element) => _setBase.lookup(element);
 
   @override
-  bool remove(Object value) => _setBase.remove(value);
+  bool remove(Object? value) => _setBase.remove(value);
 
   @override
-  void removeAll(Iterable<Object> elements) {
+  void removeAll(Iterable<Object?> elements) {
     _setBase.removeAll(elements);
   }
 
@@ -374,7 +374,7 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   }
 
   @override
-  void retainAll(Iterable<Object> elements) {
+  void retainAll(Iterable<Object?> elements) {
     _setBase.retainAll(elements);
   }
 
@@ -416,7 +416,7 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   @Deprecated('Use queue.cast<E> instead.')
   static Queue<E> typed<E>(Queue base) => base.cast<E>();
 
-  Queue<E> get _baseQueue => _base;
+  Queue<E> get _baseQueue => _base as Queue<E>;
 
   @override
   void add(E value) {
@@ -447,7 +447,7 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   }
 
   @override
-  bool remove(Object object) => _baseQueue.remove(object);
+  bool remove(Object? object) => _baseQueue.remove(object);
 
   @override
   void removeWhere(bool Function(E) test) {
@@ -495,7 +495,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   static Map<K, V> typed<K, V>(Map base) => base.cast<K, V>();
 
   @override
-  V operator [](Object key) => _base[key];
+  V? operator [](Object? key) => _base[key];
 
   @override
   void operator []=(K key, V value) {
@@ -521,10 +521,10 @@ class DelegatingMap<K, V> implements Map<K, V> {
   Map<K2, V2> cast<K2, V2>() => _base.cast<K2, V2>();
 
   @override
-  bool containsKey(Object key) => _base.containsKey(key);
+  bool containsKey(Object? key) => _base.containsKey(key);
 
   @override
-  bool containsValue(Object value) => _base.containsValue(value);
+  bool containsValue(Object? value) => _base.containsValue(value);
 
   @override
   Iterable<MapEntry<K, V>> get entries => _base.entries;
@@ -555,7 +555,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
       _base.putIfAbsent(key, ifAbsent);
 
   @override
-  V remove(Object key) => _base.remove(key);
+  V? remove(Object? key) => _base.remove(key);
 
   @override
   void removeWhere(bool Function(K, V) test) => _base.removeWhere(test);
@@ -570,7 +570,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   String toString() => _base.toString();
 
   @override
-  V update(K key, V Function(V) update, {V Function() ifAbsent}) =>
+  V update(K key, V Function(V) update, {V Function()? ifAbsent}) =>
       _base.update(key, update, ifAbsent: ifAbsent);
 
   @override
@@ -590,7 +590,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
     with UnmodifiableSetMixin<E> {
   final Map<E, dynamic> _baseMap;
 
-  MapKeySet(Map<E, dynamic> base) : _baseMap = base;
+  MapKeySet(this._baseMap);
 
   @override
   Iterable<E> get _base => _baseMap.keys;
@@ -604,7 +604,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   }
 
   @override
-  bool contains(Object element) => _baseMap.containsKey(element);
+  bool contains(Object? element) => _baseMap.containsKey(element);
 
   @override
   bool get isEmpty => _baseMap.isEmpty;
@@ -619,7 +619,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   String toString() => "{${_base.join(', ')}}";
 
   @override
-  bool containsAll(Iterable<Object> other) => other.every(contains);
+  bool containsAll(Iterable<Object?> other) => other.every(contains);
 
   /// Returns a new set with the the elements of [this] that are not in [other].
   ///
@@ -629,7 +629,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   /// Note that the returned set will use the default equality operation, which
   /// may be different than the equality operation [this] uses.
   @override
-  Set<E> difference(Set<Object> other) =>
+  Set<E> difference(Set<Object?> other) =>
       where((element) => !other.contains(element)).toSet();
 
   /// Returns a new set which is the intersection between [this] and [other].
@@ -640,12 +640,12 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   /// Note that the returned set will use the default equality operation, which
   /// may be different than the equality operation [this] uses.
   @override
-  Set<E> intersection(Set<Object> other) => where(other.contains).toSet();
+  Set<E> intersection(Set<Object?> other) => where(other.contains).toSet();
 
   /// Throws an [UnsupportedError] since there's no corresponding method for
   /// [Map]s.
   @override
-  E lookup(Object element) =>
+  E lookup(Object? element) =>
       throw UnsupportedError("MapKeySet doesn't support lookup().");
 
   @deprecated
@@ -688,14 +688,12 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   final Map<K, V> _baseMap;
   final K Function(V) _keyForValue;
 
-  /// Creates a new [MapValueSet] based on [base].
+  /// Creates a new [MapValueSet] based on [_baseMap].
   ///
-  /// [keyForValue] returns the key in the map that should be associated with
+  /// [_keyForValue] returns the key in the map that should be associated with
   /// the given value. The set's notion of equality is identical to the equality
-  /// of the return values of [keyForValue].
-  MapValueSet(Map<K, V> base, K Function(V) keyForValue)
-      : _baseMap = base,
-        _keyForValue = keyForValue;
+  /// of the return values of [_keyForValue].
+  MapValueSet(this._baseMap, this._keyForValue);
 
   @override
   Iterable<V> get _base => _baseMap.values;
@@ -709,9 +707,9 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   }
 
   @override
-  bool contains(Object element) {
-    if (element != null && element is! V) return false;
-    var key = _keyForValue(element as V);
+  bool contains(Object? element) {
+    if (element is! V) return false;
+    var key = _keyForValue(element);
 
     return _baseMap.containsKey(key);
   }
@@ -746,7 +744,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void clear() => _baseMap.clear();
 
   @override
-  bool containsAll(Iterable<Object> other) => other.every(contains);
+  bool containsAll(Iterable<Object?> other) => other.every(contains);
 
   /// Returns a new set with the the elements of [this] that are not in [other].
   ///
@@ -756,7 +754,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   /// Note that the returned set will use the default equality operation, which
   /// may be different than the equality operation [this] uses.
   @override
-  Set<V> difference(Set<Object> other) =>
+  Set<V> difference(Set<Object?> other) =>
       where((element) => !other.contains(element)).toSet();
 
   /// Returns a new set which is the intersection between [this] and [other].
@@ -767,20 +765,20 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   /// Note that the returned set will use the default equality operation, which
   /// may be different than the equality operation [this] uses.
   @override
-  Set<V> intersection(Set<Object> other) => where(other.contains).toSet();
+  Set<V> intersection(Set<Object?> other) => where(other.contains).toSet();
 
   @override
-  V lookup(Object element) {
-    if (element != null && element is! V) return null;
-    var key = _keyForValue(element as V);
+  V? lookup(Object? element) {
+    if (element is! V) return null;
+    var key = _keyForValue(element);
 
     return _baseMap[key];
   }
 
   @override
-  bool remove(Object element) {
-    if (element != null && element is! V) return false;
-    var key = _keyForValue(element as V);
+  bool remove(Object? element) {
+    if (element is! V) return false;
+    var key = _keyForValue(element);
 
     if (!_baseMap.containsKey(key)) return false;
     _baseMap.remove(key);
@@ -788,7 +786,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   }
 
   @override
-  void removeAll(Iterable<Object> elements) => elements.forEach(remove);
+  void removeAll(Iterable<Object?> elements) => elements.forEach(remove);
 
   @override
   void removeWhere(bool Function(V) test) {
@@ -800,14 +798,14 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   }
 
   @override
-  void retainAll(Iterable<Object> elements) {
+  void retainAll(Iterable<Object?> elements) {
     var valuesToRetain = Set<V>.identity();
     for (var element in elements) {
-      if (element != null && element is! V) continue;
-      var key = _keyForValue(element as V);
+      if (element is! V) continue;
+      var key = _keyForValue(element);
 
       if (!_baseMap.containsKey(key)) continue;
-      valuesToRetain.add(_baseMap[key]);
+      valuesToRetain.add(_baseMap[key]!);
     }
 
     var keysToRemove = [];

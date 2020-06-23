@@ -27,7 +27,7 @@ abstract class Equality<E> {
   ///
   /// Some implementations may be restricted to only work on specific types
   /// of objects.
-  bool isValidKey(Object o);
+  bool isValidKey(Object? o);
 }
 
 /// Equality of objects based on derived values.
@@ -52,7 +52,7 @@ class EqualityBy<E, F> implements Equality<E> {
   final Equality<F> _inner;
 
   EqualityBy(F Function(E) comparisonKey,
-      [Equality<F> inner = const DefaultEquality()])
+      [Equality<F> inner = const DefaultEquality<Never>()])
       : _comparisonKey = comparisonKey,
         _inner = inner;
 
@@ -64,7 +64,7 @@ class EqualityBy<E, F> implements Equality<E> {
   int hash(E e) => _inner.hash(_comparisonKey(e));
 
   @override
-  bool isValidKey(Object o) {
+  bool isValidKey(Object? o) {
     if (o is E) {
       final value = _comparisonKey(o);
       return value is F && _inner.isValidKey(value);
@@ -84,11 +84,11 @@ class EqualityBy<E, F> implements Equality<E> {
 class DefaultEquality<E> implements Equality<E> {
   const DefaultEquality();
   @override
-  bool equals(Object e1, Object e2) => e1 == e2;
+  bool equals(Object? e1, Object? e2) => e1 == e2;
   @override
-  int hash(Object e) => e.hashCode;
+  int hash(Object? e) => e.hashCode;
   @override
-  bool isValidKey(Object o) => true;
+  bool isValidKey(Object? o) => true;
 }
 
 /// Equality of objects that compares only the identity of the objects.
@@ -99,7 +99,7 @@ class IdentityEquality<E> implements Equality<E> {
   @override
   int hash(E e) => identityHashCode(e);
   @override
-  bool isValidKey(Object o) => true;
+  bool isValidKey(Object? o) => true;
 }
 
 /// Equality on iterables.
@@ -110,13 +110,13 @@ class IdentityEquality<E> implements Equality<E> {
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
 class IterableEquality<E> implements Equality<Iterable<E>> {
-  final Equality<E> _elementEquality;
+  final Equality<E?> _elementEquality;
   const IterableEquality(
-      [Equality<E> elementEquality = const DefaultEquality()])
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : _elementEquality = elementEquality;
 
   @override
-  bool equals(Iterable<E> elements1, Iterable<E> elements2) {
+  bool equals(Iterable<E>? elements1, Iterable<E>? elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
     var it1 = elements1.iterator;
@@ -130,7 +130,7 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
   }
 
   @override
-  int hash(Iterable<E> elements) {
+  int hash(Iterable<E>? elements) {
     if (elements == null) return null.hashCode;
     // Jenkins's one-at-a-time hash function.
     var hash = 0;
@@ -147,7 +147,7 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
   }
 
   @override
-  bool isValidKey(Object o) => o is Iterable<E>;
+  bool isValidKey(Object? o) => o is Iterable<E>;
 }
 
 /// Equality on lists.
@@ -163,11 +163,12 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
 /// The [hash] of `null` is `null.hashCode`.
 class ListEquality<E> implements Equality<List<E>> {
   final Equality<E> _elementEquality;
-  const ListEquality([Equality<E> elementEquality = const DefaultEquality()])
+  const ListEquality(
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : _elementEquality = elementEquality;
 
   @override
-  bool equals(List<E> list1, List<E> list2) {
+  bool equals(List<E>? list1, List<E>? list2) {
     if (identical(list1, list2)) return true;
     if (list1 == null || list2 == null) return false;
     var length = list1.length;
@@ -179,7 +180,7 @@ class ListEquality<E> implements Equality<List<E>> {
   }
 
   @override
-  int hash(List<E> list) {
+  int hash(List<E>? list) {
     if (list == null) return null.hashCode;
     // Jenkins's one-at-a-time hash function.
     // This code is almost identical to the one in IterableEquality, except
@@ -198,10 +199,10 @@ class ListEquality<E> implements Equality<List<E>> {
   }
 
   @override
-  bool isValidKey(Object o) => o is List<E>;
+  bool isValidKey(Object? o) => o is List<E>;
 }
 
-abstract class _UnorderedEquality<E, T extends Iterable<E>>
+abstract class _UnorderedEquality<E, T extends Iterable<E>?>
     implements Equality<T> {
   final Equality<E> _elementEquality;
 
@@ -250,13 +251,13 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
 /// Two iterables are considered equal if they have the same number of elements,
 /// and the elements of one set can be paired with the elements
 /// of the other iterable, so that each pair are equal.
-class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
+class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
   const UnorderedIterableEquality(
-      [Equality<E> elementEquality = const DefaultEquality()])
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
 
   @override
-  bool isValidKey(Object o) => o is Iterable<E>;
+  bool isValidKey(Object? o) => o is Iterable<E>;
 }
 
 /// Equality of sets.
@@ -271,12 +272,13 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
-  const SetEquality([Equality<E> elementEquality = const DefaultEquality()])
+class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
+  const SetEquality(
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
 
   @override
-  bool isValidKey(Object o) => o is Set<E>;
+  bool isValidKey(Object? o) => o is Set<E>;
 }
 
 /// Internal class used by [MapEquality].
@@ -314,13 +316,13 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
   final Equality<K> _keyEquality;
   final Equality<V> _valueEquality;
   const MapEquality(
-      {Equality<K> keys = const DefaultEquality(),
-      Equality<V> values = const DefaultEquality()})
+      {Equality<K> keys = const DefaultEquality<Never>(),
+      Equality<V> values = const DefaultEquality<Never>()})
       : _keyEquality = keys,
         _valueEquality = values;
 
   @override
-  bool equals(Map<K, V> map1, Map<K, V> map2) {
+  bool equals(Map<K, V>? map1, Map<K, V>? map2) {
     if (identical(map1, map2)) return true;
     if (map1 == null || map2 == null) return false;
     var length = map1.length;
@@ -341,12 +343,12 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
   }
 
   @override
-  int hash(Map<K, V> map) {
+  int hash(Map<K, V>? map) {
     if (map == null) return null.hashCode;
     var hash = 0;
     for (var key in map.keys) {
       var keyHash = _keyEquality.hash(key);
-      var valueHash = _valueEquality.hash(map[key]);
+      var valueHash = _valueEquality.hash(map[key] as V);
       hash = (hash + 3 * keyHash + 7 * valueHash) & _HASH_MASK;
     }
     hash = (hash + (hash << 3)) & _HASH_MASK;
@@ -356,7 +358,7 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
   }
 
   @override
-  bool isValidKey(Object o) => o is Map<K, V>;
+  bool isValidKey(Object? o) => o is Map<K, V>;
 }
 
 /// Combines several equalities into a single equality.
@@ -396,7 +398,7 @@ class MultiEquality<E> implements Equality<E> {
   }
 
   @override
-  bool isValidKey(Object o) {
+  bool isValidKey(Object? o) {
     for (var eq in _equalities) {
       if (eq.isValidKey(o)) return true;
     }
@@ -422,7 +424,7 @@ class MultiEquality<E> implements Equality<E> {
 class DeepCollectionEquality implements Equality {
   final Equality _base;
   final bool _unordered;
-  const DeepCollectionEquality([Equality base = const DefaultEquality()])
+  const DeepCollectionEquality([Equality base = const DefaultEquality<Never>()])
       : _base = base,
         _unordered = false;
 
@@ -430,7 +432,7 @@ class DeepCollectionEquality implements Equality {
   /// iterables are not considered important. That is, lists and iterables are
   /// treated as unordered iterables.
   const DeepCollectionEquality.unordered(
-      [Equality base = const DefaultEquality()])
+      [Equality base = const DefaultEquality<Never>()])
       : _base = base,
         _unordered = true;
 
@@ -457,7 +459,7 @@ class DeepCollectionEquality implements Equality {
   }
 
   @override
-  int hash(Object o) {
+  int hash(Object? o) {
     if (o is Set) return SetEquality(this).hash(o);
     if (o is Map) return MapEquality(keys: this, values: this).hash(o);
     if (!_unordered) {
@@ -470,7 +472,8 @@ class DeepCollectionEquality implements Equality {
   }
 
   @override
-  bool isValidKey(Object o) => o is Iterable || o is Map || _base.isValidKey(o);
+  bool isValidKey(Object? o) =>
+      o is Iterable || o is Map || _base.isValidKey(o);
 }
 
 /// String equality that's insensitive to differences in ASCII case.
@@ -487,5 +490,5 @@ class CaseInsensitiveEquality implements Equality<String> {
   int hash(String string) => hashIgnoreAsciiCase(string);
 
   @override
-  bool isValidKey(Object object) => object is String;
+  bool isValidKey(Object? object) => object is String;
 }

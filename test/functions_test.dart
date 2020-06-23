@@ -29,14 +29,18 @@ void main() {
     });
 
     test("maps the map's keys", () {
-      // ignore: deprecated_member_use_from_same_package
-      expect(mapMap({'foo': 1, 'bar': 2}, key: (key, value) => key[value]),
+      expect(
+          // ignore: deprecated_member_use_from_same_package
+          mapMap({'foo': 1, 'bar': 2},
+              key: (dynamic key, dynamic value) => key[value]),
           equals({'o': 1, 'r': 2}));
     });
 
     test("maps the map's values", () {
-      // ignore: deprecated_member_use_from_same_package
-      expect(mapMap({'foo': 1, 'bar': 2}, value: (key, value) => key[value]),
+      expect(
+          // ignore: deprecated_member_use_from_same_package
+          mapMap({'foo': 1, 'bar': 2},
+              value: (dynamic key, dynamic value) => key[value]),
           equals({'foo': 'o', 'bar': 'r'}));
     });
 
@@ -44,15 +48,17 @@ void main() {
       expect(
           // ignore: deprecated_member_use_from_same_package
           mapMap({'foo': 1, 'bar': 2},
-              key: (key, value) => '$key$value',
-              value: (key, value) => key[value]),
+              key: (dynamic key, dynamic value) => '$key$value',
+              value: (dynamic key, dynamic value) => key[value]),
           equals({'foo1': 'o', 'bar2': 'r'}));
     });
   });
 
   group('mergeMaps()', () {
     test('with empty maps returns an empty map', () {
-      expect(mergeMaps({}, {}, value: expectAsync2((_, __) {}, count: 0)),
+      expect(
+          mergeMaps({}, {},
+              value: expectAsync2((dynamic _, dynamic __) {}, count: 0)),
           isEmpty);
     });
 
@@ -69,19 +75,20 @@ void main() {
     test('uses the callback to merge values', () {
       expect(
           mergeMaps({'foo': 1, 'bar': 2}, {'bar': 3, 'baz': 4},
-              value: (value1, value2) => value1 + value2),
+              value: (dynamic value1, dynamic value2) => value1 + value2),
           equals({'foo': 1, 'bar': 5, 'baz': 4}));
     });
   });
 
   group('groupBy()', () {
     test('returns an empty map for an empty iterable', () {
-      expect(groupBy([], expectAsync1((_) {}, count: 0)), isEmpty);
+      expect(groupBy([], expectAsync1((dynamic _) {}, count: 0)), isEmpty);
     });
 
     test("groups elements by the function's return value", () {
       expect(
-          groupBy(['foo', 'bar', 'baz', 'bop', 'qux'], (string) => string[1]),
+          groupBy(['foo', 'bar', 'baz', 'bop', 'qux'],
+              (dynamic string) => string[1]),
           equals({
             'o': ['foo', 'bop'],
             'a': ['bar', 'baz'],
@@ -93,8 +100,8 @@ void main() {
   group('minBy()', () {
     test('returns null for an empty iterable', () {
       expect(
-          minBy([], expectAsync1((_) {}, count: 0),
-              compare: expectAsync2((_, __) => null, count: 0)),
+          minBy([], expectAsync1((dynamic _) {}, count: 0),
+              compare: expectAsync2((dynamic _, dynamic __) => -1, count: 0)),
           isNull);
     });
 
@@ -108,7 +115,7 @@ void main() {
             {'foo': 4},
             {'foo': 1},
             {'foo': 2}
-          ], (map) => map['foo']),
+          ], (dynamic map) => map['foo']),
           equals({'foo': 1}));
     });
 
@@ -121,7 +128,7 @@ void main() {
             {'foo': 1},
             {'foo': 2}
           ], (map) => map,
-              compare: (map1, map2) => map1['foo'].compareTo(map2['foo'])),
+              compare: (map1, map2) => map1['foo']!.compareTo(map2['foo']!)),
           equals({'foo': 1}));
     });
   });
@@ -129,8 +136,8 @@ void main() {
   group('maxBy()', () {
     test('returns null for an empty iterable', () {
       expect(
-          maxBy([], expectAsync1((_) {}, count: 0),
-              compare: expectAsync2((_, __) => null, count: 0)),
+          maxBy([], expectAsync1((dynamic _) {}, count: 0),
+              compare: expectAsync2((dynamic _, dynamic __) => null, count: 0)),
           isNull);
     });
 
@@ -144,7 +151,7 @@ void main() {
             {'foo': 4},
             {'foo': 1},
             {'foo': 2}
-          ], (map) => map['foo']),
+          ], (dynamic map) => map['foo']),
           equals({'foo': 5}));
     });
 
@@ -156,8 +163,8 @@ void main() {
             {'foo': 4},
             {'foo': 1},
             {'foo': 2}
-          ], (map) => map,
-              compare: (map1, map2) => map1['foo'].compareTo(map2['foo'])),
+          ], (map) => map!,
+              compare: (map1, map2) => map1['foo']!.compareTo(map2['foo']!)),
           equals({'foo': 5}));
     });
   });

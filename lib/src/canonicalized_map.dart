@@ -12,13 +12,10 @@ import 'utils.dart';
 /// more efficient than a [LinkedHashMap] with a custom equality operator
 /// because it only canonicalizes each key once, rather than doing so for each
 /// comparison.
-///
-/// By default, `null` is allowed as a key. It can be forbidden via the
-/// `isValidKey` parameter.
 class CanonicalizedMap<C, K, V> implements Map<K, V> {
   final C Function(K) _canonicalize;
 
-  final bool Function(Object) _isValidKeyFn;
+  final bool Function(K)? _isValidKeyFn;
 
   final _base = <C, Pair<K, V>>{};
 
@@ -31,7 +28,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   /// methods that take arbitrary objects. It can be used to filter out keys
   /// that can't be canonicalized.
   CanonicalizedMap(C Function(K key) canonicalize,
-      {bool Function(Object key) isValidKey})
+      {bool Function(K key)? isValidKey})
       : _canonicalize = canonicalize,
         _isValidKeyFn = isValidKey;
 
@@ -45,14 +42,14 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   /// methods that take arbitrary objects. It can be used to filter out keys
   /// that can't be canonicalized.
   CanonicalizedMap.from(Map<K, V> other, C Function(K key) canonicalize,
-      {bool Function(Object key) isValidKey})
+      {bool Function(K key)? isValidKey})
       : _canonicalize = canonicalize,
         _isValidKeyFn = isValidKey {
     addAll(other);
   }
 
   @override
-  V operator [](Object key) {
+  V? operator [](Object? key) {
     if (!_isValidKey(key)) return null;
     var pair = _base[_canonicalize(key as K)];
     return pair == null ? null : pair.last;
@@ -82,13 +79,13 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   }
 
   @override
-  bool containsKey(Object key) {
+  bool containsKey(Object? key) {
     if (!_isValidKey(key)) return false;
     return _base.containsKey(_canonicalize(key as K));
   }
 
   @override
-  bool containsValue(Object value) =>
+  bool containsValue(Object? value) =>
       _base.values.any((pair) => pair.last == value);
 
   @override
@@ -124,7 +121,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   }
 
   @override
-  V remove(Object key) {
+  V? remove(Object? key) {
     if (!_isValidKey(key)) return null;
     var pair = _base.remove(_canonicalize(key as K));
     return pair == null ? null : pair.last;
@@ -138,7 +135,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   @override
-  V update(K key, V Function(V) update, {V Function() ifAbsent}) => _base
+  V update(K key, V Function(V) update, {V Function()? ifAbsent}) => _base
       .update(_canonicalize(key), (pair) => Pair(key, update(pair.last)),
           ifAbsent: ifAbsent == null ? null : () => Pair(key, ifAbsent()))
       .last;
@@ -178,9 +175,8 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
     return result.toString();
   }
 
-  bool _isValidKey(Object key) =>
-      (key == null || key is K) &&
-      (_isValidKeyFn == null || _isValidKeyFn(key));
+  bool _isValidKey(Object? key) =>
+      (key is K) && (_isValidKeyFn == null || _isValidKeyFn!(key));
 }
 
 /// A collection used to identify cyclic maps during toString() calls.

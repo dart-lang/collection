@@ -18,7 +18,7 @@ import 'utils.dart';
 /// Returns -1 if [value] is not in the list by default.
 int binarySearch<T>(List<T> sortedList, T value,
     {int Function(T, T)? compare}) {
-  compare ??= defaultCompare<T>();
+  compare ??= defaultCompare();
   var min = 0;
   var max = sortedList.length;
   while (min < max) {
@@ -48,7 +48,7 @@ int binarySearch<T>(List<T> sortedList, T value,
 /// Returns [sortedList.length] if all the items in [sortedList] compare less
 /// than [value].
 int lowerBound<T>(List<T> sortedList, T value, {int Function(T, T)? compare}) {
-  compare ??= defaultCompare<T>();
+  compare ??= defaultCompare();
   var min = 0;
   var max = sortedList.length;
   while (min < max) {
@@ -115,7 +115,7 @@ void insertionSort<T>(List<T> list,
     {int Function(T, T)? compare, int start = 0, int? end}) {
   // If the same method could have both positional and named optional
   // parameters, this should be (list, [start, end], {compare}).
-  compare ??= defaultCompare<T>();
+  compare ??= defaultCompare();
   end ??= list.length;
 
   for (var pos = start + 1; pos < end; pos++) {
@@ -158,7 +158,7 @@ const int _MERGE_SORT_LIMIT = 32;
 void mergeSort<T>(List<T> list,
     {int start = 0, int? end, int Function(T, T)? compare}) {
   end = RangeError.checkValidRange(start, end, list.length);
-  compare ??= defaultCompare<T>();
+  compare ??= defaultCompare();
 
   var length = end - start;
   if (length < 2) return;
@@ -177,11 +177,11 @@ void mergeSort<T>(List<T> list,
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
   var scratchSpace = List<T>.filled(secondLength, list[start]);
-  _mergeSort<T>(list, compare, middle, end, scratchSpace, 0);
+  _mergeSort(list, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
-  _mergeSort<T>(list, compare, start, middle, list, firstTarget);
-  _merge<T>(compare, list, firstTarget, end, scratchSpace, 0, secondLength,
-      list, start);
+  _mergeSort(list, compare, start, middle, list, firstTarget);
+  _merge(compare, list, firstTarget, end, scratchSpace, 0, secondLength, list,
+      start);
 }
 
 /// Performs an insertion sort into a potentially different list than the
@@ -221,7 +221,7 @@ void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
     List<T> target, int targetOffset) {
   var length = end - start;
   if (length < _MERGE_SORT_LIMIT) {
-    _movingInsertionSort<T>(list, compare, start, end, target, targetOffset);
+    _movingInsertionSort(list, compare, start, end, target, targetOffset);
     return;
   }
   var middle = start + (length >> 1);
@@ -230,11 +230,11 @@ void _mergeSort<T>(List<T> list, int Function(T, T) compare, int start, int end,
   // Here secondLength >= firstLength (differs by at most one).
   var targetMiddle = targetOffset + firstLength;
   // Sort the second half into the end of the target area.
-  _mergeSort<T>(list, compare, middle, end, target, targetMiddle);
+  _mergeSort(list, compare, middle, end, target, targetMiddle);
   // Sort the first half into the end of the source area.
-  _mergeSort<T>(list, compare, start, middle, list, middle);
+  _mergeSort(list, compare, start, middle, list, middle);
   // Merge the two parts into the target area.
-  _merge<T>(compare, list, middle, middle + firstLength, target, targetMiddle,
+  _merge(compare, list, middle, middle + firstLength, target, targetMiddle,
       targetMiddle + secondLength, target, targetOffset);
 }
 

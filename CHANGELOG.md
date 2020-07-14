@@ -1,4 +1,4 @@
-## 1.15.0-nnbd
+## 1.15.0-nullsafety
 
 Pre-release for the null safety migration of this package.
 

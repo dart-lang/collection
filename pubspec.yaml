@@ -92,3 +92,4 @@ dependency_overrides:
       url: git://github.com/dart-lang/test.git
       ref: null_safety
       path: pkgs/test
+  typed_data: 1.3.0-nnbd

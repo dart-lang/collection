@@ -1,4 +1,6 @@
-## 1.15.0-nullsafety.1-dev
+## 1.15.0-nullsafety.1
+
+Null safety release for the 2.9.x stable sdk.
 
 ## 1.15.0-nullsafety
 

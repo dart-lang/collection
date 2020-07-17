@@ -1,4 +1,6 @@
-## 1.15.0-nullsafety.1-dev
+## 1.15.0-nullsafety.1
+
+* Allow the <=2.9.10 stable sdks.
 
 ## 1.15.0-nullsafety
 

@@ -1,6 +1,6 @@
 ## 1.15.0-nullsafety.1
 
-Null safety release for the 2.9.x stable sdk.
+* Allow the <=2.9.10 stable sdks.
 
 ## 1.15.0-nullsafety
 

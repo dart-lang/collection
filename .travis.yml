@@ -7,27 +7,27 @@ jobs:
   include:
     - stage: analyze_and_format
       name: "Analyze lib/"
-      dart: preview/raw/2.10.0-0.0-dev
+      dart: preview/raw/2.10.0-0.1-dev
       os: linux
       script: dartanalyzer --fatal-warnings --fatal-infos lib/
     - stage: analyze_and_format
       name: "Analyze test/"
-      dart: preview/raw/2.10.0-0.0-dev
+      dart: preview/raw/2.10.0-0.1-dev
       os: linux
       script: dartanalyzer --enable-experiment=non-nullable --fatal-warnings --fatal-infos test/
     - stage: analyze_and_format
       name: "Format"
-      dart: preview/raw/2.10.0-0.0-dev
+      dart: preview/raw/2.10.0-0.1-dev
       os: linux
       script: dartfmt -n --set-exit-if-changed .
     - stage: test
       name: "Vm Tests"
-      dart: preview/raw/2.10.0-0.0-dev
+      dart: preview/raw/2.10.0-0.1-dev
       os: linux
       script: pub run --enable-experiment=non-nullable test -p vm 
     - stage: test
       name: "Web Tests"
-      dart: preview/raw/2.10.0-0.0-dev
+      dart: preview/raw/2.10.0-0.1-dev
       os: linux
       script: pub run --enable-experiment=non-nullable test -p chrome
 

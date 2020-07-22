@@ -22,12 +22,14 @@ dependency_overrides:
     git:
       url: git://github.com/dart-lang/sdk.git
       path: pkg/js
+      ref: 2-10-pkgs
   matcher:
     git: git://github.com/dart-lang/matcher.git
   meta:
     git:
       url: git://github.com/dart-lang/sdk.git
       path: pkg/meta
+      ref: 2-10-pkgs
   path:
     git: git://github.com/dart-lang/path.git
   pedantic:

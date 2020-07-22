@@ -60,4 +60,5 @@ dependency_overrides:
     git:
       url: git://github.com/dart-lang/test.git
       path: pkgs/test
-  typed_data: 1.3.0-nullsafety
+  typed_data:
+    git: git://github.com/dart-lang/typed_data.git

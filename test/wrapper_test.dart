@@ -186,7 +186,7 @@ void main() {
     (expect..firstWhere(boolFunc, orElse: func0))
         .equals
         .firstWhere(boolFunc, orElse: func0);
-    (expect..fold(null, foldFunc)).equals.fold(null, foldFunc);
+    (expect..fold(42, foldFunc)).equals.fold(42, foldFunc);
     (expect..forEach(boolFunc)).equals.forEach(boolFunc);
     (expect..isEmpty).equals.isEmpty;
     (expect..isNotEmpty).equals.isNotEmpty;

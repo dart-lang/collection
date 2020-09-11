@@ -194,11 +194,21 @@ void testNullable() {
   // Check that the queue works with a nullable type, and a comparator
   // which accepts `null`.
   // Compares `null` before instances of `C`.
-  int nullCompareFirst(C? a, C? b) =>
-      a == null ? b == null ? 0 : -1 : b == null ? 1 : compare(a, b);
+  int nullCompareFirst(C? a, C? b) => a == null
+      ? b == null
+          ? 0
+          : -1
+      : b == null
+          ? 1
+          : compare(a, b);
 
-  int nullCompareLast(C? a, C? b) =>
-      a == null ? b == null ? 0 : 1 : b == null ? -1 : compare(a, b);
+  int nullCompareLast(C? a, C? b) => a == null
+      ? b == null
+          ? 0
+          : 1
+      : b == null
+          ? -1
+          : compare(a, b);
 
   var c1 = C(1);
   var c2 = C(2);

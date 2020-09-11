@@ -10,7 +10,7 @@ import 'utils.dart';
 ///
 /// The queue allows adding elements, and removing them again in priority order.
 /// The same object can be added to the queue more than once.
-/// There is no specified oredering for objects with the same priority
+/// There is no specified ordering for objects with the same priority
 /// (where the `comparison` function returns zero).
 ///
 /// Operations which care about object equality, [contains] and [remove],

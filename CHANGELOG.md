@@ -1,3 +1,12 @@
+## 1.15.0-nullsafety.3
+
+* Make `HeapPriorityQueue`'s `remove` and `contains` methods
+  use `==` for equality checks.
+  Previously used `comparison(a, b) == 0` as criteria, but it's possible
+  to have multiple elements with the same priority in a queue, so that
+  could remove the wrong element.
+  Still requires that objects that are `==` also have the same priority.
+
 ## 1.15.0-nullsafety.2
 
 Update for the 2.10 dev sdk.

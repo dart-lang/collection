@@ -9,6 +9,18 @@ import 'utils.dart';
 /// A priority queue is a priority based work-list of elements.
 ///
 /// The queue allows adding elements, and removing them again in priority order.
+/// The same object can be added to the queue more than once.
+/// There is no specified ordering for objects with the same priority
+/// (where the `comparison` function returns zero).
+///
+/// Operations which care about object equality, [contains] and [remove],
+/// use [Object.==] for testing equality.
+/// In most situations this will be the same as identity ([identical]),
+/// but there are types, like [String], where users can reasonably expect
+/// distinct objects to represent the same value.
+/// If elements override [Object.==], the `comparison` function must
+/// always give equal objects the same priority,
+/// otherwise [contains] or [remove] might not work correctly.
 abstract class PriorityQueue<E> {
   /// Creates an empty [PriorityQueue].
   ///
@@ -36,6 +48,14 @@ abstract class PriorityQueue<E> {
   /// Checks if [object] is in the queue.
   ///
   /// Returns true if the element is found.
+  ///
+  /// Uses the [Object.==] of elements in the queue to check
+  /// for whether they are equal to [object].
+  /// Equal objects objects must have the same priority
+  /// according to the [comparison] function.
+  /// That is, if `a == b` then `comparison(a, b) == 0`.
+  /// If that is not the case, this check might fail to find
+  /// an object.
   bool contains(E object);
 
   /// Adds element to the queue.
@@ -63,10 +83,21 @@ abstract class PriorityQueue<E> {
   /// The queue must not be empty when this method is called.
   E removeFirst();
 
-  /// Removes an element that compares equal to [element] in the queue.
+  /// Removes an element of the queue that compares equal to [element].
   ///
   /// Returns true if an element is found and removed,
   /// and false if no equal element is found.
+  ///
+  /// If the queue contains more than one object equal to [element],
+  /// only one of them is removed.
+  ///
+  /// Uses the [Object.==] of elements in the queue to check
+  /// for whether they are equal to [element].
+  /// Equal objects objects must have the same priority
+  /// according to the [comparison] function.
+  /// That is, if `a == b` then `comparison(a, b) == 0`.
+  /// If that is not the case, this check might fail to find
+  /// an object.
   bool remove(E element);
 
   /// Removes all the elements from this queue and returns them.
@@ -84,6 +115,14 @@ abstract class PriorityQueue<E> {
   /// The order is the order that the elements would be in if they were
   /// removed from this queue using [removeFirst].
   List<E> toList();
+
+  /// Returns a list of the elements of this queue in no specific order.
+  ///
+  /// The queue is not modified.
+  ///
+  /// The order of the elements is implementation specific.
+  /// The order may differ between different calls on the same queue.
+  List<E> toUnorderedList();
 
   /// Return a comparator based set using the comparator of this queue.
   ///
@@ -115,6 +154,8 @@ abstract class PriorityQueue<E> {
 ///   queue for the elements, taking O(n) time.
 /// * The [toList] operation effectively sorts the elements, taking O(n*log(n))
 ///   time.
+/// * The [toUnorderedList] operation copies, but does not sort, the elements,
+///   and is linear, O(n).
 /// * The [toSet] operation effectively adds each element to the new set, taking
 ///   an expected O(n*log(n)) time.
 class HeapPriorityQueue<E> implements PriorityQueue<E> {
@@ -148,6 +189,8 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   HeapPriorityQueue([int Function(E, E)? comparison])
       : comparison = comparison ?? defaultCompare<E>();
 
+  E _elementAt(int index) => _queue[index] ?? (null as E);
+
   @override
   void add(E element) {
     _add(element);
@@ -167,14 +210,12 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   }
 
   @override
-  bool contains(E object) {
-    return _locate(object) >= 0;
-  }
+  bool contains(E object) => _locate(object) >= 0;
 
   @override
   E get first {
-    if (_length == 0) throw StateError('No such element');
-    return _queue[0]!;
+    if (_length == 0) throw StateError('No element');
+    return _elementAt(0);
   }
 
   @override
@@ -213,8 +254,8 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
 
   @override
   E removeFirst() {
-    if (_length == 0) throw StateError('No such element');
-    var result = _queue[0]!;
+    if (_length == 0) throw StateError('No element');
+    var result = _elementAt(0);
     var last = _removeLast();
     if (_length > 0) {
       _bubbleDown(last, 0);
@@ -223,17 +264,22 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   }
 
   @override
-  List<E> toList() =>
-      List<E>.generate(_length, (i) => _queue[i]!)..sort(comparison);
+  List<E> toList() => _toUnorderedList()..sort(comparison);
 
   @override
   Set<E> toSet() {
     var set = SplayTreeSet<E>(comparison);
     for (var i = 0; i < _length; i++) {
-      set.add(_queue[i]!);
+      set.add(_elementAt(i));
     }
     return set;
   }
+
+  @override
+  List<E> toUnorderedList() => _toUnorderedList();
+
+  List<E> _toUnorderedList() =>
+      [for (var i = 0; i < _length; i++) _elementAt(i)];
 
   /// Returns some representation of the queue.
   ///
@@ -254,6 +300,9 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// Find the index of an object in the heap.
   ///
   /// Returns -1 if the object is not found.
+  ///
+  /// A matching object, `o`, must satisfy that
+  /// `comparison(o, object) == 0 && o == object`.
   int _locate(E object) {
     if (_length == 0) return -1;
     // Count positions from one instead of zero. This gives the numbers
@@ -267,10 +316,10 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     // in the heap will also have lower priority.
     do {
       var index = position - 1;
-      var element = _queue[index]!;
+      var element = _elementAt(index);
       var comp = comparison(element, object);
-      if (comp == 0) return index;
-      if (comp < 0) {
+      if (comp <= 0) {
+        if (comp == 0 && element == object) return index;
         // Element may be in subtree.
         // Continue with the left child, if it is there.
         var leftChildPosition = position * 2;
@@ -294,7 +343,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
 
   E _removeLast() {
     var newLength = _length - 1;
-    var last = _queue[newLength]!;
+    var last = _elementAt(newLength);
     _queue[newLength] = null;
     _length = newLength;
     return last;
@@ -308,7 +357,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   void _bubbleUp(E element, int index) {
     while (index > 0) {
       var parentIndex = (index - 1) ~/ 2;
-      var parent = _queue[parentIndex]!;
+      var parent = _elementAt(parentIndex);
       if (comparison(element, parent) > 0) break;
       _queue[index] = parent;
       index = parentIndex;
@@ -325,8 +374,8 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     var rightChildIndex = index * 2 + 2;
     while (rightChildIndex < _length) {
       var leftChildIndex = rightChildIndex - 1;
-      var leftChild = _queue[leftChildIndex]!;
-      var rightChild = _queue[rightChildIndex]!;
+      var leftChild = _elementAt(leftChildIndex);
+      var rightChild = _elementAt(rightChildIndex);
       var comp = comparison(leftChild, rightChild);
       int minChildIndex;
       E minChild;
@@ -348,7 +397,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     }
     var leftChildIndex = rightChildIndex - 1;
     if (leftChildIndex < _length) {
-      var child = _queue[leftChildIndex]!;
+      var child = _elementAt(leftChildIndex);
       var comp = comparison(element, child);
       if (comp > 0) {
         _queue[index] = child;

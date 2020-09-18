@@ -12,6 +12,8 @@ void main() {
   testDefault();
   testInt(() => HeapPriorityQueue<int>());
   testCustom((comparator) => HeapPriorityQueue<C>(comparator));
+  testDuplicates();
+  testNullable();
 }
 
 void testDefault() {
@@ -155,6 +157,108 @@ void testQueueBody<T>(
     expect(q.remove(element), isTrue);
   }
   expect(q.isEmpty, isTrue);
+}
+
+void testDuplicates() {
+  // Check how the heap handles duplicate, or equal-but-not-identical, values.
+  test('duplicates', () {
+    var q = HeapPriorityQueue<C>(compare);
+    var c1 = C(0);
+    var c2 = C(0);
+
+    // Can contain the same element more than once.
+    expect(c1, equals(c2));
+    expect(c1, isNot(same(c2)));
+    q.add(c1);
+    q.add(c1);
+    expect(q.length, 2);
+    expect(q.contains(c1), true);
+    expect(q.contains(c2), true);
+    expect(q.remove(c2), true);
+    expect(q.length, 1);
+    expect(q.removeFirst(), same(c1));
+
+    // Can contain equal elements.
+    q.add(c1);
+    q.add(c2);
+    expect(q.length, 2);
+    expect(q.contains(c1), true);
+    expect(q.contains(c2), true);
+    expect(q.remove(c1), true);
+    expect(q.length, 1);
+    expect(q.first, anyOf(same(c1), same(c2)));
+  });
+}
+
+void testNullable() {
+  // Check that the queue works with a nullable type, and a comparator
+  // which accepts `null`.
+  // Compares `null` before instances of `C`.
+  int nullCompareFirst(C? a, C? b) => a == null
+      ? b == null
+          ? 0
+          : -1
+      : b == null
+          ? 1
+          : compare(a, b);
+
+  int nullCompareLast(C? a, C? b) => a == null
+      ? b == null
+          ? 0
+          : 1
+      : b == null
+          ? -1
+          : compare(a, b);
+
+  var c1 = C(1);
+  var c2 = C(2);
+  var c3 = C(3);
+
+  test('nulls first', () {
+    var q = HeapPriorityQueue<C?>(nullCompareFirst);
+    q.add(c2);
+    q.add(c1);
+    q.add(null);
+    expect(q.length, 3);
+    expect(q.contains(null), true);
+    expect(q.contains(c1), true);
+    expect(q.contains(c3), false);
+
+    expect(q.removeFirst(), null);
+    expect(q.length, 2);
+    expect(q.contains(null), false);
+    q.add(null);
+    expect(q.length, 3);
+    expect(q.contains(null), true);
+    q.add(null);
+    expect(q.length, 4);
+    expect(q.contains(null), true);
+    expect(q.remove(null), true);
+    expect(q.length, 3);
+    expect(q.toList(), [null, c1, c2]);
+  });
+
+  test('nulls last', () {
+    var q = HeapPriorityQueue<C?>(nullCompareLast);
+    q.add(c2);
+    q.add(c1);
+    q.add(null);
+    expect(q.length, 3);
+    expect(q.contains(null), true);
+    expect(q.contains(c1), true);
+    expect(q.contains(c3), false);
+    expect(q.first, c1);
+
+    q.add(null);
+    expect(q.length, 4);
+    expect(q.contains(null), true);
+    q.add(null);
+    expect(q.length, 5);
+    expect(q.contains(null), true);
+    expect(q.remove(null), true);
+    expect(q.length, 4);
+    expect(q.toList(), [c1, c2, null, null]);
+  });
 }
 
 // Custom class.

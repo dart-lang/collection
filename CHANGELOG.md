@@ -1,5 +1,6 @@
-## 1.15.0-nullsafety.3
+## 1.15.0-nullsafety.3-dev
 
+* Add `toUnorderedList` method on `PriorityQueue`.
 * Make `HeapPriorityQueue`'s `remove` and `contains` methods
   use `==` for equality checks.
   Previously used `comparison(a, b) == 0` as criteria, but it's possible

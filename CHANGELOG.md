@@ -1,5 +1,6 @@
-## 1.15.0-nullsafety.3-dev
+## 1.15.0-nullsafety.3
 
+* Allow 2.10 stable and 2.11.0 dev SDK versions.
 * Add `toUnorderedList` method on `PriorityQueue`.
 * Make `HeapPriorityQueue`'s `remove` and `contains` methods
   use `==` for equality checks.

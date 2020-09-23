@@ -69,6 +69,11 @@ void testQueueBody<T>(
 
     expect(q.toList(), equals(elements));
     expect(q.toSet().toList(), equals(elements));
+    expect(q.toUnorderedList(), unorderedEquals(elements));
+    expect(q.unorderedElements, unorderedEquals(elements));
+
+    var allElements = q.removeAll();
+    q.addAll(allElements);
 
     for (var i = 0; i < elements.length; i++) {
       expect(q.contains(elements[i]), isTrue);

@@ -150,14 +150,10 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   @override
   set length(int value) {
     if (value < 0) throw RangeError('Length $value may not be negative.');
-    if (value > length) {
-      try {
-        null as E;
-      } on TypeError {
-        throw UnsupportedError(
-            'The length can only be increased when the element type is '
-            'nullable, but the current element type is `$E`.');
-      }
+    if (value > length && null is! E) {
+      throw UnsupportedError(
+          'The length can only be increased when the element type is '
+          'nullable, but the current element type is `$E`.');
     }
 
     var delta = value - length;

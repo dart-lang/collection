@@ -58,7 +58,10 @@ abstract class PriorityQueue<E> {
   /// an object.
   bool contains(E object);
 
-  /// Provides access to all the elements curently in the queue.
+  /// Provides efficient access to all the elements curently in the queue.
+  ///
+  /// The operation should be performed without copying or moving
+  /// the elements, if at all possible.
   ///
   /// The elements are iterated in no particular order.
   /// The order is stable as long as the queue is not modified.
@@ -227,6 +230,13 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   @override
   bool contains(E object) => _locate(object) >= 0;
 
+  /// Provides efficient access to all the elements curently in the queue.
+  ///
+  /// The operation is performed in the order they occur
+  /// in the underlying heap structure.
+  ///
+  /// The order is stable as long as the queue is not modified.
+  /// The queue must not be modified during an iteration.
   @override
   Iterable<E> get unorderedElements => _UnorderedElementsIterable<E>(this);
 

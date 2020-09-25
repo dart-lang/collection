@@ -23,7 +23,8 @@ import 'union_set.dart';
 /// ```
 class UnionSetController<E> {
   /// The [UnionSet] that provides a view of the union of sets in [this].
-  late final UnionSet<E> set;
+  UnionSet<E> get set => _set;
+  late final UnionSet<E> _set;
 
   /// The sets whose union is exposed through [set].
   final _sets = <Set<E>>{};
@@ -34,7 +35,7 @@ class UnionSetController<E> {
   /// disjoint—that is, that they contain no elements in common. This makes
   /// many operations including [length] more efficient.
   UnionSetController({bool disjoint = false}) {
-    set = UnionSet<E>(_sets, disjoint: disjoint);
+    _set = UnionSet<E>(_sets, disjoint: disjoint);
   }
 
   /// Adds the contents of [component] to [set].

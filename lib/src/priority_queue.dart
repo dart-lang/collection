@@ -214,10 +214,12 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
 
   @override
   void addAll(Iterable<E> elements) {
-    _modificationCount++;
+    var modified = 0;
     for (var element in elements) {
+      modified = 1;
       _add(element);
     }
+    _modificationCount += modified;
   }
 
   @override
@@ -466,16 +468,16 @@ class _UnorderedElementsIterable<E> extends Iterable<E> {
 
 class _UnorderedElementsIterator<E> implements Iterator<E> {
   final HeapPriorityQueue<E> _queue;
-  final int _modificationCount;
+  final int _initialModificationCount;
   E? _current;
   int _index = -1;
 
   _UnorderedElementsIterator(this._queue)
-      : _modificationCount = _queue._modificationCount;
+      : _initialModificationCount = _queue._modificationCount;
 
   @override
   bool moveNext() {
-    if (_modificationCount != _queue._modificationCount) {
+    if (_initialModificationCount != _queue._modificationCount) {
       throw ConcurrentModificationError(_queue);
     }
     var nextIndex = _index + 1;

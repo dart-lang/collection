@@ -14,6 +14,7 @@ void main() {
   testCustom((comparator) => HeapPriorityQueue<C>(comparator));
   testDuplicates();
   testNullable();
+  testConcurrentModification();
 }
 
 void testDefault() {
@@ -69,6 +70,11 @@ void testQueueBody<T>(
 
     expect(q.toList(), equals(elements));
     expect(q.toSet().toList(), equals(elements));
+    expect(q.toUnorderedList(), unorderedEquals(elements));
+    expect(q.unorderedElements, unorderedEquals(elements));
+
+    var allElements = q.removeAll();
+    q.addAll(allElements);
 
     for (var i = 0; i < elements.length; i++) {
       expect(q.contains(elements[i]), isTrue);
@@ -258,6 +264,98 @@ void testNullable() {
     expect(q.remove(null), true);
     expect(q.length, 4);
     expect(q.toList(), [c1, c2, null, null]);
+  });
+}
+
+void testConcurrentModification() {
+  group('concurrent modification for', () {
+    test('add', () {
+      var q = HeapPriorityQueue<int>((a, b) => a - b)
+        ..addAll([6, 4, 2, 3, 5, 8]);
+      var e = q.unorderedElements;
+      q.add(12); // Modifiation before creating iterator is not a problem.
+      var it = e.iterator;
+      q.add(7); // Modification after creatig iterator is a problem.
+      expect(it.moveNext, throwsConcurrentModificationError);
+
+      it = e.iterator; // New iterator is not affected.
+      expect(it.moveNext(), true);
+      expect(it.moveNext(), true);
+      q.add(9); // Modification during iteration is a problem.
+      expect(it.moveNext, throwsConcurrentModificationError);
+    });
+
+    test('addAll', () {
+      var q = HeapPriorityQueue<int>((a, b) => a - b)
+        ..addAll([6, 4, 2, 3, 5, 8]);
+      var e = q.unorderedElements;
+      q.addAll([12]); // Modifiation before creating iterator is not a problem.
+      var it = e.iterator;
+      q.addAll([7]); // Modification after creatig iterator is a problem.
+      expect(it.moveNext, throwsConcurrentModificationError);
+      it = e.iterator; // New iterator is not affected.
+      expect(it.moveNext(), true);
+      q.addAll([]); // Adding nothing is not a modification.
+      expect(it.moveNext(), true);
+      q.addAll([9]); // Modification during iteration is a problem.
+      expect(it.moveNext, throwsConcurrentModificationError);
+    });
+
+    test('removeFirst', () {
+      var q = HeapPriorityQueue<int>((a, b) => a - b)
+        ..addAll([6, 4, 2, 3, 5, 8]);
+      var e = q.unorderedElements;
+      expect(q.removeFirst(),
+          2); // Modifiation before creating iterator is not a problem.
+      var it = e.iterator;
+      expect(q.removeFirst(),
+          3); // Modification after creatig iterator is a problem.
+      expect(it.moveNext, throwsConcurrentModificationError);
+
+      it = e.iterator; // New iterator is not affected.
+      expect(it.moveNext(), true);
+      expect(it.moveNext(), true);
+      expect(q.removeFirst(), 4); // Modification during iteration is a problem.
+      expect(it.moveNext, throwsConcurrentModificationError);
+    });
+
+    test('remove', () {
+      var q = HeapPriorityQueue<int>((a, b) => a - b)
+        ..addAll([6, 4, 2, 3, 5, 8]);
+      var e = q.unorderedElements;
+      expect(q.remove(3), true);
+      var it = e.iterator;
+      expect(q.remove(2), true);
+      expect(it.moveNext, throwsConcurrentModificationError);
+      it = e.iterator;
+      expect(q.remove(99), false);
+      expect(it.moveNext(), true);
+      expect(it.moveNext(), true);
+      expect(q.remove(5), true);
+      expect(it.moveNext, throwsConcurrentModificationError);
+    });
+
+    test('removeAll', () {
+      var q = HeapPriorityQueue<int>((a, b) => a - b)
+        ..addAll([6, 4, 2, 3, 5, 8]);
+      var e = q.unorderedElements;
+      var it = e.iterator;
+      expect(it.moveNext(), true);
+      expect(it.moveNext(), true);
+      expect(q.removeAll(), hasLength(6));
+      expect(it.moveNext, throwsConcurrentModificationError);
+    });
+
+    test('clear', () {
+      var q = HeapPriorityQueue<int>((a, b) => a - b)
+        ..addAll([6, 4, 2, 3, 5, 8]);
+      var e = q.unorderedElements;
+      var it = e.iterator;
+      expect(it.moveNext(), true);
+      expect(it.moveNext(), true);
+      q.clear();
+      expect(it.moveNext, throwsConcurrentModificationError);
+    });
   });
 }
 

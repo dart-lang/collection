@@ -58,6 +58,16 @@ abstract class PriorityQueue<E> {
   /// an object.
   bool contains(E object);
 
+  /// Provides efficient access to all the elements curently in the queue.
+  ///
+  /// The operation should be performed without copying or moving
+  /// the elements, if at all possible.
+  ///
+  /// The elements are iterated in no particular order.
+  /// The order is stable as long as the queue is not modified.
+  /// The queue must not be modified during an iteration.
+  Iterable<E> get unorderedElements;
+
   /// Adds element to the queue.
   ///
   /// The element will become the next to be removed by [removeFirst]
@@ -177,6 +187,11 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// The heap is implemented in the first [_length] entries of [_queue].
   int _length = 0;
 
+  /// Modification count.
+  ///
+  /// Used to detect concurrent modifications during iteration.
+  int _modificationCount = 0;
+
   /// Create a new priority queue.
   ///
   /// The [comparison] is a [Comparator] used to compare the priority of
@@ -193,24 +208,39 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
 
   @override
   void add(E element) {
+    _modificationCount++;
     _add(element);
   }
 
   @override
   void addAll(Iterable<E> elements) {
+    var modified = 0;
     for (var element in elements) {
+      modified = 1;
       _add(element);
     }
+    _modificationCount += modified;
   }
 
   @override
   void clear() {
+    _modificationCount++;
     _queue = const [];
     _length = 0;
   }
 
   @override
   bool contains(E object) => _locate(object) >= 0;
+
+  /// Provides efficient access to all the elements curently in the queue.
+  ///
+  /// The operation is performed in the order they occur
+  /// in the underlying heap structure.
+  ///
+  /// The order is stable as long as the queue is not modified.
+  /// The queue must not be modified during an iteration.
+  @override
+  Iterable<E> get unorderedElements => _UnorderedElementsIterable<E>(this);
 
   @override
   E get first {
@@ -231,6 +261,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   bool remove(E element) {
     var index = _locate(element);
     if (index < 0) return false;
+    _modificationCount++;
     var last = _removeLast();
     if (index < _length) {
       var comp = comparison(last, element);
@@ -243,8 +274,15 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     return true;
   }
 
+  /// Removes all the elements from this queue and returns them.
+  ///
+  /// The returned iterable has no specified order.
+  /// The operation does not copy the elements,
+  /// but instead keeps them in the existing heap structure,
+  /// and iterates over that directly.
   @override
   Iterable<E> removeAll() {
+    _modificationCount++;
     var result = _queue;
     var length = _length;
     _queue = const [];
@@ -255,6 +293,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   @override
   E removeFirst() {
     if (_length == 0) throw StateError('No element');
+    _modificationCount++;
     var result = _elementAt(0);
     var last = _removeLast();
     if (_length > 0) {
@@ -417,4 +456,42 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
     newQueue.setRange(0, _length, _queue);
     _queue = newQueue;
   }
+}
+
+/// Implementation of [HeapPriorityQueue.unorderedElements].
+class _UnorderedElementsIterable<E> extends Iterable<E> {
+  final HeapPriorityQueue<E> _queue;
+  _UnorderedElementsIterable(this._queue);
+  @override
+  Iterator<E> get iterator => _UnorderedElementsIterator<E>(_queue);
+}
+
+class _UnorderedElementsIterator<E> implements Iterator<E> {
+  final HeapPriorityQueue<E> _queue;
+  final int _initialModificationCount;
+  E? _current;
+  int _index = -1;
+
+  _UnorderedElementsIterator(this._queue)
+      : _initialModificationCount = _queue._modificationCount;
+
+  @override
+  bool moveNext() {
+    if (_initialModificationCount != _queue._modificationCount) {
+      throw ConcurrentModificationError(_queue);
+    }
+    var nextIndex = _index + 1;
+    if (0 <= nextIndex && nextIndex < _queue.length) {
+      _current = _queue._queue[nextIndex];
+      _index = nextIndex;
+      return true;
+    }
+    _current = null;
+    _index = -2;
+    return false;
+  }
+
+  @override
+  E get current =>
+      _index < 0 ? throw StateError('No element') : (_current ?? null as E);
 }

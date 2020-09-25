@@ -1,3 +1,8 @@
+## 1.15.0-nullsafety.4-dev
+
+* Remove the unusable setter `UnionSetController.set=`. This was mistakenly
+  added to the public API but could never be called.
+
 ## 1.15.0-nullsafety.3
 
 * Allow 2.10 stable and 2.11.0 dev SDK versions.

@@ -10,6 +10,19 @@ class Pair<E, F> {
   Pair(this.first, this.last);
 }
 
-/// Returns a [Comparator] that asserts that its first argument is comparable.
-Comparator<T> defaultCompare<T>() =>
-    (value1, value2) => (value1 as Comparable).compareTo(value2);
+/// A [Comparator] that asserts that its first argument is comparable.
+///
+/// The function behaves just like [List.sort]'s
+/// default comparison function. It is entirely dynamic in its testing.
+///
+/// Should be used when optimistically comparing object that are assumed
+/// to be comparable.
+/// If the elements are known to be comparable, use [compareComparable].
+int defaultCompare(Object? value1, Object? value2) =>
+    (value1 as Comparable<Object?>).compareTo(value2);
+
+/// A reusable identity function at any type.
+T identity<T>(T value) => value;
+
+/// A reusable typed comparable comparator.
+int compareComparable<T extends Comparable<T>>(T a, T b) => a.compareTo(b);

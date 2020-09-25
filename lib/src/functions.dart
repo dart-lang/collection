@@ -64,7 +64,7 @@ Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
 /// Returns `null` if [values] is empty.
 S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
     {int Function(T, T)? compare}) {
-  compare ??= defaultCompare<T>();
+  compare ??= defaultCompare;
 
   S? minValue;
   T? minOrderBy;
@@ -88,7 +88,7 @@ S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
 /// Returns `null` if [values] is empty.
 S? maxBy<S, T>(Iterable<S> values, T Function(S?) orderBy,
     {int? Function(T, T)? compare}) {
-  compare ??= defaultCompare<T>();
+  compare ??= defaultCompare;
 
   S? maxValue;
   T? maxOrderBy;

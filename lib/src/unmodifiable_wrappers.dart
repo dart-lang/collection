@@ -117,6 +117,7 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 /// Mixin class that implements a throwing version of all set operations that
 /// change the Set.
 abstract class UnmodifiableSetMixin<E> implements Set<E> {
+  // TODO: Make _throw have return type Never.
   static T _throw<T>() {
     throw UnsupportedError('Cannot modify an unmodifiable Set');
   }

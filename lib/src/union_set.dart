@@ -29,7 +29,9 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   /// is, that they contain no elements in common. This makes many operations
   /// including [length] more efficient. If the component sets turn out not to
   /// be disjoint, some operations may behave inconsistently.
-  UnionSet(this._sets, {bool disjoint = false}) : _disjoint = disjoint;
+  UnionSet(Set<Set<E>> sets, {bool disjoint = false})
+      : _sets = sets,
+        _disjoint = disjoint;
 
   /// Creates a new set that's a view of the union of all sets in [sets].
   ///
@@ -66,20 +68,13 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
 
   @override
   E? lookup(Object? element) {
-    if (element == null) return null;
     for (var set in _sets) {
       var result = set.lookup(element);
-      if (result != null) return result;
+      if (result != null || set.contains(null)) return result;
     }
     return null;
   }
 
   @override
-  Set<E> toSet() {
-    var result = <E>{};
-    for (var set in _sets) {
-      result.addAll(set);
-    }
-    return result;
-  }
+  Set<E> toSet() => <E>{for (var set in _sets) ...set};
 }

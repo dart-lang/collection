@@ -148,8 +148,11 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
 /// This class can be used to hide non-`List` methods of a list object, or it
 /// can be extended to add extra functionality on top of an existing list
 /// object.
-class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
-  const DelegatingList(List<E> base) : super(base);
+class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
+  @override
+  final List<E> _base;
+
+  const DelegatingList(List<E> base) : _base = base;
 
   /// Creates a wrapper that asserts the types of values in [base].
   ///
@@ -165,43 +168,41 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   @Deprecated('Use list.cast<E> instead.')
   static List<E> typed<E>(List base) => base.cast<E>();
 
-  List<E> get _listBase => _base as List<E>;
-
   @override
-  E operator [](int index) => _listBase[index];
+  E operator [](int index) => _base[index];
 
   @override
   void operator []=(int index, E value) {
-    _listBase[index] = value;
+    _base[index] = value;
   }
 
   @override
-  List<E> operator +(List<E> other) => _listBase + other;
+  List<E> operator +(List<E> other) => _base + other;
 
   @override
   void add(E value) {
-    _listBase.add(value);
+    _base.add(value);
   }
 
   @override
   void addAll(Iterable<E> iterable) {
-    _listBase.addAll(iterable);
+    _base.addAll(iterable);
   }
 
   @override
-  Map<int, E> asMap() => _listBase.asMap();
+  Map<int, E> asMap() => _base.asMap();
 
   @override
-  List<T> cast<T>() => _listBase.cast<T>();
+  List<T> cast<T>() => _base.cast<T>();
 
   @override
   void clear() {
-    _listBase.clear();
+    _base.clear();
   }
 
   @override
   void fillRange(int start, int end, [E? fillValue]) {
-    _listBase.fillRange(start, end, fillValue);
+    _base.fillRange(start, end, fillValue);
   }
 
   @override
@@ -211,23 +212,23 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   @override
-  Iterable<E> getRange(int start, int end) => _listBase.getRange(start, end);
+  Iterable<E> getRange(int start, int end) => _base.getRange(start, end);
 
   @override
-  int indexOf(E element, [int start = 0]) => _listBase.indexOf(element, start);
+  int indexOf(E element, [int start = 0]) => _base.indexOf(element, start);
 
   @override
   int indexWhere(bool Function(E) test, [int start = 0]) =>
-      _listBase.indexWhere(test, start);
+      _base.indexWhere(test, start);
 
   @override
   void insert(int index, E element) {
-    _listBase.insert(index, element);
+    _base.insert(index, element);
   }
 
   @override
   void insertAll(int index, Iterable<E> iterable) {
-    _listBase.insertAll(index, iterable);
+    _base.insertAll(index, iterable);
   }
 
   @override
@@ -237,45 +238,44 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   }
 
   @override
-  int lastIndexOf(E element, [int? start]) =>
-      _listBase.lastIndexOf(element, start);
+  int lastIndexOf(E element, [int? start]) => _base.lastIndexOf(element, start);
 
   @override
   int lastIndexWhere(bool Function(E) test, [int? start]) =>
-      _listBase.lastIndexWhere(test, start);
+      _base.lastIndexWhere(test, start);
 
   @override
   set length(int newLength) {
-    _listBase.length = newLength;
+    _base.length = newLength;
   }
 
   @override
-  bool remove(Object? value) => _listBase.remove(value);
+  bool remove(Object? value) => _base.remove(value);
 
   @override
-  E removeAt(int index) => _listBase.removeAt(index);
+  E removeAt(int index) => _base.removeAt(index);
 
   @override
-  E removeLast() => _listBase.removeLast();
+  E removeLast() => _base.removeLast();
 
   @override
   void removeRange(int start, int end) {
-    _listBase.removeRange(start, end);
+    _base.removeRange(start, end);
   }
 
   @override
   void removeWhere(bool Function(E) test) {
-    _listBase.removeWhere(test);
+    _base.removeWhere(test);
   }
 
   @override
   void replaceRange(int start, int end, Iterable<E> iterable) {
-    _listBase.replaceRange(start, end, iterable);
+    _base.replaceRange(start, end, iterable);
   }
 
   @override
   void retainWhere(bool Function(E) test) {
-    _listBase.retainWhere(test);
+    _base.retainWhere(test);
   }
 
   @deprecated
@@ -283,38 +283,41 @@ class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   List<T> retype<T>() => cast<T>();
 
   @override
-  Iterable<E> get reversed => _listBase.reversed;
+  Iterable<E> get reversed => _base.reversed;
 
   @override
   void setAll(int index, Iterable<E> iterable) {
-    _listBase.setAll(index, iterable);
+    _base.setAll(index, iterable);
   }
 
   @override
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
-    _listBase.setRange(start, end, iterable, skipCount);
+    _base.setRange(start, end, iterable, skipCount);
   }
 
   @override
   void shuffle([math.Random? random]) {
-    _listBase.shuffle(random);
+    _base.shuffle(random);
   }
 
   @override
   void sort([int Function(E, E)? compare]) {
-    _listBase.sort(compare);
+    _base.sort(compare);
   }
 
   @override
-  List<E> sublist(int start, [int? end]) => _listBase.sublist(start, end);
+  List<E> sublist(int start, [int? end]) => _base.sublist(start, end);
 }
 
 /// A [Set] that delegates all operations to a base set.
 ///
 /// This class can be used to hide non-`Set` methods of a set object, or it can
 /// be extended to add extra functionality on top of an existing set object.
-class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
-  const DelegatingSet(Set<E> base) : super(base);
+class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
+  @override
+  final Set<E> _base;
+
+  const DelegatingSet(Set<E> base) : _base = base;
 
   /// Creates a wrapper that asserts the types of values in [base].
   ///
@@ -330,52 +333,50 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   @Deprecated('Use set.cast<E> instead.')
   static Set<E> typed<E>(Set base) => base.cast<E>();
 
-  Set<E> get _setBase => _base as Set<E>;
-
   @override
-  bool add(E value) => _setBase.add(value);
+  bool add(E value) => _base.add(value);
 
   @override
   void addAll(Iterable<E> elements) {
-    _setBase.addAll(elements);
+    _base.addAll(elements);
   }
 
   @override
-  Set<T> cast<T>() => _setBase.cast<T>();
+  Set<T> cast<T>() => _base.cast<T>();
 
   @override
   void clear() {
-    _setBase.clear();
+    _base.clear();
   }
 
   @override
-  bool containsAll(Iterable<Object?> other) => _setBase.containsAll(other);
+  bool containsAll(Iterable<Object?> other) => _base.containsAll(other);
 
   @override
-  Set<E> difference(Set<Object?> other) => _setBase.difference(other);
+  Set<E> difference(Set<Object?> other) => _base.difference(other);
 
   @override
-  Set<E> intersection(Set<Object?> other) => _setBase.intersection(other);
+  Set<E> intersection(Set<Object?> other) => _base.intersection(other);
 
   @override
-  E? lookup(Object? element) => _setBase.lookup(element);
+  E? lookup(Object? element) => _base.lookup(element);
 
   @override
-  bool remove(Object? value) => _setBase.remove(value);
+  bool remove(Object? value) => _base.remove(value);
 
   @override
   void removeAll(Iterable<Object?> elements) {
-    _setBase.removeAll(elements);
+    _base.removeAll(elements);
   }
 
   @override
   void removeWhere(bool Function(E) test) {
-    _setBase.removeWhere(test);
+    _base.removeWhere(test);
   }
 
   @override
   void retainAll(Iterable<Object?> elements) {
-    _setBase.retainAll(elements);
+    _base.retainAll(elements);
   }
 
   @deprecated
@@ -384,14 +385,14 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
 
   @override
   void retainWhere(bool Function(E) test) {
-    _setBase.retainWhere(test);
+    _base.retainWhere(test);
   }
 
   @override
-  Set<E> union(Set<E> other) => _setBase.union(other);
+  Set<E> union(Set<E> other) => _base.union(other);
 
   @override
-  Set<E> toSet() => DelegatingSet<E>(_setBase.toSet());
+  Set<E> toSet() => DelegatingSet<E>(_base.toSet());
 }
 
 /// A [Queue] that delegates all operations to a base queue.
@@ -399,8 +400,12 @@ class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
 /// This class can be used to hide non-`Queue` methods of a queue object, or it
 /// can be extended to add extra functionality on top of an existing queue
 /// object.
-class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
-  const DelegatingQueue(Queue<E> queue) : super(queue);
+class DelegatingQueue<E> extends _DelegatingIterableBase<E>
+    implements Queue<E> {
+  @override
+  final Queue<E> _base;
+
+  const DelegatingQueue(Queue<E> queue) : _base = queue;
 
   /// Creates a wrapper that asserts the types of values in [base].
   ///
@@ -416,47 +421,45 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   @Deprecated('Use queue.cast<E> instead.')
   static Queue<E> typed<E>(Queue base) => base.cast<E>();
 
-  Queue<E> get _baseQueue => _base as Queue<E>;
-
   @override
   void add(E value) {
-    _baseQueue.add(value);
+    _base.add(value);
   }
 
   @override
   void addAll(Iterable<E> iterable) {
-    _baseQueue.addAll(iterable);
+    _base.addAll(iterable);
   }
 
   @override
   void addFirst(E value) {
-    _baseQueue.addFirst(value);
+    _base.addFirst(value);
   }
 
   @override
   void addLast(E value) {
-    _baseQueue.addLast(value);
+    _base.addLast(value);
   }
 
   @override
-  Queue<T> cast<T>() => _baseQueue.cast<T>();
+  Queue<T> cast<T>() => _base.cast<T>();
 
   @override
   void clear() {
-    _baseQueue.clear();
+    _base.clear();
   }
 
   @override
-  bool remove(Object? object) => _baseQueue.remove(object);
+  bool remove(Object? object) => _base.remove(object);
 
   @override
   void removeWhere(bool Function(E) test) {
-    _baseQueue.removeWhere(test);
+    _base.removeWhere(test);
   }
 
   @override
   void retainWhere(bool Function(E) test) {
-    _baseQueue.retainWhere(test);
+    _base.retainWhere(test);
   }
 
   @deprecated
@@ -464,10 +467,10 @@ class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   Queue<T> retype<T>() => cast<T>();
 
   @override
-  E removeFirst() => _baseQueue.removeFirst();
+  E removeFirst() => _base.removeFirst();
 
   @override
-  E removeLast() => _baseQueue.removeLast();
+  E removeLast() => _base.removeLast();
 }
 
 /// A [Map] that delegates all operations to a base map.
@@ -616,7 +619,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   int get length => _baseMap.length;
 
   @override
-  String toString() => "{${_base.join(', ')}}";
+  String toString() => SetBase.setToString(this);
 
   @override
   bool containsAll(Iterable<Object?> other) => other.every(contains);
@@ -805,7 +808,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
       var key = _keyForValue(element);
 
       if (!_baseMap.containsKey(key)) continue;
-      valuesToRetain.add(_baseMap[key]!);
+      valuesToRetain.add(_baseMap[key] ?? null as V);
     }
 
     var keysToRemove = [];

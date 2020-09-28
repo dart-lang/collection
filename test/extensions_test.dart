@@ -98,8 +98,8 @@ void main() {
           expect(iterable([1, 2, 3, 4]).isSortedBy(toString, cmpParse), true);
           expect(iterable([4, 3, 2, 1]).isSortedBy(toString, cmpParseInverse),
               true);
-          expect(
-              iterable([1000, 200, 30, 4]).isSortedBy(toString, cmpLex), true);
+          expect(iterable([1000, 200, 30, 4]).isSortedBy(toString, cmpString),
+              true);
           expect(iterable([1, 2, 3, 0]).isSortedBy(toString, cmpParse), false);
           expect(iterable([4, 1, 2, 3]).isSortedBy(toString, cmpParse), false);
           expect(iterable([4, 3, 2, 1]).isSortedBy(toString, cmpParse), false);
@@ -941,7 +941,7 @@ void main() {
       });
       test('same', () {
         expect(iterable(['1', '1', '1', '1']).isSorted(cmpParse), true);
-        expect(iterable(['1', '2', '0', '3']).isSorted(cmpLength), true);
+        expect(iterable(['1', '2', '0', '3']).isSorted(cmpStringLength), true);
         expect(iterable(['1', '1', '1', '1']).isSorted(), true);
       });
       test('multiple', () {
@@ -955,6 +955,38 @@ void main() {
         expect(iterable(['4', '3', '2', '1']).isSorted(cmpParse), false);
         expect(iterable(['4', '3', '2', '1']).isSorted(), false);
       });
+    });
+  });
+
+  group('Comparator', () {
+    test('.compareBy', () {
+      var cmpByLength = cmpInt.compareBy((String s) => s.length);
+      expect(cmpByLength('a', 'b'), 0);
+      expect(cmpByLength('aa', 'b'), isPositive);
+      expect(cmpByLength('b', 'aa'), isNegative);
+      var cmpByInverseLength = cmpIntInverse.compareBy((String s) => s.length);
+      expect(cmpByInverseLength('a', 'b'), 0);
+      expect(cmpByInverseLength('aa', 'b'), isNegative);
+      expect(cmpByInverseLength('b', 'aa'), isPositive);
+    });
+
+    test('.then', () {
+      var cmpLengthFirst = cmpStringLength.then(cmpString);
+      var strings = ['a', 'aa', 'ba', 'ab', 'b', 'aaa'];
+      strings.sort(cmpString);
+      expect(strings, ['a', 'aa', 'aaa', 'ab', 'b', 'ba']);
+      strings.sort(cmpLengthFirst);
+      expect(strings, ['a', 'b', 'aa', 'ab', 'ba', 'aaa']);
+
+      int cmpFirstLetter(String s1, String s2) =>
+          s1.runes.first - s2.runes.first;
+      var cmpLetterLength = cmpFirstLetter.then(cmpStringLength);
+      var cmpLengthLetter = cmpStringLength.then(cmpFirstLetter);
+      strings = ['a', 'ab', 'b', 'ba', 'aaa'];
+      strings.sort(cmpLetterLength);
+      expect(strings, ['a', 'ab', 'aaa', 'b', 'ba']);
+      strings.sort(cmpLengthLetter);
+      expect(strings, ['a', 'b', 'ab', 'ba', 'aaa']);
     });
   });
 
@@ -1460,9 +1492,9 @@ void main() {
           expect(<String>[].binarySearch('1'), -1);
         });
         test('single', () {
-          expect(['0'].binarySearch('1', cmpLex), -1);
-          expect(['1'].binarySearch('1', cmpLex), 0);
-          expect(['2'].binarySearch('1', cmpLex), -1);
+          expect(['0'].binarySearch('1', cmpString), -1);
+          expect(['1'].binarySearch('1', cmpString), 0);
+          expect(['2'].binarySearch('1', cmpString), -1);
           expect(
               ['0'].binarySearch(
                 '1',
@@ -1480,7 +1512,8 @@ void main() {
               -1);
         });
         test('multiple', () {
-          expect(['1', '2', '3', '4', '5', '6'].binarySearch('3', cmpLex), 2);
+          expect(
+              ['1', '2', '3', '4', '5', '6'].binarySearch('3', cmpString), 2);
           expect(['1', '2', '3', '4', '5', '6'].binarySearch('3'), 2);
           expect(
               ['6', '5', '4', '3', '2', '1'].binarySearch('3', cmpParseInverse),
@@ -1493,9 +1526,9 @@ void main() {
         expect(<String>[].lowerBound('1', unreachable), 0);
       });
       test('single', () {
-        expect(['0'].lowerBound('1', cmpLex), 1);
-        expect(['1'].lowerBound('1', cmpLex), 0);
-        expect(['2'].lowerBound('1', cmpLex), 0);
+        expect(['0'].lowerBound('1', cmpString), 1);
+        expect(['1'].lowerBound('1', cmpString), 0);
+        expect(['2'].lowerBound('1', cmpString), 0);
         expect(['0'].lowerBound('1'), 1);
         expect(['1'].lowerBound('1'), 0);
         expect(['2'].lowerBound('1'), 0);
@@ -1556,13 +1589,13 @@ String toString(Object? o) => '$o';
 int Function(int, int) cmpMod(int mod) => (a, b) => a ~/ mod - b ~/ mod;
 
 /// Compares strings lexically.
-int cmpLex(String a, String b) => a.compareTo(b);
+int cmpString(String a, String b) => a.compareTo(b);
 
 /// Compares strings inverse lexically.
-int cmpLexInverse(String a, String b) => b.compareTo(a);
+int cmpStringInverse(String a, String b) => b.compareTo(a);
 
 /// Compares strings by length.
-int cmpLength(String a, String b) => a.length - b.length;
+int cmpStringLength(String a, String b) => a.length - b.length;
 
 /// Compares strings by their integer numeral content.
 int cmpParse(String s1, String s2) => cmpInt(int.parse(s1), int.parse(s2));

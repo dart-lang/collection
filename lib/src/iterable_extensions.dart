@@ -2,14 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection' show Queue;
+
 import 'package:collection/src/utils.dart';
 
 import 'algorithms.dart';
 
 /// Extensions that apply to all iterables.
 ///
+/// These extensions provide direct access to some of the
+/// algorithms expose by this package,
+/// as well as some generally useful convenience methods.
+///
 /// More specialized extension methods that only apply to
-/// iterables with specific element types include:
+/// iterables with specific element types include those of
 /// [IterableComparableExtension] and [IterableNullableExtension].
 extension IterableExtension<T> on Iterable<T> {
   /// The elements that do not satisfy [test].
@@ -19,7 +25,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// The elements are ordered by the [compare] [Comparator].
-  List<T> sorted(int Function(T a, T b) compare) => [...this]..sort(compare);
+  List<T> sorted(Comparator<T> compare) => [...this]..sort(compare);
 
   /// Creates a sorted list of the elements of the iterable.
   ///
@@ -36,14 +42,14 @@ extension IterableExtension<T> on Iterable<T> {
   /// The elements are ordered by the [compare] [Comparator] of the
   /// property [keyOf] of the element.
   List<T> sortedByCompare<K>(
-      K Function(T element) keyOf, int Function(K a, K b) compare) {
+      K Function(T element) keyOf, Comparator<K> compare) {
     var elements = [...this];
     quickSortBy<T, K>(elements, keyOf, compare);
     return elements;
   }
 
   /// Whether the elements are sorted by the [compare] ordering.
-  bool isSorted(int Function(T, T) compare) {
+  bool isSorted(Comparator<T> compare) {
     var iterator = this.iterator;
     if (!iterator.moveNext()) return true;
     var previousElement = iterator.current;
@@ -55,8 +61,29 @@ extension IterableExtension<T> on Iterable<T> {
     return true;
   }
 
-  /// Whether the elements are sorted by the [compare] ordering of [keyOf].
-  bool isSortedBy<K>(K Function(T element) keyOf, int Function(K, K) compare) {
+  /// Whether the elements are sorted by their [keyOf] property.
+  ///
+  /// Applies [keyOf] to each element in iteration order,
+  /// then checks whether the results are in non-decreasing [Comparable] order.
+  bool isSortedBy<K extends Comparable<K>>(K Function(T element) keyOf) {
+    var iterator = this.iterator;
+    if (!iterator.moveNext()) return true;
+    var previousKey = keyOf(iterator.current);
+    while (iterator.moveNext()) {
+      var key = keyOf(iterator.current);
+      if (previousKey.compareTo(key) > 0) return false;
+      previousKey = key;
+    }
+    return true;
+  }
+
+  /// Whether the elements are [compare]-sorted by their [keyOf] property.
+  ///
+  /// Applies [keyOf] to each element in iteration order,
+  /// then checks whether the results are in non-decreasing order
+  /// using the [compare] [Comparator]..
+  bool isSortedByCompare<K>(
+      K Function(T element) keyOf, Comparator<K> compare) {
     var iterator = this.iterator;
     if (!iterator.moveNext()) return true;
     var previousKey = keyOf(iterator.current);
@@ -311,8 +338,7 @@ extension IterableExtension<T> on Iterable<T> {
   Map<K, Set<T>> groupSetsBy<K>(K Function(T element) keyOf) {
     var result = <K, Set<T>>{};
     for (var element in this) {
-      var key = keyOf(element);
-      result[key] = (result[key] ?? <T>{})..add(element);
+      (result[keyOf(element)] ??= <T>{})..add(element);
     }
     return result;
   }
@@ -321,8 +347,7 @@ extension IterableExtension<T> on Iterable<T> {
   Map<K, List<T>> groupListsBy<K>(K Function(T element) keyOf) {
     var result = <K, List<T>>{};
     for (var element in this) {
-      var key = keyOf(element);
-      result[key] = (result[key] ?? [])..add(element);
+      (result[keyOf(element)] ??= [])..add(element);
     }
     return result;
   }
@@ -446,7 +471,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// Example:
   /// ```dart
-  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitBetweenIndexed((i, v1, v2) => v1 > v2);
+  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9]
+  ///    .splitBetweenIndexed((i, v1, v2) => v1 > v2);
   /// print(parts); // ([1], [0, 2], [1, 5, 7], [6, 8, 9])
   /// ```
   Iterable<List<T>> splitBetweenIndexed(
@@ -483,8 +509,14 @@ extension IterableExtension<T> on Iterable<T> {
   }
 }
 
-/// Extensions that apply to iterables of nullable elements.
+/// Extensions that apply to iterables with a nullable element type.
 extension IterableNullableExtension<T extends Object> on Iterable<T?> {
+  /// The non-`null` elements of this `Iterable`.
+  ///
+  /// Returns an iterable which emits all the non-`null` elements
+  /// of this iterable, in their original iteration order.
+  ///
+  /// For an `Iterable<X?>`, this method is equivalent to `.whereType<X>()`.
   Iterable<T> whereNotNull() sync* {
     for (var element in this) {
       if (element != null) yield element;
@@ -493,36 +525,76 @@ extension IterableNullableExtension<T extends Object> on Iterable<T?> {
 }
 
 /// Extensions that apply to iterables of numbers.
-extension IterableNumberExtension<T extends num> on Iterable<T> {
+extension IterableNumberExtension on Iterable<num> {
   /// The sum of the elements.
   ///
   /// The sum is zero if the iterable is empty.
-  T sum() {
-    var result = (0 is T ? 0 : 0.0) as T;
+  num get sum {
+    num result = 0;
     for (var value in this) {
-      result = (result + value) as T;
+      result += value;
     }
     return result;
   }
 
-  /// The average of the elements.
+  /// The artihmetic mean of the elements of a non-empty list.
   ///
-  /// The average is zero if the iterable is empty.
-  double average() {
+  /// The arithmetic mean is the sum of the elements
+  /// divided by the number of elements.
+  ///
+  /// The list must not be empty.
+  double get average {
     var result = 0.0;
     var count = 0;
     for (var value in this) {
       result += value;
       count += 1;
     }
-    if (count == 0) return result;
+    if (count == 0) throw StateError('No elements');
     return result / count;
   }
 }
 
-/// Extensions on iterables of iterables.
+/// Extension on iterables of integers.
+///
+/// Specialized version of some extensions of [IterableNumberExtension].
+extension IterableIntegerExtension on Iterable<int> {
+  /// The sum of the elements.
+  ///
+  /// The sum is zero if the iterable is empty.
+  int get sum {
+    var result = 0;
+    for (var value in this) {
+      result += value;
+    }
+    return result;
+  }
+}
+
+/// Extension on iterables of double.
+///
+/// Specialized version of some extensions of [IterableNumberExtension].
+extension IterableDoubleExtension on Iterable<double> {
+  /// The sum of the elements.
+  ///
+  /// The sum is zero if the iterable is empty.
+  double get sum {
+    var result = 0.0;
+    for (var value in this) {
+      result += value;
+    }
+    return result;
+  }
+}
+
+/// Extensions on iterables whose elements are also iterables.
 extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
-  /// The the elements of each iterable in this iterable.
+  /// The sequential elements of each iterable in this iterable.
+  ///
+  /// Iterates the elements of this iterable.
+  /// For each one, which is itself an iterable,
+  /// all the elements of that are emitted
+  /// on the returned iterable, before moving on to the next element.
   Iterable<T> get flattened sync* {
     for (var elements in this) {
       yield* elements;
@@ -530,7 +602,11 @@ extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
   }
 }
 
-/// Extensions that apply to iterables of comparable elements.
+/// Extensions that apply to iterables of [Comparable] elements.
+///
+/// These operations can assume that the elements have a natural ordering,
+/// and can therefore omit, or make it optional, for the user to provide
+/// a [Comparator].
 extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   T? get minOrNull {
@@ -604,10 +680,13 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
   ///
   /// If the [compare] function is not supplied, the sorting uses the
   /// natural [Comparable] ordering of the elements.
-  List<T> sorted([int Function(T, T)? compare]) => [...this]..sort(compare);
+  List<T> sorted([Comparator<T>? compare]) => [...this]..sort(compare);
 
   /// Whether the elements are sorted by the [compare] ordering.
-  bool isSorted([int Function(T, T)? compare]) {
+  ///
+  /// If [compare] is omitted, it defaults to comparing the
+  /// elements using their natural [Comparable] ordering.
+  bool isSorted([Comparator<T>? compare]) {
     if (compare != null) {
       return IterableExtension(this).isSorted(compare);
     }
@@ -625,6 +704,9 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
 
 /// Extensions on comparator functions.
 extension ComparatorExtension<T> on Comparator<T> {
+  /// The inverse ordering of this comparator.
+  int Function(T, T) get inverse => (T a, T b) => this(b, a);
+
   /// Makes a comparator on [R] values using this comparator.
   ///
   /// Compares [R] values by comparing their [keyOf] value

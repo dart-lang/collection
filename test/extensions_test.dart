@@ -84,25 +84,54 @@ void main() {
           expect(iterable([4, 3, 2, 1]).isSorted(cmpInt), false);
         });
       });
-      group('isSortedBy', () {
+      group('.isSortedBy', () {
         test('empty', () {
-          expect(iterable(<int>[]).isSortedBy(unreachable, unreachable), true);
+          expect(iterable(<int>[]).isSortedBy(unreachable), true);
         });
         test('single', () {
-          expect(iterable([1]).isSortedBy(toString, unreachable), true);
+          expect(iterable([1]).isSortedBy(toString), true);
         });
         test('same', () {
-          expect(iterable([1, 1, 1, 1]).isSortedBy(toString, cmpParse), true);
+          expect(iterable([1, 1, 1, 1]).isSortedBy(toString), true);
         });
         test('multiple', () {
-          expect(iterable([1, 2, 3, 4]).isSortedBy(toString, cmpParse), true);
-          expect(iterable([4, 3, 2, 1]).isSortedBy(toString, cmpParseInverse),
+          expect(iterable([1, 2, 3, 4]).isSortedBy(toString), true);
+          expect(iterable([4, 3, 2, 1]).isSortedBy(toString), false);
+          expect(iterable([1000, 200, 30, 4]).isSortedBy(toString), true);
+          expect(iterable([1, 2, 3, 0]).isSortedBy(toString), false);
+          expect(iterable([4, 1, 2, 3]).isSortedBy(toString), false);
+          expect(iterable([4, 3, 2, 1]).isSortedBy(toString), false);
+        });
+      });
+      group('.isSortedByCompare', () {
+        test('empty', () {
+          expect(iterable(<int>[]).isSortedByCompare(unreachable, unreachable),
               true);
-          expect(iterable([1000, 200, 30, 4]).isSortedBy(toString, cmpString),
+        });
+        test('single', () {
+          expect(iterable([1]).isSortedByCompare(toString, unreachable), true);
+        });
+        test('same', () {
+          expect(iterable([1, 1, 1, 1]).isSortedByCompare(toString, cmpParse),
               true);
-          expect(iterable([1, 2, 3, 0]).isSortedBy(toString, cmpParse), false);
-          expect(iterable([4, 1, 2, 3]).isSortedBy(toString, cmpParse), false);
-          expect(iterable([4, 3, 2, 1]).isSortedBy(toString, cmpParse), false);
+        });
+        test('multiple', () {
+          expect(iterable([1, 2, 3, 4]).isSortedByCompare(toString, cmpParse),
+              true);
+          expect(
+              iterable([4, 3, 2, 1])
+                  .isSortedByCompare(toString, cmpParseInverse),
+              true);
+          expect(
+              iterable([1000, 200, 30, 4])
+                  .isSortedByCompare(toString, cmpString),
+              true);
+          expect(iterable([1, 2, 3, 0]).isSortedByCompare(toString, cmpParse),
+              false);
+          expect(iterable([4, 1, 2, 3]).isSortedByCompare(toString, cmpParse),
+              false);
+          expect(iterable([4, 3, 2, 1]).isSortedByCompare(toString, cmpParse),
+              false);
         });
       });
       group('.forEachIndexed', () {
@@ -800,41 +829,41 @@ void main() {
     group('of number', () {
       group('.sum', () {
         test('empty', () {
-          expect(iterable(<int>[]).sum(), same(0));
-          expect(iterable(<double>[]).sum(), same(0.0));
-          expect(iterable(<num>[]).sum(), same(0));
+          expect(iterable(<int>[]).sum, same(0));
+          expect(iterable(<double>[]).sum, same(0.0));
+          expect(iterable(<num>[]).sum, same(0));
         });
         test('single', () {
-          expect(iterable(<int>[1]).sum(), same(1));
-          expect(iterable(<double>[1.2]).sum(), same(1.2));
-          expect(iterable(<num>[1]).sum(), same(1));
-          expect(iterable(<num>[1.2]).sum(), same(1.2));
+          expect(iterable(<int>[1]).sum, same(1));
+          expect(iterable(<double>[1.2]).sum, same(1.2));
+          expect(iterable(<num>[1]).sum, same(1));
+          expect(iterable(<num>[1.2]).sum, same(1.2));
         });
         test('multiple', () {
-          expect(iterable(<int>[1, 2, 4]).sum(), 7);
-          expect(iterable(<double>[1.2, 3.5]).sum(), 4.7);
-          expect(iterable(<num>[1, 3, 5]).sum(), same(9));
-          expect(iterable(<num>[1.2, 3.5]).sum(), 4.7);
-          expect(iterable(<num>[1.2, 2, 3.5]).sum(), 6.7);
+          expect(iterable(<int>[1, 2, 4]).sum, 7);
+          expect(iterable(<double>[1.2, 3.5]).sum, 4.7);
+          expect(iterable(<num>[1, 3, 5]).sum, same(9));
+          expect(iterable(<num>[1.2, 3.5]).sum, 4.7);
+          expect(iterable(<num>[1.2, 2, 3.5]).sum, 6.7);
         });
       });
       group('average', () {
         test('empty', () {
-          expect(iterable(<int>[]).average(), same(0.0));
-          expect(iterable(<double>[]).average(), same(0.0));
-          expect(iterable(<num>[]).average(), same(0.0));
+          expect(() => iterable(<int>[]).average, throwsStateError);
+          expect(() => iterable(<double>[]).average, throwsStateError);
+          expect(() => iterable(<num>[]).average, throwsStateError);
         });
         test('single', () {
-          expect(iterable(<int>[4]).average(), same(4.0));
-          expect(iterable(<double>[3.5]).average(), 3.5);
-          expect(iterable(<num>[4]).average(), same(4.0));
-          expect(iterable(<num>[3.5]).average(), 3.5);
+          expect(iterable(<int>[4]).average, same(4.0));
+          expect(iterable(<double>[3.5]).average, 3.5);
+          expect(iterable(<num>[4]).average, same(4.0));
+          expect(iterable(<num>[3.5]).average, 3.5);
         });
         test('multiple', () {
-          expect(iterable(<int>[1, 3, 5]).average(), same(3.0));
-          expect(iterable(<int>[1, 3, 5, 9]).average(), same(4.5));
-          expect(iterable(<double>[1.0, 3.0, 5.0, 9.0]).average(), same(4.5));
-          expect(iterable(<num>[1, 3, 5, 9]).average(), same(4.5));
+          expect(iterable(<int>[1, 3, 5]).average, same(3.0));
+          expect(iterable(<int>[1, 3, 5, 9]).average, 4.5);
+          expect(iterable(<double>[1.0, 3.0, 5.0, 9.0]).average, 4.5);
+          expect(iterable(<num>[1, 3, 5, 9]).average, 4.5);
         });
       });
     });
@@ -959,6 +988,15 @@ void main() {
   });
 
   group('Comparator', () {
+    test('.inverse', () {
+      var cmpStringInv = cmpString.inverse;
+      expect(cmpString('a', 'b'), isNegative);
+      expect(cmpStringInv('a', 'b'), isPositive);
+      expect(cmpString('aa', 'a'), isPositive);
+      expect(cmpStringInv('aa', 'a'), isNegative);
+      expect(cmpString('a', 'a'), isZero);
+      expect(cmpStringInv('a', 'a'), isZero);
+    });
     test('.compareBy', () {
       var cmpByLength = cmpInt.compareBy((String s) => s.length);
       expect(cmpByLength('a', 'b'), 0);

@@ -133,15 +133,15 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   @override
-  V update(K key, V Function(V) update, {V Function()? ifAbsent}) => _base
-      .update(_canonicalize(key), (pair) {
+  V update(K key, V Function(V) update, {V Function()? ifAbsent}) =>
+      _base.update(_canonicalize(key), (pair) {
         var value = pair.value;
         var newValue = update(value);
         if (identical(newValue, value)) return pair;
         return MapEntry(key, newValue);
       },
-          ifAbsent: ifAbsent == null ? null : () => MapEntry(key, ifAbsent()))
-      .value;
+          ifAbsent:
+              ifAbsent == null ? null : () => MapEntry(key, ifAbsent())).value;
 
   @override
   void updateAll(V Function(K key, V value) update) =>

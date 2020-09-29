@@ -31,8 +31,7 @@ class CombinedIterator<T> implements Iterator<T> {
         if (iterators.current.moveNext()) {
           return true;
         }
-      }
-      while (iterators.moveNext());
+      } while (iterators.moveNext());
       _iterators = null;
     }
     return false;

@@ -31,7 +31,7 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 /// values. If [value] is omitted, the value from [map2] is used.
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
     {V Function(V, V)? value}) {
-  var result = Map<K, V>.from(map1);
+  var result = Map<K, V>.of(map1);
   if (value == null) return result..addAll(map2);
 
   map2.forEach((key, mapValue) {

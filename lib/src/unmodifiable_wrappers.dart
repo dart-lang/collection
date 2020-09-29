@@ -26,7 +26,7 @@ class NonGrowableListView<E> extends DelegatingList<E>
 /// Mixin class that implements a throwing version of all list operations that
 /// change the List's length.
 abstract class NonGrowableListMixin<E> implements List<E> {
-  static T _throw<T>() {
+  static Never _throw() {
     throw UnsupportedError('Cannot change the length of a fixed-length list');
   }
 
@@ -98,9 +98,9 @@ abstract class NonGrowableListMixin<E> implements List<E> {
 
 /// An unmodifiable set.
 ///
-/// An UnmodifiableSetView contains a [Set] object and ensures
-/// that it does not change.
-/// Methods that would change the set,
+/// An [UnmodifiableSetView] contains a [Set],
+/// and prevents that set from being changed through the view.
+/// Methods that could change the set,
 /// such as [add] and [remove], throw an [UnsupportedError].
 /// Permitted operations defer to the wrapped set.
 class UnmodifiableSetView<E> extends DelegatingSet<E>
@@ -117,7 +117,7 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 /// Mixin class that implements a throwing version of all set operations that
 /// change the Set.
 abstract class UnmodifiableSetMixin<E> implements Set<E> {
-  static T _throw<T>() {
+  static Never _throw() {
     throw UnsupportedError('Cannot modify an unmodifiable Set');
   }
 
@@ -165,7 +165,7 @@ abstract class UnmodifiableSetMixin<E> implements Set<E> {
 /// Mixin class that implements a throwing version of all map operations that
 /// change the Map.
 abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
-  static T _throw<T>() {
+  static Never _throw() {
     throw UnsupportedError('Cannot modify an unmodifiable Map');
   }
 

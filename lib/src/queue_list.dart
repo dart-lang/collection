@@ -25,26 +25,25 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     return _CastQueueList<S, T>(source);
   }
 
-  static const int _INITIAL_CAPACITY = 8;
-  late List<E?> _table;
+  /// Default and minimal initial capacity of the queue-list.
+  static const int _initialCapacity = 8;
+  List<E?> _table;
   int _head;
   int _tail;
 
-  /// Create an empty queue.
+  /// Creates an empty queue.
   ///
   /// If [initialCapacity] is given, prepare the queue for at least that many
   /// elements.
   QueueList([int? initialCapacity])
-      : _head = 0,
-        _tail = 0 {
-    if (initialCapacity == null || initialCapacity < _INITIAL_CAPACITY) {
-      initialCapacity = _INITIAL_CAPACITY;
-    } else if (!_isPowerOf2(initialCapacity)) {
-      initialCapacity = _nextPowerOf2(initialCapacity);
-    }
-    assert(_isPowerOf2(initialCapacity));
-    _table = List<E?>.filled(initialCapacity, null);
-  }
+      : this._init(_computeInitialCapacity(initialCapacity));
+
+  /// Creates an empty queue with the specific initial capacity.
+  QueueList._init(int initialCapacity)
+      : assert(_isPowerOf2(initialCapacity)),
+        _table = List<E?>.filled(initialCapacity, null),
+        _head = 0,
+        _tail = 0;
 
   /// An internal constructor for use by [_CastQueueList].
   QueueList._(this._head, this._tail, this._table);
@@ -62,6 +61,18 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
     } else {
       return QueueList<E>()..addAll(source);
     }
+  }
+
+  /// Computes the actual initial capacity based on the constructor parameter.
+  static int _computeInitialCapacity(int? initialCapacity) {
+    if (initialCapacity == null || initialCapacity < _initialCapacity) {
+      return _initialCapacity;
+    }
+    initialCapacity += 1;
+    if (_isPowerOf2(initialCapacity)) {
+      return initialCapacity;
+    }
+    return _nextPowerOf2(initialCapacity);
   }
 
   // Collection interface.
@@ -137,7 +148,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   E removeLast() {
     if (_head == _tail) throw StateError('No element');
     _tail = (_tail - 1) & (_table.length - 1);
-    var result = _table[_tail]!;
+    var result = _table[_tail] as E;
     _table[_tail] = null;
     return result;
   }

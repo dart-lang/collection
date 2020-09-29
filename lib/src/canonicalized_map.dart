@@ -4,8 +4,6 @@
 
 import 'dart:collection';
 
-import 'utils.dart';
-
 /// A map whose keys are converted to canonical values of type `C`.
 ///
 /// This is useful for using case-insensitive String keys, for example. It's
@@ -17,7 +15,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   final bool Function(K)? _isValidKeyFn;
 
-  final _base = <C, Pair<K, V>>{};
+  final _base = <C, MapEntry<K, V>>{};
 
   /// Creates an empty canonicalized map.
   ///
@@ -52,13 +50,13 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   V? operator [](Object? key) {
     if (!_isValidKey(key)) return null;
     var pair = _base[_canonicalize(key as K)];
-    return pair == null ? null : pair.last;
+    return pair == null ? null : pair.value;
   }
 
   @override
   void operator []=(K key, V value) {
     if (!_isValidKey(key)) return;
-    _base[_canonicalize(key)] = Pair(key, value);
+    _base[_canonicalize(key)] = MapEntry(key, value);
   }
 
   @override
@@ -67,8 +65,8 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   }
 
   @override
-  void addEntries(Iterable<MapEntry<K, V>> entries) => _base.addEntries(
-      entries.map((e) => MapEntry(_canonicalize(e.key), Pair(e.key, e.value))));
+  void addEntries(Iterable<MapEntry<K, V>> entries) => _base.addEntries(entries
+      .map((e) => MapEntry(_canonicalize(e.key), MapEntry(e.key, e.value))));
 
   @override
   Map<K2, V2> cast<K2, V2>() => _base.cast<K2, V2>();
@@ -86,15 +84,15 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   @override
   bool containsValue(Object? value) =>
-      _base.values.any((pair) => pair.last == value);
+      _base.values.any((pair) => pair.value == value);
 
   @override
   Iterable<MapEntry<K, V>> get entries =>
-      _base.entries.map((e) => MapEntry(e.value.first, e.value.last));
+      _base.entries.map((e) => MapEntry(e.value.key, e.value.value));
 
   @override
   void forEach(void Function(K, V) f) {
-    _base.forEach((key, pair) => f(pair.first, pair.last));
+    _base.forEach((key, pair) => f(pair.key, pair.value));
   }
 
   @override
@@ -104,83 +102,63 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   bool get isNotEmpty => _base.isNotEmpty;
 
   @override
-  Iterable<K> get keys => _base.values.map((pair) => pair.first);
+  Iterable<K> get keys => _base.values.map((pair) => pair.key);
 
   @override
   int get length => _base.length;
 
   @override
   Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(K, V) transform) =>
-      _base.map((_, pair) => transform(pair.first, pair.last));
+      _base.map((_, pair) => transform(pair.key, pair.value));
 
   @override
   V putIfAbsent(K key, V Function() ifAbsent) {
     return _base
-        .putIfAbsent(_canonicalize(key), () => Pair(key, ifAbsent()))
-        .last;
+        .putIfAbsent(_canonicalize(key), () => MapEntry(key, ifAbsent()))
+        .value;
   }
 
   @override
   V? remove(Object? key) {
     if (!_isValidKey(key)) return null;
     var pair = _base.remove(_canonicalize(key as K));
-    return pair == null ? null : pair.last;
+    return pair?.value;
   }
 
   @override
   void removeWhere(bool Function(K key, V value) test) =>
-      _base.removeWhere((_, pair) => test(pair.first, pair.last));
+      _base.removeWhere((_, pair) => test(pair.key, pair.value));
 
   @deprecated
   Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   @override
-  V update(K key, V Function(V) update, {V Function()? ifAbsent}) => _base
-      .update(_canonicalize(key), (pair) => Pair(key, update(pair.last)),
-          ifAbsent: ifAbsent == null ? null : () => Pair(key, ifAbsent()))
-      .last;
+  V update(K key, V Function(V) update, {V Function()? ifAbsent}) =>
+      _base.update(_canonicalize(key), (pair) {
+        var value = pair.value;
+        var newValue = update(value);
+        if (identical(newValue, value)) return pair;
+        return MapEntry(key, newValue);
+      },
+          ifAbsent:
+              ifAbsent == null ? null : () => MapEntry(key, ifAbsent())).value;
 
   @override
-  void updateAll(V Function(K key, V value) update) => _base
-      .updateAll((_, pair) => Pair(pair.first, update(pair.first, pair.last)));
-
-  @override
-  Iterable<V> get values => _base.values.map((pair) => pair.last);
-
-  @override
-  String toString() {
-    // Detect toString() cycles.
-    if (_isToStringVisiting(this)) {
-      return '{...}';
-    }
-
-    var result = StringBuffer();
-    try {
-      _toStringVisiting.add(this);
-      result.write('{');
-      var first = true;
-      forEach((k, v) {
-        if (!first) {
-          result.write(', ');
-        }
-        first = false;
-        result.write('$k: $v');
+  void updateAll(V Function(K key, V value) update) =>
+      _base.updateAll((_, pair) {
+        var value = pair.value;
+        var key = pair.key;
+        var newValue = update(key, value);
+        if (identical(value, newValue)) return pair;
+        return MapEntry(key, newValue);
       });
-      result.write('}');
-    } finally {
-      assert(identical(_toStringVisiting.last, this));
-      _toStringVisiting.removeLast();
-    }
 
-    return result.toString();
-  }
+  @override
+  Iterable<V> get values => _base.values.map((pair) => pair.value);
+
+  @override
+  String toString() => MapBase.mapToString(this);
 
   bool _isValidKey(Object? key) =>
       (key is K) && (_isValidKeyFn == null || _isValidKeyFn!(key));
 }
-
-/// A collection used to identify cyclic maps during toString() calls.
-final List _toStringVisiting = [];
-
-/// Check if we are currently visiting `o` in a toString() call.
-bool _isToStringVisiting(o) => _toStringVisiting.any((e) => identical(o, e));

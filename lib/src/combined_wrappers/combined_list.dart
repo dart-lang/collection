@@ -4,6 +4,8 @@
 
 import 'dart:collection';
 
+import 'combined_iterator.dart';
+
 /// A view of several lists combined into a single list.
 ///
 /// All methods and accessors treat the [CombinedListView] list as if it were a
@@ -24,6 +26,10 @@ class CombinedListView<T> extends ListBase<T>
 
   /// Creates a combined view of [lists].
   CombinedListView(this._lists);
+
+  @override
+  Iterator<T> get iterator =>
+      CombinedIterator<T>(_lists.map((i) => i.iterator).iterator);
 
   @override
   set length(int length) {

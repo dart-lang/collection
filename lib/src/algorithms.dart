@@ -199,7 +199,7 @@ void _movingInsertionSort<T>(List<T> list, int Function(T, T) compare,
     var max = targetOffset + i;
     while (min < max) {
       var mid = min + ((max - min) >> 1);
-      if (compare(element, target[mid]!) < 0) {
+      if (compare(element, target[mid]) < 0) {
         max = mid;
       } else {
         min = mid + 1;
@@ -262,7 +262,7 @@ void _merge<T>(
   var cursor1 = firstStart;
   var cursor2 = secondStart;
   var firstElement = firstList[cursor1++];
-  var secondElement = secondList[cursor2++]!;
+  var secondElement = secondList[cursor2++];
   while (true) {
     if (compare(firstElement, secondElement) <= 0) {
       target[targetOffset++] = firstElement;
@@ -271,7 +271,7 @@ void _merge<T>(
     } else {
       target[targetOffset++] = secondElement;
       if (cursor2 != secondEnd) {
-        secondElement = secondList[cursor2++]!;
+        secondElement = secondList[cursor2++];
         continue;
       }
       // Second list empties first. Flushing first list here.

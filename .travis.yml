@@ -20,7 +20,7 @@ jobs:
     - stage: test
       name: "Vm Tests"
       os: linux
-      script: pub run --enable-experiment=non-nullable test -p vm 
+      script: pub run --enable-experiment=non-nullable test -p vm
     - stage: test
       name: "Web Tests"
       os: linux

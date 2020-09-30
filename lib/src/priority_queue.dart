@@ -202,7 +202,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// is the case, `E` must implement [Comparable], and this is checked at
   /// runtime for every comparison.
   HeapPriorityQueue([int Function(E, E)? comparison])
-      : comparison = comparison ?? defaultCompare<E>();
+      : comparison = comparison ?? defaultCompare;
 
   E _elementAt(int index) => _queue[index] ?? (null as E);
 

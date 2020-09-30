@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:math' show pow;
+import 'dart:math' show pow, Random;
 
 import 'package:test/test.dart';
 
@@ -987,6 +987,52 @@ void main() {
         expect(iterable(['4', '1', '2', '3']).isSorted(), false);
         expect(iterable(['4', '3', '2', '1']).isSorted(cmpParse), false);
         expect(iterable(['4', '3', '2', '1']).isSorted(), false);
+      });
+    });
+    group('.choose', () {
+      test('errors', () {
+        expect(() => iterable([]).choose(1), throwsStateError);
+        expect(() => iterable([1]).choose(-1), throwsRangeError);
+        expect(() => iterable([1]).choose(2), throwsStateError);
+      });
+      test('empty', () {
+        var empty = iterable(<int>[]);
+        expect(empty.choose(0), []);
+      });
+      test('single', () {
+        var single = iterable([1]);
+        expect(single.choose(0), []);
+        expect(single.choose(1), [1]);
+      });
+      test('multiple', () {
+        var multiple = iterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        expect(multiple.choose(0), []);
+        var one = multiple.choose(1);
+        expect(one.length, 1);
+        expect(one.first, inInclusiveRange(1, 10));
+        var seen = <int>{};
+        do {
+          var some = multiple.choose(3);
+          expect(some.length, 3);
+          expect(some[0], inInclusiveRange(1, 10));
+          expect(some[1], inInclusiveRange(1, 10));
+          expect(some[2], inInclusiveRange(1, 10));
+          expect(some[0], isNot(some[1]));
+          expect(some[0], isNot(some[2]));
+          expect(some[1], isNot(some[2]));
+          seen.addAll(some);
+        } while (seen.length < 10);
+        // Should eventually terminate.
+      });
+      test('random', () {
+        // Passing in a random makes result deterministic.
+        var multiple = iterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        var seed = 12345;
+        var some = multiple.choose(5, Random(seed));
+        for (var i = 0; i < 10; i++) {
+          var other = multiple.choose(5, Random(seed));
+          expect(other, some);
+        }
       });
     });
   });

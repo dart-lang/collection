@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math' show Random;
+
 import 'package:collection/src/utils.dart';
 
 import 'algorithms.dart';
@@ -16,6 +18,37 @@ import 'algorithms.dart';
 /// iterables with specific element types include those of
 /// [IterableComparableExtension] and [IterableNullableExtension].
 extension IterableExtension<T> on Iterable<T> {
+  /// Chooses [count] elements at random from this iterable.
+  ///
+  /// There must be at least [count] elements in the iterable.
+  /// The returned list contains [count] different elements
+  /// of the iterable.
+  /// If the same value occurs more than once in the iterable,
+  /// it can also occur more than once in the chosen elements.
+  ///
+  /// Each element of the iterable has the same chance of
+  /// being chosen.
+  /// The chosen elements are not in any specific order.
+  List<T> choose(int count, [Random? random]) {
+    RangeError.checkNotNegative(count, 'count');
+    var iterator = this.iterator;
+    var chosen = [
+      for (var i = 0; i < count; i++)
+        if (iterator.moveNext())
+          iterator.current
+        else
+          throw StateError('Too few elements')
+    ];
+    var index = count;
+    random ??= Random();
+    while (iterator.moveNext()) {
+      index++;
+      var position = random.nextInt(index);
+      if (position < count) chosen[position] = iterator.current;
+    }
+    return chosen;
+  }
+
   /// The elements that do not satisfy [test].
   Iterable<T> whereNot(bool Function(T element) test) =>
       where((element) => !test(element));
@@ -740,7 +773,7 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
 /// Extensions on comparator functions.
 extension ComparatorExtension<T> on Comparator<T> {
   /// The inverse ordering of this comparator.
-  int Function(T, T) get inverse => (T a, T b) => this(b, a);
+  Comparator<T> get inverse => (T a, T b) => this(b, a);
 
   /// Makes a comparator on [R] values using this comparator.
   ///

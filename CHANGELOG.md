@@ -3,13 +3,7 @@
 * Remove the unusable setter `UnionSetController.set=`. This was mistakenly
   added to the public API but could never be called.
 
-* Added `quickSort` to `algorithms.dart`.
-
 * Add extra optional `Random` argument to `shuffle`.
-
-* Generalize some of the functions in `algorithms.dart` to
-  work on specific properties of the objects (`binarySearchBy`,
-  `lowerBoundBy`, `insertionSortBy`, `quickSortBy`, `mergeSortBy`).
 
 * Add a large number of extension methods on `Iterable` and `List` types,
   and on a few other types.

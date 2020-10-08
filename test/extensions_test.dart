@@ -989,48 +989,49 @@ void main() {
         expect(iterable(['4', '3', '2', '1']).isSorted(), false);
       });
     });
-    group('.choose', () {
+    group('.sample', () {
       test('errors', () {
-        expect(() => iterable([]).choose(1), throwsStateError);
-        expect(() => iterable([1]).choose(-1), throwsRangeError);
-        expect(() => iterable([1]).choose(2), throwsStateError);
+        expect(() => iterable([1]).sample(-1), throwsRangeError);
       });
       test('empty', () {
         var empty = iterable(<int>[]);
-        expect(empty.choose(0), []);
+        expect(empty.sample(0), []);
+        expect(empty.sample(5), []);
       });
       test('single', () {
         var single = iterable([1]);
-        expect(single.choose(0), []);
-        expect(single.choose(1), [1]);
+        expect(single.sample(0), []);
+        expect(single.sample(1), [1]);
+        expect(single.sample(5), [1]);
       });
       test('multiple', () {
         var multiple = iterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-        expect(multiple.choose(0), []);
-        var one = multiple.choose(1);
-        expect(one.length, 1);
+        expect(multiple.sample(0), []);
+        var one = multiple.sample(1);
+        expect(one, hasLength(1));
         expect(one.first, inInclusiveRange(1, 10));
+        var some = multiple.sample(3);
+        expect(some, hasLength(3));
+        expect(some[0], inInclusiveRange(1, 10));
+        expect(some[1], inInclusiveRange(1, 10));
+        expect(some[2], inInclusiveRange(1, 10));
+        expect(some[0], isNot(some[1]));
+        expect(some[0], isNot(some[2]));
+        expect(some[1], isNot(some[2]));
+
         var seen = <int>{};
         do {
-          var some = multiple.choose(3);
-          expect(some.length, 3);
-          expect(some[0], inInclusiveRange(1, 10));
-          expect(some[1], inInclusiveRange(1, 10));
-          expect(some[2], inInclusiveRange(1, 10));
-          expect(some[0], isNot(some[1]));
-          expect(some[0], isNot(some[2]));
-          expect(some[1], isNot(some[2]));
-          seen.addAll(some);
+          seen.addAll(multiple.sample(3));
         } while (seen.length < 10);
         // Should eventually terminate.
       });
       test('random', () {
-        // Passing in a random makes result deterministic.
+        // Passing in a `Random` makes result deterministic.
         var multiple = iterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
         var seed = 12345;
-        var some = multiple.choose(5, Random(seed));
+        var some = multiple.sample(5, Random(seed));
         for (var i = 0; i < 10; i++) {
-          var other = multiple.choose(5, Random(seed));
+          var other = multiple.sample(5, Random(seed));
           expect(other, some);
         }
       });

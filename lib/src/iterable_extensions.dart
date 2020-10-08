@@ -18,27 +18,27 @@ import 'algorithms.dart';
 /// iterables with specific element types include those of
 /// [IterableComparableExtension] and [IterableNullableExtension].
 extension IterableExtension<T> on Iterable<T> {
-  /// Chooses [count] elements at random from this iterable.
+  /// Selects [count] elements at random from this iterable.
   ///
-  /// There must be at least [count] elements in the iterable.
-  /// The returned list contains [count] different elements
-  /// of the iterable.
+  /// The returned list contains [count] different elements of the iterable.
+  /// If the iterable contains fewer that [count] elements,
+  /// the result will contain all of them, but will be shorter than [count].
   /// If the same value occurs more than once in the iterable,
   /// it can also occur more than once in the chosen elements.
   ///
-  /// Each element of the iterable has the same chance of
-  /// being chosen.
+  /// Each element of the iterable has the same chance of being chosen.
   /// The chosen elements are not in any specific order.
-  List<T> choose(int count, [Random? random]) {
+  List<T> sample(int count, [Random? random]) {
     RangeError.checkNotNegative(count, 'count');
     var iterator = this.iterator;
-    var chosen = [
-      for (var i = 0; i < count; i++)
-        if (iterator.moveNext())
-          iterator.current
-        else
-          throw StateError('Too few elements')
-    ];
+    var chosen = <T>[];
+    for (var i = 0; i < count; i++) {
+      if (iterator.moveNext()) {
+        chosen.add(iterator.current);
+      } else {
+        return chosen;
+      }
+    }
     var index = count;
     random ??= Random();
     while (iterator.moveNext()) {

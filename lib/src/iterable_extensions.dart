@@ -7,6 +7,7 @@ import 'dart:math' show Random;
 import 'package:collection/src/utils.dart';
 
 import 'algorithms.dart';
+import 'equality.dart';
 
 /// Extensions that apply to all iterables.
 ///
@@ -18,6 +19,38 @@ import 'algorithms.dart';
 /// iterables with specific element types include those of
 /// [IterableComparableExtension] and [IterableNullableExtension].
 extension IterableExtension<T> on Iterable<T> {
+  /// Whether this iterable has the same element order as [elements].
+  ///
+  /// Checks whether this iterable has the same elements as [elements],
+  /// in the same iteration order.
+  ///
+  /// Uses [equality] for determining if the values are the same.
+  /// If [equality] is omitted, the default `==` behavior is used.
+  bool iterableEquals(Iterable<T> elements, [Equality<T>? equality]) {
+    equality ??= const DefaultEquality();
+    var it1 = iterator;
+    var it2 = elements.iterator;
+    while (it1.moveNext()) {
+      if (!it2.moveNext() || !equality.equals(it1.current, it2.current)) {
+        return false;
+      }
+    }
+    return !it2.moveNext();
+  }
+
+  /// Whether this iterable has the same unordered elements as [elements].
+  ///
+  /// Checks whether this iterable has the same elements as [elements],
+  /// but not necessarily in the same iteration order.
+  ///
+  /// Uses [equality] for determining if the values are the same.
+  /// If [equality] is omitted, the default `==` behavior is used.
+  bool iterableUnorderedEquals(Iterable<T> elements, [Equality<T>? equality]) {
+    var equals = UnorderedIterableEquality<T>(
+        equality ?? const DefaultEquality<Never>());
+    return equals.equals(this, elements);
+  }
+
   /// Selects [count] elements at random from this iterable.
   ///
   /// The returned list contains [count] different elements of the iterable.
@@ -792,4 +825,67 @@ extension ComparatorExtension<T> on Comparator<T> {
         if (result == 0) result = tieBreaker(a, b);
         return result;
       };
+}
+
+/// Extensions on sets.
+extension SetExtension<T> on Set<T> {
+  /// Whether this set has the same unordered elements as [elements].
+  ///
+  /// Checks whether this set has the same elements as [elements],
+  /// but not necessarily in the same iteration order.
+  ///
+  /// Uses [equality] for determining if the values are the same.
+  /// If [equality] is omitted, default to the equality used by
+  /// this set.
+  /// _(Notice: This differs from [SetEquality],
+  /// which is symmetric in the arguments)_.
+  bool setEquals(Set<T> elements, [Equality<T>? equality]) {
+    if (identical(this, elements)) return true;
+    if (length != elements.length) return false;
+    if (equality != null) {
+      return SetEquality<T>(equality).equals(this, elements);
+    }
+    var clone = toSet(); // Should have same equality as set itself.
+    for (var value in elements) {
+      if (!clone.remove(value)) return false;
+    }
+    return clone.isEmpty;
+  }
+}
+
+// Extensions on maps.
+extension MapExtension<K, V> on Map<K, V> {
+  /// Whether this map has the same unordered entries as [entries].
+  ///
+  /// Checks whether this set has the same entries as [entries],
+  /// but not necessarily in the same iteration order.
+  ///
+  /// Uses [keys] and [values] for determining whether keys and values
+  /// are the same between the maps.
+  /// If [keys] is omitted, key equality default to the key equality
+  /// used by this set.
+  /// _(Notice: This differs from [MapEquality],
+  /// which is symmetric in the arguments)_.
+  /// If [values] is omitted, value equality defaults to using `==`.
+  bool mapEquals(Map<K, V> entries, {Equality<K>? keys, Equality<V>? values}) {
+    if (identical(this, entries)) return true;
+    if (length != entries.length) return false;
+    if (keys != null) {
+      var equality = MapEquality<K, V>(
+          keys: keys, values: values ?? const DefaultEquality<Never>());
+      return equality.equals(this, entries);
+    }
+    // Use nullable equality because [] returns a nullable type.
+    var valueEquality = (values == null)
+        ? const DefaultEquality<Never>() as Equality<V?>
+        : NullableEquality<V>(values);
+    // Keys uses map's equality.
+    var keySet = this.keys.toSet(); // Uses same equality as the map's keys.
+    for (var otherKey in entries.keys) {
+      if (!keySet.remove(otherKey)) return false;
+      if (!valueEquality.equals(this[otherKey], entries[otherKey]))
+        return false;
+    }
+    return keySet.isEmpty;
+  }
 }

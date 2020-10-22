@@ -8,8 +8,12 @@
 * Add a large number of extension methods on `Iterable` and `List` types,
   and on a few other types.
   These either provide easy access to the operations from `algorithms.dart`,
-  or provide convenience variants of existing `Iterable` and `List` methods
-  like `singleWhereOrNull` or `forEachIndexed`.
+  provide convenience variants of existing `Iterable` and `List` methods
+  like `singleWhereOrNull` or `forEachIndexed`, or add a way to compare
+  the elements of a collection for equality.
+
+* Add `NullableEquality` class for extending equality on a type to
+  the nullable variant of the type.
 
 ## 1.15.0-nullsafety.3
 

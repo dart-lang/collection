@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
 import 'dart:math' show pow, Random;
 
 import 'package:test/test.dart';
@@ -11,6 +12,97 @@ import 'package:collection/collection.dart';
 void main() {
   group('Iterable', () {
     group('of any', () {
+      group('.iterableEquals', () {
+        test('default equality', () {
+          expect(mkIterable(10).iterableEquals(mkIterable(10)), true);
+          expect(mkIterable(10).iterableEquals(mkIterable(5)), false);
+          expect(mkIterable(5).iterableEquals(mkIterable(10)), false);
+          expect(mkIterable(0).iterableEquals(mkIterable(5)), false);
+          expect(mkIterable(5).iterableEquals(mkIterable(0)), false);
+
+          expect(mkList(10).iterableEquals(mkIterable(10)), true);
+          expect(mkIterable(10).iterableEquals(mkList(10)), true);
+          expect(mkSet(10).iterableEquals(mkIterable(10)), true);
+          expect(mkIterable(10).iterableEquals(mkSet(10)), true);
+          expect(mkSet(10).iterableEquals(mkList(10)), true);
+          expect(mkList(10).iterableEquals(mkSet(10)), true);
+
+          // Repeated elements.
+          expect([1, 1, 1].iterableEquals([1]), false);
+          expect([1].iterableEquals([1, 1, 1]), false);
+          expect([1, 1, 1].iterableEquals([1, 1, 1]), true);
+        });
+        test('custom equality', () {
+          var eq = CustomEquality(7);
+          expect(mkIterable(10).iterableEquals(mkIterable(10), eq), true);
+          expect(mkIterable(10).iterableEquals(mkIterable(5), eq), false);
+          expect(mkIterable(5).iterableEquals(mkIterable(10), eq), false);
+          expect(mkIterable(0).iterableEquals(mkIterable(5), eq), false);
+          expect(mkIterable(5).iterableEquals(mkIterable(0), eq), false);
+
+          expect(mkList(10).iterableEquals(mkIterable(10), eq), true);
+          expect(mkIterable(10).iterableEquals(mkList(10), eq), true);
+          expect(mkSet(10).iterableEquals(mkIterable(10), eq), true);
+          expect(mkIterable(10).iterableEquals(mkSet(10), eq), true);
+          expect(mkSet(10).iterableEquals(mkList(10), eq), true);
+          expect(mkList(10).iterableEquals(mkSet(10), eq), true);
+
+          // Repeated elements.
+          expect([1, 1, 1].iterableEquals([1], eq), false);
+          expect([1].iterableEquals([1, 1, 1], eq), false);
+          expect([1, 1, 1].iterableEquals([1, 1, 1], eq), true);
+
+          expect([0, 1, 2].iterableEquals([7, 8, 9], eq), true);
+        });
+      });
+
+      group('.iterableUnorderedEquals', () {
+        test('default equality', () {
+          expect(mkIterable(10).iterableUnorderedEquals(mkIterable(10)), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkIterable(10, 5)), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkIterable(5)), false);
+          expect(mkIterable(10, 5).iterableUnorderedEquals(mkIterable(5)), false);
+          expect(mkIterable(0).iterableUnorderedEquals(mkIterable(5)), false);
+          expect(mkIterable(5).iterableUnorderedEquals(mkIterable(0)), false);
+
+          expect(mkList(10).iterableUnorderedEquals(mkIterable(10)), true);
+          expect(mkList(10).iterableUnorderedEquals(mkIterable(10, 5)), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkList(10)), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkList(10, 5)), true);
+          expect(mkSet(10).iterableUnorderedEquals(mkIterable(10, 5)), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkSet(10, 5)), true);
+          expect(mkSet(10).iterableUnorderedEquals(mkList(10, 5)), true);
+          expect(mkList(10).iterableUnorderedEquals(mkSet(10, 5)), true);
+
+          // Repeated elements.
+          expect([1, 1, 1].iterableUnorderedEquals([1]), false);
+          expect([1].iterableUnorderedEquals([1, 1, 1]), false);
+          expect([1, 1, 1].iterableUnorderedEquals([1, 1, 1]), true);
+        });
+        test('custom equality', () {
+          var eq = CustomEquality(7);
+          expect(mkIterable(10).iterableUnorderedEquals(mkIterable(10), eq), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkIterable(10, 5), eq), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkIterable(5), eq), false);
+          expect(mkIterable(10, 5).iterableUnorderedEquals(mkIterable(5), eq), false);
+          expect(mkIterable(0).iterableUnorderedEquals(mkIterable(5), eq), false);
+          expect(mkIterable(5).iterableUnorderedEquals(mkIterable(0), eq), false);
+
+          expect(mkList(10).iterableUnorderedEquals(mkIterable(10, 5), eq), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkList(10, 5), eq), true);
+          expect(mkSet(10).iterableUnorderedEquals(mkIterable(10, 5), eq), true);
+          expect(mkIterable(10).iterableUnorderedEquals(mkSet(10, 5), eq), true);
+          expect(mkSet(10).iterableUnorderedEquals(mkList(10, 5), eq), true);
+          expect(mkList(10).iterableUnorderedEquals(mkSet(10, 5), eq), true);
+
+          // Repeated elements.
+          expect([1, 1, 1].iterableUnorderedEquals([1], eq), false);
+          expect([1].iterableUnorderedEquals([1, 1, 1], eq), false);
+          expect([1, 1, 1].iterableUnorderedEquals([1, 1, 1], eq), true);
+
+          expect([0, 1, 2].iterableUnorderedEquals([7, 9, 8], eq), true);
+        });
+      });
       group('.whereNot', () {
         test('empty', () {
           expect(iterable([]).whereNot(unreachable), isEmpty);
@@ -1081,6 +1173,30 @@ void main() {
 
   group('List', () {
     group('of any', () {
+      group('.listEquals', () {
+        test('default equality', () {
+          expect(mkList(10).listEquals(mkList(10)), true);
+          expect(mkList(5).listEquals(mkList(10)), false);
+          expect(mkList(10).listEquals(mkList(5)), false);
+          expect(mkList(5).listEquals(mkList(0)), false);
+          expect(mkList(0).listEquals(mkList(5)), false);
+          expect(mkList(0).listEquals(mkList(0)), true);
+          expect([1, 1, 1].listEquals([1]), false);
+          expect([1].listEquals([1, 1, 1]), false);
+        });
+        test('custom equality', () {
+          var eq = CustomEquality(7);
+          expect(mkList(10).listEquals([for (var v in mkList(10)) v + 7], eq), true);
+          expect(mkList(5).listEquals(mkList(10), eq), false);
+          expect(mkList(10).listEquals(mkList(5), eq), false);
+          expect(mkList(5).listEquals(mkList(0), eq), false);
+          expect(mkList(0).listEquals(mkList(5), eq), false);
+          expect(mkList(0).listEquals(mkList(0), eq), true);
+
+          expect([1, 1, 1].listEquals([1], eq), false);
+          expect([1].listEquals([1, 1, 1], eq), false);
+        });
+      });
       group('.binarySearch', () {
         test('empty', () {
           expect(<int>[].binarySearch(1, unreachable), -1);
@@ -1663,6 +1779,104 @@ void main() {
       });
     });
   });
+  group('Set', () {
+    group('.setEquals', () {
+      test('default equality', () {
+        expect(mkSet(5).setEquals(mkSet(5)), true);
+        expect(mkSet(5).setEquals(mkSet(0)), false);
+        expect(mkSet(0).setEquals(mkSet(5)), false);
+        expect(mkSet(0).setEquals(mkSet(0)), true);
+        expect(mkSet(5).setEquals(mkSet(5, 3)), true);
+
+        var o1 = CustomEqualityClass(1);
+        var o2 = CustomEqualityClass(2);
+        var o7 = CustomEqualityClass(7);
+
+        var idSet = HashSet<CustomEqualityClass>.identity();
+        idSet..add(o1)..add(o2)..add(o7);
+        expect(o1, equals(o7));
+        expect(idSet, hasLength(3));
+
+        expect(idSet.setEquals({o1, o2, o7}), false);
+        expect(idSet.setEquals(idSet), true);
+        expect(idSet.setEquals(idSet.toSet()), true);
+      });
+      test('custom equality', () {
+        var eq = CustomEquality(3);
+        expect(mkSet(5).setEquals(mkSet(5), eq), true);
+        expect(mkSet(5).setEquals(mkSet(0), eq), false);
+        expect(mkSet(0).setEquals(mkSet(5), eq), false);
+        expect(mkSet(5).setEquals(mkSet(5, 2), eq), true);
+
+        expect(mkSet(5).setEquals({3, 4, 5, 6, 7}, eq), true);
+
+        var o1 = CustomEqualityClass(1);
+        var o2 = CustomEqualityClass(2);
+        var o7 = CustomEqualityClass(7);
+
+        var idSet = HashSet<CustomEqualityClass>.identity();
+        idSet..add(o1)..add(o2)..add(o7);
+        expect(o1, equals(o7));
+        expect(idSet, hasLength(3));
+
+        expect(idSet.setEquals(idSet.toSet(), const DefaultEquality<Never>()),
+            true);
+      });
+    });
+  });
+
+  group('Map', () {
+    group('.mapEquals', () {
+      test('default equality', () {
+        expect(mkMap(10).mapEquals(mkMap(5)), false);
+        expect(mkMap(5).mapEquals(mkMap(10)), false);
+        expect(mkMap(5).mapEquals(mkMap(5)), true);
+        expect(mkMap(0).mapEquals(mkMap(5)), false);
+        expect(mkMap(0).mapEquals(mkMap(0)), true);
+
+        expect(mkMap(5).mapEquals(mkMap(5, 3)), true);
+
+        var o1 = CustomEqualityClass(1);
+        var o2 = CustomEqualityClass(2);
+        var o7 = CustomEqualityClass(7);
+
+        var idMap1 = HashMap<CustomEqualityClass, int>.identity();
+        var idMap2 = HashMap<CustomEqualityClass, int>.identity();
+        idMap1..[o1] = 1..[o2] = 2..[o7] = 3;
+        idMap2..addAll(idMap1);
+        expect(o1, equals(o7));
+        expect(idMap1, hasLength(3));
+        expect(idMap2, hasLength(3));
+
+        expect(idMap1.mapEquals(idMap2), true);
+      });
+      test('custom equality', () {
+        var eq = CustomEquality(3);
+        expect(mkMap(10).mapEquals(mkMap(5), keys: eq), false);
+        expect(mkMap(5).mapEquals(mkMap(10), keys: eq), false);
+        expect(mkMap(5).mapEquals(mkMap(5), keys: eq), true);
+        expect(mkMap(0).mapEquals(mkMap(5), keys: eq), false);
+        expect(mkMap(0).mapEquals(mkMap(0), keys: eq), true);
+
+        expect(mkMap(10).mapEquals(mkMap(5), values: eq), false);
+        expect(mkMap(5).mapEquals(mkMap(10), values: eq), false);
+        expect(mkMap(5).mapEquals(mkMap(5), values: eq), true);
+        expect(mkMap(0).mapEquals(mkMap(5), values: eq), false);
+        expect(mkMap(0).mapEquals(mkMap(0), values: eq), true);
+
+        expect({1: 3}.mapEquals({4: 3}), false);
+        expect({1: 3}.mapEquals({4: 3}, keys: eq), true);
+        expect({1: 3}.mapEquals({1: 6}), false);
+        expect({1: 3}.mapEquals({1: 6}, values: eq), true);
+        expect({1: 3}.mapEquals({4: 6}), false);
+        expect({1: 3}.mapEquals({4: 6}, keys: eq), false);
+        expect({1: 3}.mapEquals({4: 6}, values: eq), false);
+        expect({1: 3}.mapEquals({4: 6}, keys: eq, values: eq), true);
+
+        expect(mkMap(5).mapEquals(mkMap(5, 3), keys: eq, values : eq), true);
+      });
+    });
+  });
 }
 
 /// Creates a plain iterable not implementing any other class.
@@ -1704,3 +1918,46 @@ bool isEven(int x) => x.isEven;
 
 /// Tests an integer for being odd.
 bool isOdd(int x) => x.isOdd;
+
+class CustomEquality implements Equality<int> {
+  final int _mod;
+
+  CustomEquality(int mod) : _mod = mod;
+
+  @override
+  bool equals(int e1, int e2) {
+    return e1 % _mod == e2 % _mod;
+  }
+
+  @override
+  int hash(int e) => (e % _mod).hashCode;
+
+  @override
+  bool isValidKey(Object? o) => o is int;
+}
+
+Iterable<int> mkIterable(int n, [int offset = 0]) sync* {
+  for (var i = 0; i < n; i++) {
+    yield (i + offset) % n;
+  }
+}
+
+List<int> mkList(int n, [int offset = 0]) =>
+    [for (var i = 0; i < n; i++) (i + offset) % n];
+Set<int> mkSet(int n, [int offset = 0]) =>
+    {for (var i = 0; i < n; i++) (i + offset) % n};
+Map<int, int> mkMap(int n, [int offset = 0]) => {
+      for (var i = 0; i < n; i++)
+        (i + offset) % n: (i + offset) % n
+    };
+
+class CustomEqualityClass {
+  static const int _mod = 6;
+  final int value;
+  CustomEqualityClass(this.value);
+  @override
+  int get hashCode => value % _mod;
+  bool operator ==(Object value) =>
+      value is CustomEqualityClass &&
+      (this.value - value.value) % _mod == 0;
+}

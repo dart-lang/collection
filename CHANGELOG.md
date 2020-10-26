@@ -1,3 +1,7 @@
+## 1.15.0-nullsafety.5
+
+* Fix typo in extension method `expandIndexed`.
+
 ## 1.15.0-nullsafety.4
 
 * Allow prerelease versions of the `2.12.x` sdk.

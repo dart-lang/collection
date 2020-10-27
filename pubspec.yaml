@@ -2,7 +2,7 @@ name: collection
 version: 1.15.0-nullsafety.5
 
 description: Collections and utilities functions and classes related to collections.
-homepage: https://www.github.com/dart-lang/collection
+homepage: https://github.com/dart-lang/collection
 
 environment:
   sdk: '>=2.10.0-78 <2.12.0'

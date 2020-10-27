@@ -165,7 +165,7 @@ extension ListExtensions<E> on List<E> {
   ///
   /// Like [Iterable.expand] except that the callback function is supplied with
   /// both the index and the element.
-  Iterable<R> expendIndexed<R>(
+  Iterable<R> expandIndexed<R>(
       Iterable<R> Function(int index, E element) expand) sync* {
     for (var index = 0; index < length; index++) {
       yield* expand(index, this[index]);

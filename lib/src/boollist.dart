@@ -7,16 +7,9 @@ import 'dart:typed_data' show Uint32List;
 
 import 'unmodifiable_wrappers.dart' show NonGrowableListMixin;
 
-/// A BoolList implementation for Dart to store boolean values.
+/// A space-efficient list of boolean values.
 ///
 /// Uses list of integers as internal storage to reduce memory usage.
-///
-/// Internal storage of the growable [BoolList] is dynamically changed in the
-/// following cases:
-/// * when required length greater than preallocated space, storage expands its
-///   space to `2 * length` for further length expandings;
-/// * when required length less than the half of the current [length], storage
-///   shrinks availiable space.
 abstract class BoolList with ListMixin<bool> {
   static const int _entryShift = 5;
 
@@ -38,29 +31,41 @@ abstract class BoolList with ListMixin<bool> {
     }
   }
 
-  /// Creates a [BoolList] with given length.
+  /// Creates a list of booleans with the provided length.
   ///
-  /// The created list is fixed-length if [length] is provided.
-  /// Al initial values are `false`.
-  factory BoolList([int length]) {
-    length ??= 0;
+  /// The list is initially filled with the [fill] value, and
+  /// the list is growable if [growable] is true.
+  factory BoolList(int length, {bool fill = false, bool growable = false}) {
     RangeError.checkNotNegative(length, 'length');
 
-    return BoolList._selectType(length, length == 0);
+    BoolList boolist;
+    if (growable) {
+      boolist = _GrowableBoolList(length);
+    } else {
+      boolist = _NonGrowableBoolList(length);
+    }
+
+    if (fill) {
+      boolist.fillRange(0, length, true);
+    }
+
+    return boolist;
   }
 
-  /// Creates [BoolList] of the given length with [fill] at each position.
+  /// Creates an empty list of booleans.
   ///
-  /// The created list is fixed-length if [growable] is false (the default)
-  /// and growable if [growable] is true.
-  factory BoolList.filled(int length, bool fill, {bool growable = false}) {
-    RangeError.checkNotNegative(length, 'length');
+  /// The list defaults to being growable unless [growable] is `false`.
+  /// If [capacity] is provided, and [growable] is not `false`,
+  /// the implementation will attempt to make space for that
+  /// many elements before needing to grow its internal storage.
+  factory BoolList.empty({bool growable = true, int capacity = 0}) {
+    RangeError.checkNotNegative(capacity, 'length');
 
-    var instance = BoolList._selectType(length, growable);
-    if (fill) {
-      instance.fillRange(0, length, true);
+    if (growable) {
+      return _GrowableBoolList._withCapacity(0, capacity);
+    } else {
+      return _NonGrowableBoolList._withCapacity(0, capacity);
     }
-    return instance;
   }
 
   /// Generates a [BoolList] of values.
@@ -111,7 +116,7 @@ abstract class BoolList with ListMixin<bool> {
   }
 
   @override
-  void fillRange(int start, int end, [bool fill]) {
+  void fillRange(int start, int end, [bool? fill]) {
     RangeError.checkValidRange(start, end, _length);
     fill ??= false;
 
@@ -163,6 +168,12 @@ abstract class BoolList with ListMixin<bool> {
 class _GrowableBoolList extends BoolList {
   static const int _growthFactor = 2;
 
+  _GrowableBoolList._withCapacity(int length, int capacity)
+      : super._(
+          Uint32List(BoolList._lengthInWords(capacity)),
+          length,
+        );
+
   _GrowableBoolList(int length)
       : super._(
           Uint32List(BoolList._lengthInWords(length * _growthFactor)),
@@ -203,6 +214,12 @@ class _GrowableBoolList extends BoolList {
 }
 
 class _NonGrowableBoolList extends BoolList with NonGrowableListMixin<bool> {
+  _NonGrowableBoolList._withCapacity(int length, int capacity)
+      : super._(
+          Uint32List(BoolList._lengthInWords(capacity)),
+          length,
+        );
+
   _NonGrowableBoolList(int length)
       : super._(
           Uint32List(BoolList._lengthInWords(length)),
@@ -214,10 +231,6 @@ class _BoolListIterator implements Iterator<bool> {
   bool _current = false;
   int _pos = 0;
   final int _length;
-  int _wordIndex = -1;
-  int _bitIndex = BoolList._entrySignBitIndex;
-
-  int _mask;
 
   final BoolList _boolList;
 
@@ -232,21 +245,14 @@ class _BoolListIterator implements Iterator<bool> {
       throw ConcurrentModificationError(_boolList);
     }
 
-    if (_pos == _boolList.length) {
-      _current = false;
-      return false;
+    if (_pos < _boolList.length) {
+      var pos = _pos++;
+      _current = _boolList._data[pos >> BoolList._entryShift] &
+              (1 << (pos & BoolList._entrySignBitIndex)) !=
+          0;
+      return true;
     }
-
-    if (++_bitIndex == BoolList._bitsPerEntry) {
-      _wordIndex++;
-      _bitIndex = 0;
-      _mask = 1;
-    } else {
-      _mask <<= 1;
-    }
-
-    _current = _boolList._data[_wordIndex] & _mask != 0;
-    _pos++;
-    return true;
+    _current = false;
+    return false;
   }
 }

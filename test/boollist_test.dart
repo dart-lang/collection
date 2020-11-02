@@ -15,10 +15,16 @@ void main() {
     return false;
   };
 
-  test('BoolList.filled()', () {
-    expect(BoolList.filled(1024, false), List.filled(1024, false));
+  test('BoolList()', () {
+    expect(BoolList(1024, fill: false), List.filled(1024, false));
 
-    expect(BoolList.filled(1024, true), List.filled(1024, true));
+    expect(BoolList(1024, fill: true), List.filled(1024, true));
+  });
+
+  test('BoolList.empty()', () {
+    expect(BoolList.empty(growable: true, capacity: 1024), []);
+
+    expect(BoolList.empty(growable: false, capacity: 1024), []);
   });
 
   test('BoolList.generate()', () {
@@ -35,7 +41,7 @@ void main() {
 
   group('[], []=', () {
     test('RangeError', () {
-      var b = BoolList.filled(1024, false);
+      var b = BoolList(1024, fill: false);
 
       expect(() {
         b[-1];
@@ -47,7 +53,7 @@ void main() {
     });
 
     test('[], []=', () {
-      var b = BoolList.filled(1024, false);
+      var b = BoolList(1024, fill: false);
 
       bool posVal;
       for (var pos = 0; pos < 1024; ++pos) {
@@ -60,7 +66,7 @@ void main() {
 
   group('length', () {
     test('shrink length', () {
-      var b = BoolList.filled(1024, true, growable: true);
+      var b = BoolList(1024, fill: true, growable: true);
 
       b.length = 768;
       expect(b, List.filled(768, true));
@@ -73,7 +79,7 @@ void main() {
     });
 
     test('expand from != 0', () {
-      var b = BoolList.filled(256, true, growable: true);
+      var b = BoolList(256, fill: true, growable: true);
 
       b.length = 384;
       expect(b, List.filled(384, false)..fillRange(0, 256, true));
@@ -83,7 +89,7 @@ void main() {
     });
 
     test('expand from = 0', () {
-      var b = BoolList();
+      var b = BoolList(0, growable: true);
       expect(b.length, 0);
 
       b.length = 256;
@@ -142,7 +148,7 @@ void main() {
     });
 
     test('throw ConcurrentModificationError', () {
-      var b = BoolList.filled(1024, true, growable: true);
+      var b = BoolList(1024, fill: true, growable: true);
 
       var iter = b.iterator;
 

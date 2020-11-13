@@ -20,5 +20,5 @@ jobs:
     - run: pub get
 
     - run: dart format --output=none --set-exit-if-changed .
-    - run: dart analyze --fatal-warnings --fatal-infos .
+    - run: dart analyze --fatal-infos .
     - run: dart test -p vm,chrome

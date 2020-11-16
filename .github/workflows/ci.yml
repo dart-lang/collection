@@ -15,10 +15,11 @@ jobs:
     - uses: cedx/setup-dart@v2
       with:
         release-channel: dev
+    - run: dart --version
     - uses: actions/checkout@v2
 
     - run: pub get
 
     - run: dart format --output=none --set-exit-if-changed .
     - run: dart analyze --fatal-infos .
-    - run: dart test -p vm,chrome
+    - run: pub run test -p vm,chrome

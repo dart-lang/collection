@@ -8,4 +8,8 @@ void main() {
   test('bad', () {
     expect(false, isTrue);
   });
+
+  test('error', () {
+    throw UnimplementedError();
+  });
 }

@@ -10,3 +10,10 @@ environment:
 dev_dependencies:
   pedantic: ^1.10.0-nullsafety
   test: ^1.16.0-nullsafety
+
+dependency_overrides:
+  test_core:
+    git:
+      url: https://github.com/dart-lang/test
+      path: pkgs/test_core
+      ref: action_fun

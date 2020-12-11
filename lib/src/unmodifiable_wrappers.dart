@@ -177,17 +177,12 @@ abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
   @override
-  V putIfAbsent(K key, V Function() ifAbsent) => _throw();
-
-  /// Throws an [UnsupportedError];
-  /// operations that change the map are disallowed.
-  @override
   void addAll(Map<K, V> other) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
   @override
-  V remove(Object? key) => _throw();
+  void addEntries(Iterable<MapEntry<K, V>> entries) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
@@ -196,9 +191,26 @@ abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  set first(_) => _throw();
+  @override
+  V? remove(Object? key) => _throw();
 
   /// Throws an [UnsupportedError];
   /// operations that change the map are disallowed.
-  set last(_) => _throw();
+  @override
+  void removeWhere(bool Function(K key, V value) test) => _throw();
+
+  /// Throws an [UnsupportedError];
+  /// operations that change the map are disallowed.
+  @override
+  V putIfAbsent(K key, V Function() ifAbsent) => _throw();
+
+  /// Throws an [UnsupportedError];
+  /// operations that change the map are disallowed.
+  @override
+  V update(K key, V Function(V) update, {V Function()? ifAbsent}) => _throw();
+
+  /// Throws an [UnsupportedError];
+  /// operations that change the map are disallowed.
+  @override
+  void updateAll(V Function(K key, V value) update) => _throw();
 }

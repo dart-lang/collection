@@ -1,5 +1,5 @@
 name: collection
-version: 1.15.0-nullsafety.5
+version: 1.15.0-nullsafety.6-dev
 
 description: Collections and utilities functions and classes related to collections.
 homepage: https://github.com/dart-lang/collection

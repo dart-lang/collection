@@ -1,3 +1,5 @@
+## 1.15.0-nullsafety.6-dev
+
 ## 1.15.0-nullsafety.5
 
 * Fix typo in extension method `expandIndexed`.

@@ -16,14 +16,14 @@ Collections in Dart have no inherent equality. Two sets are not equal, even
 if they contain exactly the same objects as elements.
 
 The `Equality` interface provides a way to define such an equality. In this
-case, for example, `const SetEquality(const IdentityEquality())` is an equality
+case, for example, `const SetEquality(IdentityEquality())` is an equality
 that considers two sets equal exactly if they contain identical elements.
 
 Equalities are provided for `Iterable`s, `List`s, `Set`s, and `Map`s, as well as
 combinations of these, such as:
 
 ```dart
-const MapEquality(const IdentityEquality(), const ListEquality());
+const MapEquality(IdentityEquality(), ListEquality());
 ```
 
 This equality considers maps equal if they have identical keys, and the

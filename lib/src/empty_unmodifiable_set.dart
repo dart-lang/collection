@@ -6,6 +6,8 @@ import 'dart:collection';
 
 import 'package:collection/collection.dart';
 
+import 'unmodifiable_wrappers.dart';
+
 /// An unmodifiable, empty set which can be constant.
 class EmptyUnmodifiableSet<E> extends IterableBase<E>
     with UnmodifiableSetMixin<E>

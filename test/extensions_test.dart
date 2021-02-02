@@ -243,6 +243,31 @@ void main() {
           expect(log, [0, 'a', 1, 'b']);
         });
       });
+      group('.mapNotNull', () {
+        test('empty', () {
+          expect(iterable(<String>[]).mapNotNull(unreachable), isEmpty);
+        });
+        test('single', () {
+          expect(iterable(<String>['1']).mapNotNull(int.tryParse), [1]);
+          expect(iterable(<String>['#']).mapNotNull(int.tryParse), isEmpty);
+        });
+        test('multiple', () {
+          expect(iterable(<String>['1', '2', '3']).mapNotNull(int.tryParse),
+              [1, 2, 3]);
+          expect(iterable(<String>['1', '#', '3']).mapNotNull(int.tryParse),
+              [1, 3]);
+          final transform = (int? i) =>
+              i == null || i.isEven ? null : [i.toString(), (i + 1).toString()];
+          expect(
+              iterable(<int?>[1, 2, 3, null, 4, 5, 6, null])
+                  .mapNotNull(transform),
+              [
+                ['1', '2'],
+                ['3', '4'],
+                ['5', '6']
+              ]);
+        });
+      });
       group('.mapIndexed', () {
         test('empty', () {
           expect(iterable(<String>[]).mapIndexed(unreachable), isEmpty);

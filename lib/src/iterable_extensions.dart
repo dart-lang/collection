@@ -166,6 +166,17 @@ extension IterableExtension<T> on Iterable<T> {
     }
   }
 
+  /// Returns an iterable containing only the non-`null` results
+  /// of applying the given [transform] function to each element in this iterable.
+  Iterable<R> mapNotNull<R extends Object>(R? Function(T) transform) sync* {
+    for (final element in this) {
+      final value = transform(element);
+      if (value != null) {
+        yield value;
+      }
+    }
+  }
+
   /// Maps each element and its index to a new value.
   Iterable<R> mapIndexed<R>(R Function(int index, T element) convert) sync* {
     var index = 0;

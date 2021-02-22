@@ -163,7 +163,7 @@ void main() {
             {'foo': 4},
             {'foo': 1},
             {'foo': 2}
-          ], (map) => map!,
+          ], (map) => map,
               compare: (map1, map2) => map1['foo']!.compareTo(map2['foo']!)),
           equals({'foo': 5}));
     });

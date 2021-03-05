@@ -67,12 +67,30 @@ void main() {
         isFalse);
   });
 
-  test('UnorderedIterableInequality values', () {
+  test('UnorderedListInequality values', () {
     var list7 = [o(1), o(3), o(5), o(4), o(6)];
-    expect(const UnorderedIterableEquality().equals(list1, list7), isFalse);
-    expect(
-        const UnorderedIterableEquality(IdentityEquality())
-            .equals(list1, list7),
+    expect(const UnorderedListEquality().equals(list1, list7), isFalse);
+    expect(const UnorderedListEquality(IdentityEquality()).equals(list1, list7),
+        isFalse);
+  });
+
+  test('UnorderedListEquality', () {
+    expect(const UnorderedListEquality().equals(list1, list3), isTrue);
+    Equality uniterId = const UnorderedListEquality(IdentityEquality());
+    expect(uniterId.equals(list1, list3), isFalse);
+  });
+
+  test('UnorderedListInequality length', () {
+    var list6 = [o(1), o(3), o(5), o(4), o(2), o(1)];
+    expect(const UnorderedListEquality().equals(list1, list6), isFalse);
+    expect(const UnorderedListEquality(IdentityEquality()).equals(list1, list6),
+        isFalse);
+  });
+
+  test('UnorderedListInequality values', () {
+    var list7 = [o(1), o(3), o(5), o(4), o(6)];
+    expect(const UnorderedListEquality().equals(list1, list7), isFalse);
+    expect(const UnorderedListEquality(IdentityEquality()).equals(list1, list7),
         isFalse);
   });
 

@@ -1389,6 +1389,17 @@ void main() {
                 [1]
               ], const ListEquality()),
               true);
+          expect(
+              [
+                ['S1', 'S2', 'S3'],
+                ['S1', 'S2', 'S3'],
+                ['S3', 'S2', 'S1']
+              ].equals([
+                ['S1', 'S2', 'S3'],
+                ['S3', 'S2', 'S1'],
+                ['S1', 'S2', 'S3']
+              ], const UnorderedListEquality<String>()),
+              true);
         });
       });
       group('.forEachIndexed', () {

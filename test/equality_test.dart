@@ -67,7 +67,7 @@ void main() {
         isFalse);
   });
 
-  test('UnorderedListInequality values', () {
+  test('UnorderedIterableInequality values', () {
     var list7 = [o(1), o(3), o(5), o(4), o(6)];
     expect(const UnorderedListEquality().equals(list1, list7), isFalse);
     expect(const UnorderedListEquality(IdentityEquality()).equals(list1, list7),

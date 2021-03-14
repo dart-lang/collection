@@ -8,16 +8,13 @@ import 'package:collection/src/utils.dart';
 
 import 'algorithms.dart';
 
-/// Extensions that apply to all iterables.
-///
-/// These extensions provide direct access to some of the
-/// algorithms expose by this package,
-/// as well as some generally useful convenience methods.
-///
-/// More specialized extension methods that only apply to
-/// iterables with specific element types include those of
-/// [IterableComparableExtension] and [IterableNullableExtension].
+@Deprecated('Use specialized extensions such as IterableSortedExtension')
 extension IterableExtension<T> on Iterable<T> {
+  // Do not add extension methods here.
+  // Place each extension method in its own extension.
+}
+
+extension IterableSampleExtension<T> on Iterable<T> {
   /// Selects [count] elements at random from this iterable.
   ///
   /// The returned list contains [count] different elements of the iterable.
@@ -48,16 +45,22 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return chosen;
   }
+}
 
+extension IterableWhereNotExtension<T> on Iterable<T> {
   /// The elements that do not satisfy [test].
   Iterable<T> whereNot(bool Function(T element) test) =>
       where((element) => !test(element));
+}
 
+extension IterableSortedExtension<T> on Iterable<T> {
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// The elements are ordered by the [compare] [Comparator].
   List<T> sorted(Comparator<T> compare) => [...this]..sort(compare);
+}
 
+extension IterableSortedByExtension<T> on Iterable<T> {
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// The elements are ordered by the natural ordering of the
@@ -67,7 +70,9 @@ extension IterableExtension<T> on Iterable<T> {
     quickSortBy<T, K>(elements, keyOf, compareComparable);
     return elements;
   }
+}
 
+extension IterableSortedByCompareExtension<T> on Iterable<T> {
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// The elements are ordered by the [compare] [Comparator] of the
@@ -78,7 +83,9 @@ extension IterableExtension<T> on Iterable<T> {
     quickSortBy<T, K>(elements, keyOf, compare);
     return elements;
   }
+}
 
+extension IterableIsSortedExtension<T> on Iterable<T> {
   /// Whether the elements are sorted by the [compare] ordering.
   ///
   /// Compares pairs of elements using `compare` to check that
@@ -98,7 +105,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return true;
   }
+}
 
+extension IterableIsSortedByExtension<T> on Iterable<T> {
   /// Whether the elements are sorted by their [keyOf] property.
   ///
   /// Applies [keyOf] to each element in iteration order,
@@ -114,7 +123,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return true;
   }
+}
 
+extension IterableIsSortedByCompareExtension<T> on Iterable<T> {
   /// Whether the elements are [compare]-sorted by their [keyOf] property.
   ///
   /// Applies [keyOf] to each element in iteration order,
@@ -132,7 +143,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return true;
   }
+}
 
+extension IterableForEachIndexedExtension<T> on Iterable<T> {
   /// Takes an action for each element.
   ///
   /// Calls [action] for each element along with the index in the
@@ -143,7 +156,9 @@ extension IterableExtension<T> on Iterable<T> {
       action(index++, element);
     }
   }
+}
 
+extension IterableForEachWhileExtension<T> on Iterable<T> {
   /// Takes an action for each element as long as desired.
   ///
   /// Calls [action] for each element.
@@ -153,7 +168,9 @@ extension IterableExtension<T> on Iterable<T> {
       if (!action(element)) break;
     }
   }
+}
 
+extension IterableForEachIndexedWhileExtension<T> on Iterable<T> {
   /// Takes an action for each element and index as long as desired.
   ///
   /// Calls [action] for each element along with the index in the
@@ -165,7 +182,9 @@ extension IterableExtension<T> on Iterable<T> {
       if (!action(index++, element)) break;
     }
   }
+}
 
+extension IterableMapIndexedExtension<T> on Iterable<T> {
   /// Maps each element and its index to a new value.
   Iterable<R> mapIndexed<R>(R Function(int index, T element) convert) sync* {
     var index = 0;
@@ -173,7 +192,9 @@ extension IterableExtension<T> on Iterable<T> {
       yield convert(index++, element);
     }
   }
+}
 
+extension IterableWhereIndexedExtension<T> on Iterable<T> {
   /// The elements whose value and index satisfies [test].
   Iterable<T> whereIndexed(bool Function(int index, T element) test) sync* {
     var index = 0;
@@ -181,7 +202,9 @@ extension IterableExtension<T> on Iterable<T> {
       if (test(index++, element)) yield element;
     }
   }
+}
 
+extension IterableWhereNotIndexedExtension<T> on Iterable<T> {
   /// The elements whose value and index do not satisfy [test].
   Iterable<T> whereNotIndexed(bool Function(int index, T element) test) sync* {
     var index = 0;
@@ -189,7 +212,9 @@ extension IterableExtension<T> on Iterable<T> {
       if (!test(index++, element)) yield element;
     }
   }
+}
 
+extension IterableExpandIndexedExtension<T> on Iterable<T> {
   /// Expands each element and index to a number of elements in a new iterable.
   Iterable<R> expandIndexed<R>(
       Iterable<R> Function(int index, T element) expend) sync* {
@@ -198,7 +223,9 @@ extension IterableExtension<T> on Iterable<T> {
       yield* expend(index++, element);
     }
   }
+}
 
+extension IterableReduceIndexedExtension<T> on Iterable<T> {
   /// Combine the elements with each other and the current index.
   ///
   /// Calls [combine] for each element except the first.
@@ -221,7 +248,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableFoldIndexedExtension<T> on Iterable<T> {
   /// Combine the elements with a value and the current index.
   ///
   /// Calls [combine] for each element with the current index,
@@ -239,7 +268,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableFirstWhereOrNullExtension<T> on Iterable<T> {
   /// The first element satisfying [test], or `null` if there are none.
   T? firstWhereOrNull(bool Function(T element) test) {
     for (var element in this) {
@@ -247,7 +278,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return null;
   }
+}
 
+extension IterableFirstWhereIndexedOrNullExtension<T> on Iterable<T> {
   /// The first element whose value and index satisfies [test].
   ///
   /// Returns `null` if there are no element and index satisfying [test].
@@ -258,14 +291,18 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return null;
   }
+}
 
+extension IterableFirstOrNullExtension<T> on Iterable<T> {
   /// The first element, or `null` if the iterable is empty.
   T? get firstOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) return iterator.current;
     return null;
   }
+}
 
+extension IterableLastWhereOrNullExtension<T> on Iterable<T> {
   /// The last element satisfying [test], or `null` if there are none.
   T? lastWhereOrNull(bool Function(T element) test) {
     T? result;
@@ -274,7 +311,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableLastWhereIndexedOrNullExtension<T> on Iterable<T> {
   /// The last element whose index and value satisfies [test].
   ///
   /// Returns `null` if no element and index satisfies [test].
@@ -286,13 +325,17 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableLastOrNullExtension<T> on Iterable<T> {
   /// The last element, or `null` if the iterable is empty.
   T? get lastOrNull {
     if (isEmpty) return null;
     return last;
   }
+}
 
+extension IterableSingleWhereOrNullExtension<T> on Iterable<T> {
   /// The single element satisfying [test].
   ///
   /// Returns `null` if there are either no elements
@@ -316,7 +359,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableSingleWhereIndexedOrNullExtension<T> on Iterable<T> {
   /// The single element satisfying [test].
   ///
   /// Returns `null` if there are either none
@@ -337,7 +382,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableSingleOrNullExtension<T> on Iterable<T> {
   /// The single element of the iterable, or `null`.
   ///
   /// The value is `null` if the iterable is empty
@@ -352,7 +399,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return null;
   }
+}
 
+extension IterableGroupFoldByExtension<T> on Iterable<T> {
   /// Groups elements by [keyOf] then folds the elements in each group.
   ///
   /// A key is found for each element using [keyOf].
@@ -375,7 +424,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableGroupSetsByExtension<T> on Iterable<T> {
   /// Groups elements into sets by [keyOf].
   Map<K, Set<T>> groupSetsBy<K>(K Function(T element) keyOf) {
     var result = <K, Set<T>>{};
@@ -384,7 +435,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableGroupListsByExtension<T> on Iterable<T> {
   /// Groups elements into lists by [keyOf].
   Map<K, List<T>> groupListsBy<K>(K Function(T element) keyOf) {
     var result = <K, List<T>>{};
@@ -393,7 +446,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
+}
 
+extension IterableSplitBeforeExtension<T> on Iterable<T> {
   /// Splits the elements into chunks before some elements.
   ///
   /// Each element except the first is checked using [test]
@@ -410,7 +465,9 @@ extension IterableExtension<T> on Iterable<T> {
   /// ```
   Iterable<List<T>> splitBefore(bool Function(T element) test) =>
       splitBeforeIndexed((_, element) => test(element));
+}
 
+extension IterableSplitAfterExtension<T> on Iterable<T> {
   /// Splits the elements into chunks before some elements.
   ///
   /// Each element is checked using [test] for whether it should start a new chunk.
@@ -425,7 +482,9 @@ extension IterableExtension<T> on Iterable<T> {
   /// ```
   Iterable<List<T>> splitAfter(bool Function(T element) test) =>
       splitAfterIndexed((_, element) => test(element));
+}
 
+extension IterableSplitBetweenExtension<T> on Iterable<T> {
   /// Splits the elements into chunks between some elements.
   ///
   /// Each pair of adjacent elements are checked using [test]
@@ -441,7 +500,9 @@ extension IterableExtension<T> on Iterable<T> {
   /// ```
   Iterable<List<T>> splitBetween(bool Function(T first, T second) test) =>
       splitBetweenIndexed((_, first, second) => test(first, second));
+}
 
+extension IterableSplitBeforeIndexedExtension<T> on Iterable<T> {
   /// Splits the elements into chunks before some elements and indices.
   ///
   /// Each element and index except the first is checked using [test]
@@ -474,7 +535,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     yield chunk;
   }
+}
 
+extension IterableSplitAfterIndexedExtension<T> on Iterable<T> {
   /// Splits the elements into chunks after some elements and indices.
   ///
   /// Each element and index is checked using [test]
@@ -502,7 +565,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     if (chunk != null) yield chunk;
   }
+}
 
+extension IterableSplitBetweenIndexedExtension<T> on Iterable<T> {
   /// Splits the elements into chunks between some elements and indices.
   ///
   /// Each pair of adjacent elements and the index of the latter are
@@ -535,7 +600,9 @@ extension IterableExtension<T> on Iterable<T> {
     }
     yield chunk;
   }
+}
 
+extension IterableNoneExtension<T> on Iterable<T> {
   /// Whether no element satisfies [test].
   ///
   /// Returns true if no element satisfies [test],
@@ -551,8 +618,7 @@ extension IterableExtension<T> on Iterable<T> {
   }
 }
 
-/// Extensions that apply to iterables with a nullable element type.
-extension IterableNullableExtension<T extends Object> on Iterable<T?> {
+extension IterableWhereNotNullExtension<T extends Object> on Iterable<T?> {
   /// The non-`null` elements of this `Iterable`.
   ///
   /// Returns an iterable which emits all the non-`null` elements
@@ -566,8 +632,7 @@ extension IterableNullableExtension<T extends Object> on Iterable<T?> {
   }
 }
 
-/// Extensions that apply to iterables of numbers.
-extension IterableNumberExtension on Iterable<num> {
+extension IterableSumNumberExtension on Iterable<num> {
   /// The sum of the elements.
   ///
   /// The sum is zero if the iterable is empty.
@@ -578,7 +643,9 @@ extension IterableNumberExtension on Iterable<num> {
     }
     return result;
   }
+}
 
+extension IterableAverageNumberExtension<T> on Iterable<num> {
   /// The arithmetic mean of the elements of a non-empty iterable.
   ///
   /// The arithmetic mean is the sum of the elements
@@ -597,10 +664,7 @@ extension IterableNumberExtension on Iterable<num> {
   }
 }
 
-/// Extension on iterables of integers.
-///
-/// Specialized version of some extensions of [IterableNumberExtension].
-extension IterableIntegerExtension on Iterable<int> {
+extension IterableSumIntegerExtension on Iterable<int> {
   /// The sum of the elements.
   ///
   /// The sum is zero if the iterable is empty.
@@ -611,7 +675,9 @@ extension IterableIntegerExtension on Iterable<int> {
     }
     return result;
   }
+}
 
+extension IterableAverageIntegerExtension<T> on Iterable<int> {
   /// The arithmetic mean of the elements of a non-empty iterable.
   ///
   /// The arithmetic mean is the sum of the elements
@@ -639,10 +705,7 @@ extension IterableIntegerExtension on Iterable<int> {
   }
 }
 
-/// Extension on iterables of double.
-///
-/// Specialized version of some extensions of [IterableNumberExtension].
-extension IterableDoubleExtension on Iterable<double> {
+extension IterableSumDoubleExtension on Iterable<double> {
   /// The sum of the elements.
   ///
   /// The sum is zero if the iterable is empty.
@@ -655,8 +718,7 @@ extension IterableDoubleExtension on Iterable<double> {
   }
 }
 
-/// Extensions on iterables whose elements are also iterables.
-extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
+extension IterableFlattenedExtension<T> on Iterable<Iterable<T>> {
   /// The sequential elements of each iterable in this iterable.
   ///
   /// Iterates the elements of this iterable.
@@ -670,12 +732,8 @@ extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
   }
 }
 
-/// Extensions that apply to iterables of [Comparable] elements.
-///
-/// These operations can assume that the elements have a natural ordering,
-/// and can therefore omit, or make it optional, for the user to provide
-/// a [Comparator].
-extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
+extension IterableMinOrNullComparableExtension<T extends Comparable<T>>
+    on Iterable<T> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   T? get minOrNull {
     var iterator = this.iterator;
@@ -691,7 +749,10 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
     }
     return null;
   }
+}
 
+extension IterableMinComparableExtension<T extends Comparable<T>>
+    on Iterable<T> {
   /// A minimal element of the iterable.
   ///
   /// The iterable must not be empty.
@@ -709,7 +770,10 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
     }
     throw StateError('No element');
   }
+}
 
+extension IterableMaxOrNullComparableExtension<T extends Comparable<T>>
+    on Iterable<T> {
   /// A maximal element of the iterable, or `null` if the iterable is empty.
   T? get maxOrNull {
     var iterator = this.iterator;
@@ -725,7 +789,10 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
     }
     return null;
   }
+}
 
+extension IterableMaxComparableExtension<T extends Comparable<T>>
+    on Iterable<T> {
   /// A maximal element of the iterable.
   ///
   /// The iterable must not be empty.
@@ -743,20 +810,26 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
     }
     throw StateError('No element');
   }
+}
 
+extension IterableSortedComparableExtension<T extends Comparable<T>>
+    on Iterable<T> {
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// If the [compare] function is not supplied, the sorting uses the
   /// natural [Comparable] ordering of the elements.
   List<T> sorted([Comparator<T>? compare]) => [...this]..sort(compare);
+}
 
+extension IterableIsSortedComparableExtension<T extends Comparable<T>>
+    on Iterable<T> {
   /// Whether the elements are sorted by the [compare] ordering.
   ///
   /// If [compare] is omitted, it defaults to comparing the
   /// elements using their natural [Comparable] ordering.
   bool isSorted([Comparator<T>? compare]) {
     if (compare != null) {
-      return IterableExtension(this).isSorted(compare);
+      return IterableIsSortedExtension(this).isSorted(compare);
     }
     var iterator = this.iterator;
     if (!iterator.moveNext()) return true;
@@ -770,18 +843,21 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
   }
 }
 
-/// Extensions on comparator functions.
-extension ComparatorExtension<T> on Comparator<T> {
+extension ComparatorInverseExtension<T> on Comparator<T> {
   /// The inverse ordering of this comparator.
   Comparator<T> get inverse => (T a, T b) => this(b, a);
+}
 
+extension ComparatorCompareByExtension<T> on Comparator<T> {
   /// Makes a comparator on [R] values using this comparator.
   ///
   /// Compares [R] values by comparing their [keyOf] value
   /// using this comparator.
   Comparator<R> compareBy<R>(T Function(R) keyOf) =>
       (R a, R b) => this(keyOf(a), keyOf(b));
+}
 
+extension ComparatorThenExtension<T> on Comparator<T> {
   /// Combine comparators sequentially.
   ///
   /// Creates a comparator which orders elements the same way as

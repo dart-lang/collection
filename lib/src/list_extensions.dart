@@ -11,8 +11,13 @@ import 'algorithms.dart' as algorithms;
 import 'equality.dart';
 import 'utils.dart';
 
-/// Various extensions on lists of arbitrary elements.
-extension ListExtensions<E> on List<E> {
+@Deprecated('Use specialized extensions such as ListBinarySearchExtension')
+extension ListExtension<E> on List<E> {
+  // Do not add extension methods here.
+  // Place each extension method in its own extension.
+}
+
+extension ListBinarySearchExtension<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -22,7 +27,9 @@ extension ListExtensions<E> on List<E> {
   /// Returns -1 if [element] does not occur in this list.
   int binarySearch(E element, int Function(E, E) compare) =>
       algorithms.binarySearchBy<E, E>(this, identity, compare, element);
+}
 
+extension ListBinarySearchByCompareExtension<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -38,7 +45,9 @@ extension ListExtensions<E> on List<E> {
           [int start = 0, int? end]) =>
       algorithms.binarySearchBy<E, K>(
           this, keyOf, compare, element, start, end);
+}
 
+extension ListBinarySearchByExtension<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -53,7 +62,9 @@ extension ListExtensions<E> on List<E> {
           E element, K Function(E element) keyOf, [int start = 0, int? end]) =>
       algorithms.binarySearchBy<E, K>(
           this, keyOf, (a, b) => a.compareTo(b), element, start, end);
+}
 
+extension ListLowerBoundExtension<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -67,7 +78,9 @@ extension ListExtensions<E> on List<E> {
   /// [element].
   int lowerBound(E element, int Function(E, E) compare) =>
       algorithms.lowerBoundBy<E, E>(this, identity, compare, element);
+}
 
+extension ListLowerBoundByCompareExtension<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -86,7 +99,9 @@ extension ListExtensions<E> on List<E> {
           E element, K Function(E) keyOf, int Function(K, K) compare,
           [int start = 0, int? end]) =>
       algorithms.lowerBoundBy(this, keyOf, compare, element, start, end);
+}
 
+extension ListLowerBoundByExtension<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -106,7 +121,9 @@ extension ListExtensions<E> on List<E> {
           [int start = 0, int? end]) =>
       algorithms.lowerBoundBy<E, K>(
           this, keyOf, compareComparable, element, start, end);
+}
 
+extension ListForEachIndexedExtension<E> on List<E> {
   /// Takes an action for each element.
   ///
   /// Calls [action] for each element along with the index in the
@@ -116,7 +133,9 @@ extension ListExtensions<E> on List<E> {
       action(index, this[index]);
     }
   }
+}
 
+extension ListForEachWhileExtension<E> on List<E> {
   /// Takes an action for each element as long as desired.
   ///
   /// Calls [action] for each element.
@@ -126,7 +145,9 @@ extension ListExtensions<E> on List<E> {
       if (!action(this[index])) break;
     }
   }
+}
 
+extension ListForEachIndexedWhileExtension<E> on List<E> {
   /// Takes an action for each element and index as long as desired.
   ///
   /// Calls [action] for each element along with the index in the
@@ -137,14 +158,18 @@ extension ListExtensions<E> on List<E> {
       if (!action(index, this[index])) break;
     }
   }
+}
 
+extension ListMapIndexedExtension<E> on List<E> {
   /// Maps each element and its index to a new value.
   Iterable<R> mapIndexed<R>(R Function(int index, E element) convert) sync* {
     for (var index = 0; index < length; index++) {
       yield convert(index, this[index]);
     }
   }
+}
 
+extension ListWhereIndexedExtension<E> on List<E> {
   /// The elements whose value and index satisfies [test].
   Iterable<E> whereIndexed(bool Function(int index, E element) test) sync* {
     for (var index = 0; index < length; index++) {
@@ -152,7 +177,9 @@ extension ListExtensions<E> on List<E> {
       if (test(index, element)) yield element;
     }
   }
+}
 
+extension ListWhereNotIndexedExtension<E> on List<E> {
   /// The elements whose value and index do not satisfy [test].
   Iterable<E> whereNotIndexed(bool Function(int index, E element) test) sync* {
     for (var index = 0; index < length; index++) {
@@ -160,7 +187,9 @@ extension ListExtensions<E> on List<E> {
       if (!test(index, element)) yield element;
     }
   }
+}
 
+extension ListExpandedIndexedExtension<E> on List<E> {
   /// Expands each element and index to a number of elements in a new iterable.
   ///
   /// Like [Iterable.expand] except that the callback function is supplied with
@@ -171,12 +200,16 @@ extension ListExtensions<E> on List<E> {
       yield* expand(index, this[index]);
     }
   }
+}
 
+extension ListSortRangeExtension<E> on List<E> {
   /// Sort a range of elements by [compare].
   void sortRange(int start, int end, int Function(E a, E b) compare) {
     quickSortBy<E, E>(this, identity, compare, start, end);
   }
+}
 
+extension ListSortByCompareExtension<E> on List<E> {
   /// Sorts elements by the [compare] of their [keyOf] property.
   ///
   /// Sorts elements from [start] to [end], defaulting to the entire list.
@@ -185,7 +218,9 @@ extension ListExtensions<E> on List<E> {
       [int start = 0, int? end]) {
     quickSortBy(this, keyOf, compare, start, end);
   }
+}
 
+extension ListSortByExtension<E> on List<E> {
   /// Sorts elements by the natural order of their [keyOf] property.
   ///
   /// Sorts elements from [start] to [end], defaulting to the entire list.
@@ -193,13 +228,17 @@ extension ListExtensions<E> on List<E> {
       [int start = 0, int? end]) {
     quickSortBy<E, K>(this, keyOf, compareComparable, start, end);
   }
+}
 
+extension ListShuffleRangeExtension<E> on List<E> {
   /// Shuffle a range of elements.
   void shuffleRange(int start, int end, [Random? random]) {
     RangeError.checkValidRange(start, end, length);
     shuffle(this, start, end, random);
   }
+}
 
+extension ListReverseRangeExtension<E> on List<E> {
   /// Reverses the elements in a range of the list.
   void reverseRange(int start, int end) {
     RangeError.checkValidRange(start, end, length);
@@ -210,7 +249,9 @@ extension ListExtensions<E> on List<E> {
       start += 1;
     }
   }
+}
 
+extension ListSwapExtension<E> on List<E> {
   /// Swaps two elements of this list.
   void swap(int index1, int index2) {
     RangeError.checkValidIndex(index1, this, 'index1');
@@ -219,7 +260,9 @@ extension ListExtensions<E> on List<E> {
     this[index1] = this[index2];
     this[index2] = tmp;
   }
+}
 
+extension ListSliceExtension<E> on List<E> {
   /// A fixed length view of a range of this list.
   ///
   /// The view is backed by this this list, which must not
@@ -238,7 +281,9 @@ extension ListExtensions<E> on List<E> {
     if (self is ListSlice) return self.slice(start, end);
     return ListSlice<E>(this, start, end);
   }
+}
 
+extension ListEqualsExtension<E> on List<E> {
   /// Whether [other] has the same elements as this list.
   ///
   /// Returns true iff [other] has the same [length]
@@ -254,8 +299,15 @@ extension ListExtensions<E> on List<E> {
   }
 }
 
-/// Various extensions on lists of comparable elements.
+@Deprecated(
+    'Use specialized extensions such as ListBinarySearchComparableExtension')
 extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
+  // Do not add extension methods here.
+  // Place each extension method in its own extension.
+}
+
+extension ListBinarySearchComparableExtension<E extends Comparable<E>>
+    on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
@@ -267,7 +319,10 @@ extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
   int binarySearch(E element, [int Function(E, E)? compare]) =>
       algorithms.binarySearchBy<E, E>(
           this, identity, compare ?? compareComparable, element);
+}
 
+extension ListLowerBoundComparableExtension<E extends Comparable<E>>
+    on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of where [element] should be.
@@ -281,7 +336,9 @@ extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
   int lowerBound(E element, [int Function(E, E)? compare]) =>
       algorithms.lowerBoundBy<E, E>(
           this, identity, compare ?? compareComparable, element);
+}
 
+extension ListSortRangeComparableExtension<E extends Comparable<E>> on List<E> {
   /// Sort a range of elements by [compare].
   ///
   /// If [compare] is omitted, the range is sorted according to the

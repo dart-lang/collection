@@ -192,10 +192,10 @@ extension IterableExtension<T> on Iterable<T> {
 
   /// Expands each element and index to a number of elements in a new iterable.
   Iterable<R> expandIndexed<R>(
-      Iterable<R> Function(int index, T element) expend) sync* {
+      Iterable<R> Function(int index, T element) expand) sync* {
     var index = 0;
     for (var element in this) {
-      yield* expend(index++, element);
+      yield* expand(index++, element);
     }
   }
 

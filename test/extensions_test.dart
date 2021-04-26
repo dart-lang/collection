@@ -4,9 +4,8 @@
 
 import 'dart:math' show pow, Random;
 
-import 'package:test/test.dart';
-
 import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Iterable', () {

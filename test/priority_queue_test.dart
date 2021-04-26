@@ -3,10 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Tests priority queue implementations utilities.
-
-import 'package:test/test.dart';
-
 import 'package:collection/src/priority_queue.dart';
+import 'package:test/test.dart';
 
 void main() {
   testDefault();

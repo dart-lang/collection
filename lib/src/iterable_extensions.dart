@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
 import 'dart:math' show Random;
 
 import 'package:collection/src/utils.dart';
@@ -548,6 +549,54 @@ extension IterableExtension<T> on Iterable<T> {
       if (test(element)) return false;
     }
     return true;
+  }
+
+  /// Returns an iterable whose elements are contiguous slices of [this].
+  ///
+  /// Each slice is [length] elements long, except for the last one which may be
+  /// shorter if [this] contains too few elements. Each slice begins after the
+  /// last one ends.
+  ///
+  /// For example, `(1, 2, 3, 4, 5).slices(2)` returns `((1, 2), (3, 4), (5))`.
+  Iterable<Iterable<T>> slices(int length) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+
+    var iterator = this.iterator;
+    while (iterator.moveNext()) {
+      yield () sync* {
+        var i = 0;
+        do {
+          yield iterator.current;
+          i++;
+        } while (i < length && iterator.moveNext());
+      }();
+    }
+  }
+
+  /// Returns an iterable of each subsequence of [this] of the given [length].
+  ///
+  /// Each subsequence is exactly [length] elements long and shares `length - 1`
+  /// elements with the previous subsequence. Returns an empty iterable if
+  /// [length] is greater than this iterable's length.
+  ///
+  /// For example, `(1, 2, 3, 4).subsequences(2)` returns
+  /// `([1, 2], [2, 3], [3, 4])`.
+  Iterable<List<T>> subsequences(int length) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+
+    var iterator = this.iterator;
+    var subsequence = <T>[];
+    while (iterator.moveNext()) {
+      if (subsequence.length < length) {
+        subsequence.add(iterator.current);
+        if (subsequence.length == length) {
+          yield UnmodifiableListView(subsequence);
+        }
+      } else {
+        subsequence = [...subsequence.skip(1), iterator.current];
+        yield UnmodifiableListView(subsequence);
+      }
+    }
   }
 }
 

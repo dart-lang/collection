@@ -255,9 +255,9 @@ extension ListExtensions<E> on List<E> {
 
   /// Returns an iterable whose elements are contiguous [slice]s of [this].
   ///
-  /// Each slice is [length] elements long, except for the last one which may be
-  /// shorter if [this] contains too few elements. Each slice begins after the
-  /// last one ends.
+  /// Each slice is a view of this list [length] elements long, except for the
+  /// last one which may be shorter if [this] contains too few elements. Each
+  /// slice begins after the last one ends.
   ///
   /// As with [slice], these slices are backed by this this list, which must not
   /// change its length while the views are being used.
@@ -272,16 +272,16 @@ extension ListExtensions<E> on List<E> {
 
   /// Returns an iterable of each subsequence of [this] of the given [length].
   ///
-  /// Each subsequence is exactly [length] elements long and shares `length - 1`
-  /// elements with the previous subsequence. Returns an empty iterable if
-  /// [length] is greater than this iterable's length.
+  /// Each subsequence is a view of this list exactly [length] elements long and
+  /// shares `length - 1` elements with the previous subsequence. Returns an
+  /// empty iterable if [length] is greater than this iterable's length.
   ///
   /// For example, `[1, 2, 3, 4].subsequences(2)` returns
   /// `((1, 2), (2, 3), (3, 4))`.
   Iterable<List<E>> subsequences(int length) sync* {
     if (length < 1) throw RangeError.range(length, 1, null, 'length');
     for (var i = 0; i < this.length - length + 1; i++) {
-      yield UnmodifiableListView(sublist(i, i + length));
+      yield slice(i, i + length);
     }
   }
 }

@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:collection';
 import 'dart:math' show Random;
 
 import 'package:collection/src/utils.dart';
@@ -557,19 +556,17 @@ extension IterableExtension<T> on Iterable<T> {
   /// shorter if [this] contains too few elements. Each slice begins after the
   /// last one ends.
   ///
-  /// For example, `(1, 2, 3, 4, 5).slices(2)` returns `((1, 2), (3, 4), (5))`.
-  Iterable<Iterable<T>> slices(int length) sync* {
+  /// For example, `{1, 2, 3, 4, 5}.slices(2)` returns `([1, 2], [3, 4], [5])`.
+  Iterable<List<T>> slices(int length) sync* {
     if (length < 1) throw RangeError.range(length, 1, null, 'length');
 
     var iterator = this.iterator;
     while (iterator.moveNext()) {
-      yield () sync* {
-        var i = 0;
-        do {
-          yield iterator.current;
-          i++;
-        } while (i < length && iterator.moveNext());
-      }();
+      var slice = [iterator.current];
+      for (var i = 1; i < length && iterator.moveNext(); i++) {
+        slice.add(iterator.current);
+      }
+      yield slice;
     }
   }
 
@@ -579,23 +576,25 @@ extension IterableExtension<T> on Iterable<T> {
   /// elements with the previous subsequence. Returns an empty iterable if
   /// [length] is greater than this iterable's length.
   ///
-  /// For example, `(1, 2, 3, 4).subsequences(2)` returns
+  /// For example, `{1, 2, 3, 4}.subsequences(2)` returns
   /// `([1, 2], [2, 3], [3, 4])`.
   Iterable<List<T>> subsequences(int length) sync* {
     if (length < 1) throw RangeError.range(length, 1, null, 'length');
 
     var iterator = this.iterator;
     var subsequence = <T>[];
-    while (iterator.moveNext()) {
-      if (subsequence.length < length) {
+    while (subsequence.length < length) {
+      if (iterator.moveNext()) {
         subsequence.add(iterator.current);
-        if (subsequence.length == length) {
-          yield UnmodifiableListView(subsequence);
-        }
       } else {
-        subsequence = [...subsequence.skip(1), iterator.current];
-        yield UnmodifiableListView(subsequence);
+        return;
       }
+    }
+
+    yield subsequence;
+    while (iterator.moveNext()) {
+      subsequence = [...subsequence.skip(1), iterator.current];
+      yield subsequence;
     }
   }
 }

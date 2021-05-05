@@ -1068,38 +1068,6 @@ void main() {
         expect(() => iterable([1]).slices(0), throwsRangeError);
       });
     });
-    group('.subsequences', () {
-      test('empty', () {
-        expect(iterable(<int>[]).subsequences(1), []);
-      });
-      test('with the same length as the iterable', () {
-        expect(iterable([1, 2, 3]).subsequences(3), [
-          [1, 2, 3]
-        ]);
-      });
-      test('with a longer length than the iterable', () {
-        expect(iterable([1, 2, 3]).subsequences(5), []);
-      });
-      test('with a shorter length than the iterable', () {
-        expect(iterable([1, 2, 3]).subsequences(2), [
-          [1, 2],
-          [2, 3]
-        ]);
-      });
-      test('with length divisible by the iterable\'s', () {
-        expect(iterable([1, 2, 3, 4]).subsequences(2), [
-          [1, 2],
-          [2, 3],
-          [3, 4]
-        ]);
-      });
-      test('refuses negative length', () {
-        expect(() => iterable([1]).subsequences(-1), throwsRangeError);
-      });
-      test('refuses length 0', () {
-        expect(() => iterable([1]).subsequences(0), throwsRangeError);
-      });
-    });
   });
 
   group('Comparator', () {
@@ -1668,38 +1636,6 @@ void main() {
         });
         test('refuses length 0', () {
           expect(() => [1].slices(0), throwsRangeError);
-        });
-      });
-      group('.subsequences', () {
-        test('empty', () {
-          expect(<int>[].subsequences(1), []);
-        });
-        test('with the same length as the iterable', () {
-          expect([1, 2, 3].subsequences(3), [
-            [1, 2, 3]
-          ]);
-        });
-        test('with a longer length than the iterable', () {
-          expect([1, 2, 3].subsequences(5), []);
-        });
-        test('with a shorter length than the iterable', () {
-          expect([1, 2, 3].subsequences(2), [
-            [1, 2],
-            [2, 3]
-          ]);
-        });
-        test('with length divisible by the iterable\'s', () {
-          expect([1, 2, 3, 4].subsequences(2), [
-            [1, 2],
-            [2, 3],
-            [3, 4]
-          ]);
-        });
-        test('refuses negative length', () {
-          expect(() => [1].subsequences(-1), throwsRangeError);
-        });
-        test('refuses length 0', () {
-          expect(() => [1].subsequences(0), throwsRangeError);
         });
       });
     });

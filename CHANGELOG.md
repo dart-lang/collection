@@ -1,6 +1,6 @@
 ## 1.16.0
 
-* Add `Iterable.slices` and `Iterable.subsequences` extension methods.
+* Add an `Iterable.slices` extension method.
 
 ## 1.15.0
 

@@ -269,21 +269,6 @@ extension ListExtensions<E> on List<E> {
       yield slice(i, min(i + length, this.length));
     }
   }
-
-  /// Returns an iterable of each subsequence of [this] of the given [length].
-  ///
-  /// Each subsequence is a view of this list exactly [length] elements long and
-  /// shares `length - 1` elements with the previous subsequence. Returns an
-  /// empty iterable if [length] is greater than this iterable's length.
-  ///
-  /// For example, `[1, 2, 3, 4].subsequences(2)` returns
-  /// `((1, 2), (2, 3), (3, 4))`.
-  Iterable<List<E>> subsequences(int length) sync* {
-    if (length < 1) throw RangeError.range(length, 1, null, 'length');
-    for (var i = 0; i < this.length - length + 1; i++) {
-      yield slice(i, i + length);
-    }
-  }
 }
 
 /// Various extensions on lists of comparable elements.

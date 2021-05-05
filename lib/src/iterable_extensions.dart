@@ -569,34 +569,6 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
-
-  /// Returns an iterable of each subsequence of [this] of the given [length].
-  ///
-  /// Each subsequence is exactly [length] elements long and shares `length - 1`
-  /// elements with the previous subsequence. Returns an empty iterable if
-  /// [length] is greater than this iterable's length.
-  ///
-  /// For example, `{1, 2, 3, 4}.subsequences(2)` returns
-  /// `([1, 2], [2, 3], [3, 4])`.
-  Iterable<List<T>> subsequences(int length) sync* {
-    if (length < 1) throw RangeError.range(length, 1, null, 'length');
-
-    var iterator = this.iterator;
-    var subsequence = <T>[];
-    while (subsequence.length < length) {
-      if (iterator.moveNext()) {
-        subsequence.add(iterator.current);
-      } else {
-        return;
-      }
-    }
-
-    yield subsequence;
-    while (iterator.moveNext()) {
-      subsequence = [...subsequence.skip(1), iterator.current];
-      yield subsequence;
-    }
-  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.

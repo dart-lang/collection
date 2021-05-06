@@ -1,6 +1,7 @@
 ## 1.16.0
 
 * Add an `Iterable.slices` extension method.
+* Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
 
 ## 1.15.0
 

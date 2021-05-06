@@ -64,7 +64,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// property [keyOf] of the element.
   List<T> sortedBy<K extends Comparable<K>>(K Function(T element) keyOf) {
     var elements = [...this];
-    quickSortBy<T, K>(elements, keyOf, compareComparable);
+    mergeSortBy<T, K>(elements, keyOf, compareComparable);
     return elements;
   }
 
@@ -75,7 +75,7 @@ extension IterableExtension<T> on Iterable<T> {
   List<T> sortedByCompare<K>(
       K Function(T element) keyOf, Comparator<K> compare) {
     var elements = [...this];
-    quickSortBy<T, K>(elements, keyOf, compare);
+    mergeSortBy<T, K>(elements, keyOf, compare);
     return elements;
   }
 

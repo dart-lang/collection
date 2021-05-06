@@ -1,4 +1,6 @@
-## 1.15.1-dev
+## 1.16.0
+
+* Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
 
 ## 1.15.0
 

@@ -222,8 +222,8 @@ extension ListExtensions<E> on List<E> {
 
   /// A fixed length view of a range of this list.
   ///
-  /// The view is backed by this this list, which must not
-  /// change its length while the view is being used.
+  /// The view is backed by this list, which must not change its length while
+  /// the view is being used.
   ///
   /// The view can be used to perform specific whole-list
   /// actions on a part of the list.
@@ -259,7 +259,7 @@ extension ListExtensions<E> on List<E> {
   /// last one which may be shorter if [this] contains too few elements. Each
   /// slice begins after the last one ends.
   ///
-  /// As with [slice], these slices are backed by this this list, which must not
+  /// As with [slice], these slices are backed by this list, which must not
   /// change its length while the views are being used.
   ///
   /// For example, `[1, 2, 3, 4, 5].slices(2)` returns `[[1, 2], [3, 4], [5]]`.
@@ -373,8 +373,8 @@ class ListSlice<E> extends ListBase<E> {
 
   /// A fixed length view of a range of this list.
   ///
-  /// The view is backed by this this list, which must not
-  /// change its length while the view is being used.
+  /// The view is backed by this list, which must not change its length while
+  /// the view is being used.
   ///
   /// The view can be used to perform specific whole-list
   /// actions on a part of the list.

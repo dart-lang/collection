@@ -18,6 +18,47 @@ import 'algorithms.dart';
 /// iterables with specific element types include those of
 /// [IterableComparableExtension] and [IterableNullableExtension].
 extension IterableExtension<T> on Iterable<T> {
+
+  /// Counts the elements that are equal to [value].
+  ///
+  /// Returns the number of elements of this iterable
+  /// which are equal to [value] according to their `==`
+  /// operation.
+  ///
+  /// Example:
+  /// ```dart
+  /// var nullCount = maybeValues.count(null);
+  /// ```
+  ///
+  /// Equivalent to `.countWhere((e) => e == value)`.
+  int count(T value) {
+    var result = 0;
+    for (var element in this) {
+      if (element == value) result++;
+    }
+    return result;
+  }
+
+  /// Counts the elements that satisfy [test].
+  ///
+  /// Returns the number of elements of this iterable
+  /// which [test] returns `true` for.
+  /// The test must not modify this iterable.
+  ///
+  /// Example:
+  /// ```dart
+  /// var primeCount = integers.countWhere(isPrime);
+  /// ```
+  ///
+  /// Equivalent to `.where(test).length`.
+  int countWhere(bool Function(T element) test) {
+    var result = 0;
+    for (var element in this) {
+      if (test(element)) result++;
+    }
+    return result;
+  }
+
   /// Selects [count] elements at random from this iterable.
   ///
   /// The returned list contains [count] different elements of the iterable.

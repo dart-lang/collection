@@ -380,7 +380,7 @@ extension IterableExtension<T> on Iterable<T> {
   Map<K, Set<T>> groupSetsBy<K>(K Function(T element) keyOf) {
     var result = <K, Set<T>>{};
     for (var element in this) {
-      (result[keyOf(element)] ??= <T>{})..add(element);
+      (result[keyOf(element)] ??= <T>{}).add(element);
     }
     return result;
   }
@@ -389,7 +389,7 @@ extension IterableExtension<T> on Iterable<T> {
   Map<K, List<T>> groupListsBy<K>(K Function(T element) keyOf) {
     var result = <K, List<T>>{};
     for (var element in this) {
-      (result[keyOf(element)] ??= [])..add(element);
+      (result[keyOf(element)] ??= []).add(element);
     }
     return result;
   }

@@ -18,7 +18,6 @@ import 'algorithms.dart';
 /// iterables with specific element types include those of
 /// [IterableComparableExtension] and [IterableNullableExtension].
 extension IterableExtension<T> on Iterable<T> {
-
   /// Counts the elements that are equal to [value].
   ///
   /// Returns the number of elements of this iterable

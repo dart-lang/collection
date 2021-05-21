@@ -10,6 +10,58 @@ import 'package:test/test.dart';
 void main() {
   group('Iterable', () {
     group('of any', () {
+      group('.count', () {
+        test('empty', () {
+          // Empty iterable.
+          var iterable = [1, 2, 3, 2, 3, 2].where((_) => false);
+          expect(iterable.count(1), 0);
+          expect(<int>[].count(1), 0);
+        });
+        test('none', () {
+          var iterable = [1, 2, 3, 4, 2, 3, 2].where((_) => true);
+          expect(iterable.count(0), 0);
+          expect(<int>[4].count(0), 0);
+        });
+        test('single', () {
+          var iterable = [1, 2, 3, 4, 2, 3, 2].where((_) => true);
+          expect(iterable.count(4), 1);
+          expect(<int>[4].count(4), 1);
+        });
+        test('multiple', () {
+          var iterable = [1, 2, 3, 4, 2, 3, 2].where((_) => true);
+          expect(iterable.count(2), 3);
+          expect(iterable.count(3), 2);
+          expect(<int>[2, 3, 2].count(2), 2);
+        });
+        test('uses element equality', () {
+          var iterable = <Object>[EqTo(2), 2];
+          expect(iterable.count(2), 2);
+        });
+      });
+      group('.countWhere', () {
+        test('empty', () {
+          // Empty iterable.
+          var iterable = [1, 2, 3, 2, 3, 2].where((_) => false);
+          expect(iterable.countWhere((_) => true), 0);
+          expect(<int>[].countWhere((_) => true), 0);
+        });
+        test('none', () {
+          var iterable = [1, 2, 3, 4, 2, 3, 2].where((_) => true);
+          expect(iterable.countWhere((_) => false), 0);
+          expect(<int>[4].countWhere((_) => false), 0);
+        });
+        test('single', () {
+          var iterable = [1, 2, 3, 4, 2, 3, 2].where((_) => true);
+          expect(iterable.countWhere((x) => x == 4), 1);
+          expect(<int>[4].countWhere((x) => x == 4), 1);
+        });
+        test('multiple', () {
+          var iterable = [1, 2, 3, 4, 2, 3, 2].where((_) => true);
+          expect(iterable.countWhere((x) => x == 2), 3);
+          expect(iterable.countWhere((x) => x == 3), 2);
+          expect(<int>[2, 3, 2].countWhere((x) => x == 2), 2);
+        });
+      });
       group('.whereNot', () {
         test('empty', () {
           expect(iterable([]).whereNot(unreachable), isEmpty);
@@ -1703,3 +1755,14 @@ bool isEven(int x) => x.isEven;
 
 /// Tests an integer for being odd.
 bool isOdd(int x) => x.isOdd;
+
+/// Objects which claim to be equal to other values.
+class EqTo {
+  final Object? value;
+  EqTo(this.value);
+  @override
+  int get hashCode => value.hashCode;
+  @override
+  bool operator ==(Object other) =>
+      value == (other is EqTo ? other.value : other);
+}

@@ -260,6 +260,20 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
   bool isValidKey(Object? o) => o is Iterable<E>;
 }
 
+/// Equality of the elements of two lists without considering order.
+///
+/// Two lists are considered equal if they have the same number of elements,
+/// and the elements of one set can be paired with the elements
+/// of the other list, so that each pair are equal.
+class UnorderedListEquality<E> extends _UnorderedEquality<E, List<E>> {
+  const UnorderedListEquality(
+      [Equality<E> elementEquality = const DefaultEquality<Never>()])
+      : super(elementEquality);
+
+  @override
+  bool isValidKey(Object? o) => o is List<E>;
+}
+
 /// Equality of sets.
 ///
 /// Two sets are considered equal if they have the same number of elements,

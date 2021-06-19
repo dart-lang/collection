@@ -589,6 +589,19 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return true;
   }
+
+  /// The elements with [seperator] between each.
+  Iterable<T> seperatedBy(T seperator) sync* {
+    if (isEmpty) return;
+
+    final iterator = this.iterator;
+    iterator.moveNext();
+    yield iterator.current;
+    while (iterator.moveNext()) {
+      yield seperator;
+      yield iterator.current;
+    }
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.
@@ -832,4 +845,9 @@ extension ComparatorExtension<T> on Comparator<T> {
         if (result == 0) result = tieBreaker(a, b);
         return result;
       };
+}
+
+extension MapEntryExtension<K, V> on Iterable<MapEntry<K, V>> {
+  /// Creates a map from [Iterable<MapEntry>].
+  Map<K, V> toMap() => Map.fromEntries(this);
 }

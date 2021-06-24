@@ -4,8 +4,7 @@
 
 import 'dart:collection';
 
-import 'unmodifiable_wrappers.dart';
-import 'wrappers.dart';
+import 'package:collection/collection.dart';
 
 /// An unmodifiable, empty set which can be constant.
 class EmptyUnmodifiableSet<E> extends IterableBase<E>

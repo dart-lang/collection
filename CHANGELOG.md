@@ -1,7 +1,6 @@
 ## 1.16.0
 
 * Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
-* Add `count` and `countWhere` extensions on `Iterable`.
 
 ## 1.15.0
 

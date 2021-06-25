@@ -174,13 +174,13 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   ///
   /// Number can be any positive value. Picking a size that gives a whole
   /// number of "tree levels" in the heap is only done for aesthetic reasons.
-  static const int _INITIAL_CAPACITY = 7;
+  static const int _initialCapacity = 7;
 
   /// The comparison being used to compare the priority of elements.
   final Comparator<E> comparison;
 
   /// List implementation of a heap.
-  List<E?> _queue = List<E?>.filled(_INITIAL_CAPACITY, null);
+  List<E?> _queue = List<E?>.filled(_initialCapacity, null);
 
   /// Number of elements in queue.
   ///
@@ -451,7 +451,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// Called when the list is full.
   void _grow() {
     var newCapacity = _queue.length * 2 + 1;
-    if (newCapacity < _INITIAL_CAPACITY) newCapacity = _INITIAL_CAPACITY;
+    if (newCapacity < _initialCapacity) newCapacity = _initialCapacity;
     var newQueue = List<E?>.filled(newCapacity, null);
     newQueue.setRange(0, _length, _queue);
     _queue = newQueue;

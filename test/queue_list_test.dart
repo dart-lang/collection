@@ -219,7 +219,7 @@ void main() {
   });
 
   group('throws a modification error for', () {
-    var queue;
+    dynamic queue;
     setUp(() {
       queue = QueueList.from([1, 2, 3]);
     });

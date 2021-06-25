@@ -161,6 +161,7 @@ class MapExpector<K, V> extends Expector implements Map<K, V> {
 }
 
 // Utility values to use as arguments in calls.
+// ignore: prefer_void_to_null
 Null func0() => null;
 dynamic func1(dynamic x) => null;
 dynamic func2(dynamic x, dynamic y) => null;

@@ -227,9 +227,7 @@ void mergeSort<E>(List<E> elements,
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
   var scratchSpace = List<E>.filled(secondLength, elements[start]);
-  // TODO(linter/2097): Remove ignore when no longer required by linter.
-  // See: https://github.com/dart-lang/linter/issues/2097
-  E Function(E) id = identity; // ignore: omit_local_variable_types
+  E Function(E) id = identity;
   _mergeSort(elements, id, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort(elements, id, compare, start, middle, elements, firstTarget);

@@ -202,14 +202,14 @@ class ListEquality<E> implements Equality<List<E>> {
   bool isValidKey(Object? o) => o is List<E>;
 }
 
-abstract class _UnorderedEquality<E, T extends Iterable<E>?>
+abstract class _UnorderedEquality<E, T extends Iterable<E>>
     implements Equality<T> {
   final Equality<E> _elementEquality;
 
   const _UnorderedEquality(this._elementEquality);
 
   @override
-  bool equals(T elements1, T elements2) {
+  bool equals(T? elements1, T? elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
     var counts = HashMap(
@@ -232,7 +232,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
   }
 
   @override
-  int hash(T elements) {
+  int hash(T? elements) {
     if (elements == null) return null.hashCode;
     var hash = 0;
     for (E element in elements) {
@@ -251,7 +251,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
 /// Two iterables are considered equal if they have the same number of elements,
 /// and the elements of one set can be paired with the elements
 /// of the other iterable, so that each pair are equal.
-class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
+class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
   const UnorderedIterableEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
@@ -272,7 +272,7 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
+class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
   const SetEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
@@ -363,12 +363,13 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
 
 /// Combines several equalities into a single equality.
 ///
-/// Tries each equality in order, using [Equality.isValidKey], and returns
-/// the result of the first equality that applies to the argument or arguments.
+/// Tries each equality in order, using [Equality.isValidKey],
+/// and returns the result of the first equality
+/// that applies to the argument or arguments.
 ///
 /// For `equals`, the first equality that matches the first argument is used,
 /// and if the second argument of `equals` is not valid for that equality,
-/// it returns false.
+/// this equality returns false.
 ///
 /// Because the equalities are tried in order, they should generally work on
 /// disjoint types. Otherwise the multi-equality may give inconsistent results
@@ -474,6 +475,50 @@ class DeepCollectionEquality implements Equality {
   @override
   bool isValidKey(Object? o) =>
       o is Iterable || o is Map || _base.isValidKey(o);
+}
+
+/// Equality on a nullable type.
+///
+/// Considers `null` equal only to another `null`,
+/// and non-`null` values equal based on the value equality
+/// passed to the constructor.
+///
+/// The [hash] of `null` is `null.hashCode`.
+class NullableEquality<T> implements Equality<T?> {
+  final Equality<T>? _elementEquality;
+
+  /// Creates an equality on a nullable type.
+  ///
+  /// Non-`null` values are compared using [valueEquality],
+  /// and `null` values are only equal to `null`.
+  ///
+  /// If [valueEquality] is omitted, it defaults to
+  /// using `==` and `.hashCode` on the non-`null` values,
+  /// and `is T` for [isValidKey].
+  const NullableEquality([Equality<T>? valueEquality])
+      : _elementEquality = valueEquality;
+
+  @override
+  int hash(T? value) {
+    var equality = _elementEquality;
+    if (equality != null && value != null) {
+      return equality.hash(value);
+    }
+    return value.hashCode;
+  }
+
+  @override
+  bool equals(T? e1, T? e2) {
+    var equality = _elementEquality;
+    if (equality != null && e1 != null) {
+      return e2 != null && equality.equals(e1, e2);
+    }
+    return e1 == e2;
+  }
+
+  @override
+  bool isValidKey(Object? o) =>
+      o == null || (_elementEquality?.isValidKey(o) ?? (o is T));
 }
 
 /// String equality that's insensitive to differences in ASCII case.

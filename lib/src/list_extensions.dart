@@ -13,6 +13,23 @@ import 'utils.dart';
 
 /// Various extensions on lists of arbitrary elements.
 extension ListExtensions<E> on List<E> {
+  /// Whether this list has the same elements as [elements].
+  ///
+  /// Checks whether this list has the same elements as [elements],
+  /// at the same positions.
+  ///
+  /// Uses [equality] for determining if the values are the same.
+  /// If [equality] is omitted, the default `==` behavior is used.
+  bool listEquals(List<E> elements, [Equality<E>? equality]) {
+    if (identical(this, elements)) return true;
+    if (length != elements.length) return false;
+    equality ??= const DefaultEquality<Never>();
+    for (var i = 0; i < length; i++) {
+      if (!equality.equals(this[i], elements[i])) return false;
+    }
+    return true;
+  }
+
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].

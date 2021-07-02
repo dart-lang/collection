@@ -77,10 +77,10 @@ void main() {
   });
 
   test('SetEquality', () {
-    var set1 = HashSet.from(list1);
-    var set2 = LinkedHashSet.from(list3);
+    var set1 = HashSet.of(list1);
+    var set2 = LinkedHashSet.of(list3);
     expect(const SetEquality().equals(set1, set2), isTrue);
-    Equality setId = const SetEquality(IdentityEquality());
+    var setId = const SetEquality(IdentityEquality());
     expect(setId.equals(set1, set2), isFalse);
   });
 
@@ -202,10 +202,16 @@ void main() {
   });
 
   test('Equality accepts null', () {
-    var ie = IterableEquality();
-    var le = ListEquality();
-    var se = SetEquality();
-    var me = MapEquality();
+    var ie = IterableEquality<int>();
+    var le = ListEquality<int>();
+    var se = SetEquality<int>();
+    var me = MapEquality<int, int>();
+
+    expect(ie, isA<Equality<Iterable<int>>>());
+    expect(le, isA<Equality<List<int>>>());
+    expect(se, isA<Equality<Set<int>>>());
+    expect(me, isA<Equality<Map<int, int>>>());
+
     expect(ie.equals(null, null), true);
     expect(ie.equals([], null), false);
     expect(ie.equals(null, []), false);

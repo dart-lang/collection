@@ -86,7 +86,7 @@ S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
 /// compared using their [Comparable.compareTo].
 ///
 /// Returns `null` if [values] is empty.
-S? maxBy<S, T>(Iterable<S> values, T Function(S?) orderBy,
+S? maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,
     {int? Function(T, T)? compare}) {
   compare ??= defaultCompare;
 

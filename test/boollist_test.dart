@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
 void main() {
-  var generator = (int index) {
+  bool generator(int index) {
     if (index < 512) {
       return index.isEven;
     }
@@ -98,7 +98,7 @@ void main() {
 
     test('throw UnsupportedError', () {
       expect(() {
-        BoolList(1024)..length = 512;
+        BoolList(1024).length = 512;
       }, throwsUnsupportedError);
     });
   });

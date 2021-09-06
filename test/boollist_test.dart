@@ -13,7 +13,7 @@ void main() {
       return index.isEven;
     }
     return false;
-  };
+  }
 
   test('BoolList()', () {
     expect(BoolList(1024, fill: false), List.filled(1024, false));

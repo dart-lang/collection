@@ -67,7 +67,7 @@ class EqualityBy<E, F> implements Equality<E> {
   bool isValidKey(Object? o) {
     if (o is E) {
       final value = _comparisonKey(o);
-      return value is F && _inner.isValidKey(value);
+      return _inner.isValidKey(value);
     }
     return false;
   }

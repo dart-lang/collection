@@ -1,9 +1,6 @@
-## 1.17.0
-
-* Add `BoolList` class for space-efficient lists of boolean values.
-
 ## 1.16.0
 
+* Add `BoolList` class for space-efficient lists of boolean values.
 * Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
 
 ## 1.15.0

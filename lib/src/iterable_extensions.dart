@@ -601,6 +601,74 @@ extension IterableNumberExtension on Iterable<num> {
 ///
 /// Specialized version of some extensions of [IterableNumberExtension].
 extension IterableIntegerExtension on Iterable<int> {
+  /// A minimal element of the iterable, or `null` it the iterable is empty.
+  int? get minOrNull {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) > 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    return null;
+  }
+
+  /// A minimal element of the iterable.
+  ///
+  /// The iterable must not be empty.
+  int get min {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) > 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    throw StateError('No element');
+  }
+
+  /// A maximal element of the iterable, or `null` if the iterable is empty.
+  int? get maxOrNull {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) < 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    return null;
+  }
+
+  /// A maximal element of the iterable.
+  ///
+  /// The iterable must not be empty.
+  int get max {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) < 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    throw StateError('No element');
+  }
+
   /// The sum of the elements.
   ///
   /// The sum is zero if the iterable is empty.
@@ -643,6 +711,74 @@ extension IterableIntegerExtension on Iterable<int> {
 ///
 /// Specialized version of some extensions of [IterableNumberExtension].
 extension IterableDoubleExtension on Iterable<double> {
+  /// A minimal element of the iterable, or `null` it the iterable is empty.
+  double? get minOrNull {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) > 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    return null;
+  }
+
+  /// A minimal element of the iterable.
+  ///
+  /// The iterable must not be empty.
+  double get min {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) > 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    throw StateError('No element');
+  }
+
+  /// A maximal element of the iterable, or `null` if the iterable is empty.
+  double? get maxOrNull {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) < 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    return null;
+  }
+
+  /// A maximal element of the iterable.
+  ///
+  /// The iterable must not be empty.
+  double get max {
+    var iterator = this.iterator;
+    if (iterator.moveNext()) {
+      var value = iterator.current;
+      while (iterator.moveNext()) {
+        var newValue = iterator.current;
+        if (value.compareTo(newValue) < 0) {
+          value = newValue;
+        }
+      }
+      return value;
+    }
+    throw StateError('No element');
+  }
+
   /// The sum of the elements.
   ///
   /// The sum is zero if the iterable is empty.

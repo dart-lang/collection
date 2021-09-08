@@ -887,6 +887,74 @@ void main() {
           expect(iterable(<num>[1, 3, 5, 9]).average, 4.5);
         });
       });
+      group('.min', () {
+        test('empty', () {
+          expect(() => iterable(<int>[]).min, throwsStateError);
+          expect(() => iterable(<double>[]).min, throwsStateError);
+          expect(() => iterable(<num>[]).min, throwsStateError);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).min, 1);
+          expect(iterable(<double>[1.0]).min, 1.0);
+          expect(iterable(<num>[1.0]).min, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).min, 1);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).min, 1.0);
+          expect(iterable(<num>[3, 1, 2.5]).min, 1.0);
+        });
+      });
+      group('.minOrNull', () {
+        test('empty', () {
+          expect(iterable(<int>[]).minOrNull, null);
+          expect(iterable(<double>[]).minOrNull, null);
+          expect(iterable(<num>[]).minOrNull, null);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).minOrNull, 1);
+          expect(iterable(<double>[1.0]).minOrNull, 1.0);
+          expect(iterable(<num>[1.0]).minOrNull, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).minOrNull, 1);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).minOrNull, 1.0);
+          expect(iterable(<num>[3, 1, 2.5]).minOrNull, 1.0);
+        });
+      });
+      group('.max', () {
+        test('empty', () {
+          expect(() => iterable(<int>[]).max, throwsStateError);
+          expect(() => iterable(<double>[]).max, throwsStateError);
+          expect(() => iterable(<num>[]).max, throwsStateError);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).max, 1);
+          expect(iterable(<double>[1.0]).max, 1.0);
+          expect(iterable(<num>[1.0]).max, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).max, 3);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).max, 3.0);
+          expect(iterable(<num>[3, 1, 2.5]).max, 3);
+        });
+      });
+      group('.maxOrNull', () {
+        test('empty', () {
+          expect(iterable(<int>[]).maxOrNull, null);
+          expect(iterable(<double>[]).maxOrNull, null);
+          expect(iterable(<num>[]).maxOrNull, null);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).maxOrNull, 1);
+          expect(iterable(<double>[1.0]).maxOrNull, 1.0);
+          expect(iterable(<num>[1.0]).maxOrNull, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).maxOrNull, 3);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).maxOrNull, 3.0);
+          expect(iterable(<num>[3, 1, 2.5]).maxOrNull, 3);
+        });
+      });
     });
     group('of iterable', () {
       group('.flattened', () {

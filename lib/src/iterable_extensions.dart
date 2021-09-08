@@ -608,7 +608,7 @@ extension IterableIntegerExtension on Iterable<int> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) > 0) {
+        if (newValue < value) {
           value = newValue;
         }
       }
@@ -626,7 +626,7 @@ extension IterableIntegerExtension on Iterable<int> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) > 0) {
+        if (newValue < value) {
           value = newValue;
         }
       }
@@ -642,7 +642,7 @@ extension IterableIntegerExtension on Iterable<int> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) < 0) {
+        if (newValue > value) {
           value = newValue;
         }
       }
@@ -660,7 +660,7 @@ extension IterableIntegerExtension on Iterable<int> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) < 0) {
+        if (newValue > value) {
           value = newValue;
         }
       }
@@ -718,7 +718,7 @@ extension IterableDoubleExtension on Iterable<double> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) > 0) {
+        if (newValue < value) {
           value = newValue;
         }
       }
@@ -736,7 +736,7 @@ extension IterableDoubleExtension on Iterable<double> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) > 0) {
+        if (newValue < value) {
           value = newValue;
         }
       }
@@ -752,7 +752,7 @@ extension IterableDoubleExtension on Iterable<double> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) < 0) {
+        if (newValue > value) {
           value = newValue;
         }
       }
@@ -770,7 +770,7 @@ extension IterableDoubleExtension on Iterable<double> {
       var value = iterator.current;
       while (iterator.moveNext()) {
         var newValue = iterator.current;
-        if (value.compareTo(newValue) < 0) {
+        if (newValue > value) {
           value = newValue;
         }
       }

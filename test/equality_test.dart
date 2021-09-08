@@ -121,6 +121,8 @@ void main() {
   var s1 = {...l1};
   var s2 = {map2b, map2a};
 
+  var i1 = Iterable.generate(l1.length, (i) => l1[i]);
+
   test('RecursiveEquality', () {
     const unordered = UnorderedIterableEquality();
     expect(unordered.equals(map1a['x'], map2a['x']), isTrue);
@@ -136,16 +138,53 @@ void main() {
     expect(setmapval.equals(s1, s2), isTrue);
   });
 
-  test('DeepEquality', () {
-    var colleq = const DeepCollectionEquality.unordered();
-    expect(colleq.equals(map1a['x'], map2a['x']), isTrue);
-    expect(colleq.equals(map1a['y'], map2a['y']), isTrue);
-    expect(colleq.equals(map1b['x'], map2b['x']), isTrue);
-    expect(colleq.equals(map1b['y'], map2b['y']), isTrue);
-    expect(colleq.equals(map1a, map2a), isTrue);
-    expect(colleq.equals(map1b, map2b), isTrue);
-    expect(colleq.equals(l1, l2), isTrue);
-    expect(colleq.equals(s1, s2), isTrue);
+  group('DeepEquality', () {
+    group('unordered', () {
+      var colleq = const DeepCollectionEquality.unordered();
+
+      test('with identical collection types', () {
+        expect(colleq.equals(map1a['x'], map2a['x']), isTrue);
+        expect(colleq.equals(map1a['y'], map2a['y']), isTrue);
+        expect(colleq.equals(map1b['x'], map2b['x']), isTrue);
+        expect(colleq.equals(map1b['y'], map2b['y']), isTrue);
+        expect(colleq.equals(map1a, map2a), isTrue);
+        expect(colleq.equals(map1b, map2b), isTrue);
+        expect(colleq.equals(l1, l2), isTrue);
+        expect(colleq.equals(s1, s2), isTrue);
+      });
+
+      // TODO: https://github.com/dart-lang/collection/issues/208
+      test('comparing collections and iterables', () {
+        expect(colleq.equals(l1, i1), isFalse);
+        expect(colleq.equals(i1, l1), isFalse);
+        expect(colleq.equals(s1, i1), isFalse);
+        expect(colleq.equals(i1, s1), isTrue);
+      });
+    });
+
+    group('ordered', () {
+      var colleq = const DeepCollectionEquality();
+
+      test('with identical collection types', () {
+        expect(colleq.equals(l1, l1.toList()), isTrue);
+        expect(colleq.equals(s1, s1.toSet()), isTrue);
+        expect(
+            colleq.equals(map1b, map1b.map((k, v) => MapEntry(k, v))), isTrue);
+        expect(colleq.equals(i1, i1.map((i) => i)), isTrue);
+        expect(colleq.equals(map1a, map2a), isFalse);
+        expect(colleq.equals(map1b, map2b), isFalse);
+        expect(colleq.equals(l1, l2), isFalse);
+        expect(colleq.equals(s1, s2), isFalse);
+      });
+
+      // TODO: https://github.com/dart-lang/collection/issues/208
+      test('comparing collections and iterables', () {
+        expect(colleq.equals(l1, i1), isFalse);
+        expect(colleq.equals(i1, l1), isTrue);
+        expect(colleq.equals(s1, i1), isFalse);
+        expect(colleq.equals(i1, s1), isTrue);
+      });
+    });
   });
 
   test('CaseInsensitiveEquality', () {

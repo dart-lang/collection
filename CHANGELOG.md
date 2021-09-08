@@ -1,6 +1,7 @@
 ## 1.16.0-dev
 
 * Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
+* Add `min` `max` `minOrNull` and `maxOrNull` getters to `IterableDoubleExtension` and `IterableIntegerExtension`
 
 ## 1.15.0
 

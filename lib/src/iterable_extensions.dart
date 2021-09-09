@@ -599,7 +599,8 @@ extension IterableNumberExtension on Iterable<num> {
 
 /// Extension on iterables of integers.
 ///
-/// Specialized version of some extensions of [IterableNumberExtension].
+/// Specialized version of some extensions of [IterableNumberExtension] or
+/// [IterableComparableExtension] since integers are only `Comparable<num>`.
 extension IterableIntegerExtension on Iterable<int> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   int? get minOrNull {
@@ -621,18 +622,11 @@ extension IterableIntegerExtension on Iterable<int> {
   ///
   /// The iterable must not be empty.
   int get min {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (newValue < value) {
-          value = newValue;
-        }
-      }
-      return value;
+    final result = minOrNull;
+    if (result == null) {
+      throw StateError('No element');
     }
-    throw StateError('No element');
+    return result;
   }
 
   /// A maximal element of the iterable, or `null` if the iterable is empty.
@@ -655,16 +649,9 @@ extension IterableIntegerExtension on Iterable<int> {
   ///
   /// The iterable must not be empty.
   int get max {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (newValue > value) {
-          value = newValue;
-        }
-      }
-      return value;
+    final result = maxOrNull;
+    if (result == null) {
+      throw StateError('No element');
     }
     throw StateError('No element');
   }
@@ -709,15 +696,22 @@ extension IterableIntegerExtension on Iterable<int> {
 
 /// Extension on iterables of double.
 ///
-/// Specialized version of some extensions of [IterableNumberExtension].
+/// Specialized version of some extensions of [IterableNumberExtension] or
+/// [IterableComparableExtension] since doubles are only `Comparable<num>`.
 extension IterableDoubleExtension on Iterable<double> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   double? get minOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
       var value = iterator.current;
+      if (value.isNaN) {
+        return value;
+      }
       while (iterator.moveNext()) {
         var newValue = iterator.current;
+        if (newValue.isNaN) {
+          return value;
+        }
         if (newValue < value) {
           value = newValue;
         }
@@ -731,18 +725,11 @@ extension IterableDoubleExtension on Iterable<double> {
   ///
   /// The iterable must not be empty.
   double get min {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (newValue < value) {
-          value = newValue;
-        }
-      }
-      return value;
+    final result = minOrNull;
+    if (result == null) {
+      throw StateError('No element');
     }
-    throw StateError('No element');
+    return result;
   }
 
   /// A maximal element of the iterable, or `null` if the iterable is empty.
@@ -750,8 +737,14 @@ extension IterableDoubleExtension on Iterable<double> {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
       var value = iterator.current;
+      if (value.isNaN) {
+        return value;
+      }
       while (iterator.moveNext()) {
         var newValue = iterator.current;
+        if (newValue.isNaN) {
+          return value;
+        }
         if (newValue > value) {
           value = newValue;
         }
@@ -765,18 +758,11 @@ extension IterableDoubleExtension on Iterable<double> {
   ///
   /// The iterable must not be empty.
   double get max {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (newValue > value) {
-          value = newValue;
-        }
-      }
-      return value;
+    final result = maxOrNull;
+    if (result == null) {
+      throw StateError('No element');
     }
-    throw StateError('No element');
+    return result;
   }
 
   /// The sum of the elements.
@@ -814,18 +800,11 @@ extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
 extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   T? get minOrNull {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (value.compareTo(newValue) > 0) {
-          value = newValue;
-        }
-      }
-      return value;
+    final result = minOrNull;
+    if (result == null) {
+      throw StateError('No element');
     }
-    return null;
+    return result;
   }
 
   /// A minimal element of the iterable.
@@ -866,18 +845,11 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
   ///
   /// The iterable must not be empty.
   T get max {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (value.compareTo(newValue) < 0) {
-          value = newValue;
-        }
-      }
-      return value;
+    final result = maxOrNull;
+    if (result == null) {
+      throw StateError('No element');
     }
-    throw StateError('No element');
+    return result;
   }
 
   /// Creates a sorted list of the elements of the iterable.

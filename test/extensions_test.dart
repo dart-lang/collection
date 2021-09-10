@@ -905,6 +905,7 @@ void main() {
         });
         test('nan', () {
           expect(iterable(<double>[3.0, 1.0, double.nan]).min, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).min, isNaN);
         });
       });
       group('.minOrNull', () {
@@ -925,6 +926,7 @@ void main() {
         });
         test('nan', () {
           expect(iterable(<double>[3.0, 1.0, double.nan]).minOrNull, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).minOrNull, isNaN);
         });
       });
       group('.max', () {
@@ -945,6 +947,7 @@ void main() {
         });
         test('nan', () {
           expect(iterable(<double>[3.0, 1.0, double.nan]).max, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).max, isNaN);
         });
       });
       group('.maxOrNull', () {
@@ -965,6 +968,7 @@ void main() {
         });
         test('nan', () {
           expect(iterable(<double>[3.0, 1.0, double.nan]).maxOrNull, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).maxOrNull, isNaN);
         });
       });
     });

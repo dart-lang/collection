@@ -9,4 +9,4 @@ environment:
 
 dev_dependencies:
   lints: ^1.0.0
-  test: ^1.16.0-nullsafety
+  test: ^1.16.0

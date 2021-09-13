@@ -327,7 +327,7 @@ void main() {
 
       test('.every', () {
         expect(set.every((element) => element == 'foo'), isFalse);
-        expect(set.every((element) => element is String), isTrue);
+        expect(set.every((element) => true), isTrue);
       });
 
       test('.expand', () {
@@ -341,7 +341,7 @@ void main() {
       });
 
       test('.firstWhere', () {
-        expect(set.firstWhere((element) => element is String), equals('foo'));
+        expect(set.firstWhere((element) => true), equals('foo'));
         expect(set.firstWhere((element) => element.startsWith('b')),
             equals('bar'));
         expect(() => set.firstWhere((element) => element is int),
@@ -380,7 +380,7 @@ void main() {
       });
 
       test('.lastWhere', () {
-        expect(set.lastWhere((element) => element is String), equals('bar'));
+        expect(set.lastWhere((element) => true), equals('bar'));
         expect(
             set.lastWhere((element) => element.startsWith('f')), equals('foo'));
         expect(
@@ -403,8 +403,7 @@ void main() {
         expect(() => set.singleWhere((element) => element == 'baz'),
             throwsStateError);
         expect(set.singleWhere((element) => element == 'foo'), 'foo');
-        expect(() => set.singleWhere((element) => element is String),
-            throwsStateError);
+        expect(() => set.singleWhere((element) => true), throwsStateError);
       });
 
       test('.skip', () {
@@ -418,7 +417,7 @@ void main() {
             equals(['bar']));
         expect(set.skipWhile((element) => element.startsWith('z')),
             equals(['foo', 'bar']));
-        expect(set.skipWhile((element) => element is String), equals([]));
+        expect(set.skipWhile((element) => true), equals([]));
       });
 
       test('.take', () {
@@ -431,8 +430,7 @@ void main() {
         expect(set.takeWhile((element) => element.startsWith('f')),
             equals(['foo']));
         expect(set.takeWhile((element) => element.startsWith('z')), equals([]));
-        expect(set.takeWhile((element) => element is String),
-            equals(['foo', 'bar']));
+        expect(set.takeWhile((element) => true), equals(['foo', 'bar']));
       });
 
       test('.toList', () {

@@ -436,7 +436,7 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// Example:
   /// ```dart
-  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitBetween((i, v1, v2) => v1 > v2);
+  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitBetween((v1, v2) => v1 > v2);
   /// print(parts); // ([1], [0, 2], [1, 5, 7], [6, 8, 9])
   /// ```
   Iterable<List<T>> splitBetween(bool Function(T first, T second) test) =>

@@ -1,4 +1,4 @@
-// Copyright (c) 2020, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2021, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -17,8 +17,12 @@ abstract class BoolList with ListMixin<bool> {
 
   static const int _entrySignBitIndex = 31;
 
+  /// The length of the list.
+  ///
+  /// Maybe be shorter than the capacity of the backing store.
   int _length;
 
+  /// Backing store for bits.
   Uint32List _data;
 
   BoolList._(this._data, this._length);
@@ -94,10 +98,20 @@ abstract class BoolList with ListMixin<bool> {
   ///
   /// This constructor creates a growable [BoolList] when [growable] is true;
   /// otherwise, it returns a fixed-length list.
-  factory BoolList.from(Iterable<bool> elements, {bool growable = false}) {
+  factory BoolList.of(Iterable<bool> elements, {bool growable = false}) {
     return BoolList._selectType(elements.length, growable)..setAll(0, elements);
   }
 
+  /// The number of boolean values in this list.
+  ///
+  /// The valid indices for a list are `0` through `length - 1`.
+  ///
+  /// If the list is growable, setting the length will change the
+  /// number of values.
+  /// Setting the length to a smaller number will remove all
+  /// values with indices greater than or equal to the new length.
+  /// Setting the length to a larger number will increase the number of
+  /// values, and all the new values will be `false`.
   @override
   int get length => _length;
 
@@ -110,9 +124,9 @@ abstract class BoolList with ListMixin<bool> {
   }
 
   @override
-  void operator []=(int index, bool val) {
+  void operator []=(int index, bool value) {
     RangeError.checkValidIndex(index, this, 'index', _length);
-    _setBit(index, val);
+    _setBit(index, value);
   }
 
   @override
@@ -145,23 +159,23 @@ abstract class BoolList with ListMixin<bool> {
     }
   }
 
-  /// Returns custom iterator for [BoolList].
+  /// Creates an iterator for the elements of this [BoolList].
   ///
-  /// To provide null safety [Iterator.current] getter of returned iterator
-  /// returns `false` before and after iteration process.
+  /// The [Iterator.current] getter of the returned iterator
+  /// is `false` when the iterator has no current element.
   @override
   Iterator<bool> get iterator => _BoolListIterator(this);
 
-  void _setBit(int index, bool val) {
-    if (val) {
+  void _setBit(int index, bool value) {
+    if (value) {
       _data[index >> _entryShift] |= 1 << (index & _entrySignBitIndex);
     } else {
       _data[index >> _entryShift] &= ~(1 << (index & _entrySignBitIndex));
     }
   }
 
-  static int _lengthInWords(int bitsLength) {
-    return (bitsLength + (_bitsPerEntry - 1)) >> _entryShift;
+  static int _lengthInWords(int bitLength) {
+    return (bitLength + (_bitsPerEntry - 1)) >> _entryShift;
   }
 }
 
@@ -194,7 +208,7 @@ class _GrowableBoolList extends BoolList {
     if (length > _data.length * BoolList._bitsPerEntry) {
       _data = Uint32List(
         BoolList._lengthInWords(length * _growthFactor),
-      )..setAll(0, _data);
+      )..setRange(0, _data.length, _data);
     }
     _length = length;
   }

@@ -1,4 +1,4 @@
-// Copyright (c) 2020, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2021, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -34,9 +34,9 @@ void main() {
     );
   });
 
-  test('BoolList.from()', () {
+  test('BoolList.of()', () {
     var src = List.generate(1024, generator);
-    expect(BoolList.from(src), src);
+    expect(BoolList.of(src), src);
   });
 
   group('[], []=', () {

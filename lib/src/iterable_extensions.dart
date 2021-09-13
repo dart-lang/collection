@@ -166,8 +166,13 @@ extension IterableExtension<T> on Iterable<T> {
     }
   }
 
-  /// Returns an iterable containing only the non-`null` results
-  /// of applying the given [transform] function to each element in this iterable.
+  /// The non-`null` results of calling [transform] on the elements of [this].
+  ///
+  /// Returns a lazy iterable which calls [transform]
+  /// on the elements of this iterable in iteration order,
+  /// then emits only the non-`null` values.
+  ///
+  /// If [transform] throws, the iteration is terminated.
   Iterable<R> mapNotNull<R extends Object>(R? Function(T) transform) sync* {
     for (var element in this) {
       final value = transform(element);

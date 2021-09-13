@@ -269,7 +269,7 @@ void main() {
               [1, 2, 3]);
           expect(iterable(<String>['1', '#', '3']).mapNotNull(int.tryParse),
               [1, 3]);
-          final transform = (int? i) =>
+          List<String>? transform(int? i) =>
               i == null || i.isEven ? null : [i.toString(), (i + 1).toString()];
           expect(
               iterable(<int?>[1, 2, 3, null, 4, 5, 6, null])

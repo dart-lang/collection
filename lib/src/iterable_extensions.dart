@@ -169,7 +169,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// Returns an iterable containing only the non-`null` results
   /// of applying the given [transform] function to each element in this iterable.
   Iterable<R> mapNotNull<R extends Object>(R? Function(T) transform) sync* {
-    for (final element in this) {
+    for (var element in this) {
       final value = transform(element);
       if (value != null) {
         yield value;

@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:test/test.dart';
-
 import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('with an empty outer set', () {
-    var set;
+    dynamic set;
     setUp(() {
       set = UnionSet<int>({});
     });
@@ -40,7 +39,7 @@ void main() {
   });
 
   group('with multiple disjoint sets', () {
-    var set;
+    dynamic set;
     setUp(() {
       set = UnionSet.from([
         {1, 2},
@@ -79,7 +78,7 @@ void main() {
   });
 
   group('with multiple overlapping sets', () {
-    var set;
+    dynamic set;
     setUp(() {
       set = UnionSet.from([
         {1, 2, 3},
@@ -132,7 +131,7 @@ void main() {
   });
 
   group('after an inner set was modified', () {
-    var set;
+    dynamic set;
     setUp(() {
       var innerSet = {3, 7};
       set = UnionSet.from([
@@ -176,7 +175,7 @@ void main() {
   });
 
   group('after the outer set was modified', () {
-    var set;
+    dynamic set;
     setUp(() {
       var innerSet = {6};
       var outerSet = {

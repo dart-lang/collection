@@ -6,7 +6,7 @@ import 'dart:collection';
 
 import 'comparators.dart';
 
-const int _HASH_MASK = 0x7fffffff;
+const int _hashMask = 0x7fffffff;
 
 /// A generic equality relation on objects.
 abstract class Equality<E> {
@@ -67,7 +67,7 @@ class EqualityBy<E, F> implements Equality<E> {
   bool isValidKey(Object? o) {
     if (o is E) {
       final value = _comparisonKey(o);
-      return value is F && _inner.isValidKey(value);
+      return _inner.isValidKey(value);
     }
     return false;
   }
@@ -136,13 +136,13 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
     var hash = 0;
     for (var element in elements) {
       var c = _elementEquality.hash(element);
-      hash = (hash + c) & _HASH_MASK;
-      hash = (hash + (hash << 10)) & _HASH_MASK;
+      hash = (hash + c) & _hashMask;
+      hash = (hash + (hash << 10)) & _hashMask;
       hash ^= (hash >> 6);
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 
@@ -188,13 +188,13 @@ class ListEquality<E> implements Equality<List<E>> {
     var hash = 0;
     for (var i = 0; i < list.length; i++) {
       var c = _elementEquality.hash(list[i]);
-      hash = (hash + c) & _HASH_MASK;
-      hash = (hash + (hash << 10)) & _HASH_MASK;
+      hash = (hash + c) & _hashMask;
+      hash = (hash + (hash << 10)) & _hashMask;
       hash ^= (hash >> 6);
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 
@@ -237,11 +237,11 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
     var hash = 0;
     for (E element in elements) {
       var c = _elementEquality.hash(element);
-      hash = (hash + c) & _HASH_MASK;
+      hash = (hash + c) & _hashMask;
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 }
@@ -287,15 +287,15 @@ class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
 /// using a combined hashCode and equality of the key and value.
 class _MapEntry {
   final MapEquality equality;
-  final key;
-  final value;
+  final Object? key;
+  final Object? value;
   _MapEntry(this.equality, this.key, this.value);
 
   @override
   int get hashCode =>
       (3 * equality._keyEquality.hash(key) +
           7 * equality._valueEquality.hash(value)) &
-      _HASH_MASK;
+      _hashMask;
 
   @override
   bool operator ==(Object other) =>
@@ -349,11 +349,11 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
     for (var key in map.keys) {
       var keyHash = _keyEquality.hash(key);
       var valueHash = _valueEquality.hash(map[key] as V);
-      hash = (hash + 3 * keyHash + 7 * valueHash) & _HASH_MASK;
+      hash = (hash + 3 * keyHash + 7 * valueHash) & _hashMask;
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 

@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:test/test.dart';
-
 import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
 // Test unmodifiable collection views.
 // The collections should pass through the operations that are allowed,
@@ -124,9 +123,11 @@ void testIterable(Iterable<int> original, Iterable<int> wrapped, String name) {
   test('$name - forEach', () {
     var wrapCtr = 0;
     var origCtr = 0;
+    // ignore: avoid_function_literals_in_foreach_calls
     wrapped.forEach((x) {
       wrapCtr += x;
     });
+    // ignore: avoid_function_literals_in_foreach_calls
     original.forEach((x) {
       origCtr += x;
     });

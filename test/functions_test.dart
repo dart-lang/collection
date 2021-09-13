@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:test/test.dart';
-
 import 'package:collection/collection.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('mapMap()', () {
@@ -163,7 +162,7 @@ void main() {
             {'foo': 4},
             {'foo': 1},
             {'foo': 2}
-          ], (map) => map!,
+          ], (map) => map,
               compare: (map1, map2) => map1['foo']!.compareTo(map2['foo']!)),
           equals({'foo': 5}));
     });

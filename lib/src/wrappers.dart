@@ -79,7 +79,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   @override
   E reduce(E Function(E value, E element) combine) => _base.reduce(combine);
 
-  @deprecated
+  @Deprecated("Use cast instead")
   Iterable<T> retype<T>() => cast<T>();
 
   @override
@@ -278,7 +278,7 @@ class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
     _base.retainWhere(test);
   }
 
-  @deprecated
+  @Deprecated("Use cast instead")
   @override
   List<T> retype<T>() => cast<T>();
 
@@ -379,7 +379,7 @@ class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
     _base.retainAll(elements);
   }
 
-  @deprecated
+  @Deprecated("Use cast instead")
   @override
   Set<T> retype<T>() => cast<T>();
 
@@ -462,7 +462,7 @@ class DelegatingQueue<E> extends _DelegatingIterableBase<E>
     _base.retainWhere(test);
   }
 
-  @deprecated
+  @Deprecated("Use cast instead")
   @override
   Queue<T> retype<T>() => cast<T>();
 
@@ -563,7 +563,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   @override
   void removeWhere(bool Function(K, V) test) => _base.removeWhere(test);
 
-  @deprecated
+  @Deprecated("Use cast instead")
   Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   @override
@@ -651,7 +651,7 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object? element) =>
       throw UnsupportedError("MapKeySet doesn't support lookup().");
 
-  @deprecated
+  @Deprecated("Use cast instead")
   @override
   Set<T> retype<T>() => Set.castFrom<E, T>(this);
 
@@ -822,7 +822,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool Function(V) test) =>
       removeWhere((element) => !test(element));
 
-  @deprecated
+  @Deprecated("Use cast instead")
   @override
   Set<T> retype<T>() => Set.castFrom<V, T>(this);
 

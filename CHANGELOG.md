@@ -3,6 +3,7 @@
 * Add `BoolList` class for space-efficient lists of boolean values.
 * Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
 * Add `min`, `max`, `minOrNull` and `maxOrNull` getters to `IterableDoubleExtension`, `IterableNumberExtension` and `IterableIntegerExtension`
+* Add `IterableExtension.mapNotNull` method.
 
 ## 1.15.0
 

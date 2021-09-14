@@ -3,6 +3,10 @@
 * Add `BoolList` class for space-efficient lists of boolean values.
 * Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
 * Add `min`, `max`, `minOrNull` and `maxOrNull` getters to `IterableDoubleExtension`, `IterableNumberExtension` and `IterableIntegerExtension`
+* Change `UnorderedIterableEquality` and `SetEquality` to implement `Equality`
+  with a non-nullable generic. This allows assignment to `Equality` with a
+  non-nullable generic.
+
 
 ## 1.15.0
 

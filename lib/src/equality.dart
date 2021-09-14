@@ -202,14 +202,14 @@ class ListEquality<E> implements Equality<List<E>> {
   bool isValidKey(Object? o) => o is List<E>;
 }
 
-abstract class _UnorderedEquality<E, T extends Iterable<E>?>
+abstract class _UnorderedEquality<E, T extends Iterable<E>>
     implements Equality<T> {
   final Equality<E> _elementEquality;
 
   const _UnorderedEquality(this._elementEquality);
 
   @override
-  bool equals(T elements1, T elements2) {
+  bool equals(T? elements1, T? elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
     var counts = HashMap(
@@ -232,7 +232,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
   }
 
   @override
-  int hash(T elements) {
+  int hash(T? elements) {
     if (elements == null) return null.hashCode;
     var hash = 0;
     for (E element in elements) {
@@ -251,7 +251,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
 /// Two iterables are considered equal if they have the same number of elements,
 /// and the elements of one set can be paired with the elements
 /// of the other iterable, so that each pair are equal.
-class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
+class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
   const UnorderedIterableEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
@@ -272,7 +272,7 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
+class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
   const SetEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);

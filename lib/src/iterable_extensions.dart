@@ -175,7 +175,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// If [transform] throws, the iteration is terminated.
   Iterable<R> mapNotNull<R extends Object>(R? Function(T) transform) sync* {
     for (var element in this) {
-      final value = transform(element);
+      var value = transform(element);
       if (value != null) {
         yield value;
       }

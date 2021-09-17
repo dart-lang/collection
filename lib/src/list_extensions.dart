@@ -252,6 +252,10 @@ extension ListExtensions<E> on List<E> {
     }
     return true;
   }
+  
+  /// Returns an element at the given [index]
+  /// or `null` if the [index] is out of bounds of this list.
+  E? getOrNull(int index) => (index >= 0 && index < length) ? this[index] : null;
 }
 
 /// Various extensions on lists of comparable elements.

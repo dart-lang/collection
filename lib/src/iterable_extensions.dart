@@ -590,7 +590,6 @@ extension IterableNumberExtension on Iterable<num> {
       }
       return value;
     }
-    return null;
   }
 
   /// A minimal element of the iterable.
@@ -617,7 +616,6 @@ extension IterableNumberExtension on Iterable<num> {
       }
       return value;
     }
-    return null;
   }
 
   /// A maximal element of the iterable.
@@ -672,7 +670,6 @@ extension IterableIntegerExtension on Iterable<int> {
       }
       return value;
     }
-    return null;
   }
 
   /// A minimal element of the iterable.
@@ -693,7 +690,6 @@ extension IterableIntegerExtension on Iterable<int> {
       }
       return value;
     }
-    return null;
   }
 
   /// A maximal element of the iterable.
@@ -763,7 +759,6 @@ extension IterableDoubleExtension on Iterable<double> {
       }
       return value;
     }
-    return null;
   }
 
   /// A minimal element of the iterable.
@@ -790,7 +785,6 @@ extension IterableDoubleExtension on Iterable<double> {
       }
       return value;
     }
-    return null;
   }
 
   /// A maximal element of the iterable.
@@ -864,7 +858,6 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
       }
       return value;
     }
-    return null;
   }
 
   /// A maximal element of the iterable.

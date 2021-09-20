@@ -844,6 +844,7 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
       }
       return value;
     }
+    return null;
   }
 
   /// A minimal element of the iterable.

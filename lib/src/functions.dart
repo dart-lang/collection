@@ -41,6 +41,19 @@ Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
   return result;
 }
 
+/// Associates the elements in [values] by the value returned by [key].
+///
+/// Returns a map from keys computed by [key] to the last value for which [key]
+/// returns that key.
+Map<T, S> lastBy<S, T>(Iterable<S> values, T Function(S) key) {
+  var map = <T, S>{};
+  for (var element in values) {
+    map[key(element)] = element;
+  }
+
+  return map;
+}
+
 /// Groups the elements in [values] by the value returned by [key].
 ///
 /// Returns a map from keys computed by [key] to a list of all values for which

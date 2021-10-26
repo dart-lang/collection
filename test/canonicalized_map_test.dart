@@ -160,7 +160,7 @@ void main() {
   });
 
   group('CanonicalizedMap builds an informative string representation', () {
-    var map;
+    dynamic map;
     setUp(() {
       map = CanonicalizedMap<int, String, dynamic>(int.parse,
           isValidKey: RegExp(r'^\d+$').hasMatch);

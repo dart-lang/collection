@@ -1,25 +1,11 @@
-include: package:pedantic/analysis_options.1.9.0.yaml
-analyzer:
-  errors:
-    unused_element: error
-    unused_import: error
-    unused_local_variable: error
-    dead_code: error
+include: package:lints/recommended.yaml
 linter:
   rules:
     # Errors
-    - control_flow_in_finally
-    - empty_statements
-    - hash_and_equals
-    - implementation_imports
     - test_types_in_equals
     - throw_in_finally
 
     # Style
     - avoid_private_typedef_functions
-    - avoid_renaming_method_parameters
-    - await_only_futures
-    - camel_case_types
     - directives_ordering
-    - non_constant_identifier_names
     - only_throw_errors

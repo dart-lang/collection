@@ -123,9 +123,11 @@ void testIterable(Iterable<int> original, Iterable<int> wrapped, String name) {
   test('$name - forEach', () {
     var wrapCtr = 0;
     var origCtr = 0;
+    // ignore: avoid_function_literals_in_foreach_calls
     wrapped.forEach((x) {
       wrapCtr += x;
     });
+    // ignore: avoid_function_literals_in_foreach_calls
     original.forEach((x) {
       origCtr += x;
     });

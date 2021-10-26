@@ -6,7 +6,7 @@ import 'dart:collection';
 
 import 'comparators.dart';
 
-const int _HASH_MASK = 0x7fffffff;
+const int _hashMask = 0x7fffffff;
 
 /// A generic equality relation on objects.
 abstract class Equality<E> {
@@ -67,7 +67,7 @@ class EqualityBy<E, F> implements Equality<E> {
   bool isValidKey(Object? o) {
     if (o is E) {
       final value = _comparisonKey(o);
-      return value is F && _inner.isValidKey(value);
+      return _inner.isValidKey(value);
     }
     return false;
   }
@@ -136,13 +136,13 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
     var hash = 0;
     for (var element in elements) {
       var c = _elementEquality.hash(element);
-      hash = (hash + c) & _HASH_MASK;
-      hash = (hash + (hash << 10)) & _HASH_MASK;
+      hash = (hash + c) & _hashMask;
+      hash = (hash + (hash << 10)) & _hashMask;
       hash ^= (hash >> 6);
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 
@@ -188,13 +188,13 @@ class ListEquality<E> implements Equality<List<E>> {
     var hash = 0;
     for (var i = 0; i < list.length; i++) {
       var c = _elementEquality.hash(list[i]);
-      hash = (hash + c) & _HASH_MASK;
-      hash = (hash + (hash << 10)) & _HASH_MASK;
+      hash = (hash + c) & _hashMask;
+      hash = (hash + (hash << 10)) & _hashMask;
       hash ^= (hash >> 6);
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 
@@ -202,14 +202,14 @@ class ListEquality<E> implements Equality<List<E>> {
   bool isValidKey(Object? o) => o is List<E>;
 }
 
-abstract class _UnorderedEquality<E, T extends Iterable<E>?>
+abstract class _UnorderedEquality<E, T extends Iterable<E>>
     implements Equality<T> {
   final Equality<E> _elementEquality;
 
   const _UnorderedEquality(this._elementEquality);
 
   @override
-  bool equals(T elements1, T elements2) {
+  bool equals(T? elements1, T? elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
     var counts = HashMap(
@@ -232,16 +232,16 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
   }
 
   @override
-  int hash(T elements) {
+  int hash(T? elements) {
     if (elements == null) return null.hashCode;
     var hash = 0;
     for (E element in elements) {
       var c = _elementEquality.hash(element);
-      hash = (hash + c) & _HASH_MASK;
+      hash = (hash + c) & _hashMask;
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 }
@@ -251,7 +251,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>?>
 /// Two iterables are considered equal if they have the same number of elements,
 /// and the elements of one set can be paired with the elements
 /// of the other iterable, so that each pair are equal.
-class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
+class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
   const UnorderedIterableEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
@@ -272,7 +272,7 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>?> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
+class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
   const SetEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
       : super(elementEquality);
@@ -287,15 +287,15 @@ class SetEquality<E> extends _UnorderedEquality<E, Set<E>?> {
 /// using a combined hashCode and equality of the key and value.
 class _MapEntry {
   final MapEquality equality;
-  final key;
-  final value;
+  final Object? key;
+  final Object? value;
   _MapEntry(this.equality, this.key, this.value);
 
   @override
   int get hashCode =>
       (3 * equality._keyEquality.hash(key) +
           7 * equality._valueEquality.hash(value)) &
-      _HASH_MASK;
+      _hashMask;
 
   @override
   bool operator ==(Object other) =>
@@ -349,11 +349,11 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
     for (var key in map.keys) {
       var keyHash = _keyEquality.hash(key);
       var valueHash = _valueEquality.hash(map[key] as V);
-      hash = (hash + 3 * keyHash + 7 * valueHash) & _HASH_MASK;
+      hash = (hash + 3 * keyHash + 7 * valueHash) & _hashMask;
     }
-    hash = (hash + (hash << 3)) & _HASH_MASK;
+    hash = (hash + (hash << 3)) & _hashMask;
     hash ^= (hash >> 11);
-    hash = (hash + (hash << 15)) & _HASH_MASK;
+    hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
 

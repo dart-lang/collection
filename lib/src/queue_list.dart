@@ -115,7 +115,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
 
   QueueList<T> cast<T>() => QueueList._castFrom<E, T>(this);
 
-  @deprecated
+  @Deprecated("Use cast instead")
   QueueList<T> retype<T>() => cast<T>();
 
   @override

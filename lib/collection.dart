@@ -4,6 +4,7 @@
 
 export 'src/algorithms.dart'
     show binarySearch, insertionSort, lowerBound, mergeSort, shuffle, reverse;
+export 'src/boollist.dart';
 export 'src/canonicalized_map.dart';
 export 'src/combined_wrappers/combined_iterable.dart';
 export 'src/combined_wrappers/combined_list.dart';

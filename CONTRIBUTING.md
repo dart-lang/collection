@@ -21,8 +21,8 @@ frustration later on.
 All submissions, including submissions by project members, require review.
 
 ### Presubmit testing
-* All code must pass analysis by the `dartanalyzer` (`dartanalyzer --fatal-warnings .`)
-* All code must be formatted by `dartfmt` (`dartfmt -w .`)
+* All code must pass analysis by `dart analyze --fatal-infos`.
+* All code must be formatted by `dart format`.
   * _NOTE_: We currently require formatting by the `dev` channel SDK.
 * All code must pass unit tests for the VM, Dart2JS, and DartDevC (`pub run build_runner test`).
   * _NOTE_: We currently use `build_runner` for compilation with DartDevC. It's

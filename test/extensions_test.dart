@@ -140,14 +140,18 @@ void main() {
         test('single', () {
           var log = [];
           iterable(['a']).forEachIndexed((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
           });
           expect(log, [0, 'a']);
         });
         test('multiple', () {
           var log = [];
           iterable(['a', 'b', 'c']).forEachIndexed((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
           });
           expect(log, [0, 'a', 1, 'b', 2, 'c']);
         });
@@ -204,7 +208,9 @@ void main() {
         test('single true', () {
           var log = [];
           iterable(['a']).forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return true;
           });
           expect(log, [0, 'a']);
@@ -212,7 +218,9 @@ void main() {
         test('single false', () {
           var log = [];
           iterable(['a']).forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return false;
           });
           expect(log, [0, 'a']);
@@ -220,7 +228,9 @@ void main() {
         test('multiple one', () {
           var log = [];
           iterable(['a', 'b', 'c']).forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return false;
           });
           expect(log, [0, 'a']);
@@ -228,7 +238,9 @@ void main() {
         test('multiple all', () {
           var log = [];
           iterable(['a', 'b', 'c']).forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return true;
           });
           expect(log, [0, 'a', 1, 'b', 2, 'c']);
@@ -236,7 +248,9 @@ void main() {
         test('multiple some', () {
           var log = [];
           iterable(['a', 'b', 'c']).forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return s != 'b';
           });
           expect(log, [0, 'a', 1, 'b']);
@@ -260,7 +274,9 @@ void main() {
         test('none', () {
           var trace = [];
           int log(int a, int b) {
-            trace..add(a)..add(b);
+            trace
+              ..add(a)
+              ..add(b);
             return b;
           }
 
@@ -286,7 +302,9 @@ void main() {
         test('none', () {
           var trace = [];
           int log(int a, int b) {
-            trace..add(a)..add(b);
+            trace
+              ..add(a)
+              ..add(b);
             return b;
           }
 
@@ -599,7 +617,9 @@ void main() {
         test('no split', () {
           var trace = [];
           bool log(i, x) {
-            trace..add('$i')..add(x);
+            trace
+              ..add('$i')
+              ..add(x);
             return false;
           }
 
@@ -679,7 +699,9 @@ void main() {
         test('no split', () {
           var trace = [];
           bool log(i, x) {
-            trace..add('$i')..add(x);
+            trace
+              ..add('$i')
+              ..add(x);
             return false;
           }
 
@@ -863,6 +885,90 @@ void main() {
           expect(iterable(<int>[1, 3, 5, 9]).average, 4.5);
           expect(iterable(<double>[1.0, 3.0, 5.0, 9.0]).average, 4.5);
           expect(iterable(<num>[1, 3, 5, 9]).average, 4.5);
+        });
+      });
+      group('.min', () {
+        test('empty', () {
+          expect(() => iterable(<int>[]).min, throwsStateError);
+          expect(() => iterable(<double>[]).min, throwsStateError);
+          expect(() => iterable(<num>[]).min, throwsStateError);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).min, 1);
+          expect(iterable(<double>[1.0]).min, 1.0);
+          expect(iterable(<num>[1.0]).min, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).min, 1);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).min, 1.0);
+          expect(iterable(<num>[3, 1, 2.5]).min, 1.0);
+        });
+        test('nan', () {
+          expect(iterable(<double>[3.0, 1.0, double.nan]).min, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).min, isNaN);
+        });
+      });
+      group('.minOrNull', () {
+        test('empty', () {
+          expect(iterable(<int>[]).minOrNull, null);
+          expect(iterable(<double>[]).minOrNull, null);
+          expect(iterable(<num>[]).minOrNull, null);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).minOrNull, 1);
+          expect(iterable(<double>[1.0]).minOrNull, 1.0);
+          expect(iterable(<num>[1.0]).minOrNull, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).minOrNull, 1);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).minOrNull, 1.0);
+          expect(iterable(<num>[3, 1, 2.5]).minOrNull, 1.0);
+        });
+        test('nan', () {
+          expect(iterable(<double>[3.0, 1.0, double.nan]).minOrNull, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).minOrNull, isNaN);
+        });
+      });
+      group('.max', () {
+        test('empty', () {
+          expect(() => iterable(<int>[]).max, throwsStateError);
+          expect(() => iterable(<double>[]).max, throwsStateError);
+          expect(() => iterable(<num>[]).max, throwsStateError);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).max, 1);
+          expect(iterable(<double>[1.0]).max, 1.0);
+          expect(iterable(<num>[1.0]).max, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).max, 3);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).max, 3.0);
+          expect(iterable(<num>[3, 1, 2.5]).max, 3);
+        });
+        test('nan', () {
+          expect(iterable(<double>[3.0, 1.0, double.nan]).max, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).max, isNaN);
+        });
+      });
+      group('.maxOrNull', () {
+        test('empty', () {
+          expect(iterable(<int>[]).maxOrNull, null);
+          expect(iterable(<double>[]).maxOrNull, null);
+          expect(iterable(<num>[]).maxOrNull, null);
+        });
+        test('single', () {
+          expect(iterable(<int>[1]).maxOrNull, 1);
+          expect(iterable(<double>[1.0]).maxOrNull, 1.0);
+          expect(iterable(<num>[1.0]).maxOrNull, 1.0);
+        });
+        test('multiple', () {
+          expect(iterable(<int>[3, 1, 2]).maxOrNull, 3);
+          expect(iterable(<double>[3.0, 1.0, 2.5]).maxOrNull, 3.0);
+          expect(iterable(<num>[3, 1, 2.5]).maxOrNull, 3);
+        });
+        test('nan', () {
+          expect(iterable(<double>[3.0, 1.0, double.nan]).maxOrNull, isNaN);
+          expect(iterable(<num>[3.0, 1, double.nan]).maxOrNull, isNaN);
         });
       });
     });
@@ -1430,14 +1536,18 @@ void main() {
         test('single', () {
           var log = [];
           ['a'].forEachIndexed((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
           });
           expect(log, [0, 'a']);
         });
         test('multiple', () {
           var log = [];
           ['a', 'b', 'c'].forEachIndexed((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
           });
           expect(log, [0, 'a', 1, 'b', 2, 'c']);
         });
@@ -1494,7 +1604,9 @@ void main() {
         test('single true', () {
           var log = [];
           ['a'].forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return true;
           });
           expect(log, [0, 'a']);
@@ -1502,7 +1614,9 @@ void main() {
         test('single false', () {
           var log = [];
           ['a'].forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return false;
           });
           expect(log, [0, 'a']);
@@ -1510,7 +1624,9 @@ void main() {
         test('multiple one', () {
           var log = [];
           ['a', 'b', 'c'].forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return false;
           });
           expect(log, [0, 'a']);
@@ -1518,7 +1634,9 @@ void main() {
         test('multiple all', () {
           var log = [];
           ['a', 'b', 'c'].forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return true;
           });
           expect(log, [0, 'a', 1, 'b', 2, 'c']);
@@ -1526,7 +1644,9 @@ void main() {
         test('multiple some', () {
           var log = [];
           ['a', 'b', 'c'].forEachIndexedWhile((i, s) {
-            log..add(i)..add(s);
+            log
+              ..add(i)
+              ..add(s);
             return s != 'b';
           });
           expect(log, [0, 'a', 1, 'b']);
@@ -1550,7 +1670,9 @@ void main() {
         test('none', () {
           var trace = [];
           int log(int a, int b) {
-            trace..add(a)..add(b);
+            trace
+              ..add(a)
+              ..add(b);
             return b;
           }
 
@@ -1573,7 +1695,9 @@ void main() {
         test('none', () {
           var trace = [];
           int log(int a, int b) {
-            trace..add(a)..add(b);
+            trace
+              ..add(a)
+              ..add(b);
             return b;
           }
 

@@ -58,7 +58,7 @@ abstract class PriorityQueue<E> {
   /// an object.
   bool contains(E object);
 
-  /// Provides efficient access to all the elements curently in the queue.
+  /// Provides efficient access to all the elements currently in the queue.
   ///
   /// The operation should be performed without copying or moving
   /// the elements, if at all possible.
@@ -232,7 +232,7 @@ class HeapPriorityQueue<E> implements PriorityQueue<E> {
   @override
   bool contains(E object) => _locate(object) >= 0;
 
-  /// Provides efficient access to all the elements curently in the queue.
+  /// Provides efficient access to all the elements currently in the queue.
   ///
   /// The operation is performed in the order they occur
   /// in the underlying heap structure.

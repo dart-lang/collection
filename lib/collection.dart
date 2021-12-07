@@ -19,6 +19,7 @@ export 'src/iterable_zip.dart';
 export 'src/list_extensions.dart';
 export 'src/priority_queue.dart';
 export 'src/queue_list.dart';
+export 'src/sort_order.dart';
 export 'src/union_set.dart';
 export 'src/union_set_controller.dart';
 export 'src/unmodifiable_wrappers.dart';

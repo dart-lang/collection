@@ -48,6 +48,18 @@ Wrapper classes can be used in various ways, for example to restrict the type
 of an object to that of a supertype, or to change the behavior of selected
 functions on an existing object.
 
+## Sort Order
+
+Sort order helpers that make it easier for you to sort `List`s. 
+
+```dart
+final list = [1, 3, 2, 4]..sortAsc(); // Results int [1, 2, 3, 4]
+final list = [1, 3, 2, 4]..sort((a, b) => sortAsc(a, b)); // Results int [1, 2, 3, 4]
+
+final list = [1, 3, 2, 4]..sortDesc(); // Results in [4, 3, 2, 1]
+final list = [1, 3, 2, 4]..sort((a, b) => sortDesc(a, b)); // Results in [4, 3, 2, 1]
+```
+
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].

@@ -300,7 +300,7 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// **Notice**: This behavior differs from [Iterable.singleWhere]
   /// which always throws if there are more than one match,
-  /// and only calls the `orElse` function on zero matchs.
+  /// and only calls the `orElse` function on zero matches.
   T? singleWhereOrNull(bool Function(T element) test) {
     T? result;
     var found = false;

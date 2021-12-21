@@ -242,7 +242,7 @@ extension ListExtensions<E> on List<E> {
   /// Whether [other] has the same elements as this list.
   ///
   /// Returns true iff [other] has the same [length]
-  /// as this list, and the elemets of this list and [other]
+  /// as this list, and the elements of this list and [other]
   /// at the same indices are equal according to [equality],
   /// which defaults to using `==`.
   bool equals(List<E> other, [Equality<E> equality = const DefaultEquality()]) {

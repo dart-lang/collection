@@ -549,6 +549,26 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return true;
   }
+
+  /// Contiguous [slice]s of [this] with the given [length].
+  ///
+  /// Each slice is [length] elements long, except for the last one which may be
+  /// shorter if [this] contains too few elements. Each slice begins after the
+  /// last one ends. The [length] must be greater than zero.
+  ///
+  /// For example, `{1, 2, 3, 4, 5}.slices(2)` returns `([1, 2], [3, 4], [5])`.
+  Iterable<List<T>> slices(int length) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+
+    var iterator = this.iterator;
+    while (iterator.moveNext()) {
+      var slice = [iterator.current];
+      for (var i = 1; i < length && iterator.moveNext(); i++) {
+        slice.add(iterator.current);
+      }
+      yield slice;
+    }
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.

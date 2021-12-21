@@ -222,8 +222,8 @@ extension ListExtensions<E> on List<E> {
 
   /// A fixed length view of a range of this list.
   ///
-  /// The view is backed by this this list, which must not
-  /// change its length while the view is being used.
+  /// The view is backed by this list, which must not change its length while
+  /// the view is being used.
   ///
   /// The view can be used to perform specific whole-list
   /// actions on a part of the list.
@@ -251,6 +251,23 @@ extension ListExtensions<E> on List<E> {
       if (!equality.equals(this[i], other[i])) return false;
     }
     return true;
+  }
+
+  /// Contiguous [slice]s of [this] with the given [length].
+  ///
+  /// Each slice is a view of this list [length] elements long, except for the
+  /// last one which may be shorter if [this] contains too few elements. Each
+  /// slice begins after the last one ends.
+  ///
+  /// As with [slice], these slices are backed by this list, which must not
+  /// change its length while the views are being used.
+  ///
+  /// For example, `[1, 2, 3, 4, 5].slices(2)` returns `[[1, 2], [3, 4], [5]]`.
+  Iterable<List<E>> slices(int length) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+    for (var i = 0; i < this.length; i += length) {
+      yield slice(i, min(i + length, this.length));
+    }
   }
 }
 
@@ -356,8 +373,8 @@ class ListSlice<E> extends ListBase<E> {
 
   /// A fixed length view of a range of this list.
   ///
-  /// The view is backed by this this list, which must not
-  /// change its length while the view is being used.
+  /// The view is backed by this list, which must not change its length while
+  /// the view is being used.
   ///
   /// The view can be used to perform specific whole-list
   /// actions on a part of the list.

@@ -253,7 +253,7 @@ extension ListExtensions<E> on List<E> {
     return true;
   }
 
-  /// Returns an iterable whose elements are contiguous [slice]s of [this].
+  /// Contiguous [slice]s of [this] with the given [length].
   ///
   /// Each slice is a view of this list [length] elements long, except for the
   /// last one which may be shorter if [this] contains too few elements. Each

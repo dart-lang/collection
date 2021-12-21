@@ -554,7 +554,7 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// Each slice is [length] elements long, except for the last one which may be
   /// shorter if [this] contains too few elements. Each slice begins after the
-  /// last one ends.
+  /// last one ends. The [length] must be greater than zero.
   ///
   /// For example, `{1, 2, 3, 4, 5}.slices(2)` returns `([1, 2], [3, 4], [5])`.
   Iterable<List<T>> slices(int length) sync* {

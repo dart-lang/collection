@@ -5,9 +5,34 @@
 import 'dart:math' show pow, Random;
 
 import 'package:collection/collection.dart';
+import 'package:collection/src/int_extensions.dart';
 import 'package:test/test.dart';
 
 void main() {
+  group('int', () {
+    group('.until', () {
+      test('increase', () {
+        expect(1.until(5), iterable([1, 2, 3, 4]));
+      });
+      test('decrease', () {
+        expect(5.until(1), iterable([5, 4, 3, 2]));
+      });
+      test('same', () {
+        expect(1.until(1), Iterable.empty());
+      });
+    });
+    group('.rangeTo', () {
+      test('increase', () {
+        expect(1.rangeTo(5), iterable([1, 2, 3, 4, 5]));
+      });
+      test('decrease', () {
+        expect(5.rangeTo(1), iterable([5, 4, 3, 2, 1]));
+      });
+      test('same', () {
+        expect(1.rangeTo(1), iterable([1]));
+      });
+    });
+  });
   group('Iterable', () {
     group('of any', () {
       group('.whereNot', () {

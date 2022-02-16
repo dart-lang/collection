@@ -212,7 +212,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
   bool equals(T? elements1, T? elements2) {
     if (identical(elements1, elements2)) return true;
     if (elements1 == null || elements2 == null) return false;
-    var counts = HashMap<E, int?>(
+    var counts = HashMap<E, int>(
         equals: _elementEquality.equals,
         hashCode: _elementEquality.hash,
         isValidKey: _elementEquality.isValidKey);

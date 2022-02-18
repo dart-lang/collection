@@ -11,7 +11,7 @@
   Assignment to `Equality` with a nullable type is still allowed because of
   covariance. The `equals` and `hash` methods continue to accept nullable
   arguments.
-
+* Enable the `avoid_dynamic_calls` lint.
 
 ## 1.15.0
 

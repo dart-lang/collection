@@ -1,4 +1,4 @@
-## 1.16.0-dev
+## 1.16.0
 
 * Add an `Iterable.slices` extension method.
 * Add `BoolList` class for space-efficient lists of boolean values.

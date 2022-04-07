@@ -593,7 +593,7 @@ extension IterableNullableExtension<T extends Object> on Iterable<T?> {
 extension IterableNumberExtension on Iterable<num> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   ///
-  /// If an element is NaN, it is considered to be a minimal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   num? get minOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -617,14 +617,14 @@ extension IterableNumberExtension on Iterable<num> {
 
   /// A minimal element of the iterable.
   ///
-  /// If an element is NaN, it is considered to be a minimal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   ///
   /// The iterable must not be empty.
   num get min => minOrNull ?? (throw StateError('No element'));
 
   /// A maximal element of the iterable, or `null` if the iterable is empty.
   ///
-  /// If an element is NaN, it is considered to be a maximal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   num? get maxOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -648,7 +648,7 @@ extension IterableNumberExtension on Iterable<num> {
 
   /// A maximal element of the iterable.
   ///
-  /// If an element is NaN, it is considered to be a maximal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   ///
   /// The iterable must not be empty.
   num get max => maxOrNull ?? (throw StateError('No element'));
@@ -774,7 +774,7 @@ extension IterableIntegerExtension on Iterable<int> {
 extension IterableDoubleExtension on Iterable<double> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
   ///
-  /// If an element is NaN, it is considered to be a minimal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   double? get minOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -798,14 +798,14 @@ extension IterableDoubleExtension on Iterable<double> {
 
   /// A minimal element of the iterable.
   ///
-  /// If an element is NaN, it is considered to be a minimal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   ///
   /// The iterable must not be empty.
   double get min => minOrNull ?? (throw StateError('No element'));
 
   /// A maximal element of the iterable, or `null` if the iterable is empty.
   ///
-  /// If an element is NaN, it is considered to be a maximal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   double? get maxOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -829,7 +829,7 @@ extension IterableDoubleExtension on Iterable<double> {
 
   /// A maximal element of the iterable.
   ///
-  /// If an element is NaN, it is considered to be a maximal element.
+  /// If any element is [NaN](double.nan), the result is NaN.
   ///
   /// The iterable must not be empty.
   double get max => maxOrNull ?? (throw StateError('No element'));

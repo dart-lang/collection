@@ -136,7 +136,7 @@ void main() {
     test('returns null for an empty iterable', () {
       expect(
           maxBy([], expectAsync1((dynamic _) {}, count: 0),
-              compare: expectAsync2((dynamic _, dynamic __) => null, count: 0)),
+              compare: expectAsync2((dynamic _, dynamic __) => 0, count: 0)),
           isNull);
     });
 

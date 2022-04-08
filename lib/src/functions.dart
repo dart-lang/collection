@@ -87,14 +87,14 @@ S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
 ///
 /// Returns `null` if [values] is empty.
 S? maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,
-    {int? Function(T, T)? compare}) {
+    {int Function(T, T)? compare}) {
   compare ??= defaultCompare;
 
   S? maxValue;
   T? maxOrderBy;
   for (var element in values) {
     var elementOrderBy = orderBy(element);
-    if (maxOrderBy == null || compare(elementOrderBy, maxOrderBy)! > 0) {
+    if (maxOrderBy == null || compare(elementOrderBy, maxOrderBy) > 0) {
       maxValue = element;
       maxOrderBy = elementOrderBy;
     }

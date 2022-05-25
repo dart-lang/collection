@@ -16,6 +16,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified
   ///
@@ -26,6 +27,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare] on the [keyOf] of elements,
   /// otherwise the result is unspecified.
   ///
@@ -42,6 +44,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to the natural ordering of
   /// the [keyOf] of elements, otherwise the result is unspecified.
   ///
@@ -57,6 +60,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified.
   ///
@@ -71,6 +75,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare] of
   /// the [keyOf] of the elements, otherwise the result is unspecified.
   ///
@@ -90,6 +95,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to the
   /// natural ordering of the [keyOf] of the elements,
   /// otherwise the result is unspecified.
@@ -276,6 +282,7 @@ extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified.
   /// If [compare] is omitted, it uses the natural order of the elements.
@@ -288,6 +295,7 @@ extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of where [element] should be.
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified.
   /// If [compare] is omitted, it uses the natural order of the elements.

@@ -57,6 +57,8 @@ int binarySearchBy<E, K>(List<E> sortedList, K Function(E element) keyOf,
 /// Returns the first position in [sortedList] that does not compare less than
 /// [value].
 ///
+/// Uses binary search to find the location of [value].
+/// This takes on the order of `log(n)` comparisons.
 /// If the list isn't sorted according to the [compare] function, the result
 /// is unpredictable.
 ///
@@ -72,6 +74,8 @@ int lowerBound<E>(List<E> sortedList, E value, {int Function(E, E)? compare}) {
 
 /// Returns the first position in [sortedList] that is not before [value].
 ///
+/// Uses binary search to find the location of [value].
+/// This takes on the order of `log(n)` comparisons.
 /// Elements are compared using the [compare] function of the [keyOf] property of
 /// the elements.
 /// If the list isn't sorted according to this order, the result is unpredictable.

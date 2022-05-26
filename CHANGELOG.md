@@ -1,5 +1,8 @@
-## 1.16.0-dev
+## 1.16.1-dev
 
+## 1.16.0
+
+* Add an `Iterable.slices` extension method.
 * Add `BoolList` class for space-efficient lists of boolean values.
 * Use a stable sort algorithm in the `IterableExtension.sortedBy` method.
 * Add `min`, `max`, `minOrNull` and `maxOrNull` getters to
@@ -10,7 +13,7 @@
   Assignment to `Equality` with a nullable type is still allowed because of
   covariance. The `equals` and `hash` methods continue to accept nullable
   arguments.
-
+* Enable the `avoid_dynamic_calls` lint.
 
 ## 1.15.0
 

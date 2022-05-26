@@ -300,7 +300,7 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// **Notice**: This behavior differs from [Iterable.singleWhere]
   /// which always throws if there are more than one match,
-  /// and only calls the `orElse` function on zero matchs.
+  /// and only calls the `orElse` function on zero matches.
   T? singleWhereOrNull(bool Function(T element) test) {
     T? result;
     var found = false;
@@ -554,6 +554,26 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return true;
   }
+
+  /// Contiguous [slice]s of [this] with the given [length].
+  ///
+  /// Each slice is [length] elements long, except for the last one which may be
+  /// shorter if [this] contains too few elements. Each slice begins after the
+  /// last one ends. The [length] must be greater than zero.
+  ///
+  /// For example, `{1, 2, 3, 4, 5}.slices(2)` returns `([1, 2], [3, 4], [5])`.
+  Iterable<List<T>> slices(int length) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+
+    var iterator = this.iterator;
+    while (iterator.moveNext()) {
+      var slice = [iterator.current];
+      for (var i = 1; i < length && iterator.moveNext(); i++) {
+        slice.add(iterator.current);
+      }
+      yield slice;
+    }
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.
@@ -577,6 +597,8 @@ extension IterableNullableExtension<T extends Object> on Iterable<T?> {
 /// since doubles require special handling of [double.nan].
 extension IterableNumberExtension on Iterable<num> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
+  ///
+  /// If any element is [NaN](double.nan), the result is NaN.
   num? get minOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -600,10 +622,14 @@ extension IterableNumberExtension on Iterable<num> {
 
   /// A minimal element of the iterable.
   ///
+  /// If any element is [NaN](double.nan), the result is NaN.
+  ///
   /// The iterable must not be empty.
   num get min => minOrNull ?? (throw StateError('No element'));
 
   /// A maximal element of the iterable, or `null` if the iterable is empty.
+  ///
+  /// If any element is [NaN](double.nan), the result is NaN.
   num? get maxOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -626,6 +652,8 @@ extension IterableNumberExtension on Iterable<num> {
   }
 
   /// A maximal element of the iterable.
+  ///
+  /// If any element is [NaN](double.nan), the result is NaN.
   ///
   /// The iterable must not be empty.
   num get max => maxOrNull ?? (throw StateError('No element'));
@@ -750,6 +778,8 @@ extension IterableIntegerExtension on Iterable<int> {
 /// [IterableComparableExtension] since doubles are only `Comparable<num>`.
 extension IterableDoubleExtension on Iterable<double> {
   /// A minimal element of the iterable, or `null` it the iterable is empty.
+  ///
+  /// If any element is [NaN](double.nan), the result is NaN.
   double? get minOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -773,10 +803,14 @@ extension IterableDoubleExtension on Iterable<double> {
 
   /// A minimal element of the iterable.
   ///
+  /// If any element is [NaN](double.nan), the result is NaN.
+  ///
   /// The iterable must not be empty.
   double get min => minOrNull ?? (throw StateError('No element'));
 
   /// A maximal element of the iterable, or `null` if the iterable is empty.
+  ///
+  /// If any element is [NaN](double.nan), the result is NaN.
   double? get maxOrNull {
     var iterator = this.iterator;
     if (iterator.moveNext()) {
@@ -799,6 +833,8 @@ extension IterableDoubleExtension on Iterable<double> {
   }
 
   /// A maximal element of the iterable.
+  ///
+  /// If any element is [NaN](double.nan), the result is NaN.
   ///
   /// The iterable must not be empty.
   double get max => maxOrNull ?? (throw StateError('No element'));
@@ -849,6 +885,7 @@ extension IterableComparableExtension<T extends Comparable<T>> on Iterable<T> {
       }
       return value;
     }
+    return null;
   }
 
   /// A minimal element of the iterable.

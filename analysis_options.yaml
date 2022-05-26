@@ -1,12 +1,9 @@
 include: package:lints/recommended.yaml
-analyzer:
-  errors:
-    unused_element: error
-    unused_import: error
-    unused_local_variable: error
-    dead_code: error
+
 linter:
   rules:
+    - avoid_dynamic_calls
+
     # Errors
     - test_types_in_equals
     - throw_in_finally

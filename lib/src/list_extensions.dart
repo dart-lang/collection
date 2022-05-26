@@ -16,6 +16,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified
   ///
@@ -26,6 +27,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare] on the [keyOf] of elements,
   /// otherwise the result is unspecified.
   ///
@@ -42,6 +44,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to the natural ordering of
   /// the [keyOf] of elements, otherwise the result is unspecified.
   ///
@@ -57,6 +60,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified.
   ///
@@ -71,6 +75,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare] of
   /// the [keyOf] of the elements, otherwise the result is unspecified.
   ///
@@ -90,6 +95,7 @@ extension ListExtensions<E> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to the
   /// natural ordering of the [keyOf] of the elements,
   /// otherwise the result is unspecified.
@@ -222,8 +228,8 @@ extension ListExtensions<E> on List<E> {
 
   /// A fixed length view of a range of this list.
   ///
-  /// The view is backed by this this list, which must not
-  /// change its length while the view is being used.
+  /// The view is backed by this list, which must not change its length while
+  /// the view is being used.
   ///
   /// The view can be used to perform specific whole-list
   /// actions on a part of the list.
@@ -242,7 +248,7 @@ extension ListExtensions<E> on List<E> {
   /// Whether [other] has the same elements as this list.
   ///
   /// Returns true iff [other] has the same [length]
-  /// as this list, and the elemets of this list and [other]
+  /// as this list, and the elements of this list and [other]
   /// at the same indices are equal according to [equality],
   /// which defaults to using `==`.
   bool equals(List<E> other, [Equality<E> equality = const DefaultEquality()]) {
@@ -252,11 +258,27 @@ extension ListExtensions<E> on List<E> {
     }
     return true;
   }
-  
   /// Returns an element at the given [index]
   /// or `null` if the [index] is out of bounds of this list.
   /// [index] must not be negative
   T? elementAtOrNull(int index) => (index < length) ? this[index] : null;
+
+  /// Contiguous [slice]s of [this] with the given [length].
+  ///
+  /// Each slice is a view of this list [length] elements long, except for the
+  /// last one which may be shorter if [this] contains too few elements. Each
+  /// slice begins after the last one ends.
+  ///
+  /// As with [slice], these slices are backed by this list, which must not
+  /// change its length while the views are being used.
+  ///
+  /// For example, `[1, 2, 3, 4, 5].slices(2)` returns `[[1, 2], [3, 4], [5]]`.
+  Iterable<List<E>> slices(int length) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+    for (var i = 0; i < this.length; i += length) {
+      yield slice(i, min(i + length, this.length));
+    }
+  }
 }
 
 /// Various extensions on lists of comparable elements.
@@ -264,6 +286,7 @@ extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
   /// Returns the index of [element] in this sorted list.
   ///
   /// Uses binary search to find the location of [element].
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified.
   /// If [compare] is omitted, it uses the natural order of the elements.
@@ -276,6 +299,7 @@ extension ListComparableExtensions<E extends Comparable<E>> on List<E> {
   /// Returns the index where [element] should be in this sorted list.
   ///
   /// Uses binary search to find the location of where [element] should be.
+  /// This takes on the order of `log(n)` comparisons.
   /// The list *must* be sorted according to [compare],
   /// otherwise the result is unspecified.
   /// If [compare] is omitted, it uses the natural order of the elements.
@@ -361,8 +385,8 @@ class ListSlice<E> extends ListBase<E> {
 
   /// A fixed length view of a range of this list.
   ///
-  /// The view is backed by this this list, which must not
-  /// change its length while the view is being used.
+  /// The view is backed by this list, which must not change its length while
+  /// the view is being used.
   ///
   /// The view can be used to perform specific whole-list
   /// actions on a part of the list.

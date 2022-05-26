@@ -352,10 +352,16 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return null;
   }
-  
-  /// Returns an element at the given [index]
-  /// or `null` if the [index] is out of bounds of this list.
-  /// [index] must not be negative
+
+  /// The [index]th element, or `null` if there is no such element.
+  ///
+  /// Returns the element at position [index] of this iterable,
+  /// just like [elementAt], if this iterable has such an element.
+  /// If this iterable does not have enough elements to have one with the given
+  /// [index], the `null` value is returned, unlike [elementAt] which throws
+  /// instead.
+  ///
+  /// The [index] must not be negative.
   T? elementAtOrNull(int index) => skip(index).firstOrNull;
 
   /// Groups elements by [keyOf] then folds the elements in each group.

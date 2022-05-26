@@ -258,10 +258,17 @@ extension ListExtensions<E> on List<E> {
     }
     return true;
   }
-  /// Returns an element at the given [index]
-  /// or `null` if the [index] is out of bounds of this list.
-  /// [index] must not be negative
-  T? elementAtOrNull(int index) => (index < length) ? this[index] : null;
+
+  /// The [index]th element, or `null` if there is no such element.
+  ///
+  /// Returns the element at position [index] of this list,
+  /// just like [elementAt], if this list has such an element.
+  /// If this list does not have enough elements to have one with the given
+  /// [index], the `null` value is returned, unlike [elementAt] which throws
+  /// instead.
+  ///
+  /// The [index] must not be negative.
+  E? elementAtOrNull(int index) => (index < length) ? this[index] : null;
 
   /// Contiguous [slice]s of [this] with the given [length].
   ///

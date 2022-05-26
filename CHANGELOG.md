@@ -1,4 +1,6 @@
-## 1.16.1-dev
+## 1.17.0-dev
+
+* Add `Iterable.elementAtOrNull` and `List.elementAtOrNull` extension methods.
 
 ## 1.16.0
 

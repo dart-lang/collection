@@ -1176,6 +1176,32 @@ void main() {
     });
   });
 
+  group('.replaceWhere', () {
+    test('empty', () {
+      expect(
+          iterable(<int>[]).replaceWhere(predicate: (value) => true, value: 0),
+          []);
+    });
+    test('with at least one element matching the predicate', () {
+      expect(
+          iterable([1, 2, 3])
+              .replaceWhere(predicate: (value) => value == 1, value: 0),
+          [0, 2, 3]);
+    });
+    test('with one element matching the predicate', () {
+      expect(
+          iterable([1, 2, 3])
+              .replaceWhere(predicate: (value) => false, value: 0),
+          [1, 2, 3]);
+    });
+    test('with more than one element matching the predicate', () {
+      expect(
+          iterable([1, 2, 3, 4, 5])
+              .replaceWhere(predicate: (value) => value <= 2, value: 0),
+          [0, 0, 3, 4, 5]);
+    });
+  });
+
   group('Comparator', () {
     test('.inverse', () {
       var cmpStringInv = cmpString.inverse;

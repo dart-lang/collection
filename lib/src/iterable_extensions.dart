@@ -569,6 +569,25 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
+
+  /// Creates a copy of an iterable where all values matching a given predicate
+  /// are replaced with the given value
+  ///
+  /// Example:
+  /// ```dart
+  /// final List<int> _intList  = [1, 2, 3, 4, 5];
+  /// print(_intList.replaceWhere(predicate: (value) => value <= 2, value: 0)); // (0, 0, 3, 4, 5)
+  /// ```
+  Iterable<T> replaceWhere(
+      {required bool Function(T) predicate, required T value}) sync* {
+    for (final element in this) {
+      if (!predicate(element)) {
+        yield element;
+        continue;
+      }
+      yield value;
+    }
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.

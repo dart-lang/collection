@@ -520,6 +520,25 @@ void main() {
           expect(iterable([1, 3, 5]).singleOrNull, null);
         });
       });
+      group('.lastBy', () {
+        test('empty', () {
+          expect(iterable([]).lastBy((dynamic _) {}), {});
+        });
+        test('single', () {
+          expect(iterable([1]).lastBy(toString), {
+            '1': 1,
+          });
+        });
+        test('multiple', () {
+          expect(
+            iterable([1, 2, 3, 4, 5]).lastBy((x) => x.isEven),
+            {
+              false: 5,
+              true: 4,
+            },
+          );
+        });
+      });
       group('.groupFoldBy', () {
         test('empty', () {
           expect(iterable([]).groupFoldBy(unreachable, unreachable), {});

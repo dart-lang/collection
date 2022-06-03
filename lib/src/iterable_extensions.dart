@@ -354,6 +354,17 @@ extension IterableExtension<T> on Iterable<T> {
     return null;
   }
 
+  /// The [index]th element, or `null` if there is no such element.
+  ///
+  /// Returns the element at position [index] of this iterable,
+  /// just like [elementAt], if this iterable has such an element.
+  /// If this iterable does not have enough elements to have one with the given
+  /// [index], the `null` value is returned, unlike [elementAt] which throws
+  /// instead.
+  ///
+  /// The [index] must not be negative.
+  T? elementAtOrNull(int index) => skip(index).firstOrNull;
+
   /// Associates the elements in [this] by the value returned by [key].
   ///
   /// Returns a map from keys computed by [key] to the last value for which [key]

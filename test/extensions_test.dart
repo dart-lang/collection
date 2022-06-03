@@ -1160,6 +1160,21 @@ void main() {
         }
       });
     });
+    group('.elementAtOrNull', () {
+      test('empty', () async {
+        expect(iterable([]).elementAtOrNull(0), isNull);
+      });
+      test('negative index', () async {
+        expect(() => iterable([1]).elementAtOrNull(-1),
+            throwsA(isA<RangeError>()));
+      });
+      test('index within range', () async {
+        expect(iterable([1]).elementAtOrNull(0), 1);
+      });
+      test('index too high', () async {
+        expect(iterable([1]).elementAtOrNull(1), isNull);
+      });
+    });
     group('.slices', () {
       test('empty', () {
         expect(iterable(<int>[]).slices(1), []);
@@ -1746,6 +1761,20 @@ void main() {
         test('varying result', () {
           expect(['a', 'b'].expandIndexed((i, v) => i.isOdd ? ['$i', v] : []),
               ['1', 'b']);
+        });
+      });
+      group('.elementAtOrNull', () {
+        test('empty', () async {
+          expect([].elementAtOrNull(0), isNull);
+        });
+        test('negative index', () async {
+          expect(() => [1].elementAtOrNull(-1), throwsA(isA<RangeError>()));
+        });
+        test('index within range', () async {
+          expect([1].elementAtOrNull(0), 1);
+        });
+        test('index too high', () async {
+          expect([1].elementAtOrNull(1), isNull);
         });
       });
       group('.slices', () {

@@ -1,4 +1,6 @@
-## 1.16.1-dev
+## 1.17.0-dev
+
+* Add `Iterable.elementAtOrNull` and `List.elementAtOrNull` extension methods.
 
 * Add a top-level `lastBy()` function that converts an `Iterable` to a `Map` by
   grouping its elements using a function, keeping the last element for each

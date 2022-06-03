@@ -79,6 +79,26 @@ void main() {
     });
   });
 
+  group('lastBy()', () {
+    test('returns an empty map for an empty iterable', () {
+      expect(
+        lastBy([], (_) => fail("Must not be called for empty input")),
+        isEmpty,
+      );
+    });
+
+    test("keeps the latest element for the function's return value", () {
+      expect(
+          lastBy(['foo', 'bar', 'baz', 'bop', 'qux'],
+              (String string) => string[1]),
+          equals({
+            'o': 'bop',
+            'a': 'baz',
+            'u': 'qux',
+          }));
+    });
+  });
+
   group('groupBy()', () {
     test('returns an empty map for an empty iterable', () {
       expect(groupBy([], expectAsync1((dynamic _) {}, count: 0)), isEmpty);

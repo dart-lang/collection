@@ -7,6 +7,7 @@ import 'dart:math' show Random;
 import 'package:collection/src/utils.dart';
 
 import 'algorithms.dart';
+import 'functions.dart' as functions;
 
 /// Extensions that apply to all iterables.
 ///
@@ -363,6 +364,12 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// The [index] must not be negative.
   T? elementAtOrNull(int index) => skip(index).firstOrNull;
+
+  /// Associates the elements in [this] by the value returned by [key].
+  ///
+  /// Returns a map from keys computed by [key] to the last value for which [key]
+  /// returns that key.
+  Map<K, T> lastBy<K>(K Function(T) key) => functions.lastBy(this, key);
 
   /// Groups elements by [keyOf] then folds the elements in each group.
   ///

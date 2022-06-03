@@ -2,6 +2,10 @@
 
 * Add `Iterable.elementAtOrNull` and `List.elementAtOrNull` extension methods.
 
+* Add a top-level `lastBy()` function that converts an `Iterable` to a `Map` by
+  grouping its elements using a function, keeping the last element for each
+  computed key. Also available as an extension method on `Iterable`.
+
 ## 1.16.0
 
 * Add an `Iterable.slices` extension method.

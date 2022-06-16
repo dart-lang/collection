@@ -247,7 +247,7 @@ extension ListExtensions<E> on List<E> {
 
   /// Whether [other] has the same elements as this list.
   ///
-  /// Returns true iff [other] has the same [length]
+  /// Returns true if [other] has the same [length]
   /// as this list, and the elements of this list and [other]
   /// at the same indices are equal according to [equality],
   /// which defaults to using `==`.

@@ -1899,6 +1899,50 @@ void main() {
         expect(list, [9, 8, 5, 6, 3, 2, 4, 7, 1]);
       });
     });
+    group('.windowed', () {
+      test('empty', () {
+        expect(<int>[].windowed(1), []);
+      });
+      test('with a step size the same length as the list', () {
+        expect([1, 2, 3].windowed(3, step: 3), [
+          [1, 2, 3],
+        ]);
+      });
+      test('with a step size longer than the window size', () {
+        expect([1, 2, 3, 4, 5].windowed(2, step: 3), [
+          [1, 2],
+          [4, 5],
+        ]);
+      });
+      test('with a longer length than the list without partial windows', () {
+        expect([1, 2, 3].windowed(5), []);
+      });
+      test('with a longer length than the list with partial windows', () {
+        expect([1, 2, 3].windowed(5, partialWindows: true), [
+          [1, 2, 3],
+          [2, 3],
+          [3],
+        ]);
+      });
+      test('with a shorter length than the list', () {
+        expect([1, 2, 3].windowed(2), [
+          [1, 2],
+          [2, 3],
+        ]);
+      });
+      test('refuses negative window', () {
+        expect(() => [1].windowed(-1), throwsRangeError);
+      });
+      test('refuses a 0 window', () {
+        expect(() => [1].windowed(0), throwsRangeError);
+      });
+      test('refuses negative step', () {
+        expect(() => [1].windowed(1, step: -1), throwsRangeError);
+      });
+      test('refuses a 0 step', () {
+        expect(() => [1].windowed(1, step: 0), throwsRangeError);
+      });
+    });
   });
 }
 

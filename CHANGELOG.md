@@ -5,6 +5,8 @@
 * Add a top-level `lastBy()` function that converts an `Iterable` to a `Map` by
   grouping its elements using a function, keeping the last element for each
   computed key. Also available as an extension method on `Iterable`.
+* Add an extension `windowed()` on `List`. Similarly to `slices()`, it gives a
+  chunked view of the list.
 
 ## 1.16.0
 

@@ -286,6 +286,41 @@ extension ListExtensions<E> on List<E> {
       yield slice(i, min(i + length, this.length));
     }
   }
+
+  /// Windowed view of [this] with the given [length], separated by [step]
+  /// elements.
+  ///
+  /// Each window is a view of this list [length] elements long, except for the
+  /// last ones which may be shorter if [partialWindows] is set to `true`.
+  /// Otherwise, up to [length] - 1 elements might be skipped at the end. Each
+  /// window begins at the start of the previous window plus [step].
+  ///
+  /// As with [slice], these slices are backed by this list, which must not
+  /// change its length while the views are being used.
+  ///
+  /// For example, `[1, 2, 3, 4, 5].windowed(3, step: 2)` returns
+  /// `[[1, 2, 3], [3, 4, 5]]`, whereas
+  /// `[1, 2, 3, 4, 5].windowed(3, step: 2, partialWindows: true)` returns
+  /// `[[1, 2, 3], [3, 4, 5], [5]]`.
+  Iterable<List<E>> windowed(
+    int length, {
+    int step = 1,
+    bool partialWindows = false,
+  }) sync* {
+    if (length < 1) throw RangeError.range(length, 1, null, 'length');
+    if (step < 1) throw RangeError.range(step, 1, null, 'step');
+
+    var index = 0;
+    while (index < this.length) {
+      final remainingItems = this.length - index;
+      final windowLength = length > remainingItems ? remainingItems : length;
+      if (windowLength < length && !partialWindows) {
+        break;
+      }
+      yield slice(index, index + windowLength);
+      index += step;
+    }
+  }
 }
 
 /// Various extensions on lists of comparable elements.

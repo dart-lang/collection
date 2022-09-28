@@ -38,20 +38,22 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
     {V? Function(V, V)? value, bool removeDifference = false}) {
   var result = Map<K, V>.of(map1);
-  if (value == null) return result..addAll(map2);
-
-  map2.forEach((key, mapValue) {
-    if (result.containsKey(key)) {
-      final newValue = value(result[key] as V, mapValue);
-      if (newValue != null) {
-        result[key] = newValue;
+  if (value == null) {
+    result.addAll(map2);
+  } else {
+    map2.forEach((key, mapValue) {
+      if (result.containsKey(key)) {
+        final newValue = value(result[key] as V, mapValue);
+        if (newValue != null) {
+          result[key] = newValue;
+        } else {
+          result.remove(key);
+        }
       } else {
-        result.remove(key);
+        result[key] = mapValue;
       }
-    } else {
-      result[key] = mapValue;
-    }
-  });
+    });
+  }
 
   if (removeDifference) {
     final removedKeys = <K>[];

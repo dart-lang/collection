@@ -29,6 +29,12 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 /// If there are keys that occur in both maps, the [value] function is used to
 /// select the value that goes into the resulting map based on the two original
 /// values. If [value] is omitted, the value from [map2] is used.
+///
+/// If the any of key's value of [map2] is null then such key will be removed
+/// from result map.
+///
+/// If `removeDifference` is true then keys which do not contains in [map2] will
+/// be removef from result map.
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
     {V? Function(V, V)? value, bool removeDifference = false}) {
   var result = Map<K, V>.of(map1);

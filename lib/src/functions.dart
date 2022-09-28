@@ -30,14 +30,34 @@ Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
 /// select the value that goes into the resulting map based on the two original
 /// values. If [value] is omitted, the value from [map2] is used.
 Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
-    {V Function(V, V)? value}) {
+    {V? Function(V, V)? value, bool removeDifference = false}) {
   var result = Map<K, V>.of(map1);
   if (value == null) return result..addAll(map2);
 
   map2.forEach((key, mapValue) {
-    result[key] =
-        result.containsKey(key) ? value(result[key] as V, mapValue) : mapValue;
+    if (result.containsKey(key)) {
+      final newValue = value(result[key] as V, mapValue);
+      if (newValue != null) {
+        result[key] = newValue;
+      } else {
+        result.remove(key);
+      }
+    } else {
+      result[key] = mapValue;
+    }
   });
+
+  if (removeDifference) {
+    final removedKeys = <K>[];
+    result.forEach((key, value) {
+      if (!map2.containsKey(key)) {
+        removedKeys.add(key);
+      }
+    });
+
+    result.removeWhere((key, value) => removedKeys.contains(key));
+  }
+
   return result;
 }
 

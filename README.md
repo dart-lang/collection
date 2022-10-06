@@ -1,3 +1,7 @@
+[![Dart CI](https://github.com/dart-lang/collection/actions/workflows/ci.yml/badge.svg)](https://github.com/dart-lang/collection/actions/workflows/ci.yml)
+[![pub package](https://img.shields.io/pub/v/collection.svg)](https://pub.dev/packages/collection)
+[![package publisher](https://img.shields.io/pub/publisher/collection.svg)](https://pub.dev/packages/collection/publisher)
+
 Contains utility functions and classes in the style of `dart:collection` to make
 working with collections easier.
 

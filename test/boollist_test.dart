@@ -111,7 +111,8 @@ void main() {
       );
 
       expect(
-        // BoolList.filled constructor isn't used due internal usage of fillRange
+        // BoolList.filled constructor isn't used due internal usage of
+        // fillRange
         BoolList.generate(1024, (i) => true)..fillRange(32, 64, false),
         List.filled(1024, true)..fillRange(32, 64, false),
       );
@@ -124,7 +125,8 @@ void main() {
       );
 
       expect(
-        // BoolList.filled constructor isn't used due internal usage of fillRange
+        // BoolList.filled constructor isn't used due internal usage of
+        // fillRange
         BoolList.generate(1024, (i) => true)..fillRange(32, 128, false),
         List.filled(1024, true)..fillRange(32, 128, false),
       );

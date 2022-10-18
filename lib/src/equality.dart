@@ -253,8 +253,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
 /// of the other iterable, so that each pair are equal.
 class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
   const UnorderedIterableEquality(
-      [Equality<E> elementEquality = const DefaultEquality<Never>()])
-      : super(elementEquality);
+      [super.elementEquality = const DefaultEquality<Never>()]);
 
   @override
   bool isValidKey(Object? o) => o is Iterable<E>;
@@ -273,9 +272,7 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
 class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
-  const SetEquality(
-      [Equality<E> elementEquality = const DefaultEquality<Never>()])
-      : super(elementEquality);
+  const SetEquality([super.elementEquality = const DefaultEquality<Never>()]);
 
   @override
   bool isValidKey(Object? o) => o is Set<E>;
@@ -437,7 +434,7 @@ class DeepCollectionEquality implements Equality {
         _unordered = true;
 
   @override
-  bool equals(e1, e2) {
+  bool equals(Object? e1, Object? e2) {
     if (e1 is Set) {
       return e2 is Set && SetEquality(this).equals(e1, e2);
     }

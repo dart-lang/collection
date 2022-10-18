@@ -168,8 +168,7 @@ void main() {
       test('with identical collection types', () {
         expect(colleq.equals(l1, l1.toList()), isTrue);
         expect(colleq.equals(s1, s1.toSet()), isTrue);
-        expect(
-            colleq.equals(map1b, map1b.map((k, v) => MapEntry(k, v))), isTrue);
+        expect(colleq.equals(map1b, map1b.map(MapEntry.new)), isTrue);
         expect(colleq.equals(i1, i1.map((i) => i)), isTrue);
         expect(colleq.equals(map1a, map2a), isFalse);
         expect(colleq.equals(map1b, map2b), isFalse);
@@ -279,5 +278,5 @@ class Element implements Comparable<Element> {
   @override
   bool operator ==(Object other) => other is Element && id == other.id;
   @override
-  int compareTo(other) => id.compareTo(other.id);
+  int compareTo(Element other) => id.compareTo(other.id);
 }

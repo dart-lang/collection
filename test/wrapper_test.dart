@@ -84,29 +84,24 @@ final toStringInvocation = Invocation.method(#toString, const []);
 // argument to DelegatingIterable/Set/List/Queue.
 class IterableInvocationChecker<T> extends InvocationChecker
     implements Iterable<T> {
-  IterableInvocationChecker(Invocation expected, InstanceMirror mirror)
-      : super(expected, mirror);
+  IterableInvocationChecker(super.expected, super.mirror);
 }
 
 class ListInvocationChecker<T> extends InvocationChecker implements List<T> {
-  ListInvocationChecker(Invocation expected, InstanceMirror mirror)
-      : super(expected, mirror);
+  ListInvocationChecker(super.expected, super.mirror);
 }
 
 class SetInvocationChecker<T> extends InvocationChecker implements Set<T> {
-  SetInvocationChecker(Invocation expected, InstanceMirror mirror)
-      : super(expected, mirror);
+  SetInvocationChecker(super.expected, super.mirror);
 }
 
 class QueueInvocationChecker<T> extends InvocationChecker implements Queue<T> {
-  QueueInvocationChecker(Invocation expected, InstanceMirror mirror)
-      : super(expected, mirror);
+  QueueInvocationChecker(super.expected, super.mirror);
 }
 
 class MapInvocationChecker<K, V> extends InvocationChecker
     implements Map<K, V> {
-  MapInvocationChecker(Invocation expected, InstanceMirror mirror)
-      : super(expected, mirror);
+  MapInvocationChecker(super.expected, super.mirror);
 }
 
 // Expector that wraps in DelegatingIterable.
@@ -123,7 +118,7 @@ class IterableExpector<T> extends Expector implements Iterable<T> {
 
 // Expector that wraps in DelegatingList.
 class ListExpector<T> extends IterableExpector<T> implements List<T> {
-  ListExpector(List<T> realInstance) : super(realInstance);
+  ListExpector(List<T> super.realInstance);
 
   @override
   dynamic wrappedChecker(Invocation i) =>
@@ -132,7 +127,7 @@ class ListExpector<T> extends IterableExpector<T> implements List<T> {
 
 // Expector that wraps in DelegatingSet.
 class SetExpector<T> extends IterableExpector<T> implements Set<T> {
-  SetExpector(Set<T> realInstance) : super(realInstance);
+  SetExpector(Set<T> super.realInstance);
 
   @override
   dynamic wrappedChecker(Invocation i) =>
@@ -141,7 +136,7 @@ class SetExpector<T> extends IterableExpector<T> implements Set<T> {
 
 // Expector that wraps in DelegatingSet.
 class QueueExpector<T> extends IterableExpector<T> implements Queue<T> {
-  QueueExpector(Queue<T> realInstance) : super(realInstance);
+  QueueExpector(Queue<T> super.realInstance);
 
   @override
   dynamic wrappedChecker(Invocation i) =>
@@ -169,7 +164,7 @@ bool boolFunc(dynamic x) => true;
 Iterable<dynamic> expandFunc(dynamic x) => [x];
 dynamic foldFunc(dynamic previous, dynamic next) => previous;
 int compareFunc(dynamic x, dynamic y) => 0;
-var val = 10;
+int val = 10;
 
 void main() {
   void testIterable(IterableExpector expect) {

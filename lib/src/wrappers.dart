@@ -79,7 +79,7 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   @override
   E reduce(E Function(E value, E element) combine) => _base.reduce(combine);
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   Iterable<T> retype<T>() => cast<T>();
 
   @override
@@ -137,7 +137,7 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
   /// they're accessed. If they're not, it throws a [CastError].
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in [this]. If [base] is already an `Iterable<E>`, it's returned
+  /// reflected in `this`. If [base] is already an `Iterable<E>`, it's returned
   /// unmodified.
   @Deprecated('Use iterable.cast<E> instead.')
   static Iterable<E> typed<E>(Iterable base) => base.cast<E>();
@@ -163,7 +163,7 @@ class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
   /// collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in [this]. If [base] is already a `List<E>`, it's returned
+  /// reflected in `this`. If [base] is already a `List<E>`, it's returned
   /// unmodified.
   @Deprecated('Use list.cast<E> instead.')
   static List<E> typed<E>(List base) => base.cast<E>();
@@ -278,7 +278,7 @@ class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
     _base.retainWhere(test);
   }
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   @override
   List<T> retype<T>() => cast<T>();
 
@@ -328,7 +328,7 @@ class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
   /// collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in [this]. If [base] is already a `Set<E>`, it's returned
+  /// reflected in `this`. If [base] is already a `Set<E>`, it's returned
   /// unmodified.
   @Deprecated('Use set.cast<E> instead.')
   static Set<E> typed<E>(Set base) => base.cast<E>();
@@ -379,7 +379,7 @@ class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
     _base.retainAll(elements);
   }
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   @override
   Set<T> retype<T>() => cast<T>();
 
@@ -416,7 +416,7 @@ class DelegatingQueue<E> extends _DelegatingIterableBase<E>
   /// collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in [this]. If [base] is already a `Queue<E>`, it's returned
+  /// reflected in `this`. If [base] is already a `Queue<E>`, it's returned
   /// unmodified.
   @Deprecated('Use queue.cast<E> instead.')
   static Queue<E> typed<E>(Queue base) => base.cast<E>();
@@ -462,7 +462,7 @@ class DelegatingQueue<E> extends _DelegatingIterableBase<E>
     _base.retainWhere(test);
   }
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   @override
   Queue<T> retype<T>() => cast<T>();
 
@@ -492,7 +492,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   /// the underlying collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in [this]. If [base] is already a `Map<K, V>`, it's returned
+  /// reflected in `this`. If [base] is already a `Map<K, V>`, it's returned
   /// unmodified.
   @Deprecated('Use map.cast<K, V> instead.')
   static Map<K, V> typed<K, V>(Map base) => base.cast<K, V>();
@@ -563,7 +563,7 @@ class DelegatingMap<K, V> implements Map<K, V> {
   @override
   void removeWhere(bool Function(K, V) test) => _base.removeWhere(test);
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   @override
@@ -624,24 +624,24 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   @override
   bool containsAll(Iterable<Object?> other) => other.every(contains);
 
-  /// Returns a new set with the the elements of [this] that are not in [other].
+  /// Returns a new set with the the elements of `this` that are not in [other].
   ///
   /// That is, the returned set contains all the elements of this [Set] that are
   /// not elements of [other] according to `other.contains`.
   ///
   /// Note that the returned set will use the default equality operation, which
-  /// may be different than the equality operation [this] uses.
+  /// may be different than the equality operation `this` uses.
   @override
   Set<E> difference(Set<Object?> other) =>
       where((element) => !other.contains(element)).toSet();
 
-  /// Returns a new set which is the intersection between [this] and [other].
+  /// Returns a new set which is the intersection between `this` and [other].
   ///
   /// That is, the returned set contains all the elements of this [Set] that are
   /// also elements of [other] according to `other.contains`.
   ///
   /// Note that the returned set will use the default equality operation, which
-  /// may be different than the equality operation [this] uses.
+  /// may be different than the equality operation `this` uses.
   @override
   Set<E> intersection(Set<Object?> other) => where(other.contains).toSet();
 
@@ -651,17 +651,17 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   E lookup(Object? element) =>
       throw UnsupportedError("MapKeySet doesn't support lookup().");
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   @override
   Set<T> retype<T>() => Set.castFrom<E, T>(this);
 
-  /// Returns a new set which contains all the elements of [this] and [other].
+  /// Returns a new set which contains all the elements of `this` and [other].
   ///
   /// That is, the returned set contains all the elements of this [Set] and all
   /// the elements of [other].
   ///
   /// Note that the returned set will use the default equality operation, which
-  /// may be different than the equality operation [this] uses.
+  /// may be different than the equality operation `this` uses.
   @override
   Set<E> union(Set<E> other) => toSet()..addAll(other);
 }
@@ -749,24 +749,24 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   @override
   bool containsAll(Iterable<Object?> other) => other.every(contains);
 
-  /// Returns a new set with the the elements of [this] that are not in [other].
+  /// Returns a new set with the the elements of `this` that are not in [other].
   ///
   /// That is, the returned set contains all the elements of this [Set] that are
   /// not elements of [other] according to `other.contains`.
   ///
   /// Note that the returned set will use the default equality operation, which
-  /// may be different than the equality operation [this] uses.
+  /// may be different than the equality operation `this` uses.
   @override
   Set<V> difference(Set<Object?> other) =>
       where((element) => !other.contains(element)).toSet();
 
-  /// Returns a new set which is the intersection between [this] and [other].
+  /// Returns a new set which is the intersection between `this` and [other].
   ///
   /// That is, the returned set contains all the elements of this [Set] that are
   /// also elements of [other] according to `other.contains`.
   ///
   /// Note that the returned set will use the default equality operation, which
-  /// may be different than the equality operation [this] uses.
+  /// may be different than the equality operation `this` uses.
   @override
   Set<V> intersection(Set<Object?> other) => where(other.contains).toSet();
 
@@ -822,17 +822,17 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   void retainWhere(bool Function(V) test) =>
       removeWhere((element) => !test(element));
 
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   @override
   Set<T> retype<T>() => Set.castFrom<V, T>(this);
 
-  /// Returns a new set which contains all the elements of [this] and [other].
+  /// Returns a new set which contains all the elements of `this` and [other].
   ///
   /// That is, the returned set contains all the elements of this [Set] and all
   /// the elements of [other].
   ///
   /// Note that the returned set will use the default equality operation, which
-  /// may be different than the equality operation [this] uses.
+  /// may be different than the equality operation `this` uses.
   @override
   Set<V> union(Set<V> other) => toSet()..addAll(other);
 }

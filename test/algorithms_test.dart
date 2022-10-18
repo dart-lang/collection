@@ -32,7 +32,7 @@ void main() {
     var l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     var c = l.toList();
     var count = 0;
-    do {
+    for (;;) {
       shuffle(l);
       if (!const ListEquality().equals(c, l)) return;
       // Odds of not changing the order should be one in ~ 16! ~= 2e+13.
@@ -42,7 +42,7 @@ void main() {
       // If this happens even once, it's ok to report it.
       print('Failed shuffle $count times');
       if (count == 10) fail("Shuffle didn't change order.");
-    } while (true);
+    }
   });
   test('Shuffle sublist', () {
     var l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];

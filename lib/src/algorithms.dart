@@ -65,7 +65,7 @@ int binarySearchBy<E, K>(List<E> sortedList, K Function(E element) keyOf,
 /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
 /// the objects. In this case, the objects must be [Comparable].
 ///
-/// Returns [sortedList.length] if all the items in [sortedList] compare less
+/// Returns [sortedList]`.length` if all the items in [sortedList] compare less
 /// than [value].
 int lowerBound<E>(List<E> sortedList, E value, {int Function(E, E)? compare}) {
   compare ??= defaultCompare;
@@ -76,11 +76,13 @@ int lowerBound<E>(List<E> sortedList, E value, {int Function(E, E)? compare}) {
 ///
 /// Uses binary search to find the location of [value].
 /// This takes on the order of `log(n)` comparisons.
-/// Elements are compared using the [compare] function of the [keyOf] property of
-/// the elements.
-/// If the list isn't sorted according to this order, the result is unpredictable.
+/// Elements are compared using the [compare] function of the [keyOf] property
+/// of the elements.
+/// If the list isn't sorted according to this order, the result is
+/// unpredictable.
 ///
-/// Returns [sortedList.length] if all the items in [sortedList] are before [value].
+/// Returns [sortedList]`.length` if all the items in [sortedList] are before
+/// [value].
 ///
 /// If [start] and [end] are supplied, only that range is searched,
 /// and only that range need to be sorted.
@@ -231,12 +233,12 @@ void mergeSort<E>(List<E> elements,
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
   var scratchSpace = List<E>.filled(secondLength, elements[start]);
-  E Function(E) id = identity;
-  _mergeSort(elements, id, compare, middle, end, scratchSpace, 0);
+  _mergeSort(elements, identity<E>, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
-  _mergeSort(elements, id, compare, start, middle, elements, firstTarget);
-  _merge(id, compare, elements, firstTarget, end, scratchSpace, 0, secondLength,
-      elements, start);
+  _mergeSort(
+      elements, identity<E>, compare, start, middle, elements, firstTarget);
+  _merge(identity<E>, compare, elements, firstTarget, end, scratchSpace, 0,
+      secondLength, elements, start);
 }
 
 /// Sort [elements] using a merge-sort algorithm.
@@ -408,7 +410,7 @@ void quickSort<E>(List<E> elements, int Function(E a, E b) compare,
   _quickSort<E, E>(elements, identity, compare, Random(), start, end);
 }
 
-/// Sort [elements] using a quick-sort algorithm.
+/// Sort [list] using a quick-sort algorithm.
 ///
 /// The elements are compared using [compare] on the value provided by [keyOf]
 /// on the element.

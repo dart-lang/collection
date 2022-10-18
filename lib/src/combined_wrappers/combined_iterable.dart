@@ -17,7 +17,7 @@ class CombinedIterableView<T> extends IterableBase<T> {
   /// The iterables that this combines.
   final Iterable<Iterable<T>> _iterables;
 
-  /// Creates a combined view of [iterables].
+  /// Creates a combined view of [_iterables].
   const CombinedIterableView(this._iterables);
 
   @override

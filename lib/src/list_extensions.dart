@@ -28,13 +28,13 @@ extension ListExtensions<E> on List<E> {
   ///
   /// Uses binary search to find the location of [element].
   /// This takes on the order of `log(n)` comparisons.
-  /// The list *must* be sorted according to [compare] on the [keyOf] of elements,
-  /// otherwise the result is unspecified.
+  /// The list *must* be sorted according to [compare] on the [keyOf] of
+  /// elements, otherwise the result is unspecified.
   ///
   /// Returns -1 if [element] does not occur in this list.
   ///
-  /// If [start] and [end] are supplied, only the list range from [start] to [end]
-  /// is searched, and only that range needs to be sorted.
+  /// If [start] and [end] are supplied, only the list range from [start] to
+  /// [end] is searched, and only that range needs to be sorted.
   int binarySearchByCompare<K>(
           E element, K Function(E element) keyOf, int Function(K, K) compare,
           [int start = 0, int? end]) =>
@@ -50,8 +50,8 @@ extension ListExtensions<E> on List<E> {
   ///
   /// Returns -1 if [element] does not occur in this list.
   ///
-  /// If [start] and [end] are supplied, only the list range from [start] to [end]
-  /// is searched, and only that range needs to be sorted.
+  /// If [start] and [end] are supplied, only the list range from [start] to
+  /// [end] is searched, and only that range needs to be sorted.
   int binarySearchBy<K extends Comparable<K>>(
           E element, K Function(E element) keyOf, [int start = 0, int? end]) =>
       algorithms.binarySearchBy<E, K>(
@@ -270,10 +270,10 @@ extension ListExtensions<E> on List<E> {
   /// The [index] must not be negative.
   E? elementAtOrNull(int index) => (index < length) ? this[index] : null;
 
-  /// Contiguous [slice]s of [this] with the given [length].
+  /// Contiguous [slice]s of `this` with the given [length].
   ///
   /// Each slice is a view of this list [length] elements long, except for the
-  /// last one which may be shorter if [this] contains too few elements. Each
+  /// last one which may be shorter if `this` contains too few elements. Each
   /// slice begins after the last one ends.
   ///
   /// As with [slice], these slices are backed by this list, which must not

@@ -81,7 +81,7 @@ int lowerBound<E>(List<E> sortedList, E value, {int Function(E, E)? compare}) {
 /// If the list isn't sorted according to this order, the result is
 /// unpredictable.
 ///
-/// Returns [sortedList]`.length` if all the items in [sortedList] are before
+/// Returns the length of [sortedList] if all the items in [sortedList] are before
 /// [value].
 ///
 /// If [start] and [end] are supplied, only that range is searched,

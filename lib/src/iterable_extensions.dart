@@ -570,7 +570,7 @@ extension IterableExtension<T> on Iterable<T> {
     return true;
   }
 
-  /// Contiguous returns slices of `this` with the given [length].
+  /// Contiguous slices of `this` with the given [length].
   ///
   /// Each slice is [length] elements long, except for the last one which may be
   /// shorter if `this` contains too few elements. Each slice begins after the

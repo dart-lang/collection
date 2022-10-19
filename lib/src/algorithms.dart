@@ -65,8 +65,8 @@ int binarySearchBy<E, K>(List<E> sortedList, K Function(E element) keyOf,
 /// If [compare] is omitted, this defaults to calling [Comparable.compareTo] on
 /// the objects. In this case, the objects must be [Comparable].
 ///
-/// Returns the length of [sortedList] if all the items in [sortedList] compare less
-/// than [value].
+/// Returns the length of [sortedList] if all the items in [sortedList] compare
+/// less than [value].
 int lowerBound<E>(List<E> sortedList, E value, {int Function(E, E)? compare}) {
   compare ??= defaultCompare;
   return lowerBoundBy<E, E>(sortedList, identity, compare, value);

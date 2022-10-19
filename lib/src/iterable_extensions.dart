@@ -4,10 +4,9 @@
 
 import 'dart:math' show Random;
 
-import 'package:collection/src/utils.dart';
-
 import 'algorithms.dart';
 import 'functions.dart' as functions;
+import 'utils.dart';
 
 /// Extensions that apply to all iterables.
 ///
@@ -365,18 +364,19 @@ extension IterableExtension<T> on Iterable<T> {
   /// The [index] must not be negative.
   T? elementAtOrNull(int index) => skip(index).firstOrNull;
 
-  /// Associates the elements in [this] by the value returned by [key].
+  /// Associates the elements in `this` by the value returned by [key].
   ///
-  /// Returns a map from keys computed by [key] to the last value for which [key]
-  /// returns that key.
+  /// Returns a map from keys computed by [key] to the last value for which
+  /// [key] returns that key.
   Map<K, T> lastBy<K>(K Function(T) key) => functions.lastBy(this, key);
 
   /// Groups elements by [keyOf] then folds the elements in each group.
   ///
   /// A key is found for each element using [keyOf].
   /// Then the elements with the same key are all folded using [combine].
-  /// The first call to [combine] for a particular key receives [null] as
-  /// the previous value, the remaining ones receive the result of the previous call.
+  /// The first call to [combine] for a particular key receives `null` as
+  /// the previous value, the remaining ones receive the result of the previous
+  /// call.
   ///
   /// Can be used to _group_ elements into arbitrary collections.
   /// For example [groupSetsBy] could be written as:
@@ -431,7 +431,8 @@ extension IterableExtension<T> on Iterable<T> {
 
   /// Splits the elements into chunks before some elements.
   ///
-  /// Each element is checked using [test] for whether it should start a new chunk.
+  /// Each element is checked using [test] for whether it should start a new
+  /// chunk.
   /// If so, the elements since the previous chunk-starting element
   /// are emitted as a list.
   /// Any final elements are emitted at the end.
@@ -504,7 +505,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// Example:
   /// ```dart
-  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitAfterIndexed((i, v) => i < v);
+  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9]
+  ///   .splitAfterIndexed((i, v) => i < v);
   /// print(parts); // ([1, 0], [2, 1], [5, 7, 6], [8, 9])
   /// ```
   Iterable<List<T>> splitAfterIndexed(
@@ -568,10 +570,10 @@ extension IterableExtension<T> on Iterable<T> {
     return true;
   }
 
-  /// Contiguous [slice]s of [this] with the given [length].
+  /// Contiguous slices of `this` with the given [length].
   ///
   /// Each slice is [length] elements long, except for the last one which may be
-  /// shorter if [this] contains too few elements. Each slice begins after the
+  /// shorter if `this` contains too few elements. Each slice begins after the
   /// last one ends. The [length] must be greater than zero.
   ///
   /// For example, `{1, 2, 3, 4, 5}.slices(2)` returns `([1, 2], [3, 4], [5])`.

@@ -20,7 +20,7 @@ export 'dart:collection' show UnmodifiableListView, UnmodifiableMapView;
 /// Permitted operations defer to the wrapped list.
 class NonGrowableListView<E> extends DelegatingList<E>
     with NonGrowableListMixin<E> {
-  NonGrowableListView(List<E> listBase) : super(listBase);
+  NonGrowableListView(super.listBase);
 }
 
 /// Mixin class that implements a throwing version of all list operations that
@@ -105,7 +105,7 @@ abstract class NonGrowableListMixin<E> implements List<E> {
 /// Permitted operations defer to the wrapped set.
 class UnmodifiableSetView<E> extends DelegatingSet<E>
     with UnmodifiableSetMixin<E> {
-  UnmodifiableSetView(Set<E> setBase) : super(setBase);
+  UnmodifiableSetView(super.setBase);
 
   /// An unmodifiable empty set.
   ///

@@ -74,8 +74,9 @@ abstract class BoolList with ListMixin<bool> {
 
   /// Generates a [BoolList] of values.
   ///
-  /// Creates a [BoolList] with [length] positions and fills it with values created by
-  /// calling [generator] for each index in the range `0` .. `length - 1` in increasing order.
+  /// Creates a [BoolList] with [length] positions and fills it with values
+  /// created by calling [generator] for each index in the range
+  /// `0` .. `length - 1` in increasing order.
   ///
   /// The created list is fixed-length unless [growable] is true.
   factory BoolList.generate(

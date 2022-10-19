@@ -24,7 +24,7 @@ class CombinedListView<T> extends ListBase<T>
   /// The lists that this combines.
   final List<List<T>> _lists;
 
-  /// Creates a combined view of [lists].
+  /// Creates a combined view of [_lists].
   CombinedListView(this._lists);
 
   @override

@@ -36,7 +36,7 @@ class UnionSet<E> extends SetBase<E> with UnmodifiableSetMixin<E> {
   /// Creates a new set that's a view of the union of all sets in [sets].
   ///
   /// If any sets in [sets] change, this [UnionSet] reflects that change.
-  /// However, unlike [new UnionSet], this creates a copy of its parameter, so
+  /// However, unlike [UnionSet.new], this creates a copy of its parameter, so
   /// changes in [sets] aren't reflected in this [UnionSet].
   ///
   /// If [disjoint] is `true`, then all component sets must be disjoint. That

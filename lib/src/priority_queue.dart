@@ -52,7 +52,7 @@ abstract class PriorityQueue<E> {
   /// Uses the [Object.==] of elements in the queue to check
   /// for whether they are equal to [object].
   /// Equal objects objects must have the same priority
-  /// according to the [comparison] function.
+  /// according to the comparison function.
   /// That is, if `a == b` then `comparison(a, b) == 0`.
   /// If that is not the case, this check might fail to find
   /// an object.
@@ -88,7 +88,7 @@ abstract class PriorityQueue<E> {
   ///
   /// Repeatedly calling this method, without adding element in between,
   /// is guaranteed to return elements in non-decreasing order as, specified by
-  /// [comparison].
+  /// the `comparison` constructor parameter.
   ///
   /// The queue must not be empty when this method is called.
   E removeFirst();
@@ -104,7 +104,7 @@ abstract class PriorityQueue<E> {
   /// Uses the [Object.==] of elements in the queue to check
   /// for whether they are equal to [element].
   /// Equal objects objects must have the same priority
-  /// according to the [comparison] function.
+  /// according to the `comparison` function.
   /// That is, if `a == b` then `comparison(a, b) == 0`.
   /// If that is not the case, this check might fail to find
   /// an object.

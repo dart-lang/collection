@@ -22,7 +22,7 @@ import 'union_set.dart';
 /// }
 /// ```
 class UnionSetController<E> {
-  /// The [UnionSet] that provides a view of the union of sets in [this].
+  /// The [UnionSet] that provides a view of the union of sets in `this`.
   final UnionSet<E> set;
 
   /// The sets whose union is exposed through [set].
@@ -32,7 +32,7 @@ class UnionSetController<E> {
   ///
   /// If [disjoint] is `true`, this assumes that all component sets are
   /// disjoint—that is, that they contain no elements in common. This makes
-  /// many operations including [length] more efficient.
+  /// many operations including `length` more efficient.
   UnionSetController({bool disjoint = false}) : this._(<Set<E>>{}, disjoint);
 
   /// Creates a controller with the provided [_sets].
@@ -49,7 +49,7 @@ class UnionSetController<E> {
 
   /// Removes the contents of [component] to [set].
   ///
-  /// If another set in [this] has overlapping elements with [component], those
+  /// If another set in `this` has overlapping elements with [component], those
   /// elements will remain in [set].
   bool remove(Set<E> component) => _sets.remove(component);
 }

@@ -4,7 +4,8 @@
 
 import 'dart:collection';
 
-import 'package:collection/collection.dart';
+import 'unmodifiable_wrappers.dart';
+import 'wrappers.dart';
 
 /// An unmodifiable, empty set which can be constant.
 class EmptyUnmodifiableSet<E> extends IterableBase<E>
@@ -26,7 +27,7 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   Iterable<E> followedBy(Iterable<E> other) => DelegatingIterable(other);
   @override
   E? lookup(Object? element) => null;
-  @Deprecated("Use cast instead")
+  @Deprecated('Use cast instead')
   @override
   EmptyUnmodifiableSet<T> retype<T>() => EmptyUnmodifiableSet<T>();
   @override

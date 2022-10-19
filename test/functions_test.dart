@@ -82,7 +82,7 @@ void main() {
   group('lastBy()', () {
     test('returns an empty map for an empty iterable', () {
       expect(
-        lastBy([], (_) => fail("Must not be called for empty input")),
+        lastBy([], (_) => fail('Must not be called for empty input')),
         isEmpty,
       );
     });
@@ -280,25 +280,26 @@ void main() {
 
     test('returns individual vertices for a tree', () {
       expect(
-          stronglyConnectedComponents({
-            'foo': ['bar'],
-            'bar': ['baz', 'bang'],
-            'baz': ['qux'],
-            'bang': ['zap'],
-            'qux': [],
-            'zap': []
-          }),
-          equals([
-            // This is expected to return *a* topological ordering, but this isn't
-            // the only valid one. If the function implementation changes in the
-            // future, this test may need to be updated.
-            {'foo'},
-            {'bar'},
-            {'bang'},
-            {'zap'},
-            {'baz'},
-            {'qux'}
-          ]));
+        stronglyConnectedComponents({
+          'foo': ['bar'],
+          'bar': ['baz', 'bang'],
+          'baz': ['qux'],
+          'bang': ['zap'],
+          'qux': [],
+          'zap': []
+        }),
+        equals([
+          // This is expected to return *a* topological ordering, but this isn't
+          // the only valid one. If the function implementation changes in the
+          // future, this test may need to be updated.
+          {'foo'},
+          {'bar'},
+          {'bang'},
+          {'zap'},
+          {'baz'},
+          {'qux'}
+        ]),
+      );
     });
 
     test('returns a single set for a fully cyclic graph', () {
@@ -317,47 +318,49 @@ void main() {
     test('returns separate sets for each strongly connected component', () {
       // https://en.wikipedia.org/wiki/Strongly_connected_component#/media/File:Scc.png
       expect(
-          stronglyConnectedComponents({
-            'a': ['b'],
-            'b': ['c', 'e', 'f'],
-            'c': ['d', 'g'],
-            'd': ['c', 'h'],
-            'e': ['a', 'f'],
-            'f': ['g'],
-            'g': ['f'],
-            'h': ['g', 'd']
-          }),
-          equals([
-            // This is expected to return *a* topological ordering, but this isn't
-            // the only valid one. If the function implementation changes in the
-            // future, this test may need to be updated.
-            {'a', 'b', 'e'},
-            {'c', 'd', 'h'},
-            {'f', 'g'},
-          ]));
+        stronglyConnectedComponents({
+          'a': ['b'],
+          'b': ['c', 'e', 'f'],
+          'c': ['d', 'g'],
+          'd': ['c', 'h'],
+          'e': ['a', 'f'],
+          'f': ['g'],
+          'g': ['f'],
+          'h': ['g', 'd']
+        }),
+        equals([
+          // This is expected to return *a* topological ordering, but this isn't
+          // the only valid one. If the function implementation changes in the
+          // future, this test may need to be updated.
+          {'a', 'b', 'e'},
+          {'c', 'd', 'h'},
+          {'f', 'g'},
+        ]),
+      );
     });
 
     test('always returns components in topological order', () {
       expect(
-          stronglyConnectedComponents({
-            'bar': ['baz', 'bang'],
-            'zap': [],
-            'baz': ['qux'],
-            'qux': [],
-            'foo': ['bar'],
-            'bang': ['zap']
-          }),
-          equals([
-            // This is expected to return *a* topological ordering, but this isn't
-            // the only valid one. If the function implementation changes in the
-            // future, this test may need to be updated.
-            {'foo'},
-            {'bar'},
-            {'bang'},
-            {'zap'},
-            {'baz'},
-            {'qux'}
-          ]));
+        stronglyConnectedComponents({
+          'bar': ['baz', 'bang'],
+          'zap': [],
+          'baz': ['qux'],
+          'qux': [],
+          'foo': ['bar'],
+          'bang': ['zap']
+        }),
+        equals([
+          // This is expected to return *a* topological ordering, but this isn't
+          // the only valid one. If the function implementation changes in the
+          // future, this test may need to be updated.
+          {'foo'},
+          {'bar'},
+          {'bang'},
+          {'zap'},
+          {'baz'},
+          {'qux'}
+        ]),
+      );
     });
   });
 }

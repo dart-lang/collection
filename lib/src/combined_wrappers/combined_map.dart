@@ -40,11 +40,11 @@ class CombinedMapView<K, V> extends UnmodifiableMapBase<K, V> {
     return null;
   }
 
-  /// The keys of [this].
+  /// The keys of `this`.
   ///
   /// The returned iterable has efficient `contains` operations, assuming the
-  /// iterables returned by the wrapped maps have efficient `contains` operations
-  /// for their `keys` iterables.
+  /// iterables returned by the wrapped maps have efficient `contains`
+  /// operations for their `keys` iterables.
   ///
   /// The `length` must do deduplication and thus is not optimized.
   ///

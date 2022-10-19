@@ -8,8 +8,8 @@ import 'package:test/test.dart';
 
 void main() {
   testDefault();
-  testInt(() => HeapPriorityQueue<int>());
-  testCustom((comparator) => HeapPriorityQueue<C>(comparator));
+  testInt(HeapPriorityQueue<int>.new);
+  testCustom(HeapPriorityQueue<C>.new);
   testDuplicates();
   testNullable();
   testConcurrentModification();
@@ -19,8 +19,8 @@ void testDefault() {
   test('PriorityQueue() returns a HeapPriorityQueue', () {
     expect(PriorityQueue<int>(), TypeMatcher<HeapPriorityQueue<int>>());
   });
-  testInt(() => PriorityQueue<int>());
-  testCustom((comparator) => PriorityQueue<C>(comparator));
+  testInt(PriorityQueue<int>.new);
+  testCustom(PriorityQueue<C>.new);
 }
 
 void testInt(PriorityQueue<int> Function() create) {
@@ -33,9 +33,9 @@ void testCustom(
     PriorityQueue<C> Function(int Function(C, C)? comparator) create) {
   for (var count in [1, 5, 127, 128]) {
     testQueue('Custom:$count/null', () => create(null),
-        List<C>.generate(count, (x) => C(x)), C(count));
+        List<C>.generate(count, C.new), C(count));
     testQueue('Custom:$count/compare', () => create(compare),
-        List<C>.generate(count, (x) => C(x)), C(count));
+        List<C>.generate(count, C.new), C(count));
     testQueue('Custom:$count/compareNeg', () => create(compareNeg),
         List<C>.generate(count, (x) => C(count - x)), C(0));
   }
@@ -44,13 +44,17 @@ void testCustom(
 /// Test that a queue behaves correctly.
 ///
 /// The elements must be in priority order, from highest to lowest.
-void testQueue(
-    String name, PriorityQueue Function() create, List elements, notElement) {
+void testQueue<T>(
+  String name,
+  PriorityQueue<T> Function() create,
+  List<T> elements,
+  T notElement,
+) {
   test(name, () => testQueueBody(create, elements, notElement));
 }
 
 void testQueueBody<T>(
-    PriorityQueue<T> Function() create, List<T> elements, notElement) {
+    PriorityQueue<T> Function() create, List<T> elements, T notElement) {
   var q = create();
   expect(q.isEmpty, isTrue);
   expect(q, hasLength(0));

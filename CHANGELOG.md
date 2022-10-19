@@ -1,3 +1,7 @@
+## 1.17.1-dev
+
+* Require Dart 2.18
+
 ## 1.17.0
 
 * Add `Iterable.elementAtOrNull` and `List.elementAtOrNull` extension methods.

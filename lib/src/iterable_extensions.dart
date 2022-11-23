@@ -415,7 +415,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// Splits the elements into chunks before some elements.
   ///
   /// Each element except the first is checked using [test]
-  /// for whether it should start a new chunk.
+  /// for whether be the first element in a new chunk.
   /// If so, the elements since the previous chunk-starting element
   /// are emitted as a list.
   /// Any final elements are emitted at the end.
@@ -423,19 +423,20 @@ extension IterableExtension<T> on Iterable<T> {
   /// Example:
   /// Example:
   /// ```dart
-  /// var parts = [1, 2, 3, 4, 5, 6, 7, 8, 9].split(isPrime);
-  /// print(parts); // ([1], [2], [3, 4], [5, 6], [7, 8, 9])
+  /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitBefore(isPrime);
+  /// print(parts); // ([1, 0], [2, 1], [5], [7, 6, 8, 9])
   /// ```
   Iterable<List<T>> splitBefore(bool Function(T element) test) =>
       splitBeforeIndexed((_, element) => test(element));
 
-  /// Splits the elements into chunks before some elements.
+  /// Splits the elements into chunks after some elements.
   ///
-  /// Each element is checked using [test] for whether it should start a new
-  /// chunk.
-  /// If so, the elements since the previous chunk-starting element
+  /// Each element is checked using [test] for whether it should end a chunk.
+  /// If so, the elements following the previous chunk-ending element,
+  /// including the element that satisfied [test],
   /// are emitted as a list.
-  /// Any final elements are emitted at the end.
+  /// Any final elements are emitted at the end,
+  /// whether the last element should be split after or not.
   ///
   /// Example:
   /// ```dart
@@ -498,7 +499,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// Each element and index is checked using [test]
   /// for whether it should end the current chunk.
-  /// If so, the elements since the previous chunk-ending element
+  /// If so, the elements since the previous chunk-ending element,
+  /// includeing the elemenent that satisfied [test],
   /// are emitted as a list.
   /// Any final elements are emitted at the end, whether the last
   /// element should be split after or not.

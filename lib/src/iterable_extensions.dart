@@ -415,7 +415,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// Splits the elements into chunks before some elements.
   ///
   /// Each element except the first is checked using [test]
-  /// for whether be the first element in a new chunk.
+  /// for whether it should be the first element in a new chunk.
   /// If so, the elements since the previous chunk-starting element
   /// are emitted as a list.
   /// Any final elements are emitted at the end.

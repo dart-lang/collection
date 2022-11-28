@@ -418,7 +418,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// for whether it should be the first element in a new chunk.
   /// If so, the elements since the previous chunk-starting element
   /// are emitted as a list.
-  /// Any final elements are emitted at the end.
+  /// Any remaining elements are emitted at the end.
   ///
   /// Example:
   /// Example:
@@ -435,7 +435,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// If so, the elements following the previous chunk-ending element,
   /// including the element that satisfied [test],
   /// are emitted as a list.
-  /// Any final elements are emitted at the end,
+  /// Any remaining elements are emitted at the end,
   /// whether the last element should be split after or not.
   ///
   /// Example:
@@ -452,7 +452,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// for whether a chunk should end between them.
   /// If so, the elements since the previous chunk-splitting elements
   /// are emitted as a list.
-  /// Any final elements are emitted at the end.
+  /// Any remaining elements are emitted at the end.
   ///
   /// Example:
   /// ```dart
@@ -468,7 +468,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// for whether it should start a new chunk.
   /// If so, the elements since the previous chunk-starting element
   /// are emitted as a list.
-  /// Any final elements are emitted at the end.
+  /// Any remaining elements are emitted at the end.
   ///
   /// Example:
   /// ```dart
@@ -502,7 +502,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// If so, the elements since the previous chunk-ending element,
   /// includeing the elemenent that satisfied [test],
   /// are emitted as a list.
-  /// Any final elements are emitted at the end, whether the last
+  /// Any remaining elements are emitted at the end, whether the last
   /// element should be split after or not.
   ///
   /// Example:
@@ -531,7 +531,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// checked using [test] for whether a chunk should end between them.
   /// If so, the elements since the previous chunk-splitting elements
   /// are emitted as a list.
-  /// Any final elements are emitted at the end.
+  /// Any remaining elements are emitted at the end.
   ///
   /// Example:
   /// ```dart

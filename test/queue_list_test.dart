@@ -272,10 +272,7 @@ void main() {
     var numQueue = stringQueue.cast<num>();
     expect(numQueue, const TypeMatcher<QueueList<num>>(),
         reason: 'Expected QueueList<num>, got ${numQueue.runtimeType}');
-    expect(
-        () => numQueue.add(1),
-        // ignore: deprecated_member_use
-        throwsA(isA<CastError>()));
+    expect(() => numQueue.add(1), throwsA(isA<TypeError>()));
   });
 
   test('cast returns a new QueueList', () {

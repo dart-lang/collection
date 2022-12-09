@@ -134,7 +134,7 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
   ///
   /// This soundly converts an [Iterable] without a generic type to an
   /// `Iterable<E>` by asserting that its elements are instances of `E` whenever
-  /// they're accessed. If they're not, it throws a [CastError].
+  /// they're accessed. If they're not, it throws a [TypeError].
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
   /// reflected in `this`. If [base] is already an `Iterable<E>`, it's returned
@@ -158,8 +158,8 @@ class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
   ///
   /// This soundly converts a [List] without a generic type to a `List<E>` by
   /// asserting that its elements are instances of `E` whenever they're
-  /// accessed. If they're not, it throws a [CastError]. Note that even if an
-  /// operation throws a [CastError], it may still mutate the underlying
+  /// accessed. If they're not, it throws a [TypeError]. Note that even if an
+  /// operation throws a [TypeError], it may still mutate the underlying
   /// collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
@@ -323,8 +323,8 @@ class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
   ///
   /// This soundly converts a [Set] without a generic type to a `Set<E>` by
   /// asserting that its elements are instances of `E` whenever they're
-  /// accessed. If they're not, it throws a [CastError]. Note that even if an
-  /// operation throws a [CastError], it may still mutate the underlying
+  /// accessed. If they're not, it throws a [TypeError]. Note that even if an
+  /// operation throws a [TypeError], it may still mutate the underlying
   /// collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
@@ -411,8 +411,8 @@ class DelegatingQueue<E> extends _DelegatingIterableBase<E>
   ///
   /// This soundly converts a [Queue] without a generic type to a `Queue<E>` by
   /// asserting that its elements are instances of `E` whenever they're
-  /// accessed. If they're not, it throws a [CastError]. Note that even if an
-  /// operation throws a [CastError], it may still mutate the underlying
+  /// accessed. If they're not, it throws a [TypeError]. Note that even if an
+  /// operation throws a [TypeError], it may still mutate the underlying
   /// collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be
@@ -487,8 +487,8 @@ class DelegatingMap<K, V> implements Map<K, V> {
   ///
   /// This soundly converts a [Map] without generic types to a `Map<K, V>` by
   /// asserting that its keys are instances of `E` and its values are instances
-  /// of `V` whenever they're accessed. If they're not, it throws a [CastError].
-  /// Note that even if an operation throws a [CastError], it may still mutate
+  /// of `V` whenever they're accessed. If they're not, it throws a [TypeError].
+  /// Note that even if an operation throws a [TypeError], it may still mutate
   /// the underlying collection.
   ///
   /// This forwards all operations to [base], so any changes in [base] will be

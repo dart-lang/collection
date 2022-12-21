@@ -591,6 +591,45 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
+
+  /// Elements paired with their index.
+  ///
+  /// For example, `['A'].enumerated` returns `[Enumerated('A', 0)]`
+  ///
+  /// Common usage:
+  /// ```dart
+  /// for (var el in ['A', 'B', 'C'].enumerated) {
+  ///   print(el.index); // 0, 1, 2
+  ///   print(el.value); // "A", "B", "C"
+  /// }
+  /// ```
+  Iterable<Enumerated<T>> get enumerated sync* {
+    for (var i = 0; i < length; i++) {
+      yield Enumerated<T>(i, elementAt(i));
+    }
+  }
+}
+
+/// An enumerated element from an iterable
+class Enumerated<T> {
+  /// The index of the element from the source iterable
+  final int index;
+
+  /// The value of the element
+  final T value;
+
+  Enumerated(this.index, this.value);
+
+  @override
+  int get hashCode => index.hashCode ^ value.hashCode;
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(other, this) ||
+        (other is Enumerated<T> &&
+            other.index == index &&
+            other.value == value);
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.

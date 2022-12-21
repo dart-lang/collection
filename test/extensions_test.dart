@@ -833,6 +833,18 @@ void main() {
               ]);
         });
       });
+      group('.enumerated', () {
+        test('empty', () {
+          expect(iterable([]).enumerated, []);
+        });
+        test('single', () {
+          expect(iterable(['A']).enumerated, [Enumerated(0, 'A')]);
+        });
+        test('multiple', () {
+          expect(iterable(['A', 'B', 'C']).enumerated,
+              [Enumerated(0, 'A'), Enumerated(1, 'B'), Enumerated(2, 'C')]);
+        });
+      });
       group('none', () {
         test('empty', () {
           expect(iterable([]).none(unreachable), true);

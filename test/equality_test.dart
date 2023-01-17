@@ -108,18 +108,21 @@ void main() {
     'x': [o(4), o(5), o(6)],
     'y': [false, true, null]
   };
+  // Equivalent to map1a if values compared as unordered.
   var map2a = {
     'x': [o(3), o(2), o(1)],
     'y': [false, true, null]
   };
+  // Equivalent to map1b if values compared as unordered.
   var map2b = {
     'x': [o(6), o(5), o(4)],
     'y': [null, false, true]
   };
   var l1 = [map1a, map1b];
   var l2 = [map2a, map2b];
-  var s1 = {...l1};
-  var s2 = {map2b, map2a};
+
+  var s1 = {map1a, map1b};
+  var s2 = {map1b, map1a};
 
   var i1 = Iterable.generate(l1.length, (i) => l1[i]);
 
@@ -173,7 +176,7 @@ void main() {
         expect(colleq.equals(map1a, map2a), isFalse);
         expect(colleq.equals(map1b, map2b), isFalse);
         expect(colleq.equals(l1, l2), isFalse);
-        expect(colleq.equals(s1, s2), isFalse);
+        expect(colleq.equals(s1, s2), isTrue);
       });
 
       // TODO: https://github.com/dart-lang/collection/issues/208
@@ -279,4 +282,6 @@ class Element implements Comparable<Element> {
   bool operator ==(Object other) => other is Element && id == other.id;
   @override
   int compareTo(Element other) => id.compareTo(other.id);
+  @override
+  String toString() => "Element($id)";
 }

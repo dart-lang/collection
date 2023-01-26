@@ -1,4 +1,4 @@
-## 1.17.1-dev
+## 1.17.1
 
 * Require Dart 2.18
 * Improve docs for `splitAfter` and `splitBefore`.

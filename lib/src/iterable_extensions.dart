@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection' show IterableBase;
 import 'dart:math' show Random;
 
 import 'algorithms.dart';
@@ -593,6 +594,42 @@ extension IterableExtension<T> on Iterable<T> {
   }
 }
 
+/// An iterable which emits all non-`null` elements of the source
+/// iterable.
+class _NotNullIterable<T extends Object> extends IterableBase<T> {
+  final Iterable<T?> _source;
+
+  _NotNullIterable(this._source);
+
+  @override
+  Iterator<T> get iterator => _NotNullIterator(_source.iterator);
+}
+
+/// An iterator which skips over all `null` elements of the source
+/// iterator.
+class _NotNullIterator<T extends Object> implements Iterator<T> {
+  final Iterator<T?> _source;
+  T? _current;
+
+  _NotNullIterator(this._source);
+
+  @override
+  bool moveNext() {
+    while (_source.moveNext()) {
+      final el = _source.current;
+      if (el != null) {
+        _current = el;
+        return true;
+      }
+    }
+    _current = null;
+    return false;
+  }
+
+  @override
+  T get current => _current!;
+}
+
 /// Extensions that apply to iterables with a nullable element type.
 extension IterableNullableExtension<T extends Object> on Iterable<T?> {
   /// The non-`null` elements of this `Iterable`.
@@ -601,11 +638,7 @@ extension IterableNullableExtension<T extends Object> on Iterable<T?> {
   /// of this iterable, in their original iteration order.
   ///
   /// For an `Iterable<X?>`, this method is equivalent to `.whereType<X>()`.
-  Iterable<T> whereNotNull() sync* {
-    for (var element in this) {
-      if (element != null) yield element;
-    }
-  }
+  Iterable<T> whereNotNull() => _NotNullIterable(this);
 }
 
 /// Extensions that apply to iterables of numbers.

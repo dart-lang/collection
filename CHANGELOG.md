@@ -2,6 +2,31 @@
 
 * Require Dart 2.18
 * Improve docs for `splitAfter` and `splitBefore`.
+* Add `JsonEquality` which is an extra efficient `Equality` on JSON-like
+  object structures. It's less general than `DeepCollectionEquality`,
+  but can therefore make assumptions that allows it to be more efficient.
+* **BREAKING CHANGE**: `MapEquality` no longer uses `keys`-equality
+  to decide whether two maps have the same keys.
+  Instead it assumes that the two maps have compatible key-equalities,
+  and looks up the keys of one map in the other.
+  This change is expected to make the equality more useful,
+  because a `true` result is more likely to mean that one map can be
+  used as a replacement for the other, rather than the maps just happening to
+  have the same keys and values, even when they don't use the same key equality.
+* **BREAKING CHANGE**: `SetEquality` no longer uses only `keys`-equality
+  to decide whether two sets have the same elements.
+  Instead it assumes that the two sets have equalities compatible with the
+  configured element equality, and uses `Set` operations to match an element
+  in one set to an element in the other.
+  This change is expected to make the equality more useful,
+  because a `true` result is more likely to mean that one mapset can be
+  used as a replacement for the other, rather than the set just happening to
+  have the same elements, even when they don't use the same element equality.
+* **BREAKING CHANGE**: The `DeepCollectionEquality.unordered` constructor
+  is now a factory constructor. It creates a subclass which caches equality
+  and hash computations performed by recursive calls
+  to avoid performance issues with deep structures
+  combined with repeated hash/equality checks due to the unordered comparison.
 
 ## 1.17.0
 

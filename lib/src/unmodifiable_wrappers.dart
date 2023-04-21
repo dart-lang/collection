@@ -25,7 +25,7 @@ class NonGrowableListView<E> extends DelegatingList<E>
 
 /// Mixin class that implements a throwing version of all list operations that
 /// change the List's length.
-abstract class NonGrowableListMixin<E> implements List<E> {
+abstract mixin class NonGrowableListMixin<E> implements List<E> {
   static Never _throw() {
     throw UnsupportedError('Cannot change the length of a fixed-length list');
   }
@@ -116,7 +116,7 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 
 /// Mixin class that implements a throwing version of all set operations that
 /// change the Set.
-abstract /*mixin*/ class UnmodifiableSetMixin<E> implements Set<E> {
+abstract mixin class UnmodifiableSetMixin<E> implements Set<E> {
   static Never _throw() {
     throw UnsupportedError('Cannot modify an unmodifiable Set');
   }

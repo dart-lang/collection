@@ -13,7 +13,7 @@ import 'combined_iterator.dart';
 /// lazily accessing individual iterable instances. This means that if the
 /// underlying iterables change, the [CombinedIterableView] will reflect those
 /// changes.
-class CombinedIterableView<T> extends IterableBase<T> {
+final class CombinedIterableView<T> extends IterableBase<T> {
   /// The iterables that this combines.
   final Iterable<Iterable<T>> _iterables;
 

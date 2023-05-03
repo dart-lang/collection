@@ -21,7 +21,7 @@ import 'union_set.dart';
 ///   }
 /// }
 /// ```
-class UnionSetController<E> {
+interface class UnionSetController<E> {
   /// The [UnionSet] that provides a view of the union of sets in `this`.
   final UnionSet<E> set;
 

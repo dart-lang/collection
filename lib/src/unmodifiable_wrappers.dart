@@ -116,7 +116,7 @@ class UnmodifiableSetView<E> extends DelegatingSet<E>
 
 /// Mixin class that implements a throwing version of all set operations that
 /// change the Set.
-abstract class UnmodifiableSetMixin<E> implements Set<E> {
+abstract /*mixin*/ class UnmodifiableSetMixin<E> implements Set<E> {
   static Never _throw() {
     throw UnsupportedError('Cannot modify an unmodifiable Set');
   }
@@ -164,7 +164,7 @@ abstract class UnmodifiableSetMixin<E> implements Set<E> {
 
 /// Mixin class that implements a throwing version of all map operations that
 /// change the Map.
-abstract class UnmodifiableMapMixin<K, V> implements Map<K, V> {
+abstract /*mixin*/ class UnmodifiableMapMixin<K, V> implements Map<K, V> {
   static Never _throw() {
     throw UnsupportedError('Cannot modify an unmodifiable Map');
   }

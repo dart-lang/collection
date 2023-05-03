@@ -1,3 +1,7 @@
+## 1.17.2
+
+* Allow Dart 3.0.
+
 ## 1.17.1
 
 * Require Dart 2.18

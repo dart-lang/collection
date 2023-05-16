@@ -9,7 +9,7 @@ import 'comparators.dart';
 const int _hashMask = 0x7fffffff;
 
 /// A generic equality relation on objects.
-abstract class Equality<E> {
+abstract interface class Equality<E> {
   const factory Equality() = DefaultEquality<E>;
 
   /// Compare two elements for being equal.
@@ -46,7 +46,7 @@ abstract class Equality<E> {
 ///
 /// It's also possible to pass an additional equality instance that should be
 /// used to compare the value itself.
-class EqualityBy<E, F> implements Equality<E> {
+final class EqualityBy<E, F> implements Equality<E> {
   final F Function(E) _comparisonKey;
 
   final Equality<F> _inner;
@@ -81,7 +81,7 @@ class EqualityBy<E, F> implements Equality<E> {
 /// Note that [equals] and [hash] take `Object`s rather than `E`s. This allows
 /// `E` to be inferred as `Null` in const contexts where `E` wouldn't be a
 /// compile-time constant, while still allowing the class to be used at runtime.
-class DefaultEquality<E> implements Equality<E> {
+final class DefaultEquality<E> implements Equality<E> {
   const DefaultEquality();
   @override
   bool equals(Object? e1, Object? e2) => e1 == e2;
@@ -92,7 +92,7 @@ class DefaultEquality<E> implements Equality<E> {
 }
 
 /// Equality of objects that compares only the identity of the objects.
-class IdentityEquality<E> implements Equality<E> {
+final class IdentityEquality<E> implements Equality<E> {
   const IdentityEquality();
   @override
   bool equals(E e1, E e2) => identical(e1, e2);
@@ -109,7 +109,7 @@ class IdentityEquality<E> implements Equality<E> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class IterableEquality<E> implements Equality<Iterable<E>> {
+final class IterableEquality<E> implements Equality<Iterable<E>> {
   final Equality<E?> _elementEquality;
   const IterableEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
@@ -161,7 +161,7 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class ListEquality<E> implements Equality<List<E>> {
+final class ListEquality<E> implements Equality<List<E>> {
   final Equality<E> _elementEquality;
   const ListEquality(
       [Equality<E> elementEquality = const DefaultEquality<Never>()])
@@ -202,7 +202,7 @@ class ListEquality<E> implements Equality<List<E>> {
   bool isValidKey(Object? o) => o is List<E>;
 }
 
-abstract class _UnorderedEquality<E, T extends Iterable<E>>
+abstract final class _UnorderedEquality<E, T extends Iterable<E>>
     implements Equality<T> {
   final Equality<E> _elementEquality;
 
@@ -251,7 +251,8 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
 /// Two iterables are considered equal if they have the same number of elements,
 /// and the elements of one set can be paired with the elements
 /// of the other iterable, so that each pair are equal.
-class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
+final class UnorderedIterableEquality<E>
+    extends _UnorderedEquality<E, Iterable<E>> {
   const UnorderedIterableEquality(
       [super.elementEquality = const DefaultEquality<Never>()]);
 
@@ -271,7 +272,7 @@ class UnorderedIterableEquality<E> extends _UnorderedEquality<E, Iterable<E>> {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
+final class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
   const SetEquality([super.elementEquality = const DefaultEquality<Never>()]);
 
   @override
@@ -282,7 +283,7 @@ class SetEquality<E> extends _UnorderedEquality<E, Set<E>> {
 ///
 /// The class represents a map entry as a single object,
 /// using a combined hashCode and equality of the key and value.
-class _MapEntry {
+final class _MapEntry {
   final MapEquality equality;
   final Object? key;
   final Object? value;
@@ -309,7 +310,7 @@ class _MapEntry {
 /// The [equals] and [hash] methods accepts `null` values,
 /// even if the [isValidKey] returns `false` for `null`.
 /// The [hash] of `null` is `null.hashCode`.
-class MapEquality<K, V> implements Equality<Map<K, V>> {
+final class MapEquality<K, V> implements Equality<Map<K, V>> {
   final Equality<K> _keyEquality;
   final Equality<V> _valueEquality;
   const MapEquality(
@@ -372,7 +373,7 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
 /// for `equals(e1, e2)` and `equals(e2, e1)`. This can happen if one equality
 /// considers only `e1` a valid key, and not `e2`, but an equality which is
 /// checked later, allows both.
-class MultiEquality<E> implements Equality<E> {
+final class MultiEquality<E> implements Equality<E> {
   final Iterable<Equality<E>> _equalities;
 
   const MultiEquality(Iterable<Equality<E>> equalities)
@@ -418,7 +419,7 @@ class MultiEquality<E> implements Equality<E> {
 ///
 /// A list is only equal to another list, likewise for sets and maps. All other
 /// iterables are compared as iterables only.
-class DeepCollectionEquality implements Equality {
+final class DeepCollectionEquality implements Equality {
   final Equality _base;
   final bool _unordered;
   const DeepCollectionEquality([Equality base = const DefaultEquality<Never>()])
@@ -476,7 +477,7 @@ class DeepCollectionEquality implements Equality {
 /// String equality that's insensitive to differences in ASCII case.
 ///
 /// Non-ASCII characters are compared as-is, with no conversion.
-class CaseInsensitiveEquality implements Equality<String> {
+final class CaseInsensitiveEquality implements Equality<String> {
   const CaseInsensitiveEquality();
 
   @override

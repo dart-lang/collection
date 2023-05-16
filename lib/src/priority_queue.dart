@@ -21,7 +21,7 @@ import 'utils.dart';
 /// If elements override [Object.==], the `comparison` function must
 /// always give equal objects the same priority,
 /// otherwise [contains] or [remove] might not work correctly.
-abstract class PriorityQueue<E> {
+abstract interface class PriorityQueue<E> {
   /// Creates an empty [PriorityQueue].
   ///
   /// The created [PriorityQueue] is a plain [HeapPriorityQueue].
@@ -168,7 +168,7 @@ abstract class PriorityQueue<E> {
 ///   and is linear, O(n).
 /// * The [toSet] operation effectively adds each element to the new set, taking
 ///   an expected O(n*log(n)) time.
-class HeapPriorityQueue<E> implements PriorityQueue<E> {
+final class HeapPriorityQueue<E> implements PriorityQueue<E> {
   /// Initial capacity of a queue when created, or when added to after a
   /// [clear].
   ///

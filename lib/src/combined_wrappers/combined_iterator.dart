@@ -5,7 +5,7 @@
 /// The iterator for `CombinedIterableView` and `CombinedListView`.
 ///
 /// Moves through each iterable's iterator in sequence.
-class CombinedIterator<T> implements Iterator<T> {
+final class CombinedIterator<T> implements Iterator<T> {
   /// The iterators that this combines, or `null` if done iterating.
   ///
   /// Because this comes from a call to [Iterable.map], it's lazy and will

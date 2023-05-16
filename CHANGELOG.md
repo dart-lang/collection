@@ -1,3 +1,8 @@
+## 1.18.0
+
+* Require Dart 3.0.
+* Mark mixin classes as `mixin class`.
+
 ## 1.17.2
 
 * Accept Dart SDK versions above 3.0.

@@ -9,7 +9,9 @@ import 'dart:collection';
 // dart:collection. The only changes are to implement List and to remove methods
 // that are redundant with ListMixin. Remove or simplify it when issue 21330 is
 // fixed.
-class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
+interface class QueueList<E> extends Object
+    with ListMixin<E>
+    implements Queue<E> {
   /// Adapts [source] to be a `QueueList<T>`.
   ///
   /// Any time the class would produce an element that is not a [T], the element
@@ -274,7 +276,7 @@ class QueueList<E> extends Object with ListMixin<E> implements Queue<E> {
   }
 }
 
-class _CastQueueList<S, T> extends QueueList<T> {
+final class _CastQueueList<S, T> extends QueueList<T> {
   final QueueList<S> _delegate;
 
   // Assigns invalid values for head/tail because it uses the delegate to hold

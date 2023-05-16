@@ -10,7 +10,7 @@ import 'dart:collection';
 /// more efficient than a [LinkedHashMap] with a custom equality operator
 /// because it only canonicalizes each key once, rather than doing so for each
 /// comparison.
-class CanonicalizedMap<C, K, V> implements Map<K, V> {
+final class CanonicalizedMap<C, K, V> implements Map<K, V> {
   final C Function(K) _canonicalize;
 
   final bool Function(K)? _isValidKeyFn;

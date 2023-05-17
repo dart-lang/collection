@@ -176,7 +176,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   /// See [toMapOfCanonicalKeys].
   Map<K, V> toMap() => Map<K, V>.fromEntries(_base.values);
 
-  /// Creates a `Map<C,V>` (with the canocalized keys).
+  /// Creates a `Map<C,V>` (with the canonicalized keys).
   /// See [toMap].
   Map<C, V> toMapOfCanonicalKeys() => Map<C, V>.fromEntries(
       _base.entries.map((e) => MapEntry<C, V>(e.key, e.value.value)));

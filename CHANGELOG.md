@@ -1,6 +1,10 @@
-## 1.17.1-dev
+## 1.17.2
 
-* Require Dart 2.18
+* Accept Dart SDK versions above 3.0.
+
+## 1.17.1
+
+* Require Dart 2.18.
 * Improve docs for `splitAfter` and `splitBefore`.
 
 ## 1.17.0

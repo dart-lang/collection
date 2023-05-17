@@ -10,7 +10,7 @@ import 'unmodifiable_wrappers.dart' show NonGrowableListMixin;
 /// A space-efficient list of boolean values.
 ///
 /// Uses list of integers as internal storage to reduce memory usage.
-abstract class BoolList with ListMixin<bool> {
+abstract /*mixin*/ class BoolList with ListMixin<bool> {
   static const int _entryShift = 5;
 
   static const int _bitsPerEntry = 32;
@@ -42,18 +42,18 @@ abstract class BoolList with ListMixin<bool> {
   factory BoolList(int length, {bool fill = false, bool growable = false}) {
     RangeError.checkNotNegative(length, 'length');
 
-    BoolList boolist;
+    BoolList boolList;
     if (growable) {
-      boolist = _GrowableBoolList(length);
+      boolList = _GrowableBoolList(length);
     } else {
-      boolist = _NonGrowableBoolList(length);
+      boolList = _NonGrowableBoolList(length);
     }
 
     if (fill) {
-      boolist.fillRange(0, length, true);
+      boolList.fillRange(0, length, true);
     }
 
-    return boolist;
+    return boolList;
   }
 
   /// Creates an empty list of booleans.

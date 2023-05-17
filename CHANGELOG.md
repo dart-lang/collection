@@ -1,3 +1,12 @@
+## 1.17.3
+
+- `CanonicalizedMap`:
+  - Added methods:
+    - `copy`: copies an instance without recalculating the canonical values of the keys.
+    - `toMap`: creates a `Map<K,V>` (with the original key values).
+    - `toMapOfCanonicalKeys`: creates a `Map<C,V>` (with the canonicalized keys).
+- lints: ^2.0.1
+
 ## 1.17.2
 
 * Accept Dart SDK versions above 3.0.

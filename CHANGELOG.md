@@ -1,4 +1,4 @@
-## 1.17.3
+## 1.18.0-wip
 
 - `CanonicalizedMap`:
   - Added methods:

@@ -46,6 +46,16 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
     addAll(other);
   }
 
+  CanonicalizedMap._(
+      this._canonicalize, this._isValidKeyFn, Map<C, MapEntry<K, V>> base) {
+    _base.addAll(base);
+  }
+
+  /// Copies this [CanonicalizedMap] instance without recalculating the
+  /// canonical values of the keys.
+  CanonicalizedMap<C, K, V> copy() =>
+      CanonicalizedMap._(_canonicalize, _isValidKeyFn, _base);
+
   @override
   V? operator [](Object? key) {
     if (!_isValidKey(key)) return null;
@@ -161,4 +171,13 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
 
   bool _isValidKey(Object? key) =>
       (key is K) && (_isValidKeyFn == null || _isValidKeyFn!(key));
+
+  /// Creates a `Map<K,V>` (with the original key values).
+  /// See [toMapOfCanonicalKeys].
+  Map<K, V> toMap() => Map<K, V>.fromEntries(_base.values);
+
+  /// Creates a `Map<C,V>` (with the canonicalized keys).
+  /// See [toMap].
+  Map<C, V> toMapOfCanonicalKeys() => Map<C, V>.fromEntries(
+      _base.entries.map((e) => MapEntry<C, V>(e.key, e.value.value)));
 }

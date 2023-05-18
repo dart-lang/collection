@@ -204,4 +204,61 @@ void main() {
       expect(map['0001'], equals('value 3'));
     });
   });
+
+  group('CanonicalizedMap.toMapOfCanonicalKeys', () {
+    test('convert to a `Map<C,V>`', () {
+      var map = CanonicalizedMap.from(
+          {'1': 'value 1', '2': 'value 2', '3': 'value 3'}, int.parse);
+
+      var map2 = map.toMapOfCanonicalKeys();
+
+      expect(map2, isNot(isA<CanonicalizedMap>()));
+
+      expect(map2[1], equals('value 1'));
+      expect(map2[2], equals('value 2'));
+      expect(map2[3], equals('value 3'));
+
+      expect(map2, equals({1: 'value 1', 2: 'value 2', 3: 'value 3'}));
+    });
+  });
+
+  group('CanonicalizedMap.toMap', () {
+    test('convert to a `Map<K,V>`', () {
+      var map = CanonicalizedMap.from(
+          {'1': 'value 1', '2': 'value 2', '3': 'value 3'}, int.parse);
+
+      var map2 = map.toMap();
+
+      expect(map2, isNot(isA<CanonicalizedMap>()));
+
+      expect(map2['1'], equals('value 1'));
+      expect(map2['2'], equals('value 2'));
+      expect(map2['3'], equals('value 3'));
+
+      expect(map2, equals({'1': 'value 1', '2': 'value 2', '3': 'value 3'}));
+    });
+  });
+
+  group('CanonicalizedMap.copy', () {
+    test('copy instance', () {
+      var map = CanonicalizedMap.from(
+          {'1': 'value 1', '2': 'value 2', '3': 'value 3'}, int.parse);
+
+      var map2 = map.copy();
+
+      expect(map2['01'], equals('value 1'));
+      expect(map2['02'], equals('value 2'));
+      expect(map2['03'], equals('value 3'));
+
+      expect(map2['1'], equals('value 1'));
+      expect(map2['2'], equals('value 2'));
+      expect(map2['3'], equals('value 3'));
+
+      expect(map2, equals({'1': 'value 1', '2': 'value 2', '3': 'value 3'}));
+
+      var map3 = Map.fromEntries(map2.entries);
+
+      expect(map3, equals({'1': 'value 1', '2': 'value 2', '3': 'value 3'}));
+    });
+  });
 }

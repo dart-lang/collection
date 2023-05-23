@@ -1207,6 +1207,19 @@ void main() {
       test('refuses length 0', () {
         expect(() => iterable([1]).slices(0), throwsRangeError);
       });
+      test('regression #286, bug in slice', () {
+        var l1 = <int>[1, 2, 3, 4, 5, 6];
+        List<int> l2 = l1.slice(1, 5); // (2..5)
+        // This call would stack-overflow due to a lacking type promotion
+        // which caused the extension method to keep calling itself,
+        // instead of switching to the instance method on `ListSlice`.
+        //
+        // If successful, it would use the `2` argument as offset, instead
+        // of the `1` offset from the `slice` call above.
+        var l3 = l2.slice(2, 4); // (4..5)
+        expect(l3, [4, 5]);
+        expect(l3.toList(), [4, 5]);
+      });
     });
   });
 

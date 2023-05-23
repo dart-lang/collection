@@ -241,7 +241,7 @@ extension ListExtensions<E> on List<E> {
   ListSlice<E> slice(int start, [int? end]) {
     end = RangeError.checkValidRange(start, end, length);
     var self = this;
-    if (self is ListSlice) return self.slice(start, end);
+    if (self is ListSlice<E>) return self.slice(start, end);
     return ListSlice<E>(this, start, end);
   }
 
@@ -404,7 +404,7 @@ class ListSlice<E> extends ListBase<E> {
   /// ```
   ListSlice<E> slice(int start, [int? end]) {
     end = RangeError.checkValidRange(start, end, length);
-    return ListSlice._(_initialSize, source, start + start, end - start);
+    return ListSlice._(_initialSize, source, this.start + start, end - start);
   }
 
   @override

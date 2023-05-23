@@ -5,6 +5,7 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+import 'map_extensions.dart';
 import 'utils.dart';
 
 /// Creates a new map from [map] with new keys and values.
@@ -40,6 +41,10 @@ Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
   });
   return result;
 }
+
+/// Like [Map.fromEntries], but takes each entry as a record.
+Map<K, V> mapFromPairs<K, V>(Iterable<(K, V)> pairs) =>
+    <K, V>{}..addPairs(pairs);
 
 /// Associates the elements in [values] by the value returned by [key].
 ///

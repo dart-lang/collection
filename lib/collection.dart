@@ -17,6 +17,7 @@ export 'src/functions.dart';
 export 'src/iterable_extensions.dart';
 export 'src/iterable_zip.dart';
 export 'src/list_extensions.dart';
+export 'src/map_extensions.dart';
 export 'src/priority_queue.dart';
 export 'src/queue_list.dart';
 export 'src/union_set.dart';

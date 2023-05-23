@@ -1900,6 +1900,48 @@ void main() {
       });
     });
   });
+
+  group('Map', () {
+    group('pairs', () {
+      test('empty map', () {
+        expect(<int, int>{}.pairs, isEmpty);
+      });
+
+      test('single pair', () {
+        expect(<int, int>{1: 2}.pairs, equals([(1, 2)]));
+      });
+
+      test('multiple pairs', () {
+        expect(<int, int>{1: 2, 3: 4, 5: 6}.pairs,
+            equals([(1, 2), (3, 4), (5, 6)]));
+      });
+    });
+
+    group('addPairs', () {
+      test('empty map', () {
+        expect({1: 2, 3: 4}..addPairs([]), equals({1: 2, 3: 4}));
+      });
+
+      test('single pair', () {
+        expect({1: 2, 3: 4}..addPairs([(5, 6)]), equals({1: 2, 3: 4, 5: 6}));
+      });
+
+      test('multiple pairs', () {
+        expect({1: 2, 3: 4}..addPairs([(5, 6), (7, 8), (9, 10)]),
+            equals({1: 2, 3: 4, 5: 6, 7: 8, 9: 10}));
+      });
+
+      test('overlapping existing map', () {
+        expect({1: 2, 3: 4}..addPairs([(3, 5), (6, 7)]),
+            equals({1: 2, 3: 5, 6: 7}));
+      });
+
+      test('overlapping new map', () {
+        expect({1: 2, 3: 4}..addPairs([(5, 6), (5, 7)]),
+            equals({1: 2, 3: 4, 5: 7}));
+      });
+    });
+  });
 }
 
 /// Creates a plain iterable not implementing any other class.

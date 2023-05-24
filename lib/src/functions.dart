@@ -42,10 +42,6 @@ Map<K, V> mergeMaps<K, V>(Map<K, V> map1, Map<K, V> map2,
   return result;
 }
 
-/// Like [Map.fromEntries], but takes each entry as a record.
-Map<K, V> mapFromPairs<K, V>(Iterable<(K, V)> pairs) =>
-    <K, V>{}..addPairs(pairs);
-
 /// Associates the elements in [values] by the value returned by [key].
 ///
 /// Returns a map from keys computed by [key] to the last value for which [key]

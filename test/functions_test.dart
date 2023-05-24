@@ -79,21 +79,6 @@ void main() {
     });
   });
 
-  group('mapFromPairs()', () {
-    test('empty map', () {
-      expect(mapFromPairs([]), isEmpty);
-    });
-
-    test('single pair', () {
-      expect(mapFromPairs([(1, 2)]), equals({1: 2}));
-    });
-
-    test('multiple pairs', () {
-      expect(
-          mapFromPairs([(1, 2), (3, 4), (5, 6)]), equals({1: 2, 3: 4, 5: 6}));
-    });
-  });
-
   group('lastBy()', () {
     test('returns an empty map for an empty iterable', () {
       expect(

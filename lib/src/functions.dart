@@ -5,6 +5,7 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+import 'map_extensions.dart';
 import 'utils.dart';
 
 /// Creates a new map from [map] with new keys and values.

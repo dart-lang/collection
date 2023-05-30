@@ -1900,6 +1900,23 @@ void main() {
       });
     });
   });
+
+  group('Map', () {
+    group('pairs', () {
+      test('empty map', () {
+        expect(<int, int>{}.pairs, isEmpty);
+      });
+
+      test('single pair', () {
+        expect(<int, int>{1: 2}.pairs, equals([(1, 2)]));
+      });
+
+      test('multiple pairs', () {
+        expect(<int, int>{1: 2, 3: 4, 5: 6}.pairs,
+            equals([(1, 2), (3, 4), (5, 6)]));
+      });
+    });
+  });
 }
 
 /// Creates a plain iterable not implementing any other class.

@@ -2,6 +2,8 @@
 
 * Require Dart 3.0.
 * Mark mixin classes as `mixin class`.
+* Added a `Map.pairs` extension method to make it easier to work with maps using
+  Dart 3 record types.
 
 ## 1.17.2
 

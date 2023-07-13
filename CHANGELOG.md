@@ -8,6 +8,7 @@
 - Fixes bugs in `ListSlice.slice` and `ListExtensions.slice`.
 - Adds `shuffled` to `IterableExtension`.
 - Update to `package:lints` 2.0.1.
+- Better randomization of `IterableExtension.sample` results.
 
 ## 1.17.2
 

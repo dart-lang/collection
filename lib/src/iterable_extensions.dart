@@ -36,7 +36,7 @@ extension IterableExtension<T> on Iterable<T> {
       if (iterator.moveNext()) {
         chosen.add(iterator.current);
       } else {
-        return chosen;
+        return chosen..shuffle();
       }
     }
     var index = count;
@@ -46,7 +46,7 @@ extension IterableExtension<T> on Iterable<T> {
       var position = random.nextInt(index);
       if (position < count) chosen[position] = iterator.current;
     }
-    return chosen;
+    return chosen..shuffle();
   }
 
   /// The elements that do not satisfy [test].

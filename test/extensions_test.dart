@@ -1175,6 +1175,32 @@ void main() {
           expect(other, some);
         }
       });
+      test('randomized', () {
+        // Check if the result is randomized
+        var input = iterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        // This specific seed causes the first test fail with the older version
+        var random = Random(12355);
+        {
+          // Result of sampling with a number smaller than length is randomized
+          var result = input.sample(9, random);
+          expect(result.length, 9);
+          expect(result.isSorted(cmpInt), isFalse);
+        }
+        {
+          // Result of sampling with a number equal to length is randomized
+          var result = input.sample(10, random);
+          expect(result.length, 10);
+          expect(result.isSorted(cmpInt), isFalse);
+          expect(UnorderedIterableEquality().equals(input, result), isTrue);
+        }
+        {
+          // Result of sampling with a number bigger than length is randomized
+          var result = input.sample(20, random);
+          expect(result.length, 10);
+          expect(result.isSorted(cmpInt), isFalse);
+          expect(UnorderedIterableEquality().equals(input, result), isTrue);
+        }
+      });
     });
     group('.elementAtOrNull', () {
       test('empty', () async {

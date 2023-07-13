@@ -30,8 +30,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// The chosen elements are not in any specific order.
   List<T> sample(int count, [Random? random]) {
     RangeError.checkNotNegative(count, 'count');
-    var shuffled = toList()..shuffle(random ??= Random());
-    return shuffled.take(count).toList();
+    var shuffled = [...this]..shuffle(random ??= Random());
+    return [...shuffled.take(count)];
   }
 
   /// The elements that do not satisfy [test].

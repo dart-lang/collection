@@ -6,6 +6,7 @@
     - `toMap`: creates a `Map<K,V>` (with the original key values).
     - `toMapOfCanonicalKeys`: creates a `Map<C,V>` (with the canonicalized keys).
 - Fixes bugs in `ListSlice.slice` and `ListExtensions.slice`.
+- Better randomization of `IterableExtension.sample` results.
 - lints: ^2.0.1
 
 ## 1.17.2

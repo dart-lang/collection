@@ -30,23 +30,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// The chosen elements are not in any specific order.
   List<T> sample(int count, [Random? random]) {
     RangeError.checkNotNegative(count, 'count');
-    var iterator = this.iterator;
-    var chosen = <T>[];
-    for (var i = 0; i < count; i++) {
-      if (iterator.moveNext()) {
-        chosen.add(iterator.current);
-      } else {
-        return chosen;
-      }
-    }
-    var index = count;
-    random ??= Random();
-    while (iterator.moveNext()) {
-      index++;
-      var position = random.nextInt(index);
-      if (position < count) chosen[position] = iterator.current;
-    }
-    return chosen;
+    var shuffled = toList()..shuffle(random ??= Random());
+    return shuffled.take(count).toList();
   }
 
   /// The elements that do not satisfy [test].

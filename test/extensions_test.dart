@@ -1168,19 +1168,21 @@ void main() {
           // Result of sampling with a number smaller than length is randomized
           var result = input.sample(9, random);
           expect(result.length, 9);
-          expect(result.isSorted(cmpInt), false);
+          expect(result.isSorted(cmpInt), isFalse);
         }
         {
           // Result of sampling with a number equal to length is randomized
           var result = input.sample(10, random);
           expect(result.length, 10);
-          expect(result.isSorted(cmpInt), false);
+          expect(result.isSorted(cmpInt), isFalse);
+          expect(UnorderedIterableEquality().equals(input, result), isTrue);
         }
         {
           // Result of sampling with a number bigger than length is randomized
           var result = input.sample(20, random);
           expect(result.length, 10);
-          expect(result.isSorted(cmpInt), false);
+          expect(result.isSorted(cmpInt), isFalse);
+          expect(UnorderedIterableEquality().equals(input, result), isTrue);
         }
       });
     });

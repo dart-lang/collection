@@ -37,6 +37,22 @@ void main() {
           expect(iterable([5, 2, 4, 3, 1]).sorted(cmpInt), [1, 2, 3, 4, 5]);
         });
       });
+      group('.shuffled', () {
+        test('empty', () {
+          expect(iterable(<int>[]).shuffled(), []);
+        });
+        test('singleton', () {
+          expect(iterable([1]).shuffled(), [1]);
+        });
+        test('multiple', () {
+          var input = iterable([1, 2, 3, 4, 5]);
+          var copy = [...input];
+          var shuffled = input.shuffled();
+          expect(UnorderedIterableEquality().equals(input, shuffled), isTrue);
+          // Check that the original list isn't touched
+          expect(input, copy);
+        });
+      });
       group('.sortedBy', () {
         test('empty', () {
           expect(iterable(<int>[]).sortedBy(unreachable), []);

@@ -30,7 +30,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// The chosen elements are not in any specific order.
   List<T> sample(int count, [Random? random]) {
     RangeError.checkNotNegative(count, 'count');
-    var shuffled = [...this]..shuffle(random ??= Random());
+    var shuffled = [...this]..shuffle(random ?? Random());
     return [...shuffled.take(count)];
   }
 

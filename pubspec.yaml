@@ -1,6 +1,7 @@
 name: collection
-version: 1.18.0-wip
-description: Collections and utilities functions and classes related to collections.
+version: 1.18.0
+description: >-
+  Collections and utilities functions and classes related to collections.
 repository: https://github.com/dart-lang/collection
 
 topics:

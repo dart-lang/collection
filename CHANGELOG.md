@@ -1,4 +1,4 @@
-## 1.18.0-wip
+## 1.18.0
 
 - `CanonicalizedMap`:
   - Added methods:
@@ -6,7 +6,7 @@
     - `toMap`: creates a `Map<K,V>` (with the original key values).
     - `toMapOfCanonicalKeys`: creates a `Map<C,V>` (with the canonicalized keys).
 - Fixes bugs in `ListSlice.slice` and `ListExtensions.slice`.
-- lints: ^2.0.1
+- Update to `package:lints` 2.0.1.
 
 ## 1.17.2
 

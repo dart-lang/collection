@@ -53,6 +53,21 @@ extension IterableExtension<T> on Iterable<T> {
   Iterable<T> whereNot(bool Function(T element) test) =>
       where((element) => !test(element));
 
+  Iterable<T> onEach(Function(T element) action) {
+    for (var element in this) {
+      action(element);
+    }
+    return this;
+  }
+
+  Iterable<T> onEachIndexed(Function(int index, T element) action) {
+    var index = 0;
+    for (var element in this) {
+      action(index++, element);
+    }
+    return this;
+  }
+
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// The elements are ordered by the [compare] [Comparator].

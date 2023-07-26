@@ -1911,6 +1911,16 @@ void main() {
         list.sortRange(3, 6, cmpIntInverse);
         expect(list, [9, 8, 5, 6, 3, 2, 4, 7, 1]);
       });
+      test('onEach', () {
+        var list = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+        list.onEach((element) => null);
+        expect(list, [9, 8, 7, 6, 5, 4, 3, 2, 1]);
+      });
+      test('onEachIndex', () {
+        var list = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+        list.onEachIndexed((index, element) => {expect(index + element, 9)});
+        expect(list, [9, 8, 7, 6, 5, 4, 3, 2, 1]);
+      });
     });
   });
 }

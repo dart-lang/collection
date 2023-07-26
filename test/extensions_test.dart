@@ -26,6 +26,36 @@ void main() {
               iterable([1, 3]));
         });
       });
+      group('onEach', () {
+        test('empty', () {
+          iterable([]).onEach(unreachable);
+        });
+        test('single', () {
+          iterable(['a']).onEach((s) {
+            expect(s, 'a');
+          });
+        });
+        test('multiple', () {
+          iterable(['a', 'b', 'c'])
+              .onEach((s) => expect(s, anyOf('a', 'b', 'c')));
+        });
+      });
+      group('onEachIndex', () {
+        test('empty', () {
+          iterable([]).onEachIndexed(unreachable);
+        });
+        test('single', () {
+          iterable(['a']).onEachIndexed((i, s) {
+            expect(i, 0);
+            expect(s, 'a');
+          });
+        });
+        test('multiple', () {
+          iterable(['a', 'b', 'c']).onEachIndexed((i, s) {
+            expect(i, ['a', 'b', 'c'].indexOf(s));
+          });
+        });
+      });
       group('.sorted', () {
         test('empty', () {
           expect(iterable(<int>[]).sorted(unreachable), []);
@@ -1910,16 +1940,6 @@ void main() {
         expect(list, [9, 8, 5, 6, 2, 3, 4, 7, 1]);
         list.sortRange(3, 6, cmpIntInverse);
         expect(list, [9, 8, 5, 6, 3, 2, 4, 7, 1]);
-      });
-      test('onEach', () {
-        var list = [9, 8, 7, 6, 5, 4, 3, 2, 1];
-        list.onEach((element) => null);
-        expect(list, [9, 8, 7, 6, 5, 4, 3, 2, 1]);
-      });
-      test('onEachIndex', () {
-        var list = [9, 8, 7, 6, 5, 4, 3, 2, 1];
-        list.onEachIndexed((index, element) => {expect(index + element, 9)});
-        expect(list, [9, 8, 7, 6, 5, 4, 3, 2, 1]);
       });
     });
   });

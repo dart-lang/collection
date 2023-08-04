@@ -500,7 +500,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// Each element and index is checked using [test]
   /// for whether it should end the current chunk.
   /// If so, the elements since the previous chunk-ending element,
-  /// includeing the elemenent that satisfied [test],
+  /// including the element that satisfied [test],
   /// are emitted as a list.
   /// Any remaining elements are emitted at the end, whether the last
   /// element should be split after or not.
@@ -689,7 +689,8 @@ extension IterableNumberExtension on Iterable<num> {
   /// The arithmetic mean of the elements of a non-empty iterable.
   ///
   /// The arithmetic mean is the sum of the elements
-  /// divided by the number of elements.
+  /// divided by the number of elements. Here it is computed iteratively
+  /// to increase floating point precision.
   ///
   /// The iterable must not be empty.
   double get average {
@@ -768,8 +769,9 @@ extension IterableIntegerExtension on Iterable<int> {
   /// divided by the number of elements.
   /// This method is specialized for integers,
   /// and may give a different result than [IterableNumberExtension.average]
-  /// for the same values, because the the number algorithm
+  /// for the same values, because the number algorithm
   /// converts all numbers to doubles.
+  /// The average is computed iteratively to reduce the likelihood of overflows.
   ///
   /// The iterable must not be empty.
   double get average {
@@ -798,24 +800,17 @@ extension IterableDoubleExtension on Iterable<double> {
   ///
   /// If any element is [NaN](double.nan), the result is NaN.
   double? get minOrNull {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      if (value.isNaN) {
-        return value;
+    var value = double.nan;
+    for (var newValue in this) {
+      if (newValue.isNaN) {
+        return newValue;
       }
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (newValue.isNaN) {
-          return newValue;
-        }
-        if (newValue < value) {
-          value = newValue;
-        }
+      if (value <= newValue) {
+        continue;
       }
-      return value;
+      value = newValue;
     }
-    return null;
+    return value.isNaN ? null : value;
   }
 
   /// A minimal element of the iterable.
@@ -829,24 +824,17 @@ extension IterableDoubleExtension on Iterable<double> {
   ///
   /// If any element is [NaN](double.nan), the result is NaN.
   double? get maxOrNull {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var value = iterator.current;
-      if (value.isNaN) {
-        return value;
+    var value = double.nan;
+    for (var newValue in this) {
+      if (newValue.isNaN) {
+        return newValue;
       }
-      while (iterator.moveNext()) {
-        var newValue = iterator.current;
-        if (newValue.isNaN) {
-          return newValue;
-        }
-        if (newValue > value) {
-          value = newValue;
-        }
+      if (value >= newValue) {
+        continue;
       }
-      return value;
+      value = newValue;
     }
-    return null;
+    return value.isNaN ? null : value;
   }
 
   /// A maximal element of the iterable.

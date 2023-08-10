@@ -58,6 +58,9 @@ extension IterableExtension<T> on Iterable<T> {
   /// The elements are ordered by the [compare] [Comparator].
   List<T> sorted(Comparator<T> compare) => [...this]..sort(compare);
 
+  /// Creates a shuffled list of the elements of the iterable.
+  List<T> shuffled([Random? random]) => [...this]..shuffle(random);
+
   /// Creates a sorted list of the elements of the iterable.
   ///
   /// The elements are ordered by the natural ordering of the

@@ -1,3 +1,8 @@
+## 1.19.0-wip
+
+- Adds `shuffled` to `IterableExtension`.
+- Shuffle `IterableExtension.sample` results.
+
 ## 1.18.0
 
 - `CanonicalizedMap`:
@@ -6,8 +11,6 @@
     - `toMap`: creates a `Map<K,V>` (with the original key values).
     - `toMapOfCanonicalKeys`: creates a `Map<C,V>` (with the canonicalized keys).
 - Fixes bugs in `ListSlice.slice` and `ListExtensions.slice`.
-- Adds `shuffled` to `IterableExtension`.
-- Shuffle `IterableExtension.sample` results.
 - Update to `package:lints` 2.0.1.
 
 ## 1.17.2

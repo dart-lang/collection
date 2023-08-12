@@ -32,15 +32,22 @@ extension IterableExtension<T> on Iterable<T> {
     RangeError.checkNotNegative(count, 'count');
     var iterator = this.iterator;
     var chosen = <T>[];
-    for (var i = 0; i < count; i++) {
+    random ??= Random();
+    while (chosen.length < count) {
       if (iterator.moveNext()) {
-        chosen.add(iterator.current);
+        var nextElement = iterator.current;
+        var position = random.nextInt(chosen.length + 1);
+        if (position == chosen.length) {
+          chosen.add(nextElement);
+        } else {
+          chosen.add(chosen[position]);
+          chosen[position] = nextElement;
+        }
       } else {
         return chosen;
       }
     }
     var index = count;
-    random ??= Random();
     while (iterator.moveNext()) {
       index++;
       var position = random.nextInt(index);

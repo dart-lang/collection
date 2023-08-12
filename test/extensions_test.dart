@@ -1175,6 +1175,31 @@ void main() {
           expect(other, some);
         }
       });
+      group('shuffles results', () {
+        late Random random;
+        late Iterable<int> input;
+        setUp(() async {
+          input = iterable([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+          random = Random(12345);
+        });
+        test('for partial samples of input', () {
+          var result = input.sample(9, random);
+          expect(result.length, 9);
+          expect(result.isSorted(cmpInt), isFalse);
+        });
+        test('for complete samples of input', () {
+          var result = input.sample(10, random);
+          expect(result.length, 10);
+          expect(result.isSorted(cmpInt), isFalse);
+          expect(UnorderedIterableEquality().equals(input, result), isTrue);
+        });
+        test('for overlengthed samples of input', () {
+          var result = input.sample(20, random);
+          expect(result.length, 10);
+          expect(result.isSorted(cmpInt), isFalse);
+          expect(UnorderedIterableEquality().equals(input, result), isTrue);
+        });
+      });
     });
     group('.elementAtOrNull', () {
       test('empty', () async {

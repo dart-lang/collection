@@ -9,6 +9,7 @@ import 'dart:math';
 import 'algorithms.dart';
 import 'algorithms.dart' as algorithms;
 import 'equality.dart';
+import 'iterable_extensions.dart';
 import 'utils.dart';
 
 /// Various extensions on lists of arbitrary elements.
@@ -284,6 +285,29 @@ extension ListExtensions<E> on List<E> {
     if (length < 1) throw RangeError.range(length, 1, null, 'length');
     for (var i = 0; i < this.length; i += length) {
       yield slice(i, min(i + length, this.length));
+    }
+  }
+
+  /// Returns a new list with the elements of [other] are removed from `this`.
+  ///
+  /// It's aware about occurrence count and removes things only the amount
+  /// they are present in [other].
+  Iterable<E> subtract(List<E> other) sync* {
+    var elementsCount = other.groupFoldBy<E, int>(
+      (e) => e,
+      (previous, element) => (previous ?? 0) + 1,
+    );
+    for (final element in this) {
+      var count = elementsCount[element];
+      if (count == null) {
+        yield element;
+      } else {
+        if (count == 1) {
+          elementsCount.remove(element);
+        } else {
+          elementsCount[element] = count - 1;
+        }
+      }
     }
   }
 }

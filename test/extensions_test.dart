@@ -1953,6 +1953,23 @@ void main() {
         expect(list, [9, 8, 5, 6, 3, 2, 4, 7, 1]);
       });
     });
+    group('.subtract', () {
+      test('empty', () {
+        expect(<int>[].subtract([]), []);
+      });
+      test('returns the same list when it shares nothing with the other', () {
+        expect([1, 2, 3, 4].subtract([5]), [1, 2, 3, 4]);
+      });
+      test('removes two element', () {
+        expect([1, 2, 3, 4].subtract([2, 3]), [1, 4]);
+      });
+      test('removes only one of the occurrence', () {
+        expect([1, 2, 2, 3].subtract([2]), [1, 2, 3]);
+      });
+      test('removes only two of the occurrences', () {
+        expect([1, 2, 2, 3].subtract([2, 0, 2]), [1, 3]);
+      });
+    });
   });
 }
 

@@ -1,5 +1,6 @@
 ## 1.19.0-wip
 
+- Adds `subtract` to `ListExtensions`.
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
 

@@ -864,6 +864,79 @@ void main() {
           expect(iterable([0, 2, 4, 6, 8, 10]).none(isEven), false);
         });
       });
+      group('noneIndexed', () {
+        test('empty', () {
+          expect(iterable([]).noneIndexed(unreachable), true);
+        });
+        test('single', () {
+          expect(
+              iterable(['0']).noneIndexed(indexMatchesNumericalContent), false);
+          expect(
+              iterable(['1']).noneIndexed(indexMatchesNumericalContent), true);
+        });
+        test('multiple', () {
+          expect(
+            iterable(['4', '3', '0', '1', '0'])
+                .noneIndexed(indexMatchesNumericalContent),
+            true,
+          );
+          expect(
+            iterable(['0', '0', '2', '0', '0'])
+                .noneIndexed(indexMatchesNumericalContent),
+            false,
+          );
+        });
+      });
+      group('everyIndexed', () {
+        test('empty', () {
+          expect(iterable([]).everyIndexed(unreachable), true);
+        });
+        test('single', () {
+          expect(
+            iterable(['0']).everyIndexed(indexMatchesNumericalContent),
+            true,
+          );
+          expect(
+            iterable(['1']).everyIndexed(indexMatchesNumericalContent),
+            false,
+          );
+        });
+        test('multiple', () {
+          expect(
+            iterable(['0', '1', '2', '3', '4'])
+                .everyIndexed(indexMatchesNumericalContent),
+            true,
+          );
+          expect(
+            iterable(['1', '1', '2', '3', '4'])
+                .everyIndexed(indexMatchesNumericalContent),
+            false,
+          );
+        });
+      });
+      group('anyIndexed', () {
+        test('empty', () {
+          expect(iterable([]).anyIndexed(unreachable), false);
+        });
+        test('single', () {
+          expect(
+              iterable(['0']).anyIndexed(indexMatchesNumericalContent), true);
+          expect(
+              iterable(['1']).anyIndexed(indexMatchesNumericalContent), false);
+        });
+        test('multiple', () {
+          expect(
+            iterable(['4', '3', '0', '1', '0'])
+                .anyIndexed(indexMatchesNumericalContent),
+            false,
+          );
+          expect(
+            iterable(['0', '0', '2', '0', '0'])
+                .anyIndexed(indexMatchesNumericalContent),
+            true,
+          );
+        });
+      });
     });
     group('of nullable', () {
       group('.whereNotNull', () {
@@ -1995,3 +2068,7 @@ bool isEven(int x) => x.isEven;
 
 /// Tests an integer for being odd.
 bool isOdd(int x) => x.isOdd;
+
+/// Tests index matches integer numeral content.
+bool indexMatchesNumericalContent(int index, String value) =>
+    index == int.parse(value);

@@ -582,6 +582,59 @@ extension IterableExtension<T> on Iterable<T> {
     return true;
   }
 
+  /// Whether no element and index satisfies [test].
+  ///
+  /// Returns true if no element and index satisfies [test],
+  /// and false if at least one does.
+  ///
+  /// Equivalent to `iterable.everyIndexed((i, x) => !test(i, x))` or
+  /// `!iterable.anyIndexed(test)`.
+  bool noneIndexed(bool Function(int, T) test) {
+    var index = 0;
+    for (var element in this) {
+      if (test(index++, element)) return false;
+    }
+    return true;
+  }
+
+  /// Checks whether every element and index of this iterable satisfies [test].
+  ///
+  /// Checks every element and index in iteration order, and returns `false` if
+  /// any of them make [test] return `false`, otherwise returns `true`.
+  ///
+  /// Example:
+  /// ```dart
+  /// final elements = [0, 1, 2];
+  /// // Checks whether every element index matches its value.
+  /// final every = elements.everyIndexed((index, value) => index == value); // true
+  /// ```
+  bool everyIndexed(bool Function(int, T) test) {
+    var index = 0;
+    for (var element in this) {
+      if (!test(index++, element)) return false;
+    }
+    return true;
+  }
+
+  /// Checks whether any element and index of this iterable satisfies [test].
+  ///
+  /// Checks every element and index in iteration order, and returns `true` if
+  /// any of them make [test] return `true`, otherwise returns false.
+  ///
+  /// Example:
+  /// ```dart
+  /// final elements = [2, 1, 0];
+  /// // Checks whether any element index matches its value.
+  /// final result = elements.anyIndexed((index, element) => element == index); // true
+  /// ```
+  bool anyIndexed(bool Function(int, T) test) {
+    var index = 0;
+    for (var element in this) {
+      if (test(index++, element)) return true;
+    }
+    return false;
+  }
+
   /// Contiguous slices of `this` with the given [length].
   ///
   /// Each slice is [length] elements long, except for the last one which may be

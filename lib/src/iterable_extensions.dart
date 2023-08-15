@@ -510,7 +510,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// Each element and index is checked using [test]
   /// for whether it should end the current chunk.
   /// If so, the elements since the previous chunk-ending element,
-  /// includeing the elemenent that satisfied [test],
+  /// including the element that satisfied [test],
   /// are emitted as a list.
   /// Any remaining elements are emitted at the end, whether the last
   /// element should be split after or not.

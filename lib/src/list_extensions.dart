@@ -297,7 +297,7 @@ extension ListExtensions<E> on List<E> {
   /// It assumes the list items have consistent `==` and `hashCode`.
   Iterable<E> subtract(List<E> other) sync* {
     var elementsCount = other.groupFoldBy<E, int>(
-      (e) => e,
+      identity,
       (previous, element) => (previous ?? 0) + 1,
     );
     for (final element in this) {

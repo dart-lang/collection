@@ -298,7 +298,7 @@ extension ListExtensions<E> on List<E> {
   Iterable<E> subtract(List<E> other) sync* {
     var elementsCount =
         other.groupFoldBy<E, int>(identity, (count, _) => (count ?? 0) + 1);
-    for (final element in this) {
+    for (var element in this) {
       var count = elementsCount[element];
       if (count == null) {
         yield element;

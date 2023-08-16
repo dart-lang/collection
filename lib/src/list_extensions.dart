@@ -302,12 +302,10 @@ extension ListExtensions<E> on List<E> {
       var count = elementsCount[element];
       if (count == null) {
         yield element;
+      } else if (count == 1) {
+        elementsCount.remove(element);
       } else {
-        if (count == 1) {
-          elementsCount.remove(element);
-        } else {
-          elementsCount[element] = count - 1;
-        }
+        elementsCount[element] = count - 1;
       }
     }
   }

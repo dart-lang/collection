@@ -288,10 +288,13 @@ extension ListExtensions<E> on List<E> {
     }
   }
 
-  /// Returns a new list with the elements of [other] are removed from `this`.
+  /// Returns an iterable of the elements in this list that are not present in
+  /// [other].
   ///
   /// It's aware about occurrence count and removes things only the amount
   /// they are present in [other].
+  ///
+  /// It assumes the list items have consistent `==` and `hashCode`.
   Iterable<E> subtract(List<E> other) sync* {
     var elementsCount = other.groupFoldBy<E, int>(
       (e) => e,

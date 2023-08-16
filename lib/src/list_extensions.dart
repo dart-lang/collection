@@ -9,7 +9,6 @@ import 'dart:math';
 import 'algorithms.dart';
 import 'algorithms.dart' as algorithms;
 import 'equality.dart';
-import 'iterable_extensions.dart';
 import 'utils.dart';
 
 /// Various extensions on lists of arbitrary elements.
@@ -285,28 +284,6 @@ extension ListExtensions<E> on List<E> {
     if (length < 1) throw RangeError.range(length, 1, null, 'length');
     for (var i = 0; i < this.length; i += length) {
       yield slice(i, min(i + length, this.length));
-    }
-  }
-
-  /// Returns an iterable of the elements in this list that are not present in
-  /// [other].
-  ///
-  /// It's aware about occurrence count and removes things only the amount
-  /// they are present in [other].
-  ///
-  /// It assumes the list items have consistent `==` and `hashCode`.
-  Iterable<E> subtract(List<E> other) sync* {
-    var elementsCount =
-        other.groupFoldBy<E, int>(identity, (count, _) => (count ?? 0) + 1);
-    for (var element in this) {
-      var count = elementsCount[element];
-      if (count == null) {
-        yield element;
-      } else if (count == 1) {
-        elementsCount.remove(element);
-      } else {
-        elementsCount[element] = count - 1;
-      }
     }
   }
 }

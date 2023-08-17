@@ -605,14 +605,16 @@ extension IterableExtension<T> on Iterable<T> {
   /// Returns an iterable of the elements in this iterable that are not present
   /// in [other].
   ///
-  /// It's aware about occurrence count and removes things only the number of
-  /// times they occurred in [other] but it's indifferent about order items in
-  /// [other].
+  /// It's aware about occurrence count and excludes elements only the number of
+  /// times they occurred in [other] but it's indifferent about order of items
+  /// in [other].
   ///
   /// It assumes the iterable items have consistent `==` and `hashCode`.
   Iterable<T> subtract(Iterable<T> other) sync* {
-    var elementsCount =
-        other.groupFoldBy<T, int>(identity, (count, _) => (count ?? 0) + 1);
+    var elementsCount = <T, int>{};
+    for (var element in other) {
+      elementsCount[element] = (elementsCount[element] ?? 0) + 1;
+    }
     for (var element in this) {
       var count = elementsCount[element];
       if (count == null) {

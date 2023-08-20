@@ -1262,6 +1262,26 @@ void main() {
         expect(l3.toList(), [4, 5]);
       });
     });
+    group('.countOccurrences', () {
+      test('empty', () {
+        expect(iterable(<int>[]).countOccurrences(), const {});
+      });
+      test('empty with an input', () {
+        expect(iterable(<int>[]).countOccurrences({}), const {});
+      });
+      test('count different items', () {
+        expect(
+          iterable([4, 2, 2, 3, 1, 3, 3]).countOccurrences({}),
+          {1: 1, 2: 2, 3: 3, 4: 1},
+        );
+      });
+      test('count different items with an input counter', () {
+        expect(
+          iterable(['a', 'b', 'c', 'b']).countOccurrences({'b': 2, 'f': 5}),
+          {'a': 1, 'b': 4, 'f': 5, 'c': 1},
+        );
+      });
+    });
   });
 
   group('Comparator', () {

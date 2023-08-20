@@ -1,6 +1,6 @@
 ## 1.19.0-wip
 
-- Adds `shuffled` to `IterableExtension`.
+- Add `Iterable.shuffled` and `Iterable.countOccurrences` extension methods.
 - Shuffle `IterableExtension.sample` results.
 
 ## 1.18.0

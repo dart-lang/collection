@@ -1262,6 +1262,23 @@ void main() {
         expect(l3.toList(), [4, 5]);
       });
     });
+    group('.intersperse', () {
+      test('empty', () {
+        expect(iterable(<int>[]).intersperse(0), []);
+      });
+      test('one element', () {
+        expect(iterable(<int>[1]).intersperse(0), [1]);
+      });
+      test('two elements', () {
+        expect(iterable(<int>[1, 2]).intersperse(0), [1, 0, 2]);
+      });
+      test('more elements', () {
+        expect(
+          iterable(<int>[1, 2, 3, 4]).intersperse(0),
+          [1, 0, 2, 0, 3, 0, 4],
+        );
+      });
+    });
   });
 
   group('Comparator', () {

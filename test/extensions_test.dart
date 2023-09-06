@@ -1864,6 +1864,39 @@ void main() {
           expect(() => [1].slices(0), throwsRangeError);
         });
       });
+      group('.firstOrNull', () {
+        test('empty', () {
+          expect(<int>[].firstOrNull, null);
+        });
+        test('single', () {
+          expect([1].firstOrNull, 1);
+        });
+        test('first of multiple', () {
+          expect([1, 3, 5].firstOrNull, 1);
+        });
+      });
+      group('.lastOrNull', () {
+        test('empty', () {
+          expect(<int>[].lastOrNull, null);
+        });
+        test('single', () {
+          expect([1].lastOrNull, 1);
+        });
+        test('last of multiple', () {
+          expect([1, 3, 5].lastOrNull, 5);
+        });
+      });
+      group('.singleOrNull', () {
+        test('empty', () {
+          expect(<int>[].singleOrNull, null);
+        });
+        test('single', () {
+          expect([1].singleOrNull, 1);
+        });
+        test('multiple', () {
+          expect([1, 3, 5].singleOrNull, null);
+        });
+      });
     });
     group('on comparable', () {
       group('.binarySearch', () {

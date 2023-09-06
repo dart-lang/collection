@@ -2,6 +2,8 @@
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
+* Add `List.firstOrNull`, `List.lastOrNull`, and `List.singleOrNull` extension methods.
+  They repeat corresponding methods for `Iterable`, but avoid creating iterator objects.
 
 ## 1.18.0
 

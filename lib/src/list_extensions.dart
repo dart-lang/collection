@@ -286,6 +286,25 @@ extension ListExtensions<E> on List<E> {
       yield slice(i, min(i + length, this.length));
     }
   }
+
+  /// The first element, or `null` if the list is empty.
+  E? get firstOrNull {
+    return isNotEmpty ? this[0] : null;
+  }
+
+  /// The last element, or `null` if the list is empty.
+  E? get lastOrNull {
+    final length = this.length;
+    return length != 0 ? this[length - 1] : null;
+  }
+
+  /// The single element of the list, or `null`.
+  ///
+  /// The value is `null` if the list is empty
+  /// or it contains more than one element.
+  E? get singleOrNull {
+    return length == 1 ? this[0] : null;
+  }
 }
 
 /// Various extensions on lists of comparable elements.

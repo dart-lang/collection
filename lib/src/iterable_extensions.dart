@@ -72,6 +72,22 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// The elements are ordered by the natural ordering of the
   /// property [keyOf] of the element.
+  ///
+  /// Due to https://github.com/dart-lang/sdk/issues/43763
+  /// if you are comparing using int, you will need to use the <num> type
+  /// annotation instead, e.g.
+  ///
+  /// ```dart
+  /// class Foo {
+  ///  final int bar;
+  ///  Foo(this.bar);
+  /// }
+  ///
+  /// final foos = [Foo(1), Foo(2), Foo(3)];
+  /// // final sortedFoos = foos.sortedBy((foo) => foo.bar); // Error
+  /// final sortedFoos = foos.sortedBy((foo) => foo.bar as num); // Works
+  /// final alsoWorks = foos.sortedBy<num>((foo) => foo.bar); // Works
+  /// ```
   List<T> sortedBy<K extends Comparable<K>>(K Function(T element) keyOf) {
     var elements = [...this];
     mergeSortBy<T, K>(elements, keyOf, compareComparable);

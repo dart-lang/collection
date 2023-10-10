@@ -74,7 +74,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// property [keyOf] of the element.
   ///
   /// Due to https://github.com/dart-lang/sdk/issues/43763
-  /// if you are comparing using int, you will need to use the <num> type
+  /// if you are comparing using int, you will need to use the `num` type
   /// annotation instead, e.g.
   ///
   /// ```dart

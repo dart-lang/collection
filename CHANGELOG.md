@@ -2,6 +2,8 @@
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
+- Fix `mergeSort` when the runtime iterable generic is a subtype of the static
+  generic.
 
 ## 1.18.0
 

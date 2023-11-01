@@ -366,6 +366,15 @@ void main() {
     reverse(l, 0, 6);
     expect(l, equals([2, 1, 4, 3, 6, 5]));
   });
+
+  test('mergeSort works when runtime generic is a subtype of the static type',
+      () {
+    // Regression test for https://github.com/dart-lang/collection/issues/317
+    final length = 32; // _mergeSortLimit
+    // In order list, first half empties first during merge.
+    final list = List<int>.generate(length, (i) => i);
+    expect(() => mergeSort<num>(list), returnsNormally);
+  });
 }
 
 class C {

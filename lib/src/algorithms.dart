@@ -394,8 +394,9 @@ void _merge<E, K>(
   }
   // First list empties first. Reached by break above.
   target[targetOffset++] = secondElement;
-  target.setRange(
-      targetOffset, targetOffset + (secondEnd - cursor2), secondList, cursor2);
+  for (var i = targetOffset; i < targetOffset + (secondEnd - cursor2); i++) {
+    target[i] = secondList[(i - targetOffset) + cursor2];
+  }
 }
 
 /// Sort [elements] using a quick-sort algorithm.

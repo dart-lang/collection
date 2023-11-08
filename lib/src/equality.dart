@@ -138,10 +138,10 @@ class IterableEquality<E> implements Equality<Iterable<E>> {
       var c = _elementEquality.hash(element);
       hash = (hash + c) & _hashMask;
       hash = (hash + (hash << 10)) & _hashMask;
-      hash ^= (hash >> 6);
+      hash ^= hash >> 6;
     }
     hash = (hash + (hash << 3)) & _hashMask;
-    hash ^= (hash >> 11);
+    hash ^= hash >> 11;
     hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
@@ -190,10 +190,10 @@ class ListEquality<E> implements Equality<List<E>> {
       var c = _elementEquality.hash(list[i]);
       hash = (hash + c) & _hashMask;
       hash = (hash + (hash << 10)) & _hashMask;
-      hash ^= (hash >> 6);
+      hash ^= hash >> 6;
     }
     hash = (hash + (hash << 3)) & _hashMask;
-    hash ^= (hash >> 11);
+    hash ^= hash >> 11;
     hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
@@ -240,7 +240,7 @@ abstract class _UnorderedEquality<E, T extends Iterable<E>>
       hash = (hash + c) & _hashMask;
     }
     hash = (hash + (hash << 3)) & _hashMask;
-    hash ^= (hash >> 11);
+    hash ^= hash >> 11;
     hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }
@@ -349,7 +349,7 @@ class MapEquality<K, V> implements Equality<Map<K, V>> {
       hash = (hash + 3 * keyHash + 7 * valueHash) & _hashMask;
     }
     hash = (hash + (hash << 3)) & _hashMask;
-    hash ^= (hash >> 11);
+    hash ^= hash >> 11;
     hash = (hash + (hash << 15)) & _hashMask;
     return hash;
   }

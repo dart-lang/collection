@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Tests algorithm utilities.
+library;
+
 import 'dart:math';
 
 import 'package:collection/collection.dart';
@@ -13,7 +15,7 @@ void main() {
   void testShuffle(List list) {
     var copy = list.toList();
     shuffle(list);
-    expect(UnorderedIterableEquality().equals(list, copy), isTrue);
+    expect(const UnorderedIterableEquality().equals(list, copy), isTrue);
   }
 
   test('Shuffle 0', () {
@@ -270,25 +272,25 @@ void main() {
       test('$name2: Same #$n', () {
         var list = List<OC>.generate(n, (i) => OC(i, 0));
         // Should succeed. Bad implementations of, e.g., quicksort can diverge.
-        sort(list, ocOrder, compareInt);
+        sort(list, _ocOrder, _compareInt);
       });
       test('$name: Pre-sorted #$n', () {
         var list = List<OC>.generate(n, (i) => OC(-i, i));
         var expected = list.toList();
-        sort(list, ocOrder, compareInt);
+        sort(list, _ocOrder, _compareInt);
         // Elements have not moved.
         expect(list, expected);
       });
       test('$name: Reverse-sorted #$n', () {
         var list = List<OC>.generate(n, (i) => OC(i, -i));
-        sort(list, ocOrder, compareInt);
-        expectSorted(list, ocOrder, compareInt);
+        sort(list, _ocOrder, _compareInt);
+        expectSorted(list, _ocOrder, _compareInt);
       });
       test('$name: Random #$n', () {
         var random = Random();
         var list = List<OC>.generate(n, (i) => OC(i, random.nextInt(n)));
-        sort(list, ocOrder, compareInt);
-        expectSorted(list, ocOrder, compareInt);
+        sort(list, _ocOrder, _compareInt);
+        expectSorted(list, _ocOrder, _compareInt);
       });
       test('$name: Sublist #$n', () {
         var random = Random();
@@ -296,8 +298,8 @@ void main() {
         var original = list.toList();
         var start = n ~/ 4;
         var end = start * 3;
-        sort(list, ocOrder, compareInt, start, end);
-        expectSorted(list, ocOrder, compareInt, start, end);
+        sort(list, _ocOrder, _compareInt, start, end);
+        expectSorted(list, _ocOrder, _compareInt, start, end);
         expect(list.sublist(0, start), original.sublist(0, start));
         expect(list.sublist(end), original.sublist(end));
       });
@@ -374,7 +376,6 @@ class C {
 }
 
 int compareC(C one, C other) => one.id - other.id;
-int cId(C c) => c.id;
 
 /// Class naturally ordered by its first constructor argument.
 class OC implements Comparable<OC> {
@@ -389,10 +390,9 @@ class OC implements Comparable<OC> {
   String toString() => 'OC[$id,$order]';
 }
 
-int ocId(OC oc) => oc.id;
-int ocOrder(OC oc) => oc.order;
+int _ocOrder(OC oc) => oc.order;
 
-int compareInt(int a, int b) => a - b;
+int _compareInt(int a, int b) => a - b;
 
 /// Check that a list is sorted according to [compare] of [keyOf] of elements.
 void expectSorted<T, K>(

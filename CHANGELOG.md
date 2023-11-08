@@ -2,6 +2,8 @@
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
+- Require Dart `^3.1.0`
+- Mark "mixin" classes as `mixin`.
 
 ## 1.18.0
 

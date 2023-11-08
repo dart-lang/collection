@@ -19,7 +19,7 @@ void main() {
     test('with no callbacks, returns a copy of the map', () {
       var map = {'foo': 1, 'bar': 2};
       // ignore: deprecated_member_use_from_same_package
-      var result = mapMap(map);
+      var result = mapMap<String, int, String, int>(map);
       expect(result, equals({'foo': 1, 'bar': 2}));
 
       // The resulting map should be a copy.
@@ -30,7 +30,7 @@ void main() {
     test("maps the map's keys", () {
       expect(
           // ignore: deprecated_member_use_from_same_package
-          mapMap({'foo': 1, 'bar': 2},
+          mapMap<String, int, dynamic, int>({'foo': 1, 'bar': 2},
               key: (dynamic key, dynamic value) => key[value]),
           equals({'o': 1, 'r': 2}));
     });
@@ -38,7 +38,7 @@ void main() {
     test("maps the map's values", () {
       expect(
           // ignore: deprecated_member_use_from_same_package
-          mapMap({'foo': 1, 'bar': 2},
+          mapMap<String, int, String, dynamic>({'foo': 1, 'bar': 2},
               value: (dynamic key, dynamic value) => key[value]),
           equals({'foo': 'o', 'bar': 'r'}));
     });

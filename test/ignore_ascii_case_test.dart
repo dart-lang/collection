@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Tests case-ignoring compare and equality.
+library;
 
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';

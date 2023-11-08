@@ -34,7 +34,7 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   E singleWhere(bool Function(E) test, {E Function()? orElse}) =>
       orElse != null ? orElse() : throw StateError('No element');
   @override
-  Iterable<T> whereType<T>() => Iterable.empty();
+  Iterable<T> whereType<T>() => const Iterable.empty();
   @override
   Set<E> toSet() => {};
   @override

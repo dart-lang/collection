@@ -2,9 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Tests wrapper utilities.
+// ignore_for_file: unnecessary_statements
 
+/// Tests wrapper utilities.
 @TestOn('vm')
+library;
+
 import 'dart:collection';
 import 'dart:mirrors';
 

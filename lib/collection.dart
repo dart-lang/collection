@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/algorithms.dart'
-    show binarySearch, insertionSort, lowerBound, mergeSort, shuffle, reverse;
+    show binarySearch, insertionSort, lowerBound, mergeSort, reverse, shuffle;
 export 'src/boollist.dart';
 export 'src/canonicalized_map.dart';
 export 'src/combined_wrappers/combined_iterable.dart';

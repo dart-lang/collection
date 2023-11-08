@@ -370,7 +370,7 @@ void main() {
   test('mergeSort works when runtime generic is a subtype of the static type',
       () {
     // Regression test for https://github.com/dart-lang/collection/issues/317
-    final length = 32; // _mergeSortLimit
+    final length = 1000; // Larger than _mergeSortLimit
     // In order list, first half empties first during merge.
     final list = List<int>.generate(length, (i) => i);
     expect(() => mergeSort<num>(list), returnsNormally);

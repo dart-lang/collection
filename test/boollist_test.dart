@@ -44,10 +44,12 @@ void main() {
       var b = BoolList(1024, fill: false);
 
       expect(() {
+        // ignore: unnecessary_statements
         b[-1];
       }, throwsRangeError);
 
       expect(() {
+        // ignore: unnecessary_statements
         b[1024];
       }, throwsRangeError);
     });

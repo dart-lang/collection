@@ -7,8 +7,6 @@ import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
-import '../unmodifiable_collection_test.dart' as common;
-
 void main() {
   var map1 = const {1: 1, 2: 2, 3: 3};
   var map2 = const {4: 4, 5: 5, 6: 6};
@@ -24,10 +22,10 @@ void main() {
     ..addAll(map3);
 
   // In every way possible this should test the same as an UnmodifiableMapView.
-  common.testReadMap(
+  _testReadMap(
       concat, CombinedMapView([map1, map2, map3, map4]), 'CombinedMapView');
 
-  common.testReadMap(
+  _testReadMap(
       concat,
       CombinedMapView([map1, {}, map2, {}, map3, {}, map4, {}]),
       'CombinedMapView (some empty)');
@@ -67,5 +65,54 @@ void main() {
     var combined = CombinedMapView([map1, map2, map3, map4]);
     var keys = combined.keys;
     expect(keys.toList(), keys.toList());
+  });
+}
+
+void _testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
+  test('$name length', () {
+    expect(wrapped.length, equals(original.length));
+  });
+
+  test('$name isEmpty', () {
+    expect(wrapped.isEmpty, equals(original.isEmpty));
+  });
+
+  test('$name isNotEmpty', () {
+    expect(wrapped.isNotEmpty, equals(original.isNotEmpty));
+  });
+
+  test('$name operator[]', () {
+    expect(wrapped[0], equals(original[0]));
+    expect(wrapped[999], equals(original[999]));
+  });
+
+  test('$name containsKey', () {
+    expect(wrapped.containsKey(0), equals(original.containsKey(0)));
+    expect(wrapped.containsKey(999), equals(original.containsKey(999)));
+  });
+
+  test('$name containsValue', () {
+    expect(wrapped.containsValue(0), equals(original.containsValue(0)));
+    expect(wrapped.containsValue(999), equals(original.containsValue(999)));
+  });
+
+  test('$name forEach', () {
+    var origCnt = 0;
+    var wrapCnt = 0;
+    wrapped.forEach((k, v) {
+      wrapCnt += 1 << k + 3 * v;
+    });
+    original.forEach((k, v) {
+      origCnt += 1 << k + 3 * v;
+    });
+    expect(wrapCnt, equals(origCnt));
+  });
+
+  test('$name keys', () {
+    expect(wrapped.keys, orderedEquals(original.keys));
+  });
+
+  test('$name values', () {
+    expect(wrapped.values, orderedEquals(original.values));
   });
 }

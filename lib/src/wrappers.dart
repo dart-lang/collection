@@ -793,7 +793,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
 
   @override
   void removeWhere(bool Function(V) test) {
-    var toRemove = [];
+    var toRemove = <K>[];
     _baseMap.forEach((key, value) {
       if (test(value)) toRemove.add(key);
     });
@@ -811,7 +811,7 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
       valuesToRetain.add(_baseMap[key] ?? null as V);
     }
 
-    var keysToRemove = [];
+    var keysToRemove = <K>[];
     _baseMap.forEach((k, v) {
       if (!valuesToRetain.contains(v)) keysToRemove.add(k);
     });

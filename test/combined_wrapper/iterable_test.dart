@@ -22,12 +22,12 @@ void main() {
   });
 
   test('should function as an empty iterable when no iterables are passed', () {
-    var empty = CombinedIterableView([]);
+    var empty = const CombinedIterableView([]);
     expect(empty, isEmpty);
   });
 
   test('should function as an empty iterable with all empty iterables', () {
-    var empty = CombinedIterableView([[], [], []]);
+    var empty = const CombinedIterableView([[], [], []]);
     expect(empty, isEmpty);
   });
 

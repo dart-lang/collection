@@ -99,7 +99,7 @@ int compareAsciiUpperCase(String a, String b) {
       bUpperCase -= _asciiCaseBit;
     }
     if (aUpperCase != bUpperCase) return (aUpperCase - bUpperCase).sign;
-    if (defaultResult == 0) defaultResult = (aChar - bChar);
+    if (defaultResult == 0) defaultResult = aChar - bChar;
   }
   if (b.length > a.length) return -1;
   return defaultResult.sign;

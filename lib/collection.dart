@@ -2,6 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+/// Utilities that expand on the collections APIs in the `dart:core` library.
+///
+/// {@youtube 560 315 https://www.youtube.com/watch?v=Ymw9xfRucK0}
+library collection;
+
 export 'src/algorithms.dart'
     show binarySearch, insertionSort, lowerBound, mergeSort, reverse, shuffle;
 export 'src/boollist.dart';

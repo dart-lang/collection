@@ -232,7 +232,7 @@ void mergeSort<E>(List<E> elements,
   var middle = start + firstLength;
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = List<E>.filled(secondLength, elements[start]);
+  var scratchSpace = elements.sublist(0, secondLength);
   _mergeSort(elements, identity<E>, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort(
@@ -268,7 +268,7 @@ void mergeSortBy<E, K>(List<E> elements, K Function(E element) keyOf,
   var firstLength = middle - start;
   var secondLength = end - middle;
   // secondLength is always the same as firstLength, or one greater.
-  var scratchSpace = List<E>.filled(secondLength, elements[start]);
+  var scratchSpace = elements.sublist(0, secondLength);
   _mergeSort(elements, keyOf, compare, middle, end, scratchSpace, 0);
   var firstTarget = end - firstLength;
   _mergeSort(elements, keyOf, compare, start, middle, elements, firstTarget);
@@ -394,9 +394,8 @@ void _merge<E, K>(
   }
   // First list empties first. Reached by break above.
   target[targetOffset++] = secondElement;
-  for (var i = targetOffset; i < targetOffset + (secondEnd - cursor2); i++) {
-    target[i] = secondList[(i - targetOffset) + cursor2];
-  }
+  target.setRange(
+      targetOffset, targetOffset + (secondEnd - cursor2), secondList, cursor2);
 }
 
 /// Sort [elements] using a quick-sort algorithm.

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:math' show pow, Random;
+import 'dart:math' show Random, pow;
 
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
@@ -48,7 +48,8 @@ void main() {
           var input = iterable([1, 2, 3, 4, 5]);
           var copy = [...input];
           var shuffled = input.shuffled();
-          expect(UnorderedIterableEquality().equals(input, shuffled), isTrue);
+          expect(const UnorderedIterableEquality().equals(input, shuffled),
+              isTrue);
           // Check that the original list isn't touched
           expect(input, copy);
         });
@@ -342,7 +343,7 @@ void main() {
       });
       group('.expandIndexed', () {
         test('empty', () {
-          expect(iterable(<int>[]).expandIndexed(unreachable), isEmpty);
+          expect(iterable(<int>[]).expandIndexed<int>(unreachable), isEmpty);
         });
         test('empty result', () {
           expect(iterable(['a', 'b']).expandIndexed((i, v) => []), isEmpty);
@@ -616,7 +617,7 @@ void main() {
         });
         test('no split', () {
           var trace = [];
-          bool log(x) {
+          bool log(int x) {
             trace.add(x);
             return false;
           }
@@ -651,7 +652,7 @@ void main() {
         });
         test('no split', () {
           var trace = [];
-          bool log(i, x) {
+          bool log(int i, int x) {
             trace
               ..add('$i')
               ..add(x);
@@ -695,7 +696,7 @@ void main() {
         });
         test('no split', () {
           var trace = [];
-          bool log(x) {
+          bool log(int x) {
             trace.add(x);
             return false;
           }
@@ -733,7 +734,7 @@ void main() {
         });
         test('no split', () {
           var trace = [];
-          bool log(i, x) {
+          bool log(int i, int x) {
             trace
               ..add('$i')
               ..add(x);
@@ -774,7 +775,7 @@ void main() {
         });
         test('no split', () {
           var trace = [];
-          bool log(x, y) {
+          bool log(int x, int y) {
             trace.add([x, y]);
             return false;
           }
@@ -812,7 +813,7 @@ void main() {
         });
         test('no split', () {
           var trace = [];
-          bool log(i, x, y) {
+          bool log(int i, int x, int y) {
             trace.add([i, x, y]);
             return false;
           }
@@ -1191,13 +1192,15 @@ void main() {
           var result = input.sample(10, random);
           expect(result.length, 10);
           expect(result.isSorted(cmpInt), isFalse);
-          expect(UnorderedIterableEquality().equals(input, result), isTrue);
+          expect(
+              const UnorderedIterableEquality().equals(input, result), isTrue);
         });
         test('for overlengthed samples of input', () {
           var result = input.sample(20, random);
           expect(result.length, 10);
           expect(result.isSorted(cmpInt), isFalse);
-          expect(UnorderedIterableEquality().equals(input, result), isTrue);
+          expect(
+              const UnorderedIterableEquality().equals(input, result), isTrue);
         });
       });
     });
@@ -1523,7 +1526,7 @@ void main() {
             list.shuffleRange(0, 3);
             expect(list.getRange(3, 5), [4, 5]);
             expect(list.getRange(0, 3), unorderedEquals([1, 2, 3]));
-          } while (ListEquality().equals(list.sublist(0, 3), [1, 2, 3]));
+          } while (const ListEquality().equals(list.sublist(0, 3), [1, 2, 3]));
           // Won't terminate if shuffle *never* moves a value.
         });
       });
@@ -1803,7 +1806,7 @@ void main() {
       });
       group('.expandIndexed', () {
         test('empty', () {
-          expect(<int>[].expandIndexed(unreachable), isEmpty);
+          expect(<int>[].expandIndexed<int>(unreachable), isEmpty);
         });
         test('empty result', () {
           expect(['a', 'b'].expandIndexed((i, v) => []), isEmpty);
@@ -1970,9 +1973,6 @@ int Function(int, int) cmpMod(int mod) => (a, b) => a ~/ mod - b ~/ mod;
 
 /// Compares strings lexically.
 int cmpString(String a, String b) => a.compareTo(b);
-
-/// Compares strings inverse lexically.
-int cmpStringInverse(String a, String b) => b.compareTo(a);
 
 /// Compares strings by length.
 int cmpStringLength(String a, String b) => a.length - b.length;

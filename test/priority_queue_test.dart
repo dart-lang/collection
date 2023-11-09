@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Tests priority queue implementations utilities.
+library;
+
 import 'package:collection/src/priority_queue.dart';
 import 'package:test/test.dart';
 
@@ -17,7 +19,7 @@ void main() {
 
 void testDefault() {
   test('PriorityQueue() returns a HeapPriorityQueue', () {
-    expect(PriorityQueue<int>(), TypeMatcher<HeapPriorityQueue<int>>());
+    expect(PriorityQueue<int>(), const TypeMatcher<HeapPriorityQueue<int>>());
   });
   testInt(PriorityQueue<int>.new);
   testCustom(PriorityQueue<C>.new);
@@ -37,7 +39,7 @@ void testCustom(
     testQueue('Custom:$count/compare', () => create(compare),
         List<C>.generate(count, C.new), C(count));
     testQueue('Custom:$count/compareNeg', () => create(compareNeg),
-        List<C>.generate(count, (x) => C(count - x)), C(0));
+        List<C>.generate(count, (x) => C(count - x)), const C(0));
   }
 }
 
@@ -171,7 +173,8 @@ void testDuplicates() {
   // Check how the heap handles duplicate, or equal-but-not-identical, values.
   test('duplicates', () {
     var q = HeapPriorityQueue<C>(compare);
-    var c1 = C(0);
+    var c1 = const C(0);
+    // ignore: prefer_const_constructors
     var c2 = C(0);
 
     // Can contain the same element more than once.
@@ -218,9 +221,9 @@ void testNullable() {
           ? -1
           : compare(a, b);
 
-  var c1 = C(1);
-  var c2 = C(2);
-  var c3 = C(3);
+  var c1 = const C(1);
+  var c2 = const C(2);
+  var c3 = const C(3);
 
   test('nulls first', () {
     var q = HeapPriorityQueue<C?>(nullCompareFirst);

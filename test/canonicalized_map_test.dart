@@ -147,9 +147,9 @@ void main() {
 
     test('addEntries adds key-value pairs to the map', () {
       map.addEntries([
-        MapEntry('1', 'value 1'),
-        MapEntry('01', 'value 01'),
-        MapEntry('2', 'value 2'),
+        const MapEntry('1', 'value 1'),
+        const MapEntry('01', 'value 01'),
+        const MapEntry('2', 'value 2'),
       ]);
       expect(map, {'01': 'value 01', '2': 'value 2'});
     });

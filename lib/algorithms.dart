@@ -7,4 +7,4 @@
 library dart.pkg.collection.algorithms;
 
 export 'src/algorithms.dart'
-    show binarySearch, insertionSort, lowerBound, mergeSort, shuffle, reverse;
+    show binarySearch, insertionSort, lowerBound, mergeSort, reverse, shuffle;

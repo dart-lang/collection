@@ -240,10 +240,10 @@ void main() {
   });
 
   test('Equality accepts null', () {
-    var ie = IterableEquality();
-    var le = ListEquality();
-    var se = SetEquality();
-    var me = MapEquality();
+    var ie = const IterableEquality();
+    var le = const ListEquality();
+    var se = const SetEquality();
+    var me = const MapEquality();
     expect(ie.equals(null, null), true);
     expect(ie.equals([], null), false);
     expect(ie.equals(null, []), false);

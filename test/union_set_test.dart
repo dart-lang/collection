@@ -39,7 +39,7 @@ void main() {
   });
 
   group('with multiple disjoint sets', () {
-    dynamic set;
+    late Set set;
     setUp(() {
       set = UnionSet.from([
         {1, 2},
@@ -78,7 +78,7 @@ void main() {
   });
 
   group('with multiple overlapping sets', () {
-    dynamic set;
+    late Set set;
     setUp(() {
       set = UnionSet.from([
         {1, 2, 3},
@@ -107,7 +107,8 @@ void main() {
     });
 
     test('lookup() returns the first element in an ordered context', () {
-      var duration1 = Duration(seconds: 0);
+      var duration1 = const Duration(seconds: 0);
+      // ignore: prefer_const_constructors
       var duration2 = Duration(seconds: 0);
       expect(duration1, equals(duration2));
       expect(duration1, isNot(same(duration2)));
@@ -117,7 +118,7 @@ void main() {
         {duration2}
       ]);
 
-      expect(set.lookup(Duration(seconds: 0)), same(duration1));
+      expect(set.lookup(const Duration(seconds: 0)), same(duration1));
     });
 
     test('toSet() returns the union of all the sets', () {
@@ -131,7 +132,7 @@ void main() {
   });
 
   group('after an inner set was modified', () {
-    dynamic set;
+    late Set set;
     setUp(() {
       var innerSet = {3, 7};
       set = UnionSet.from([
@@ -175,7 +176,7 @@ void main() {
   });
 
   group('after the outer set was modified', () {
-    dynamic set;
+    late Set set;
     setUp(() {
       var innerSet = {6};
       var outerSet = {

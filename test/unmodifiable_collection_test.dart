@@ -276,6 +276,7 @@ void testReadList(List original, List wrapped, String name) {
   test('$name - []', () {
     if (original.isEmpty) {
       expect(() {
+        // ignore: unnecessary_statements
         wrapped[0];
       }, throwsRangeError);
     } else {
@@ -315,7 +316,7 @@ void testReadList(List original, List wrapped, String name) {
 void testNoWriteList(List<int> original, List<int> wrapped, String name) {
   var copy = List.of(original);
 
-  void testThrows(name, thunk) {
+  void testThrows(String name, void Function() thunk) {
     test(name, () {
       expect(thunk, throwsUnsupportedError);
       // No modifications happened.
@@ -396,7 +397,7 @@ void testNoChangeLengthList(
     List<int> original, List<int> wrapped, String name) {
   var copy = List.of(original);
 
-  void testThrows(String name, thunk) {
+  void testThrows(String name, void Function() thunk) {
     test(name, () {
       expect(thunk, throwsUnsupportedError);
       // No modifications happened.
@@ -490,7 +491,7 @@ void testReadSet(Set<int> original, Set<int> wrapped, String name) {
 void testNoChangeSet(Set<int> original, Set<int> wrapped, String name) {
   var originalElements = original.toList();
 
-  void testThrows(name, thunk) {
+  void testThrows(String name, void Function() thunk) {
     test(name, () {
       expect(thunk, throwsUnsupportedError);
       // No modifications happened.
@@ -535,92 +536,6 @@ void testNoChangeSet(Set<int> original, Set<int> wrapped, String name) {
   });
 
   testThrows('$name - clear throws', () {
-    wrapped.clear();
-  });
-}
-
-void testReadMap(Map<int, int> original, Map<int, int> wrapped, String name) {
-  test('$name length', () {
-    expect(wrapped.length, equals(original.length));
-  });
-
-  test('$name isEmpty', () {
-    expect(wrapped.isEmpty, equals(original.isEmpty));
-  });
-
-  test('$name isNotEmpty', () {
-    expect(wrapped.isNotEmpty, equals(original.isNotEmpty));
-  });
-
-  test('$name operator[]', () {
-    expect(wrapped[0], equals(original[0]));
-    expect(wrapped[999], equals(original[999]));
-  });
-
-  test('$name containsKey', () {
-    expect(wrapped.containsKey(0), equals(original.containsKey(0)));
-    expect(wrapped.containsKey(999), equals(original.containsKey(999)));
-  });
-
-  test('$name containsValue', () {
-    expect(wrapped.containsValue(0), equals(original.containsValue(0)));
-    expect(wrapped.containsValue(999), equals(original.containsValue(999)));
-  });
-
-  test('$name forEach', () {
-    var origCnt = 0;
-    var wrapCnt = 0;
-    wrapped.forEach((k, v) {
-      wrapCnt += 1 << k + 3 * v;
-    });
-    original.forEach((k, v) {
-      origCnt += 1 << k + 3 * v;
-    });
-    expect(wrapCnt, equals(origCnt));
-  });
-
-  test('$name keys', () {
-    expect(wrapped.keys, orderedEquals(original.keys));
-  });
-
-  test('$name values', () {
-    expect(wrapped.values, orderedEquals(original.values));
-  });
-}
-
-void testNoChangeMap(
-    Map<int, int> original, Map<int, int> wrapped, String name) {
-  var copy = Map.of(original);
-
-  void testThrows(name, thunk) {
-    test(name, () {
-      expect(thunk, throwsUnsupportedError);
-      // No modifications happened.
-      expect(original, equals(copy));
-    });
-  }
-
-  testThrows('$name operator[]= throws', () {
-    wrapped[0] = 42;
-  });
-
-  testThrows('$name putIfAbsent throws', () {
-    wrapped.putIfAbsent(0, () => 42);
-  });
-
-  testThrows('$name addAll throws', () {
-    wrapped.addAll({42: 42});
-  });
-
-  testThrows('$name addAll empty throws', () {
-    wrapped.addAll({});
-  });
-
-  testThrows('$name remove throws', () {
-    wrapped.remove(0);
-  });
-
-  testThrows('$name clear throws', () {
     wrapped.clear();
   });
 }

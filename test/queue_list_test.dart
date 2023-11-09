@@ -304,4 +304,4 @@ QueueList withInternalGap() {
 /// Returns a matcher that expects that a closure throws a
 /// [ConcurrentModificationError].
 final throwsConcurrentModificationError =
-    throwsA(TypeMatcher<ConcurrentModificationError>());
+    throwsA(const TypeMatcher<ConcurrentModificationError>());

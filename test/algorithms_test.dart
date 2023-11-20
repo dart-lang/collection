@@ -373,8 +373,12 @@ void main() {
       () {
     // Regression test for https://github.com/dart-lang/collection/issues/317
     final length = 1000; // Larger than _mergeSortLimit
-    // In order list, first half empties first during merge.
-    final list = List<int>.generate(length, (i) => i);
+    // Out of order list, with first half guaranteed to empty first during
+    // merge.
+    final list = [
+      for (var i = 0; i < length / 2; i++) -i,
+      for (var i = 0; i < length / 2; i++) i + length,
+    ];
     expect(() => mergeSort<num>(list), returnsNormally);
   });
 }

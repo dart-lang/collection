@@ -1034,6 +1034,56 @@ void main() {
               [1, 2, 3, 4]);
         });
       });
+      group('.flattenedToList', () {
+        var empty = iterable(<int>[]);
+        test('empty', () {
+          expect(iterable(<Iterable<int>>[]).flattenedToList, []);
+        });
+        test('multiple empty', () {
+          expect(iterable([empty, empty, empty]).flattenedToList, []);
+        });
+        test('single value', () {
+          expect(
+              iterable(<Iterable>[
+                iterable([1])
+              ]).flattenedToList,
+              [1]);
+        });
+        test('multiple', () {
+          expect(
+              iterable(<Iterable>[
+                iterable([1, 2]),
+                empty,
+                iterable([3, 4])
+              ]).flattenedToList,
+              [1, 2, 3, 4]);
+        });
+      });
+      group('.flattenedToSet', () {
+        var empty = iterable(<int>[]);
+        test('empty', () {
+          expect(iterable(<Iterable<int>>[]).flattenedToSet, <int>{});
+        });
+        test('multiple empty', () {
+          expect(iterable([empty, empty, empty]).flattenedToSet, <int>{});
+        });
+        test('single value', () {
+          expect(
+              iterable(<Iterable>[
+                iterable([1])
+              ]).flattenedToSet,
+              {1});
+        });
+        test('multiple', () {
+          expect(
+              iterable(<Iterable>[
+                iterable([1, 2]),
+                empty,
+                iterable([3, 4])
+              ]).flattenedToSet,
+              {1, 2, 3, 4});
+        });
+      });
     });
     group('of comparable', () {
       group('.min', () {

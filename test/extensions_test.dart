@@ -866,23 +866,6 @@ void main() {
         });
       });
     });
-    group('of nullable', () {
-      group('.whereNotNull', () {
-        test('empty', () {
-          expect(iterable(<int?>[]).whereNotNull(), isEmpty);
-        });
-        test('single', () {
-          expect(iterable(<int?>[null]).whereNotNull(), isEmpty);
-          expect(iterable(<int?>[1]).whereNotNull(), [1]);
-        });
-        test('multiple', () {
-          expect(iterable(<int?>[1, 3, 5]).whereNotNull(), [1, 3, 5]);
-          expect(iterable(<int?>[null, null, null]).whereNotNull(), isEmpty);
-          expect(
-              iterable(<int?>[1, null, 3, null, 5]).whereNotNull(), [1, 3, 5]);
-        });
-      });
-    });
     group('of number', () {
       group('.sum', () {
         test('empty', () {

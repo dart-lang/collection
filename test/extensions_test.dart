@@ -1265,6 +1265,23 @@ void main() {
         expect(l3.toList(), [4, 5]);
       });
     });
+    group('.subtract', () {
+      test('empty', () {
+        expect(iterable(<int>[]).subtract([]), []);
+      });
+      test('returns the same list when it shares nothing with the other', () {
+        expect(iterable([1, 2, 3, 4]).subtract([5]), [1, 2, 3, 4]);
+      });
+      test('removes two element', () {
+        expect(iterable([1, 2, 3, 4]).subtract([2, 3]), [1, 4]);
+      });
+      test('removes only one of the occurrence', () {
+        expect(iterable([1, 2, 2, 3]).subtract([2]), [1, 2, 3]);
+      });
+      test('removes only two of the occurrences', () {
+        expect(iterable([1, 2, 2, 3]).subtract([2, 0, 2]), [1, 3]);
+      });
+    });
   });
 
   group('Comparator', () {

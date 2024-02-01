@@ -1,5 +1,6 @@
 ## 1.19.0-wip
 
+- Adds `subtract` to `IterableExtension`.
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
 - Fix `mergeSort` when the runtime iterable generic is a subtype of the static

@@ -891,6 +891,26 @@ extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
       yield* elements;
     }
   }
+
+  /// The sequential elements of each iterable in this iterable.
+  ///
+  /// Iterates the elements of this iterable.
+  /// For each one, which is itself an iterable,
+  /// all the elements of that are added
+  /// to the returned list, before moving on to the next element.
+  List<T> get flattenedToList => [
+        for (final elements in this) ...elements,
+      ];
+
+  /// The unique sequential elements of each iterable in this iterable.
+  ///
+  /// Iterates the elements of this iterable.
+  /// For each one, which is itself an iterable,
+  /// all the elements of that are added
+  /// to the returned set, before moving on to the next element.
+  Set<T> get flattenedToSet => {
+        for (final elements in this) ...elements,
+      };
 }
 
 /// Extensions that apply to iterables of [Comparable] elements.

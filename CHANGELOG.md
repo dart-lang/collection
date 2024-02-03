@@ -1,9 +1,12 @@
-## 1.19.0-wip
+## 2.0.0-wip
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
 - Fix `mergeSort` when the runtime iterable generic is a subtype of the static
   generic.
+- Remove `firstOrNull`, `lastOrNull`, `singleOrNull` and `elementAtOrNull()`
+  from `IterableExtensions`. Since Dart 3.0, exact equivalents to these are
+  available in Dart core, so 'package:collection' would only be shadowing these.
 - Require Dart `^3.1.0`
 - Mark "mixin" classes as `mixin`.
 

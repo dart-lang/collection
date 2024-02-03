@@ -269,13 +269,6 @@ extension IterableExtension<T> on Iterable<T> {
     return null;
   }
 
-  /// The first element, or `null` if the iterable is empty.
-  T? get firstOrNull {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) return iterator.current;
-    return null;
-  }
-
   /// The last element satisfying [test], or `null` if there are none.
   T? lastWhereOrNull(bool Function(T element) test) {
     T? result;
@@ -295,12 +288,6 @@ extension IterableExtension<T> on Iterable<T> {
       if (test(index++, element)) result = element;
     }
     return result;
-  }
-
-  /// The last element, or `null` if the iterable is empty.
-  T? get lastOrNull {
-    if (isEmpty) return null;
-    return last;
   }
 
   /// The single element satisfying [test].
@@ -347,32 +334,6 @@ extension IterableExtension<T> on Iterable<T> {
     }
     return result;
   }
-
-  /// The single element of the iterable, or `null`.
-  ///
-  /// The value is `null` if the iterable is empty
-  /// or it contains more than one element.
-  T? get singleOrNull {
-    var iterator = this.iterator;
-    if (iterator.moveNext()) {
-      var result = iterator.current;
-      if (!iterator.moveNext()) {
-        return result;
-      }
-    }
-    return null;
-  }
-
-  /// The [index]th element, or `null` if there is no such element.
-  ///
-  /// Returns the element at position [index] of this iterable,
-  /// just like [elementAt], if this iterable has such an element.
-  /// If this iterable does not have enough elements to have one with the given
-  /// [index], the `null` value is returned, unlike [elementAt] which throws
-  /// instead.
-  ///
-  /// The [index] must not be negative.
-  T? elementAtOrNull(int index) => skip(index).firstOrNull;
 
   /// Associates the elements in `this` by the value returned by [key].
   ///

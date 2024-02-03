@@ -426,17 +426,6 @@ void main() {
               0);
         });
       });
-      group('.firstOrNull', () {
-        test('empty', () {
-          expect(iterable([]).firstOrNull, null);
-        });
-        test('single', () {
-          expect(iterable([1]).firstOrNull, 1);
-        });
-        test('first of multiple', () {
-          expect(iterable([1, 3, 5]).firstOrNull, 1);
-        });
-      });
       group('.lastWhereOrNull', () {
         test('empty', () {
           expect(iterable([]).lastWhereOrNull(unreachable), null);
@@ -472,17 +461,6 @@ void main() {
               iterable([0, 3, 7]).lastWhereIndexedOrNull((i, x) => x.isOdd), 7);
           expect(iterable([0, 3, 7]).lastWhereIndexedOrNull((i, x) => i.isEven),
               7);
-        });
-      });
-      group('.lastOrNull', () {
-        test('empty', () {
-          expect(iterable([]).lastOrNull, null);
-        });
-        test('single', () {
-          expect(iterable([1]).lastOrNull, 1);
-        });
-        test('last of multiple', () {
-          expect(iterable([1, 3, 5]).lastOrNull, 5);
         });
       });
       group('.singleWhereOrNull', () {
@@ -524,17 +502,6 @@ void main() {
           expect(
               iterable([0, 3, 7]).singleWhereIndexedOrNull((i, x) => i.isEven),
               null);
-        });
-      });
-      group('.singleOrNull', () {
-        test('empty', () {
-          expect(iterable([]).singleOrNull, null);
-        });
-        test('single', () {
-          expect(iterable([1]).singleOrNull, 1);
-        });
-        test('multiple', () {
-          expect(iterable([1, 3, 5]).singleOrNull, null);
         });
       });
       group('.lastBy', () {
@@ -1204,21 +1171,6 @@ void main() {
         });
       });
     });
-    group('.elementAtOrNull', () {
-      test('empty', () async {
-        expect(iterable([]).elementAtOrNull(0), isNull);
-      });
-      test('negative index', () async {
-        expect(() => iterable([1]).elementAtOrNull(-1),
-            throwsA(isA<RangeError>()));
-      });
-      test('index within range', () async {
-        expect(iterable([1]).elementAtOrNull(0), 1);
-      });
-      test('index too high', () async {
-        expect(iterable([1]).elementAtOrNull(1), isNull);
-      });
-    });
     group('.slices', () {
       test('empty', () {
         expect(iterable(<int>[]).slices(1), []);
@@ -1818,20 +1770,6 @@ void main() {
         test('varying result', () {
           expect(['a', 'b'].expandIndexed((i, v) => i.isOdd ? ['$i', v] : []),
               ['1', 'b']);
-        });
-      });
-      group('.elementAtOrNull', () {
-        test('empty', () async {
-          expect([].elementAtOrNull(0), isNull);
-        });
-        test('negative index', () async {
-          expect(() => [1].elementAtOrNull(-1), throwsA(isA<RangeError>()));
-        });
-        test('index within range', () async {
-          expect([1].elementAtOrNull(0), 1);
-        });
-        test('index too high', () async {
-          expect([1].elementAtOrNull(1), isNull);
         });
       });
       group('.slices', () {

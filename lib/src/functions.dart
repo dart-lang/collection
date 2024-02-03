@@ -147,6 +147,43 @@ Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
   return result;
 }
 
+/// Returns the [transitive reduction][] of [graph].
+///
+/// [transitive reduction]: https://en.wikipedia.org/wiki/Transitive_reduction
+///
+/// Interprets [graph] as a directed graph with a vertex for each key and edges
+/// from each key to the values that the key maps to.
+///
+/// Assumes that every vertex in the graph has a key to represent it, even if
+/// that vertex has no outgoing edges. This isn't checked, but if it's not
+/// satisfied, the function may crash or provide unexpected output. For example,
+/// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
+Map<T, Set<T>> transitiveReduction<T>(Map<T, Iterable<T>> graph) {
+  // This uses a modified version of the `transitiveClosure` function of this 
+  // library.
+  var result = <T, Set<T>>{};
+  graph.forEach((vertex, edges) {
+    // remove loops before processing.
+    result[vertex] = Set<T>.from(edges.where((edge) => edge != vertex));
+  });
+
+  // Lists are faster to iterate than maps, so we create a list since we're
+  // iterating repeatedly.
+  var keys = graph.keys.toList();
+  for (var vertex1 in keys) {
+    for (var vertex2 in keys) {
+      for (var vertex3 in keys) {
+        if (result[vertex1]!.contains(vertex2) &&
+            result[vertex2]!.contains(vertex3)) {
+          result[vertex1]!.remove(vertex3);
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
 /// Returns the [strongly connected components][] of [graph], in topological
 /// order.
 ///

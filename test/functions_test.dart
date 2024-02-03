@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
+import 'package:collection/src/functions.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -238,6 +239,60 @@ void main() {
             'foo': ['bar', 'baz', 'foo'],
             'bar': ['baz', 'foo', 'bar'],
             'baz': ['foo', 'bar', 'baz']
+          }));
+    });
+  });
+  
+  group('transitiveReduction()', () {
+    test('returns an empty map for an empty graph', () {
+      expect(transitiveReduction({}), isEmpty);
+    });
+
+    test('returns the input when there are no transitive connections', () {
+      expect(
+          transitiveReduction({
+            'foo': ['bar'],
+            'bar': [],
+            'bang': ['qux', 'zap'],
+            'qux': [],
+            'zap': []
+          }),
+          equals({
+            'foo': ['bar'],
+            'bar': [],
+            'bang': ['qux', 'zap'],
+            'qux': [],
+            'zap': []
+          }));
+    });
+
+    test('reduces transitive connections', () {
+      expect(
+          transitiveReduction({
+            'foo': ['bar', 'baz', 'qux'],
+            'bar': ['baz', 'qux'],
+            'baz': ['qux'],
+            'qux': []
+          }),
+          equals({
+            'foo': ['bar'],
+            'bar': ['baz'],
+            'baz': ['qux'],
+            'qux': [],
+          }));
+    });
+
+    test('handles loops', () {
+      expect(
+          transitiveReduction({
+            'foo': ['bar', 'baz', 'foo'],
+            'bar': ['baz', 'foo', 'bar'],
+            'baz': ['foo', 'bar', 'baz']
+          }),
+          equals({
+            'foo': ['bar'],
+            'bar': ['baz'],
+            'baz': ['foo']
           }));
     });
   });

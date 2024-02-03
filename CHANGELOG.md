@@ -1,4 +1,4 @@
-## 1.19.0-wip
+## 2.0.0-wip
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.

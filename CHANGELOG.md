@@ -6,6 +6,7 @@
   generic.
 - Require Dart `^3.1.0`
 - Mark "mixin" classes as `mixin`.
+- Add `transitiveReduction` to the functions library.
 
 ## 1.18.0
 

@@ -295,6 +295,21 @@ void main() {
             'baz': ['foo']
           }));
     });
+    test('handles path with more than 2 edges', () {
+      expect(
+          transitiveReduction({
+            'foo': ['bar', 'baz', 'qux'],
+            'bar': ['baz'],
+            'baz': ['qux'],
+            'qux': [],
+          }),
+          equals({
+            'foo': ['bar'],
+            'bar': ['baz'],
+            'baz': ['qux'],
+            'qux': [],
+          }));
+    });
   });
 
   group('stronglyConnectedComponents()', () {

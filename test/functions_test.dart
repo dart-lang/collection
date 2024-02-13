@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:collection/collection.dart';
 import 'package:test/test.dart';
 
@@ -9,7 +12,6 @@ void main() {
   group('mapMap()', () {
     test('with an empty map returns an empty map', () {
       expect(
-          // ignore: deprecated_member_use_from_same_package
           mapMap({},
               key: expectAsync2((_, __) {}, count: 0),
               value: expectAsync2((_, __) {}, count: 0)),
@@ -18,7 +20,6 @@ void main() {
 
     test('with no callbacks, returns a copy of the map', () {
       var map = {'foo': 1, 'bar': 2};
-      // ignore: deprecated_member_use_from_same_package
       var result = mapMap<String, int, String, int>(map);
       expect(result, equals({'foo': 1, 'bar': 2}));
 
@@ -29,7 +30,6 @@ void main() {
 
     test("maps the map's keys", () {
       expect(
-          // ignore: deprecated_member_use_from_same_package
           mapMap<String, int, dynamic, int>({'foo': 1, 'bar': 2},
               key: (dynamic key, dynamic value) => key[value]),
           equals({'o': 1, 'r': 2}));
@@ -37,7 +37,6 @@ void main() {
 
     test("maps the map's values", () {
       expect(
-          // ignore: deprecated_member_use_from_same_package
           mapMap<String, int, String, dynamic>({'foo': 1, 'bar': 2},
               value: (dynamic key, dynamic value) => key[value]),
           equals({'foo': 'o', 'bar': 'r'}));
@@ -45,7 +44,6 @@ void main() {
 
     test("maps both the map's keys and values", () {
       expect(
-          // ignore: deprecated_member_use_from_same_package
           mapMap({'foo': 1, 'bar': 2},
               key: (dynamic key, dynamic value) => '$key$value',
               value: (dynamic key, dynamic value) => key[value]),

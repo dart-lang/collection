@@ -120,6 +120,7 @@ S? maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,
 /// that vertex has no outgoing edges. This isn't checked, but if it's not
 /// satisfied, the function may crash or provide unexpected output. For example,
 /// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
+@Deprecated('This method will be removed. Consider using package:graphs.')
 Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
   // This uses [Warshall's algorithm][], modified not to add a vertex from each
   // node to itself.

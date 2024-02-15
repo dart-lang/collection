@@ -6,6 +6,7 @@
   generic.
 - Require Dart `^3.1.0`
 - Mark "mixin" classes as `mixin`.
+- Deprecate `transitiveClosure`. Consider using `package:graphs`.
 
 ## 1.18.0
 

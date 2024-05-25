@@ -4,6 +4,6 @@
 
 /// Import `collection.dart` instead.
 @Deprecated('Will be removed in collection 2.0.0.')
-library dart.pkg.collection.equality;
+library;
 
 export 'src/equality.dart';

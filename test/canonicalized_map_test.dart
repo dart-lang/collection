@@ -205,7 +205,7 @@ void main() {
     });
   });
 
-  group('CanonicalizedMap.from', () {
+  group('CanonicalizedMap.fromEntries', () {
     test('canonicalizes its keys', () {
       var map = CanonicalizedMap.fromEntries(
           {'1': 'value 1', '2': 'value 2', '3': 'value 3'}.entries, int.parse);

@@ -4,6 +4,7 @@
 - Shuffle `IterableExtension.sample` results.
 - Fix `mergeSort` when the runtime iterable generic is a subtype of the static
   generic.
+- `CanonicalizedMap`: added constructor `fromEntries`.
 - Require Dart `^3.1.0`
 - Mark "mixin" classes as `mixin`.
 

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// A selection of data manipulation algorithms.
-library pkg.collection.algorithms;
+library;
 
 import 'dart:math' show Random;
 

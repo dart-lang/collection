@@ -21,8 +21,8 @@ jobs:
       matrix:
         sdk: [dev]
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
         with:
           sdk: ${{ matrix.sdk }}
       - id: install
@@ -48,8 +48,8 @@ jobs:
         os: [ubuntu-latest]
         sdk: [3.1.0, dev]
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-      - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
         with:
           sdk: ${{ matrix.sdk }}
       - id: install
@@ -61,3 +61,6 @@ jobs:
       - name: Run Chrome tests
         run: dart test --platform chrome --test-randomize-ordering-seed=random
         if: always() && steps.install.outcome == 'success'
+      - name: Run Chrome tests - wasm
+        run: dart test --platform chrome --compiler dart2wasm
+        if: always() && steps.install.outcome == 'success' && matrix.sdk == 'dev'

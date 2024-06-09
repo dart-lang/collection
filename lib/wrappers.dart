@@ -4,7 +4,7 @@
 
 /// Import `collection.dart` instead.
 @Deprecated('Will be removed in collection 2.0.0.')
-library dart.pkg.collection.wrappers;
+library;
 
 export 'src/canonicalized_map.dart';
 export 'src/unmodifiable_wrappers.dart';

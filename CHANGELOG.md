@@ -4,11 +4,16 @@
 - Shuffle `IterableExtension.sample` results.
 - Fix `mergeSort` when the runtime iterable generic is a subtype of the static
   generic.
+- `CanonicalizedMap`: added constructor `fromEntries`.
+- Mark "mixin" classes as `mixin`.
+- Deprecate `transitiveClosure`. Consider using `package:graphs`.
 - Remove `firstOrNull`, `lastOrNull`, `singleOrNull` and `elementAtOrNull()`
   from `IterableExtensions`. Since Dart 3.0, exact equivalents to these are
   available in Dart core, so 'package:collection' would only be shadowing these.
+- Deprecate `whereNotNull()` from `IterableNullableExtension`. Use `nonNulls`
+  instead - this is an equivalent extension available in Dart core since
+  version 3.0.
 - Require Dart `^3.1.0`
-- Mark "mixin" classes as `mixin`.
 
 ## 1.18.0
 

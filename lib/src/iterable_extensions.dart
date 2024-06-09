@@ -572,6 +572,7 @@ extension IterableNullableExtension<T extends Object> on Iterable<T?> {
   /// of this iterable, in their original iteration order.
   ///
   /// For an `Iterable<X?>`, this method is equivalent to `.whereType<X>()`.
+  @Deprecated('Use .nonNulls instead.')
   Iterable<T> whereNotNull() sync* {
     for (var element in this) {
       if (element != null) yield element;

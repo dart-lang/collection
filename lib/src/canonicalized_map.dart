@@ -46,6 +46,23 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
     addAll(other);
   }
 
+  /// Creates a canonicalized map that is initialized with the key/value pairs
+  /// of [entries].
+  ///
+  /// The [canonicalize] function should return the canonical value for the
+  /// given key. Keys with the same canonical value are considered equivalent.
+  ///
+  /// The [isValidKey] function is called before calling [canonicalize] for
+  /// methods that take arbitrary objects. It can be used to filter out keys
+  /// that can't be canonicalized.
+  CanonicalizedMap.fromEntries(
+      Iterable<MapEntry<K, V>> entries, C Function(K key) canonicalize,
+      {bool Function(K key)? isValidKey})
+      : _canonicalize = canonicalize,
+        _isValidKeyFn = isValidKey {
+    addEntries(entries);
+  }
+
   CanonicalizedMap._(
       this._canonicalize, this._isValidKeyFn, Map<C, MapEntry<K, V>> base) {
     _base.addAll(base);

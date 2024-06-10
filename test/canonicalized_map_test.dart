@@ -205,6 +205,24 @@ void main() {
     });
   });
 
+  group('CanonicalizedMap.fromEntries', () {
+    test('canonicalizes its keys', () {
+      var map = CanonicalizedMap.fromEntries(
+          {'1': 'value 1', '2': 'value 2', '3': 'value 3'}.entries, int.parse);
+      expect(map['01'], equals('value 1'));
+      expect(map['02'], equals('value 2'));
+      expect(map['03'], equals('value 3'));
+    });
+
+    test('uses the final value for collisions', () {
+      var map = CanonicalizedMap.fromEntries(
+          {'1': 'value 1', '01': 'value 2', '001': 'value 3'}.entries,
+          int.parse);
+      expect(map.length, equals(1));
+      expect(map['0001'], equals('value 3'));
+    });
+  });
+
   group('CanonicalizedMap.toMapOfCanonicalKeys', () {
     test('convert to a `Map<C,V>`', () {
       var map = CanonicalizedMap.from(

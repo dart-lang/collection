@@ -1112,6 +1112,13 @@ void main() {
                 iterable([3, 4])
               ]).flattenedToSet,
               {1, 2, 3, 4});
+          expect(
+              iterable(<Iterable>[
+                iterable([1, 2, 3]),
+                empty,
+                iterable([2, 3, 4])
+              ]).flattenedToSet,
+              {1, 2, 3, 4});
         });
       });
     });

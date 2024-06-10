@@ -6,6 +6,9 @@
   generic.
 - `CanonicalizedMap`: added constructor `fromEntries`.
 - Mark "mixin" classes as `mixin`.
+- `extension IterableIterableExtension<T> on Iterable<Iterable<T>>`
+  - Add `flattenedToList` as a performance improvement over `flattened.`
+  - Add `flattenedToSet` as new behavior for flattening to unique elements.
 - Deprecate `transitiveClosure`. Consider using `package:graphs`.
 - Deprecate `whereNotNull()` from `IterableNullableExtension`. Use `nonNulls`
   instead - this is an equivalent extension available in Dart core since

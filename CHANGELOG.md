@@ -1,4 +1,4 @@
-## 1.19.0-wip
+## 2.0.0-wip
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
@@ -10,6 +10,9 @@
   - Add `flattenedToList` as a performance improvement over `flattened.`
   - Add `flattenedToSet` as new behavior for flattening to unique elements.
 - Deprecate `transitiveClosure`. Consider using `package:graphs`.
+- Remove `firstOrNull`, `lastOrNull`, `singleOrNull` and `elementAtOrNull()`
+  from `IterableExtensions`. Since Dart 3.0, exact equivalents to these are
+  available in Dart core, so 'package:collection' would only be shadowing these.
 - Deprecate `whereNotNull()` from `IterableNullableExtension`. Use `nonNulls`
   instead - this is an equivalent extension available in Dart core since
   version 3.0.

@@ -1,6 +1,6 @@
 ## 1.19.0-wip
 
-- Adds `shuffled` to `IterableExtension`.
+- Add `Iterable.shuffled` and `Iterable.countOccurrences` extension methods.
 - Shuffle `IterableExtension.sample` results.
 - Fix `mergeSort` when the runtime iterable generic is a subtype of the static
   generic.

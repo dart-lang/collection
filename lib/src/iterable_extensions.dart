@@ -601,6 +601,29 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
+
+  /// Counts the elements of this iterable, and updates a map with the result.
+  ///
+  /// Creates a new map, or starts with [accumulator] if provided.
+  /// For each element of this iterable, the current value of the element in the
+  /// map, with a default of zero if the element doesn't have an entry in the
+  /// map, is increased by one. Returns the updated map.
+  ///
+  /// If no map is provided, the default map is a default Dart hash-based map
+  /// using [Object.==] for equality. That means that distinct-but-equal objects
+  /// are only represented by one of their elements in the resulting map.
+  /// Provide a custom map if a different equality is needed.
+  Map<T, int> countOccurrences([Map<T, int>? accumulator]) {
+    accumulator ??= {};
+    for (var element in this) {
+      accumulator.update(element, _inc, ifAbsent: _one);
+    }
+    return accumulator;
+  }
+
+  static int _inc(int v) => v + 1;
+
+  static int _one() => 1;
 }
 
 /// Extensions that apply to iterables with a nullable element type.

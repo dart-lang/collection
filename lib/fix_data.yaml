@@ -1,0 +1,24 @@
+# Copyright (c) 2024, the Dart project authors.  Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# Please add new fixes to the top of the file. For documentation about this file
+# format, see https://dart.dev/go/data-driven-fixes.
+
+version: 1
+
+transforms:
+  # whereNotNull() => nonNulls
+  # https://github.com/dart-lang/collection/issues/350
+  - title: "Replace with 'nonNulls'"
+    date: 2024-06-11
+    element:
+      uris: [ 'package:collection/collection.dart' ]
+      inClass: 'IterableNullableExtension'
+      method: 'whereNotNull'
+    changes:
+      - kind: 'replacedBy'
+        newElement:
+          uris: [ 'dart:core' ]
+          inClass: 'NullableIterableExtensions'
+          getter: 'nonNulls'

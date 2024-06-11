@@ -64,3 +64,23 @@ jobs:
       - name: Run Chrome tests - wasm
         run: dart test --platform chrome --compiler dart2wasm
         if: always() && steps.install.outcome == 'success' && matrix.sdk == 'dev'
+
+  # Test the contributed `dart fix` fixes.
+  dart-fix:
+    needs: analyze
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        sdk: [main]
+    steps:
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
+        with:
+          sdk: ${{ matrix.sdk }}
+      - name: Install Dart dependencies
+        run: dart pub get
+      - name: Test the declarative fixes
+        run: dart fix --compare-to-golden
+        working-directory: test_fixes

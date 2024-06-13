@@ -187,7 +187,7 @@ class CanonicalizedMap<C, K, V> implements Map<K, V> {
   String toString() => MapBase.mapToString(this);
 
   bool _isValidKey(Object? key) =>
-      (key is K) && (_isValidKeyFn == null || _isValidKeyFn!(key));
+      (key is K) && (_isValidKeyFn == null || _isValidKeyFn(key));
 
   /// Creates a `Map<K,V>` (with the original key values).
   /// See [toMapOfCanonicalKeys].

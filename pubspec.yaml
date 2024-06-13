@@ -1,5 +1,5 @@
 name: collection
-version: 1.19.0-wip
+version: 1.19.0
 description: >-
   Collections and utilities functions and classes related to collections.
 repository: https://github.com/dart-lang/collection
@@ -9,7 +9,7 @@ topics:
  - collections
 
 environment:
-  sdk: ^3.1.0
+  sdk: ^3.4.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.0.0

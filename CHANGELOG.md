@@ -1,4 +1,4 @@
-## 1.19.0-wip
+## 1.19.0
 
 - Adds `shuffled` to `IterableExtension`.
 - Shuffle `IterableExtension.sample` results.
@@ -13,7 +13,7 @@
 - Deprecate `whereNotNull()` from `IterableNullableExtension`. Use `nonNulls`
   instead - this is an equivalent extension available in Dart core since
   version 3.0.
-- Require Dart `^3.1.0`
+- Require Dart `^3.4.0`
 
 ## 1.18.0
 

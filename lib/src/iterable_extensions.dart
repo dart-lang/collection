@@ -601,6 +601,21 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
+
+  /// Insert a specific element between each two elements of this iterator.
+  ///
+  /// For example, `[1, 2, 3].intersperse(0)` returns `(1, 0, 2, 0, 3)`.
+  Iterable<T> intersperse(T element) sync* {
+    var first = true;
+    for (var e in this) {
+      if (first) {
+        first = false;
+      } else {
+        yield element;
+      }
+      yield e;
+    }
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.

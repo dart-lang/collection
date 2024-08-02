@@ -57,7 +57,8 @@ extension IterableExtension<T> on Iterable<T> {
   }
 
   /// The elements that do not satisfy [test].
-  Iterable<T> whereNot(bool Function(T element) test) => where((element) => !test(element));
+  Iterable<T> whereNot(bool Function(T element) test) =>
+      where((element) => !test(element));
 
   /// Creates a sorted list of the elements of the iterable.
   ///
@@ -81,7 +82,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// The elements are ordered by the [compare] [Comparator] of the
   /// property [keyOf] of the element.
-  List<T> sortedByCompare<K>(K Function(T element) keyOf, Comparator<K> compare) {
+  List<T> sortedByCompare<K>(
+      K Function(T element) keyOf, Comparator<K> compare) {
     var elements = [...this];
     mergeSortBy<T, K>(elements, keyOf, compare);
     return elements;
@@ -128,7 +130,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// Applies [keyOf] to each element in iteration order,
   /// then checks whether the results are in non-decreasing order
   /// using the [compare] [Comparator]..
-  bool isSortedByCompare<K>(K Function(T element) keyOf, Comparator<K> compare) {
+  bool isSortedByCompare<K>(
+      K Function(T element) keyOf, Comparator<K> compare) {
     var iterator = this.iterator;
     if (!iterator.moveNext()) return true;
     var previousKey = keyOf(iterator.current);
@@ -198,7 +201,8 @@ extension IterableExtension<T> on Iterable<T> {
   }
 
   /// Expands each element and index to a number of elements in a new iterable.
-  Iterable<R> expandIndexed<R>(Iterable<R> Function(int index, T element) expand) sync* {
+  Iterable<R> expandIndexed<R>(
+      Iterable<R> Function(int index, T element) expand) sync* {
     var index = 0;
     for (var element in this) {
       yield* expand(index++, element);
@@ -236,7 +240,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// Returns the result of the last call to [combine],
   /// or [initialValue] if there are no elements.
-  R foldIndexed<R>(R initialValue, R Function(int index, R previous, T element) combine) {
+  R foldIndexed<R>(
+      R initialValue, R Function(int index, R previous, T element) combine) {
     var result = initialValue;
     var index = 0;
     for (var element in this) {
@@ -389,7 +394,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// iterable.groupFoldBy(keyOf,
   ///     (Set<T>? previous, T element) => (previous ?? <T>{})..add(element));
   /// ````
-  Map<K, G> groupFoldBy<K, G>(K Function(T element) keyOf, G Function(G? previous, T element) combine) {
+  Map<K, G> groupFoldBy<K, G>(
+      K Function(T element) keyOf, G Function(G? previous, T element) combine) {
     var result = <K, G>{};
     for (var element in this) {
       var key = keyOf(element);
@@ -430,7 +436,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitBefore(isPrime);
   /// print(parts); // ([1, 0], [2, 1], [5], [7, 6, 8, 9])
   /// ```
-  Iterable<List<T>> splitBefore(bool Function(T element) test) => splitBeforeIndexed((_, element) => test(element));
+  Iterable<List<T>> splitBefore(bool Function(T element) test) =>
+      splitBeforeIndexed((_, element) => test(element));
 
   /// Splits the elements into chunks after some elements.
   ///
@@ -446,7 +453,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// var parts = [1, 0, 2, 1, 5, 7, 6, 8, 9].splitAfter(isPrime);
   /// print(parts); // ([1, 0, 2], [1, 5], [7], [6, 8, 9])
   /// ```
-  Iterable<List<T>> splitAfter(bool Function(T element) test) => splitAfterIndexed((_, element) => test(element));
+  Iterable<List<T>> splitAfter(bool Function(T element) test) =>
+      splitAfterIndexed((_, element) => test(element));
 
   /// Splits the elements into chunks between some elements.
   ///
@@ -478,7 +486,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///     .splitBeforeIndexed((i, v) => i < v);
   /// print(parts); // ([1], [0, 2], [1, 5, 7], [6, 8, 9])
   /// ```
-  Iterable<List<T>> splitBeforeIndexed(bool Function(int index, T element) test) sync* {
+  Iterable<List<T>> splitBeforeIndexed(
+      bool Function(int index, T element) test) sync* {
     var iterator = this.iterator;
     if (!iterator.moveNext()) {
       return;
@@ -512,7 +521,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///   .splitAfterIndexed((i, v) => i < v);
   /// print(parts); // ([1, 0], [2, 1], [5, 7, 6], [8, 9])
   /// ```
-  Iterable<List<T>> splitAfterIndexed(bool Function(int index, T element) test) sync* {
+  Iterable<List<T>> splitAfterIndexed(
+      bool Function(int index, T element) test) sync* {
     var index = 0;
     List<T>? chunk;
     for (var element in this) {
@@ -539,7 +549,8 @@ extension IterableExtension<T> on Iterable<T> {
   ///    .splitBetweenIndexed((i, v1, v2) => v1 > v2);
   /// print(parts); // ([1], [0, 2], [1, 5, 7], [6, 8, 9])
   /// ```
-  Iterable<List<T>> splitBetweenIndexed(bool Function(int index, T first, T second) test) sync* {
+  Iterable<List<T>> splitBetweenIndexed(
+      bool Function(int index, T first, T second) test) sync* {
     var iterator = this.iterator;
     if (!iterator.moveNext()) return;
     var previous = iterator.current;
@@ -593,9 +604,8 @@ extension IterableExtension<T> on Iterable<T> {
 
   /// Returns a map where the keys are the unique elements of the iterable
   /// and the values are the counts of those elements.
-  /// 
-  /// For example, `['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()` 
-  /// returns `{'a': 1, 'b': 2, 'c': 3}`.
+  ///
+  /// For example, `['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()` returns `{'a': 1, 'b': 2, 'c': 3}`.
   Map<T, int> countFrequency() {
     var frequencyMap = <T, int>{};
     for (var item in this) {
@@ -999,7 +1009,8 @@ extension ComparatorExtension<T> on Comparator<T> {
   ///
   /// Compares [R] values by comparing their [keyOf] value
   /// using this comparator.
-  Comparator<R> compareBy<R>(T Function(R) keyOf) => (R a, R b) => this(keyOf(a), keyOf(b));
+  Comparator<R> compareBy<R>(T Function(R) keyOf) =>
+      (R a, R b) => this(keyOf(a), keyOf(b));
 
   /// Combine comparators sequentially.
   ///

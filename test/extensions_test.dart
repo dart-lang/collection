@@ -2045,7 +2045,7 @@ void main() {
       });
     });
   });
-   group('FrequencyCounter tests', () {
+  group('FrequencyCounter tests', () {
     test('should return correct frequency map for List of integers', () {
       var list = [1, 2, 2, 3, 3, 3];
       var frequencyMap = list.countFrequency();
@@ -2078,7 +2078,7 @@ void main() {
     });
 
     test('should return correct frequency map for Set of strings', () {
-      // ignore: equal_elements_in_set 
+      // ignore: equal_elements_in_set
       var set = {'a', 'b', 'b', 'c', 'c', 'c'};
       var frequencyMap = set.countFrequency();
       expect(frequencyMap, {'a': 1, 'b': 1, 'c': 1});

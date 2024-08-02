@@ -601,6 +601,19 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
+
+  /// Returns a map where the keys are the unique elements of the iterable
+  /// and the values are the counts of those elements.
+  ///
+  /// for example, ['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()
+  /// returns {'a': 1, 'b': 2, 'c': 3}. will it works?
+  Map<T, int> countFrequency() {
+    var frequencyMap = <T, int>{};
+    for (var item in this) {
+      frequencyMap[item] = (frequencyMap[item] ?? 0) + 1;
+    }
+    return frequencyMap;
+  }
 }
 
 /// Extensions that apply to iterables with a nullable element type.

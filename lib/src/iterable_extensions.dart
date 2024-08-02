@@ -606,7 +606,7 @@ extension IterableExtension<T> on Iterable<T> {
   /// and the values are the counts of those elements.
   ///
   /// for example, ['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()
-  /// returns {'a': 1, 'b': 2, 'c': 3}. will it works?
+  /// returns {'a': 1, 'b': 2, 'c': 3}.
   Map<T, int> countFrequency() {
     var frequencyMap = <T, int>{};
     for (var item in this) {

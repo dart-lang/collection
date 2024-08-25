@@ -65,8 +65,8 @@ Map<T, List<S>> groupBy<S, T>(Iterable<S> values, T Function(S) key) {
 /// value.
 ///
 /// The values returned by [orderBy] are compared using the [compare] function.
-/// If [compare] is omitted, values must implement [Comparable<T>] and they are
-/// compared using their [Comparable.compareTo].
+/// If [compare] is omitted, values must implement [Comparable]`<T>` and they
+/// are compared using their [Comparable.compareTo].
 ///
 /// Returns `null` if [values] is empty.
 S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
@@ -89,8 +89,8 @@ S? minBy<S, T>(Iterable<S> values, T Function(S) orderBy,
 /// value.
 ///
 /// The values returned by [orderBy] are compared using the [compare] function.
-/// If [compare] is omitted, values must implement [Comparable<T>] and they are
-/// compared using their [Comparable.compareTo].
+/// If [compare] is omitted, values must implement [Comparable]`<T>` and they
+/// are compared using their [Comparable.compareTo].
 ///
 /// Returns `null` if [values] is empty.
 S? maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,

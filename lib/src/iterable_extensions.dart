@@ -605,8 +605,8 @@ extension IterableExtension<T> on Iterable<T> {
   /// Returns a map where the keys are the unique elements of the iterable
   /// and the values are the counts of those elements.
   ///
-  /// for example, ['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()
-  /// returns {'a': 1, 'b': 2, 'c': 3}.
+  /// For example, `['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()`
+  /// returns `{'a': 1, 'b': 2, 'c': 3}`.
   Map<T, int> countFrequency() {
     var frequencyMap = <T, int>{};
     for (var item in this) {

@@ -56,6 +56,27 @@ extension IterableExtension<T> on Iterable<T> {
     return chosen;
   }
 
+  /// Separates the elements of the iterable with the specified separator.
+  ///
+  /// The [separated] method takes a separator as input and returns a new
+  /// iterable where the elements are separated by the specified separator.
+  ///
+  /// Example:
+  /// ```dart
+  /// final list = [1, 2, 3, 4];
+  /// final separatedList = list.separated(0);
+  /// print(separatedList); // Output: [1, 0, 2, 0, 3, 0, 4]
+  /// ```
+  Iterable<T> separated(T separator) sync* {
+    final iterator = this.iterator;
+    if (!iterator.moveNext()) return;
+    yield iterator.current;
+    while (iterator.moveNext()) {
+      yield separator;
+      yield iterator.current;
+    }
+  }
+
   /// The elements that do not satisfy [test].
   Iterable<T> whereNot(bool Function(T element) test) =>
       where((element) => !test(element));

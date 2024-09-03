@@ -850,6 +850,25 @@ void main() {
               ]);
         });
       });
+      group('.separated', () {
+        test('empty', () {
+          expect(iterable([]).separated(unreachable), isEmpty);
+        });
+
+        test('single', () {
+          expect(iterable([1]).separated(0), [1]);
+        });
+
+        test('multiple', () {
+          expect(iterable([1, 2, 3]).separated(0), [1, 0, 2, 0, 3]);
+          expect(iterable(['a', 'b']).separated('-'), ['a', '-', 'b']);
+        });
+
+        test('dynamic', () {
+          expect(iterable<Object>([1, '2', 3]).separated(0), [1, 0, '2', 0, 3]);
+          expect(iterable<Object>(['a', 'b']).separated(0), ['a', 0, 'b']);
+        });
+      });
       group('none', () {
         test('empty', () {
           expect(iterable([]).none(unreachable), true);

@@ -387,6 +387,46 @@ void main() {
               'x:0:1:1:3:2:9');
         });
       });
+      group('.firstWhereType', () {
+        test('empty', () {
+          expect(() => iterable([]).firstWhereType<String>(), throwsStateError);
+        });
+        test('none', () {
+          expect(() => iterable([1, 3, 7]).firstWhereType<String>(), throwsStateError);
+        });
+        test('single', () {
+          expect(iterable([0, '1', 2]).firstWhereType<String>(), '1');
+        });
+        test('first of multiple', () {
+          expect(iterable([0, '1', '2']).firstWhereType<String>(), '1');
+        });
+        test('empty with orElse', () {
+          expect(iterable([]).firstWhereType<String>(() => ''), '');
+        });
+        test('none with orElse', () {
+          expect(iterable([1, 3, 7]).firstWhereType<String>(() => ''), '');
+        });
+        test('single with orElse', () {
+          expect(iterable([0, '1', 2]).firstWhereType<String>(() => ''), '1');
+        });
+        test('first of multiple with orElse', () {
+          expect(iterable([0, '1', '3']).firstWhereType<String>(() => ''), '1');
+        });
+      });
+      group('.firstWhereTypeOrNull', () {
+        test('empty', () {
+          expect(iterable([]).firstWhereTypeOrNull<String>(), null);
+        });
+        test('none', () {
+          expect(iterable([1, 3, 7]).firstWhereTypeOrNull<String>(), null);
+        });
+        test('single', () {
+          expect(iterable([0, '1', 2]).firstWhereTypeOrNull<String>(), '1');
+        });
+        test('first of multiple', () {
+          expect(iterable([0, '1', '3']).firstWhereTypeOrNull<String>(), '1');
+        });
+      });
       group('.firstWhereOrNull', () {
         test('empty', () {
           expect(iterable([]).firstWhereOrNull(unreachable), null);

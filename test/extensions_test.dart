@@ -392,7 +392,10 @@ void main() {
           expect(() => iterable([]).firstWhereType<String>(), throwsStateError);
         });
         test('none', () {
-          expect(() => iterable([1, 3, 7]).firstWhereType<String>(), throwsStateError);
+          expect(
+            () => iterable([1, 3, 7]).firstWhereType<String>(),
+            throwsStateError,
+          );
         });
         test('single', () {
           expect(iterable([0, '1', 2]).firstWhereType<String>(), '1');

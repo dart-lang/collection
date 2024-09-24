@@ -1,3 +1,8 @@
+## 1.20.0-wip
+
+- Adds `firstWhereType` to `IterableExtension`.
+- Adds `firstWhereTypeOrNull` to `IterableExtension`.
+
 ## 1.19.0
 
 - Adds `shuffled` to `IterableExtension`.

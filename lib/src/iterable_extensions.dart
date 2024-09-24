@@ -250,6 +250,28 @@ extension IterableExtension<T> on Iterable<T> {
     return result;
   }
 
+  /// The first element with type [T].
+  ///
+  /// If no element with type [T] is found, the result of invoking the [orElse]
+  /// function is returned. If [orElse] is omitted, it defaults to throwing a
+  /// [StateError]. Stops iterating on the first matching element.
+  R firstWhereType<R>([R Function()? orElse]) {
+    for (var element in this) {
+      if (element is R) return element;
+    }
+
+    if (orElse != null) {
+      return orElse();
+    } else {
+      throw StateError('No element with type $R');
+    }
+  }
+
+  /// The first element with type [T], or `null` if there are none.
+  R? firstWhereTypeOrNull<R>() {
+    return firstWhereType<R?>(() => null);
+  }
+
   /// The first element satisfying [test], or `null` if there are none.
   T? firstWhereOrNull(bool Function(T element) test) {
     for (var element in this) {

@@ -607,7 +607,7 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// for example, ['a', 'b', 'b', 'c', 'c', 'c'].countFrequency()
   /// returns {'a': 1, 'b': 2, 'c': 3}.
-  Map<T, int> countFrequency() {
+  Map<T, int> get frequencies {
     var frequencyMap = <T, int>{};
     for (var item in this) {
       frequencyMap[item] = (frequencyMap[item] ?? 0) + 1;

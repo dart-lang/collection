@@ -1356,78 +1356,78 @@ void main() {
     group('FrequencyCounter tests', () {
       test('should return correct frequency map for List of integers', () {
         var list = [1, 2, 2, 3, 3, 3];
-        var frequencyMap = list.countFrequency();
+        var frequencyMap = list.frequencies;
         expect(frequencyMap, {1: 1, 2: 2, 3: 3});
       });
 
       test('should return correct frequency map for List of strings', () {
         var list = ['a', 'b', 'b', 'c', 'c', 'c'];
-        var frequencyMap = list.countFrequency();
+        var frequencyMap = list.frequencies;
         expect(frequencyMap, {'a': 1, 'b': 2, 'c': 3});
       });
 
       test('should handle empty List', () {
         var list = [];
-        var frequencyMap = list.countFrequency();
+        var frequencyMap = list.frequencies;
         expect(frequencyMap, {});
       });
 
       test('should handle single element List', () {
         var list = [42];
-        var frequencyMap = list.countFrequency();
+        var frequencyMap = list.frequencies;
         expect(frequencyMap, {42: 1});
       });
 
       test('should return correct frequency map for Set of integers', () {
         // ignore: equal_elements_in_set
         var set = {1, 2, 2, 3, 3, 3};
-        var frequencyMap = set.countFrequency();
+        var frequencyMap = set.frequencies;
         expect(frequencyMap, {1: 1, 2: 1, 3: 1});
       });
 
       test('should return correct frequency map for Set of strings', () {
         // ignore: equal_elements_in_set
         var set = {'a', 'b', 'b', 'c', 'c', 'c'};
-        var frequencyMap = set.countFrequency();
+        var frequencyMap = set.frequencies;
         expect(frequencyMap, {'a': 1, 'b': 1, 'c': 1});
       });
 
       test('should handle empty Set', () {
         var set = <int>{};
-        var frequencyMap = set.countFrequency();
+        var frequencyMap = set.frequencies;
         expect(frequencyMap, {});
       });
 
       test('should handle single element Set', () {
         var set = {42};
-        var frequencyMap = set.countFrequency();
+        var frequencyMap = set.frequencies;
         expect(frequencyMap, {42: 1});
       });
 
       test('should return correct frequency map for Queue of integers', () {
         var queue = Queue<int>();
         queue.addAll([1, 2, 2, 3, 3, 3]);
-        var frequencyMap = queue.countFrequency();
+        var frequencyMap = queue.frequencies;
         expect(frequencyMap, {1: 1, 2: 2, 3: 3});
       });
 
       test('should return correct frequency map for Queue of strings', () {
         var queue = Queue<String>();
         queue.addAll(['a', 'b', 'b', 'c', 'c', 'c']);
-        var frequencyMap = queue.countFrequency();
+        var frequencyMap = queue.frequencies;
         expect(frequencyMap, {'a': 1, 'b': 2, 'c': 3});
       });
 
       test('should handle empty Queue', () {
         var queue = Queue<int>();
-        var frequencyMap = queue.countFrequency();
+        var frequencyMap = queue.frequencies;
         expect(frequencyMap, {});
       });
 
       test('should handle single element Queue', () {
         var queue = Queue<int>();
         queue.add(42);
-        var frequencyMap = queue.countFrequency();
+        var frequencyMap = queue.frequencies;
         expect(frequencyMap, {42: 1});
       });
     });

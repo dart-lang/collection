@@ -1353,7 +1353,7 @@ void main() {
         expect(l3.toList(), [4, 5]);
       });
     });
-    group('FrequencyCounter tests', () {
+    group('get frequencies tests', () {
       test('should return correct frequency map for List of integers', () {
         var list = [1, 2, 2, 3, 3, 3];
         var frequencyMap = list.frequencies;

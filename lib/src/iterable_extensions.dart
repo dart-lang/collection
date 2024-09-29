@@ -597,12 +597,15 @@ extension IterableExtension<T> on Iterable<T> {
   /// for example, ['a', 'b', 'b', 'c', 'c', 'c'].frequencies;
   /// returns {'a': 1, 'b': 2, 'c': 3}.
   Map<T, int> get frequencies {
-    var frequencyMap = <T, int>{};
+    final frequencyMap = <T, int>{};
     for (var item in this) {
-      frequencyMap[item] = (frequencyMap[item] ?? 0) + 1;
+      frequencyMap.update(item, _increment, ifAbsent: _one);
     }
     return frequencyMap;
   }
+
+  static int _increment(int value) => value + 1;
+  static int _one() => 1;
 }
 
 /// Extensions that apply to iterables with a nullable element type.

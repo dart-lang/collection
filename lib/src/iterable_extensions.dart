@@ -602,11 +602,16 @@ extension IterableExtension<T> on Iterable<T> {
     }
   }
 
-  /// Returns a map where the keys are the unique elements of the iterable
-  /// and the values are the counts of those elements.
+  /// The count of occurrences of each element.
   ///
-  /// for example, ['a', 'b', 'b', 'c', 'c', 'c'].frequencies;
-  /// returns {'a': 1, 'b': 2, 'c': 3}.
+  /// The map has an entry for each distinct element of this iterable,
+  /// as determined by `==`, where the value is the number of eelements
+  /// in this iterable which are equal to the key. 
+  /// If there are elements that are equal, but not identical, its unspecified
+  /// which of the elements is used as the key.
+  ///
+  /// For example `['a', 'b', 'c', 'b', 'c', 'c'].frequencies` 
+  /// is a map with entries like `{'a': 1, 'b': 2, 'c': 3}`.
   Map<T, int> get frequencies {
     final frequencyMap = <T, int>{};
     for (var item in this) {

@@ -604,14 +604,28 @@ extension IterableExtension<T> on Iterable<T> {
 
   /// The count of occurrences of each element.
   ///
-  /// The map has an entry for each distinct element of this iterable,
-  /// as determined by `==`, where the value is the number of eelements
-  /// in this iterable which are equal to the key. 
-  /// If there are elements that are equal, but not identical, its unspecified
-  /// which of the elements is used as the key.
+  /// The map contains an entry for each unique element of this iterable,
+  /// as determined by `==`.
+  /// The value for each key is the number of times that element 
+  /// appears in the iterable.
   ///
-  /// For example `['a', 'b', 'c', 'b', 'c', 'c'].frequencies` 
-  /// is a map with entries like `{'a': 1, 'b': 2, 'c': 3}`.
+  /// If there are elements that are equal (`==`), 
+  /// but not identical (`identical`), 
+  /// it is unspecified which of the elements is used as the key in the map. 
+  /// For example, if there are multiple lists with the same content, 
+  /// the map will only keep one of them as a key.
+  ///
+  /// Example:
+  /// ```dart
+  /// ['a', 'b', 'c', 'b', 'c', 'c'].frequencies; 
+  /// Returns: {'a': 1, 'b': 2, 'c': 3}.
+  /// ```
+  ///
+  /// Note: This method uses `==` to compare elements. 
+  /// For collections # `List`, `Set`, or `Map`, deep equality is not checked. 
+  /// If you need deep equality (e.g., nested lists),
+  /// consider using a custom equality mechanism.
+
   Map<T, int> get frequencies {
     final frequencyMap = <T, int>{};
     for (var item in this) {

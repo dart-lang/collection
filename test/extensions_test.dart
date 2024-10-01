@@ -1431,6 +1431,44 @@ void main() {
         expect(frequencyMap, {42: 1});
       });
     });
+
+    group('get frequencies tests extended', () {
+      test('list of equal but not identical strings', () {
+        var list = ['apple', String.fromCharCodes('apple'.codeUnits)];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {'apple': 2});
+      });
+
+      test('list of records', () {
+        var list = [(1, 'a'), (1, 'a'), (2, 'b'), (1, 'a')];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {(1, 'a'): 3, (2, 'b'): 1});
+      });
+
+      test('list with elements that are objects', () {
+        var list = [const MyObject(1), const MyObject(1), const MyObject(2)];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {const MyObject(1): 2, const MyObject(2): 1});
+      });
+
+      test('list with equal numbers but different types', () {
+        var list = [1, 1.0, 1, 1.0];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {1: 4,});
+      });
+
+      test('list with mixed data types', () {
+        var list = [1, 'one', true, 1, 'one', false];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {1: 2, 'one': 2, true: 1, false: 1});
+      });
+
+      test('list with null values', () {
+        var list = [null, null, 1, 'null'];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {null: 2, 1: 1, 'null': 1});
+      });
+    });
   });
 
   group('Comparator', () {
@@ -2123,6 +2161,18 @@ void main() {
       });
     });
   });
+}
+
+class MyObject {
+  final int id;
+  const MyObject(this.id);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is MyObject && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 /// Creates a plain iterable not implementing any other class.

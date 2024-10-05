@@ -601,6 +601,41 @@ extension IterableExtension<T> on Iterable<T> {
       yield slice;
     }
   }
+
+  /// The count of occurrences of each element.
+  ///
+  /// The map contains an entry for each unique element of this iterable,
+  /// as determined by `==`.
+  /// The value for each key is the number of times that element 
+  /// appears in the iterable.
+  ///
+  /// If there are elements that are equal (`==`), 
+  /// but not identical (`identical`), 
+  /// it is unspecified which of the elements is used as the key in the map. 
+  /// For example, if there are multiple lists with the same content, 
+  /// the map will only keep one of them as a key.
+  ///
+  /// Example:
+  /// ```dart
+  /// ['a', 'b', 'c', 'b', 'c', 'c'].frequencies; 
+  /// Returns: {'a': 1, 'b': 2, 'c': 3}.
+  /// ```
+  ///
+  /// Note: This method uses `==` to compare elements. 
+  /// For collections # `List`, `Set`, or `Map`, deep equality is not checked. 
+  /// If you need deep equality (e.g., nested lists),
+  /// consider using a custom equality mechanism.
+
+  Map<T, int> get frequencies {
+    final frequencyMap = <T, int>{};
+    for (var item in this) {
+      frequencyMap.update(item, _increment, ifAbsent: _one);
+    }
+    return frequencyMap;
+  }
+
+  static int _increment(int value) => value + 1;
+  static int _one() => 1;
 }
 
 /// Extensions that apply to iterables with a nullable element type.

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
 import 'dart:math' show Random, pow;
 
 import 'package:collection/collection.dart';
@@ -1352,6 +1353,122 @@ void main() {
         expect(l3.toList(), [4, 5]);
       });
     });
+    group('get frequencies tests', () {
+      test('should return correct frequency map for List of integers', () {
+        var list = [1, 2, 2, 3, 3, 3];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {1: 1, 2: 2, 3: 3});
+      });
+
+      test('should return correct frequency map for List of strings', () {
+        var list = ['a', 'b', 'b', 'c', 'c', 'c'];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {'a': 1, 'b': 2, 'c': 3});
+      });
+
+      test('should handle empty List', () {
+        var list = [];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {});
+      });
+
+      test('should handle single element List', () {
+        var list = [42];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {42: 1});
+      });
+
+      test('should return correct frequency map for Set of integers', () {
+        // ignore: equal_elements_in_set
+        var set = {1, 2, 2, 3, 3, 3};
+        var frequencyMap = set.frequencies;
+        expect(frequencyMap, {1: 1, 2: 1, 3: 1});
+      });
+
+      test('should return correct frequency map for Set of strings', () {
+        // ignore: equal_elements_in_set
+        var set = {'a', 'b', 'b', 'c', 'c', 'c'};
+        var frequencyMap = set.frequencies;
+        expect(frequencyMap, {'a': 1, 'b': 1, 'c': 1});
+      });
+
+      test('should handle empty Set', () {
+        var set = <int>{};
+        var frequencyMap = set.frequencies;
+        expect(frequencyMap, {});
+      });
+
+      test('should handle single element Set', () {
+        var set = {42};
+        var frequencyMap = set.frequencies;
+        expect(frequencyMap, {42: 1});
+      });
+
+      test('should return correct frequency map for Queue of integers', () {
+        var queue = Queue<int>();
+        queue.addAll([1, 2, 2, 3, 3, 3]);
+        var frequencyMap = queue.frequencies;
+        expect(frequencyMap, {1: 1, 2: 2, 3: 3});
+      });
+
+      test('should return correct frequency map for Queue of strings', () {
+        var queue = Queue<String>();
+        queue.addAll(['a', 'b', 'b', 'c', 'c', 'c']);
+        var frequencyMap = queue.frequencies;
+        expect(frequencyMap, {'a': 1, 'b': 2, 'c': 3});
+      });
+
+      test('should handle empty Queue', () {
+        var queue = Queue<int>();
+        var frequencyMap = queue.frequencies;
+        expect(frequencyMap, {});
+      });
+
+      test('should handle single element Queue', () {
+        var queue = Queue<int>();
+        queue.add(42);
+        var frequencyMap = queue.frequencies;
+        expect(frequencyMap, {42: 1});
+      });
+    });
+
+    group('get frequencies tests extended', () {
+      test('list of equal but not identical strings', () {
+        var list = ['apple', String.fromCharCodes('apple'.codeUnits)];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {'apple': 2});
+      });
+
+      test('list of records', () {
+        var list = [(1, 'a'), (1, 'a'), (2, 'b'), (1, 'a')];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {(1, 'a'): 3, (2, 'b'): 1});
+      });
+
+      test('list with elements that are objects', () {
+        var list = [const MyObject(1), const MyObject(1), const MyObject(2)];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {const MyObject(1): 2, const MyObject(2): 1});
+      });
+
+      test('list with equal numbers but different types', () {
+        var list = [1, 1.0, 1, 1.0];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {1: 4,});
+      });
+
+      test('list with mixed data types', () {
+        var list = [1, 'one', true, 1, 'one', false];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {1: 2, 'one': 2, true: 1, false: 1});
+      });
+
+      test('list with null values', () {
+        var list = [null, null, 1, 'null'];
+        var frequencyMap = list.frequencies;
+        expect(frequencyMap, {null: 2, 1: 1, 'null': 1});
+      });
+    });
   });
 
   group('Comparator', () {
@@ -2044,6 +2161,18 @@ void main() {
       });
     });
   });
+}
+
+class MyObject {
+  final int id;
+  const MyObject(this.id);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is MyObject && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 /// Creates a plain iterable not implementing any other class.

@@ -914,6 +914,18 @@ extension IterableIterableExtension<T> on Iterable<Iterable<T>> {
       };
 }
 
+/// Extensions that apply to iterables of tuples/pairs (records with two unnamed elements).
+extension IterableTupleExtension<T1, T2> on Iterable<(T1, T2)> {
+  /// Returns a map from the first element of each tuple to the second element.
+  Map<T1, T2> get toMap => {for (final element in this) element.$1: element.$2};
+}
+
+extension IterableKeyValueExtension<T1, T2> on Iterable<({T1 key, T2 value})> {
+  /// Returns a map from the key of each element to the value of that element.
+  Map<T1, T2> get toMap =>
+      {for (final element in this) element.key: element.value};
+}
+
 /// Extensions that apply to iterables of [Comparable] elements.
 ///
 /// These operations can assume that the elements have a natural ordering,

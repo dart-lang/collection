@@ -27,9 +27,6 @@ class EmptyUnmodifiableSet<E> extends IterableBase<E>
   Iterable<E> followedBy(Iterable<E> other) => DelegatingIterable(other);
   @override
   E? lookup(Object? element) => null;
-  @Deprecated('Use cast instead')
-  @override
-  EmptyUnmodifiableSet<T> retype<T>() => EmptyUnmodifiableSet<T>();
   @override
   E singleWhere(bool Function(E) test, {E Function()? orElse}) =>
       orElse != null ? orElse() : throw StateError('No element');

@@ -1,3 +1,13 @@
+## 2.0.0
+
+- Breaking changes:
+  - Adds `final`, `base` and `interface` to classes intended to be so.
+  - Removes deprecated declarations. Most has been replaced by functionality
+    in the platform libraries, or better functionality in other libraries.
+  - Removes deprecated top-level libraries.
+    Implement `package:collection/collection.dart` and use `show` or `hide`
+    to control the imported names if necessary, or desired.
+
 ## 1.19.0
 
 - Adds `shuffled` to `IterableExtension`.

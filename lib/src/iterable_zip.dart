@@ -13,6 +13,7 @@ import 'dart:collection';
 /// combined into a single list, which becomes the next value of this
 /// [Iterable]'s [Iterator]. As soon as any of the iterators run out,
 /// the zipped iterator also stops.
+@Deprecated('Use [i1, i2].zip from dart:collection')
 class IterableZip<T> extends IterableBase<List<T>> {
   final Iterable<Iterable<T>> _iterables;
 

@@ -156,9 +156,6 @@ final class CanonicalizedMap<C, K, V> implements Map<K, V> {
   void removeWhere(bool Function(K key, V value) test) =>
       _base.removeWhere((_, pair) => test(pair.key, pair.value));
 
-  @Deprecated('Use cast instead')
-  Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
-
   @override
   V update(K key, V Function(V) update, {V Function()? ifAbsent}) =>
       _base.update(_canonicalize(key), (pair) {

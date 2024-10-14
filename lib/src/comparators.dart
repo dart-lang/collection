@@ -151,6 +151,12 @@ int compareAsciiLowerCase(String a, String b) {
 /// ordering, where lexical ordering would put the `1` before the `7`, ignoring
 /// that the `1` is part of a larger number.
 ///
+/// If a digit sequence differs only in the number of leading zeros,
+/// and therefore have the same numerical value, the one with
+/// fewer leading zeros is ordered before the one with more.
+///
+/// Numbers are unsigned. A prior `-` is not considered a minus sign.
+///
 /// Example:
 /// The following strings are in the order they would be sorted by using this
 /// comparison function:

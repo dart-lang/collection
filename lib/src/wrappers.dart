@@ -79,9 +79,6 @@ abstract class _DelegatingIterableBase<E> implements Iterable<E> {
   @override
   E reduce(E Function(E value, E element) combine) => _base.reduce(combine);
 
-  @Deprecated('Use cast instead')
-  Iterable<T> retype<T>() => cast<T>();
-
   @override
   E get single => _base.single;
 
@@ -129,18 +126,6 @@ class DelegatingIterable<E> extends _DelegatingIterableBase<E> {
 
   /// Creates a wrapper that forwards operations to [base].
   const DelegatingIterable(Iterable<E> base) : _base = base;
-
-  /// Creates a wrapper that asserts the types of values in [base].
-  ///
-  /// This soundly converts an [Iterable] without a generic type to an
-  /// `Iterable<E>` by asserting that its elements are instances of `E` whenever
-  /// they're accessed. If they're not, it throws a [TypeError].
-  ///
-  /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in `this`. If [base] is already an `Iterable<E>`, it's returned
-  /// unmodified.
-  @Deprecated('Use iterable.cast<E> instead.')
-  static Iterable<E> typed<E>(Iterable base) => base.cast<E>();
 }
 
 /// A [List] that delegates all operations to a base list.
@@ -153,20 +138,6 @@ class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
   final List<E> _base;
 
   const DelegatingList(List<E> base) : _base = base;
-
-  /// Creates a wrapper that asserts the types of values in [base].
-  ///
-  /// This soundly converts a [List] without a generic type to a `List<E>` by
-  /// asserting that its elements are instances of `E` whenever they're
-  /// accessed. If they're not, it throws a [TypeError]. Note that even if an
-  /// operation throws a [TypeError], it may still mutate the underlying
-  /// collection.
-  ///
-  /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in `this`. If [base] is already a `List<E>`, it's returned
-  /// unmodified.
-  @Deprecated('Use list.cast<E> instead.')
-  static List<E> typed<E>(List base) => base.cast<E>();
 
   @override
   E operator [](int index) => _base[index];
@@ -278,10 +249,6 @@ class DelegatingList<E> extends _DelegatingIterableBase<E> implements List<E> {
     _base.retainWhere(test);
   }
 
-  @Deprecated('Use cast instead')
-  @override
-  List<T> retype<T>() => cast<T>();
-
   @override
   Iterable<E> get reversed => _base.reversed;
 
@@ -318,20 +285,6 @@ class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
   final Set<E> _base;
 
   const DelegatingSet(Set<E> base) : _base = base;
-
-  /// Creates a wrapper that asserts the types of values in [base].
-  ///
-  /// This soundly converts a [Set] without a generic type to a `Set<E>` by
-  /// asserting that its elements are instances of `E` whenever they're
-  /// accessed. If they're not, it throws a [TypeError]. Note that even if an
-  /// operation throws a [TypeError], it may still mutate the underlying
-  /// collection.
-  ///
-  /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in `this`. If [base] is already a `Set<E>`, it's returned
-  /// unmodified.
-  @Deprecated('Use set.cast<E> instead.')
-  static Set<E> typed<E>(Set base) => base.cast<E>();
 
   @override
   bool add(E value) => _base.add(value);
@@ -379,10 +332,6 @@ class DelegatingSet<E> extends _DelegatingIterableBase<E> implements Set<E> {
     _base.retainAll(elements);
   }
 
-  @Deprecated('Use cast instead')
-  @override
-  Set<T> retype<T>() => cast<T>();
-
   @override
   void retainWhere(bool Function(E) test) {
     _base.retainWhere(test);
@@ -406,20 +355,6 @@ class DelegatingQueue<E> extends _DelegatingIterableBase<E>
   final Queue<E> _base;
 
   const DelegatingQueue(Queue<E> queue) : _base = queue;
-
-  /// Creates a wrapper that asserts the types of values in [base].
-  ///
-  /// This soundly converts a [Queue] without a generic type to a `Queue<E>` by
-  /// asserting that its elements are instances of `E` whenever they're
-  /// accessed. If they're not, it throws a [TypeError]. Note that even if an
-  /// operation throws a [TypeError], it may still mutate the underlying
-  /// collection.
-  ///
-  /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in `this`. If [base] is already a `Queue<E>`, it's returned
-  /// unmodified.
-  @Deprecated('Use queue.cast<E> instead.')
-  static Queue<E> typed<E>(Queue base) => base.cast<E>();
 
   @override
   void add(E value) {
@@ -462,10 +397,6 @@ class DelegatingQueue<E> extends _DelegatingIterableBase<E>
     _base.retainWhere(test);
   }
 
-  @Deprecated('Use cast instead')
-  @override
-  Queue<T> retype<T>() => cast<T>();
-
   @override
   E removeFirst() => _base.removeFirst();
 
@@ -482,20 +413,6 @@ class DelegatingMap<K, V> implements Map<K, V> {
   final Map<K, V> _base;
 
   const DelegatingMap(Map<K, V> base) : _base = base;
-
-  /// Creates a wrapper that asserts the types of keys and values in [base].
-  ///
-  /// This soundly converts a [Map] without generic types to a `Map<K, V>` by
-  /// asserting that its keys are instances of `E` and its values are instances
-  /// of `V` whenever they're accessed. If they're not, it throws a [TypeError].
-  /// Note that even if an operation throws a [TypeError], it may still mutate
-  /// the underlying collection.
-  ///
-  /// This forwards all operations to [base], so any changes in [base] will be
-  /// reflected in `this`. If [base] is already a `Map<K, V>`, it's returned
-  /// unmodified.
-  @Deprecated('Use map.cast<K, V> instead.')
-  static Map<K, V> typed<K, V>(Map base) => base.cast<K, V>();
 
   @override
   V? operator [](Object? key) => _base[key];
@@ -562,9 +479,6 @@ class DelegatingMap<K, V> implements Map<K, V> {
 
   @override
   void removeWhere(bool Function(K, V) test) => _base.removeWhere(test);
-
-  @Deprecated('Use cast instead')
-  Map<K2, V2> retype<K2, V2>() => cast<K2, V2>();
 
   @override
   Iterable<V> get values => _base.values;
@@ -650,10 +564,6 @@ class MapKeySet<E> extends _DelegatingIterableBase<E>
   @override
   E lookup(Object? element) =>
       throw UnsupportedError("MapKeySet doesn't support lookup().");
-
-  @Deprecated('Use cast instead')
-  @override
-  Set<T> retype<T>() => Set.castFrom<E, T>(this);
 
   /// Returns a new set which contains all the elements of `this` and [other].
   ///
@@ -821,10 +731,6 @@ class MapValueSet<K, V> extends _DelegatingIterableBase<V> implements Set<V> {
   @override
   void retainWhere(bool Function(V) test) =>
       removeWhere((element) => !test(element));
-
-  @Deprecated('Use cast instead')
-  @override
-  Set<T> retype<T>() => Set.castFrom<V, T>(this);
 
   /// Returns a new set which contains all the elements of `this` and [other].
   ///

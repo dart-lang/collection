@@ -5,24 +5,8 @@
 import 'dart:collection';
 import 'dart:math' as math;
 
+import 'list_extensions.dart' show ListExtensions; // For `reverseRange`.
 import 'utils.dart';
-
-/// Creates a new map from [map] with new keys and values.
-///
-/// The return values of [key] are used as the keys and the return values of
-/// [value] are used as the values for the new map.
-@Deprecated('Use Map.map or a for loop in a Map literal.')
-Map<K2, V2> mapMap<K1, V1, K2, V2>(Map<K1, V1> map,
-    {K2 Function(K1, V1)? key, V2 Function(K1, V1)? value}) {
-  var keyFn = key ?? (mapKey, _) => mapKey as K2;
-  var valueFn = value ?? (_, mapValue) => mapValue as V2;
-
-  var result = <K2, V2>{};
-  map.forEach((mapKey, mapValue) {
-    result[keyFn(mapKey, mapValue)] = valueFn(mapKey, mapValue);
-  });
-  return result;
-}
 
 /// Returns a new map with all key/value pairs in both [map1] and [map2].
 ///
@@ -109,45 +93,6 @@ S? maxBy<S, T>(Iterable<S> values, T Function(S) orderBy,
   return maxValue;
 }
 
-/// Returns the [transitive closure][] of [graph].
-///
-/// [transitive closure]: https://en.wikipedia.org/wiki/Transitive_closure
-///
-/// Interprets [graph] as a directed graph with a vertex for each key and edges
-/// from each key to the values that the key maps to.
-///
-/// Assumes that every vertex in the graph has a key to represent it, even if
-/// that vertex has no outgoing edges. This isn't checked, but if it's not
-/// satisfied, the function may crash or provide unexpected output. For example,
-/// `{"a": ["b"]}` is not valid, but `{"a": ["b"], "b": []}` is.
-@Deprecated('This method will be removed. Consider using package:graphs.')
-Map<T, Set<T>> transitiveClosure<T>(Map<T, Iterable<T>> graph) {
-  // This uses [Warshall's algorithm][], modified not to add a vertex from each
-  // node to itself.
-  //
-  // [Warshall's algorithm]: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm#Applications_and_generalizations.
-  var result = <T, Set<T>>{};
-  graph.forEach((vertex, edges) {
-    result[vertex] = Set<T>.from(edges);
-  });
-
-  // Lists are faster to iterate than maps, so we create a list since we're
-  // iterating repeatedly.
-  var keys = graph.keys.toList();
-  for (var vertex1 in keys) {
-    for (var vertex2 in keys) {
-      for (var vertex3 in keys) {
-        if (result[vertex2]!.contains(vertex1) &&
-            result[vertex1]!.contains(vertex3)) {
-          result[vertex2]!.add(vertex3);
-        }
-      }
-    }
-  }
-
-  return result;
-}
-
 /// Returns the [strongly connected components][] of [graph], in topological
 /// order.
 ///
@@ -209,5 +154,5 @@ List<Set<T>> stronglyConnectedComponents<T>(Map<T, Iterable<T>> graph) {
 
   // Tarjan's algorithm produces a reverse-topological sort, so we reverse it to
   // get a normal topological sort.
-  return result.reversed.toList();
+  return result..reverseRange(0, result.length);
 }

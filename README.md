@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> This repo has moved to https://github.com/dart-lang/core/tree/main/pkgs/collection
+
 [![Dart CI](https://github.com/dart-lang/collection/actions/workflows/ci.yml/badge.svg)](https://github.com/dart-lang/collection/actions/workflows/ci.yml)
 [![pub package](https://img.shields.io/pub/v/collection.svg)](https://pub.dev/packages/collection)
 [![package publisher](https://img.shields.io/pub/publisher/collection.svg)](https://pub.dev/packages/collection/publisher)
